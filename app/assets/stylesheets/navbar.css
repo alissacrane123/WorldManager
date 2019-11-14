@@ -1,0 +1,57 @@
+nav.navbar {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  width: 70px;
+  background: black;
+  height: 100vh;
+  color: white;
+  /* padding: 20px; */
+  position:fixed;
+
+}
+
+nav.navbar.expanded {
+  width: 140px;
+}
+
+#sb-arrow {
+  margin: 0 0px 0 auto;
+}
+
+.close {
+  display: none;
+}
+
+#navbar > div {
+  display: flex;
+  flex-direction: row;
+  cursor:pointer;
+  margin: 20px 23px 0 23px;
+}
+
+#navbar label {
+  line-height: 24px;
+  margin-left: 20px;
+}
+
+#navbar h2 {
+  line-height: 24px;
+  margin-right: 10px;
+}
+
+#navbar button {
+  margin: auto auto 20px auto;
+  border-radius: 10px;
+}
+
+
+
+div.home-display-none {
+  display:none
+}
+
+div.search {
+  display: block;
+}
+

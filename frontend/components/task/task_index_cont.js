@@ -1,0 +1,20 @@
+import { connect } from 'react-redux';
+import TaskIndex from './task_index';
+
+import { fetchProjects, fetchProject } from '../../actions/project_actions';
+
+const msp = (state, ownProps) => {
+  let tasks = Object.values(state.entities.tasks)
+  return {
+    notStarted: tasks.filter(task => task.status === 'Not Started'),
+    inProgress: tasks.filter(task => task.status === 'In Progress'),
+    finished: tasks.filter(task => task.status === 'Finished'),
+  }
+}
+
+const mdp = dispatch => ({
+  fetchProjects: () => dispatch(fetchProjects()),
+  fetchProject: (projectId) => dispatch(fetchProject(projectId))
+})
+
+export default connect(msp, mdp)(TaskIndex);

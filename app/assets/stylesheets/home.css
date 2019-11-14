@@ -1,0 +1,64 @@
+
+#home {
+  height: 100vh;
+  
+}
+
+#home h1 {
+  font-size: 30px;
+  margin: 50px 0 50px 0;
+  text-align: center;
+}
+
+#home section {
+  margin: 0px 10%;
+
+}
+
+#home h2 {
+  border-bottom: 2px solid gray;
+  font-size: 20px;
+  padding-bottom: 15px;
+  margin-bottom: 30px
+}
+
+/* PROJECT INDEX AND ITEMS */
+
+ul.project-index {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+ul.project-index li {
+  padding: 20px;
+  min-height: 50px;
+  border-radius: 4px;
+}
+
+ul#project-item {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 400ms;
+}
+
+ul#project-item:hover {
+  background: #f3f3f3;
+  transform: scale(1.1);
+}
+
+ul#project-item div:first-child {
+  padding: 20px;
+  border-radius:20px;
+  background: #45a29e;
+  margin-bottom:10px;
+}
+
+ul#project-item label {
+  font-weight: 500;
+  color: gray;
+}

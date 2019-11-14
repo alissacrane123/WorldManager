@@ -1,0 +1,65 @@
+body, html, main {
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+  font-family:Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;;
+}
+
+h1 {
+  font-size: 30px;
+  margin: 50px 0 50px 0;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.app-container {
+  height: 100%;
+  width: 100%; 
+  display: flex; 
+}
+
+.content {
+  min-height: 100vh;
+  width: 100vw;
+  padding: 20px 20px 20px 90px;
+}
+
+/* when sidebar is expanded */
+
+.content.expanded {
+  padding: 20px 20px 20px 160px;
+}
+
+.greet-cont {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.greet-main-cont {
+  padding-top: 83px;
+  height: 100%;
+}
+
+.signup-form-container {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.signup-left, .signup-right {
+  display: inline-block;
+  width: 50%;
+}
