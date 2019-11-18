@@ -23,12 +23,13 @@
   opacity: 1 !important;
 }
 
-form.project {
+form.project, form.task {
   display:flex;
   flex-direction: column;
   padding: 20px;
 }
 
-form.project > * {
+form.project > *, form.task > * {
   margin-bottom: 20px;
 }
+

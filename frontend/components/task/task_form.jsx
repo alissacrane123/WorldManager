@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { withRouter } from 'react-router-dom';
 
 class TaskForm extends React.Component {
   constructor(props) {
@@ -8,9 +8,10 @@ class TaskForm extends React.Component {
     debugger
     this.state = {
       tasks: [],
-      // forms: 1,
       newTask: this.props.emptyTaskObj
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   addTask() {
@@ -28,7 +29,10 @@ class TaskForm extends React.Component {
   handleSubmit() {
     event.preventDefault();
     let tasks = this.state.tasks
-    this.props.createTask(tasks);
+    this.props.createTask(tasks).then(() => {
+      this.props.closeModal();
+      this.props.history.push(`/projects/${this.state.newTask.project_id}`)
+    });
   }
 
 
@@ -67,4 +71,4 @@ class TaskForm extends React.Component {
   }
 }
 
-export default TaskForm;
+export default withRouter(TaskForm);

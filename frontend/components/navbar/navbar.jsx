@@ -1,4 +1,6 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+
 import SVG from '../svg';
 
 const Navbar = (props) => {
@@ -24,7 +26,7 @@ const Navbar = (props) => {
         <SVG id="sb-arrow" className="sb2 close" name="big-arrow" h={24} w={24} fill="white" transform="translate(32 25) scale(1.3) rotate(180)" id="sb-arrow" />
       </div>
 
-      <div>
+      <div onClick={() => props.history.push('/')}>
         <SVG className="sb" h={24} w={24} name="home" fill="white"/>
         <label className="close">Home</label>
       </div>
@@ -41,4 +43,4 @@ const Navbar = (props) => {
 
 }
 
-export default Navbar;
+export default withRouter(Navbar);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom'
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -17,17 +18,24 @@ class LoginForm extends React.Component {
     return (e) => { this.setState({ [field]: e.target.value }) }
   }
 
+  demoLogin() {
+    event.preventDefault();
+    this.props.login({email: 'alissa@gmail.com', password: 'password'})
+  }
+
   render() {
-    // debugger
+
     return (
       <form id="session">
         <input value={this.state.email} onChange={this.handleChange('email')} />
         <input value={this.state.password} onChange={this.handleChange('password')} />
 
         <button onClick={this.handleSubmit}>Login</button>
+        <button onClick={() => this.demoLogin()}>Demo Login</button>
+        <button onClick={() => this.props.history.push('/signup')}>Signup Instead</button>
       </form>
     )
   }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);

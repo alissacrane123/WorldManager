@@ -43,15 +43,12 @@ class Api::TasksController < ApplicationController
   def update
     @task = Task.find(params[:id]);
 
-    # if @task.project_owner.id == current_user.id || @task.user_id == current_user.id
-      if @task.update_attributes(task_params)
-        render "api/tasks/show"
-      else
-        render json: @task.errors.full_messages, status: 422
-      end
-    # else
-    #   render json: ["You can only edit your assigned tasks"], status: 422
-    # end
+    if @task.update_attributes(task_params)
+      render "api/tasks/show"
+    else
+      render json: @task.errors.full_messages, status: 422
+    end
+
   end
 
   def destroy

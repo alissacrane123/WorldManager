@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import TaskForm from './task_form';
 import { createTask } from '../../actions/task_actions';
-
+import { closeModal } from '../../actions/modal_actions';
 
 
 const msp = (state, ownProps) => {
@@ -18,7 +18,8 @@ const msp = (state, ownProps) => {
 };
 
 const mdp = dispatch => ({
-  createTask: (task) => dispatch(createTask(task))
+  createTask: (task) => dispatch(createTask(task)),
+  closeModal: () => dispatch(closeModal())
 });
 
 
