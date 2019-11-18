@@ -1,22 +1,57 @@
 import React from 'react';
 import TaskIndexItem from './task_index_item';
+import SVG from '../svg';
 
 class TaskIndex extends React.Component {
+  constructor(props) {
+    super(props);
+    let { notStarted, inProgress, finished } = this.props;
+    let tasks = notStarted.concat(inProgress).concat(finished);
+
+    this.state = { tasks: tasks };
+  }
+
+  handleMouseOver(taskId) {
+    let task = document.getElementById(`ti-${taskId}`);
+    task.classList.toggle('close');
+  }
 
   renderTasks(i) {
     let { notStarted, inProgress, finished } = this.props;
     let tasks = [ notStarted, inProgress, finished ];
     let taskStatus = ["Not Started", "In Progress", "Finished"];
+
     
-    tasks = tasks[i].map(task => (
-      <li key={task.id}>
-        <TaskIndexItem task={task} />
-      </li>
-    ))
+    tasks = tasks[i].map(task => {
+      if (task.draggable) {
+        return (
+          <li key={task.id} onDragStart={(e) => this.onDragStart(e, task.id)} className="draggable" draggable>
+            
+            <TaskIndexItem task={task} />
+          </li>
+        )
+      } else {
+        let taskId = task.id;
+
+        return (
+          <li key={task.id} onMouseOver={() => this.handleMouseOver(taskId)} onMouseOut={() => this.handleMouseOver(taskId)}>
+            <div className="ti close" id={`ti-${taskId}`}>
+              <SVG name="warn" h={24} w={24} className="warn"/>
+              <h5>You can only move tasks that belong to you!</h5>
+            </div>
+            <TaskIndexItem task={task} />
+          </li>         
+        )
+      }
+    })
+
+    let status = taskStatus[i];
 
     return (
-      <section>
-        <h3>{ taskStatus[i] }</h3>
+      <section className="droppable"
+        onDragOver={(e) => this.onDragOver(e)}
+        onDrop={(e) => this.onDrop(e, status)}>
+        <h3>{ status }</h3>
         <ul>
           { tasks }
         </ul>
@@ -24,11 +59,31 @@ class TaskIndex extends React.Component {
     )
   }
 
+  onDrop(e, status) {
+    let id = e.dataTransfer.getData("id");
+    this.state.tasks.forEach(task => {
+      if (task.id === Number(id)) {
+        task = Object.assign(task, { status: status });
+        this.props.updateTask(task)
+      }
+
+    });
+  }
+
+  onDragOver(e) {
+    e.preventDefault();
+  }
+
+  onDragStart(e, id) {
+    console.log('dragstart', id);
+    e.dataTransfer.setData("id", id);
+  }
+
 
   render() {
 
     return (
-      <div id="task-index">
+      <div id="task-index" className="container-drag">
         <h2>Current Tasks</h2>
 
         <div>

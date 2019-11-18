@@ -6,10 +6,12 @@ import ProjectShowContainer from './project/project_show_cont';
 import HomeContainer from './home/home_cont';
 import SplashContainer from './session/splash_cont';
 import NavbarContainer from './navbar/navbar_container';
+import ModalContainer from './modal/modal_container';
 
 const App = () => (
   <div className="app-container">
-    {/* <Modal /> */}
+    <ModalContainer />
+
     <Switch>
       <AuthRoute path="/signup" component={SplashContainer} />
       <AuthRoute path="/login" component={SplashContainer} />

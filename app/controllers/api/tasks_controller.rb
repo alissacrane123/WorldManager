@@ -7,7 +7,7 @@ class Api::TasksController < ApplicationController
     if @task.save
       render "api/tasks/show"
     else
-      render json: @task.errors.full_messages
+      render json: @task.errors.full_messages, status: 422
     end
   end
 
@@ -20,12 +20,17 @@ class Api::TasksController < ApplicationController
   end
 
   def update
-    @task = current_user.tasks.find(params[:id])
-    if @task.update_attributes(task_params)
-      render "api/tasks/show"
-    else
-      render json: @task.errors.full_messages
-    end
+    @task = Task.find(params[:id]);
+
+    # if @task.project_owner.id == current_user.id || @task.user_id == current_user.id
+      if @task.update_attributes(task_params)
+        render "api/tasks/show"
+      else
+        render json: @task.errors.full_messages, status: 422
+      end
+    # else
+    #   render json: ["You can only edit your assigned tasks"], status: 422
+    # end
   end
 
   def destroy
@@ -35,6 +40,6 @@ class Api::TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:project).permit(:title, :description, :status, :project_id, :user_id)
+    params.require(:task).permit(:title, :description, :status, :project_id, :user_id)
   end
 end

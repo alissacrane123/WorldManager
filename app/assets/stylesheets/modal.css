@@ -2,8 +2,9 @@
   position: fixed;
   min-height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1;
+  background: rgba(0, 0, 0, 0.91);
+  /* background: black; */
+  z-index: 5000;
   overflow: scroll;
   top: 0;
 }
@@ -12,12 +13,22 @@
   background: white;
   box-sizing: border-box;
   position: absolute;
-  width: 569px;
-  margin-top: 100px;
-  margin-bottom: 65px;
-  overflow: scroll;
-  top: 50%;
+  /* width: 569px; */
+  min-width: 300px;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: 6000;
+  border-radius: 10px;
+  opacity: 1 !important;
+}
+
+form.project {
+  display:flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+form.project > * {
+  margin-bottom: 20px;
 }

@@ -16,6 +16,7 @@ class Home extends React.Component {
           <h2>Your recent projects: </h2>
 
           <ProjectIndexCont />
+
         </section>
    
 

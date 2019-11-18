@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
 import TaskIndex from './task_index';
+// import TaskIndex from './task';
 
 import { fetchProjects, fetchProject } from '../../actions/project_actions';
+import { updateTask } from '../../actions/task_actions';
+import { openModal } from '../../actions/modal_actions';
 
 const msp = (state, ownProps) => {
   let tasks = Object.values(state.entities.tasks)
@@ -14,7 +17,9 @@ const msp = (state, ownProps) => {
 
 const mdp = dispatch => ({
   fetchProjects: () => dispatch(fetchProjects()),
-  fetchProject: (projectId) => dispatch(fetchProject(projectId))
+  fetchProject: (projectId) => dispatch(fetchProject(projectId)),
+  updateTask: (task) => dispatch(updateTask(task)),
+  openModal: (modal) => dispatch(openModal(modal))
 })
 
 export default connect(msp, mdp)(TaskIndex);

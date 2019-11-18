@@ -1,0 +1,2 @@
+class AddRoleToProjectMembership < ApplicationRecord
+end

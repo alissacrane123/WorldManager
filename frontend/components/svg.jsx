@@ -2,6 +2,10 @@ import React from 'react';
 
 const getPath = (iconName, props) => {
   switch (iconName) {
+    case 'plus':
+      return <path {...props} d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />;
+    case 'warn':
+      return <path {...props} d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.5 5h3l-1 10h-1l-1-10zm1.5 14.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z" />;
     case 'arrow':
       return <path {...props} d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z" />;
     case 'cal':

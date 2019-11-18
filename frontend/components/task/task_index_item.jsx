@@ -12,9 +12,9 @@ const TaskIndexItem = ({ task }) => {
   let numDaysAgo = daysAgo(task.created_at);
   let daysAgoStr = numDaysAgo > 1 ? `${numDaysAgo} days ago` : `${numDaysAgo} day ago`;
   let arrowColor = { "high": "red", "medium": "#ff7700", "low": "green"}
-  // debugger
+  
   return (
-    <div id="task-item">
+    <div id="task-item" >
       <div>
         <h4>{titleize(task.title)}</h4>
         <SVG h={12} w={12} name="arrow" fill={arrowColor[task.priority]} rotate="rotate(-90)" transform="scale(0.5)" />

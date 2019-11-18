@@ -17,8 +17,8 @@ user2 = User.create!(email: 'brandon@gmail.com', password: 'password', fname: 'B
 project1 = Project.create!(title: "full stack", owner_id: user1.id, category: 'work')
 
 
-pm1 = ProjectMembership.create!(project_id: project1.id, user_id: user1.id)
-pm1 = ProjectMembership.create!(project_id: project1.id, user_id: user2.id)
+pm1 = ProjectMembership.create!(project_id: project1.id, user_id: user1.id, role: 'admin')
+pm1 = ProjectMembership.create!(project_id: project1.id, user_id: user2.id, role: 'member')
 
 tast1 = Task.create!(title: "user table", description: "finish the user table", project_id: project1.id, user_id: user1.id, status: 'Not Started', priority: 'high')
 tast2 = Task.create!(title: "project table", description: "finish the project table", project_id: project1.id, user_id: user1.id, status: "In Progress", priority: 'medium')

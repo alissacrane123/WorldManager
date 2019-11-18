@@ -1,5 +1,6 @@
 import React from 'react';
 import ProjectIndexItem from './project_index_item';
+import SVG from '../svg';
 
 class ProjectIndex extends React.Component {
   
@@ -8,7 +9,7 @@ class ProjectIndex extends React.Component {
   }
 
   render() {
-    let { projects } = this.props;
+    let { projects, openModal } = this.props;
 
     projects = projects.map(project => (
       <li key={project.id}>
@@ -20,6 +21,14 @@ class ProjectIndex extends React.Component {
     return (
       <ul className="project-index">
         {projects}
+
+        <li>
+          <ul className="project-item new">
+            <div onClick={ () => openModal('newProject') }>
+              <SVG h={60} w={60} fill="white" transform="scale(2.5)" name="plus" className="add-svg"/>
+            </div>
+          </ul>
+        </li>
 
         
       </ul>
