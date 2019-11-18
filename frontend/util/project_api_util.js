@@ -13,10 +13,11 @@ export const fetchProject = (projectId) => {
   })
 }
 
-export const createProject = (project) => {
+export const createProject = (project, pm={} ) => {
+  
   return $.ajax({
     method: 'POST',
     url: '/api/projects',
-    data: { project }
+    data: { project, pm }
   })
 }

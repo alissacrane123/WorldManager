@@ -1,6 +1,6 @@
 
 import merge from 'lodash/merge';
-import { RECEIVE_PROJECT, RECEIVE_PROJECTS } from '../actions/project_actions';
+import { RECEIVE_PROJECT, RECEIVE_PROJECTS, RECEIVE_NEW_PROJECT } from '../actions/project_actions';
 
 const projectsReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -13,6 +13,9 @@ const projectsReducer = (state = {}, action) => {
     case RECEIVE_PROJECTS:
       // debugger
       return action.projects
+    case RECEIVE_NEW_PROJECT:
+      return Object.assign(nextState, action.payload.project)
+      // return action.payload.project;
     default:
       return state;
   }

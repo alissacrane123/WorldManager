@@ -10,7 +10,7 @@ const ProjectIndexItem = ({ project, history }) => {
     <ul className="project-item" onClick={ () => history.push(`/projects/${project.id}`) } >
 
       <div>
-        <SVG h={72} w={72} fill="white" transform="scale(3)" name={project.category} />
+        <SVG h={72} w={72} fill="white" transform="scale(3)" name={project.category.toLowerCase()} />
       </div>
 
       <label>{ titleize(project.title) }</label>

@@ -2,6 +2,12 @@ import * as ProjectAPI from '../util/project_api_util';
 
 export const RECEIVE_PROJECT = 'RECEIVE_PROJECT';
 export const RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
+export const RECEIVE_NEW_PROJECT = 'RECEIVE_NEW_PROJECT';
+
+export const receiveNewProject = payload => ({
+  type: RECEIVE_NEW_PROJECT,
+  payload
+})
 
 export const receiveProject = payload => ({
   type: RECEIVE_PROJECT,
@@ -28,9 +34,9 @@ export const fetchProject = (projectId) => dispatch => {
   )
 }
 
-export const createProject = (project) => dispatch => {
+export const createProject = (project, pm) => dispatch => {
   return (
-    ProjectAPI.createProject(project).then(payload => dispatch(receiveProject(payload)))
+    ProjectAPI.createProject(project, pm).then(payload => dispatch(receiveNewProject(payload)))
   )
 }
 

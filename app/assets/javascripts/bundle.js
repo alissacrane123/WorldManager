@@ -119,13 +119,15 @@ var closeModal = function closeModal() {
 /*!*********************************************!*\
   !*** ./frontend/actions/project_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_PROJECT, RECEIVE_PROJECTS, receiveProject, receiveProjects, fetchProjects, fetchProject, createProject */
+/*! exports provided: RECEIVE_PROJECT, RECEIVE_PROJECTS, RECEIVE_NEW_PROJECT, receiveNewProject, receiveProject, receiveProjects, fetchProjects, fetchProject, createProject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECT", function() { return RECEIVE_PROJECT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECTS", function() { return RECEIVE_PROJECTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_PROJECT", function() { return RECEIVE_NEW_PROJECT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewProject", function() { return receiveNewProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveProject", function() { return receiveProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveProjects", function() { return receiveProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchProjects", function() { return fetchProjects; });
@@ -135,6 +137,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var RECEIVE_PROJECT = 'RECEIVE_PROJECT';
 var RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
+var RECEIVE_NEW_PROJECT = 'RECEIVE_NEW_PROJECT';
+var receiveNewProject = function receiveNewProject(payload) {
+  return {
+    type: RECEIVE_NEW_PROJECT,
+    payload: payload
+  };
+};
 var receiveProject = function receiveProject(payload) {
   return {
     type: RECEIVE_PROJECT,
@@ -162,10 +171,10 @@ var fetchProject = function fetchProject(projectId) {
     });
   };
 };
-var createProject = function createProject(project) {
+var createProject = function createProject(project, pm) {
   return function (dispatch) {
-    return _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__["createProject"](project).then(function (payload) {
-      return dispatch(receiveProject(payload));
+    return _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__["createProject"](project, pm).then(function (payload) {
+      return dispatch(receiveNewProject(payload));
     });
   };
 };
@@ -301,10 +310,10 @@ var fetchTask = function fetchTask(taskId) {
     });
   };
 };
-var createTask = function createTask(task) {
+var createTask = function createTask(tasks) {
   return function (dispatch) {
-    return _util_task_api_util__WEBPACK_IMPORTED_MODULE_0__["createTask"](task).then(function (task) {
-      return dispatch(receiveTask(task));
+    return _util_task_api_util__WEBPACK_IMPORTED_MODULE_0__["createTask"](tasks).then(function (tasks) {
+      return dispatch(receiveTask(tasks));
     }, function (err) {
       return dispatch(receiveErrors(err.responseJSON));
     });
@@ -480,6 +489,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _project_project_form_cont__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../project/project_form_cont */ "./frontend/components/project/project_form_cont.js");
+/* harmony import */ var _task_task_form_cont__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../task/task_form_cont */ "./frontend/components/task/task_form_cont.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -497,6 +507,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -522,11 +533,12 @@ function (_React$Component) {
       var component;
 
       switch (modal) {
-        // case 'dragError':
-        //   component = <div><h3>You can only move tasks that belong to you!</h3></div>;
-        //   break;
         case 'newProject':
           component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_form_cont__WEBPACK_IMPORTED_MODULE_1__["default"], null);
+          break;
+
+        case 'newTasks':
+          component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_form_cont__WEBPACK_IMPORTED_MODULE_2__["default"], null);
           break;
 
         default:
@@ -736,6 +748,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -767,32 +783,53 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectForm).call(this, props));
     _this.state = {
-      title: '',
-      category: 'default'
+      project: {
+        title: '',
+        category: 'default'
+      },
+      pm: {
+        email: '',
+        role: ''
+      }
     };
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ProjectForm, [{
-    key: "handleChange",
-    value: function handleChange(e) {
+    key: "handleProjectChange",
+    value: function handleProjectChange(field) {
       this.setState({
-        category: e.target.value
+        project: _objectSpread({}, this.state.project, _defineProperty({}, field, event.target.value))
+      });
+    }
+  }, {
+    key: "handlePmChange",
+    value: function handlePmChange(field) {
+      this.setState({
+        pm: _objectSpread({}, this.state.pm, _defineProperty({}, field, event.target.value))
       });
     }
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this2 = this;
+
       e.preventDefault();
-      var project = Object.assign({}, this.state);
-      this.props.createProject(project);
+      var project = Object.assign({}, this.state.project);
+      var pm = Object.assign({}, this.state.pm);
+      this.props.createProject(project, pm).then(function () {
+        return _this2.props.openModal('newTasks');
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      var cats = ["School", "Work", "Travel", "Fun", "Family", "Other"].map(function (el) {
+      var _this3 = this;
+
+      var cats = ["School", "Work", "Travel", "Fun", "Family", "Other"].map(function (el, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: i,
           value: el
         }, el);
       });
@@ -803,14 +840,31 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "New Project Form"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         placeholder: "Title",
-        value: this.state.title
+        value: this.state.title,
+        onChange: function onChange() {
+          return _this3.handleProjectChange('title');
+        }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         value: this.state.category,
-        onChange: this.handleChange
+        onChange: function onChange() {
+          return _this3.handleProjectChange('category');
+        }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "default",
         disabled: true
       }, "Choose a category"), cats), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        placeholder: "email",
+        onChange: function onChange() {
+          return _this3.handlePmChange('email');
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        placeholder: "role",
+        onChange: function onChange() {
+          return _this3.handlePmChange('role');
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
         value: "Create Project"
       }));
@@ -836,6 +890,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _project_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./project_form */ "./frontend/components/project/project_form.jsx");
 /* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+
 
 
 
@@ -848,8 +904,11 @@ var msp = function msp(state, ownProps) {
 
 var mdp = function mdp(dispatch) {
   return {
-    createProject: function createProject(project) {
-      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["createProject"])(project));
+    createProject: function createProject(project, pm) {
+      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["createProject"])(project, pm));
+    },
+    openModal: function openModal(modal) {
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])(modal));
     }
   };
 };
@@ -1022,7 +1081,7 @@ var ProjectIndexItem = function ProjectIndexItem(_ref) {
     w: 72,
     fill: "white",
     transform: "scale(3)",
-    name: project.category
+    name: project.category.toLowerCase()
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(project.title)));
 };
 
@@ -1505,6 +1564,11 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var getPath = function getPath(iconName, props) {
   switch (iconName) {
+    case 'travel':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
+        d: "M3.691 10h6.309l-3-7h2l7 7h5c1.322-.007 3 1.002 3 2s-1.69 1.993-3 2h-5l-7 7h-2l3-7h-6.309l-2.292 2h-1.399l1.491-4-1.491-4h1.399l2.292 2"
+      }));
+
     case 'plus':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
         d: "M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"
@@ -1625,6 +1689,199 @@ var SVG = function SVG(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (SVG);
+
+/***/ }),
+
+/***/ "./frontend/components/task/task_form.jsx":
+/*!************************************************!*\
+  !*** ./frontend/components/task/task_form.jsx ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var TaskForm =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(TaskForm, _React$Component);
+
+  function TaskForm(props) {
+    var _this;
+
+    _classCallCheck(this, TaskForm);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskForm).call(this, props));
+    debugger;
+    _this.state = {
+      tasks: [],
+      // forms: 1,
+      newTask: _this.props.emptyTaskObj
+    };
+    return _this;
+  }
+
+  _createClass(TaskForm, [{
+    key: "addTask",
+    value: function addTask() {
+      event.preventDefault();
+      var newTask = this.state.newTask;
+      this.setState({
+        tasks: [].concat(_toConsumableArray(this.state.tasks), [newTask])
+      });
+      this.setState({
+        newTask: this.props.emptyTaskObj
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(field) {
+      this.setState({
+        newTask: _objectSpread({}, this.state.newTask, _defineProperty({}, field, event.target.value))
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit() {
+      event.preventDefault();
+      var tasks = this.state.tasks;
+      this.props.createTask(tasks);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          currentUser = _this$props.currentUser,
+          project = _this$props.project;
+      if (!project) return null;
+      var tasks = this.state.tasks.map(function (task, i) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          key: i
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, task.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, task.email), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, task.description));
+      });
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "task",
+        id: "task-form"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Assign Tasks"), tasks, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        value: this.state.newTask.title,
+        onChange: function onChange() {
+          return _this2.handleChange('title');
+        },
+        placeholder: "Title"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        value: this.state.newTask.email,
+        onChange: function onChange() {
+          return _this2.handleChange('email');
+        },
+        placeholder: "email"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        value: this.state.newTask.description,
+        onChange: function onChange() {
+          return _this2.handleChange('description');
+        },
+        placeholder: "description"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return _this2.addTask();
+        }
+      }, "Add Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return _this2.handleSubmit();
+        }
+      }, "Submit All Tasks"));
+    }
+  }]);
+
+  return TaskForm;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (TaskForm);
+
+/***/ }),
+
+/***/ "./frontend/components/task/task_form_cont.js":
+/*!****************************************************!*\
+  !*** ./frontend/components/task/task_form_cont.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _task_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task_form */ "./frontend/components/task/task_form.jsx");
+/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
+
+
+
+
+var msp = function msp(state, ownProps) {
+  var projectIds = Object.keys(state.entities.projects);
+  var projectId = projectIds[projectIds.length - 1];
+  var project = state.entities.projects[projectId];
+  return {
+    currentUser: state.entities.users[state.session.id],
+    project: project,
+    emptyTaskObj: {
+      title: '',
+      email: '',
+      description: '',
+      status: 'Not Started',
+      project_id: project.id
+    }
+  };
+};
+
+var mdp = function mdp(dispatch) {
+  return {
+    createTask: function createTask(task) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["createTask"])(task));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(msp, mdp)(_task_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -2093,6 +2350,10 @@ var projectsReducer = function projectsReducer() {
       // debugger
       return action.projects;
 
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NEW_PROJECT"]:
+      return Object.assign(nextState, action.payload.project);
+    // return action.payload.project;
+
     default:
       return state;
   }
@@ -2382,11 +2643,13 @@ var fetchProject = function fetchProject(projectId) {
   });
 };
 var createProject = function createProject(project) {
+  var pm = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return $.ajax({
     method: 'POST',
     url: '/api/projects',
     data: {
-      project: project
+      project: project,
+      pm: pm
     }
   });
 };
@@ -2519,12 +2782,14 @@ var fetchTask = function fetchTask(taskId) {
     url: "api/tasks/".concat(taskId)
   });
 };
-var createTask = function createTask(task) {
+var createTask = function createTask(tasks) {
+  // debugger
   return $.ajax({
     method: 'POST',
     url: '/api/tasks',
     data: {
-      task: task
+      tasks: tasks // data: { tasks: JSON.stringify(data) }
+
     }
   });
 };
@@ -31898,7 +32163,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

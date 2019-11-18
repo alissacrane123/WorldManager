@@ -36,10 +36,10 @@ export const fetchTask = (taskId) => dispatch => {
   )
 }
 
-export const createTask = (task) => dispatch => {
+export const createTask = (tasks) => dispatch => {
   return (
-    TaskAPI.createTask(task)
-      .then(task => dispatch(receiveTask(task)),
+    TaskAPI.createTask(tasks)
+      .then(tasks => dispatch(receiveTask(tasks)),
         err => dispatch(receiveErrors(err.responseJSON)))
   )
 }

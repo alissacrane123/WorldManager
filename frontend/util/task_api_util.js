@@ -13,11 +13,13 @@ export const fetchTask = (taskId) => {
   })
 }
 
-export const createTask = (task) => {
+export const createTask = (tasks) => {
+  // debugger
   return $.ajax({
     method: 'POST',
     url: '/api/tasks',
-    data: { task }
+    data: { tasks: tasks }
+    // data: { tasks: JSON.stringify(data) }
   })
 }
 

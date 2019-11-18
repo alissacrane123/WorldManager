@@ -5,26 +5,32 @@ import { connect } from 'react-redux';
 class ProjectForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { title: '', category: 'default'}
+    this.state = { project: {title: '', category: 'default'}, pm: {email: '', role: '' }}
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(e) {
-    this.setState({ category: e.target.value });
+  handleProjectChange(field) {
+    this.setState({ project: { ...this.state.project, [field]: event.target.value } });
+  }
+
+  handlePmChange(field) {
+    this.setState({ pm: { ...this.state.pm, [field]: event.target.value } });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    let project = Object.assign({}, this.state);
+    let project = Object.assign({}, this.state.project);
+    let pm = Object.assign({}, this.state.pm);
 
-    this.props.createProject(project);
+    this.props.createProject(project, pm)
+      .then(() => this.props.openModal('newTasks'));
   }
 
   render() {
 
-    let cats = ["School", "Work", "Travel", "Fun", "Family", "Other"].map(el => (
-      <option value={el}>{el}</option>
+    let cats = ["School", "Work", "Travel", "Fun", "Family", "Other"].map((el, i) => (
+      <option key={i} value={el}>{el}</option>
     ))
 
     return (
@@ -32,12 +38,16 @@ class ProjectForm extends React.Component {
 
         <h4>New Project Form</h4>
 
-        <input type="text" placeholder="Title" value={this.state.title} />
+        <input type="text" placeholder="Title" value={this.state.title} onChange={() => this.handleProjectChange('title')}/>
 
-        <select value={ this.state.category } onChange={ this.handleChange }>
+        <select value={ this.state.category } onChange={ () => this.handleProjectChange('category') }>
           <option value="default" disabled={true}>Choose a category</option>
           { cats }
         </select>
+        
+        <input type="text" placeholder="email" onChange={() => this.handlePmChange('email')}/>
+        <input type="text" placeholder="role" onChange={() => this.handlePmChange('role')} />
+
 
         <input type="submit" value="Create Project" />
 
