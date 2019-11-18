@@ -24,12 +24,12 @@ class SignupForm extends React.Component {
       <form id="session">
 
           <div>
-            <input onChange={this.handleChange('fname')} value={this.state.fname}/>
-            <input onChange={this.handleChange('lname')} value={this.state.lname}/>
+            <input onChange={this.handleChange('fname')} placeholder="First name" value={this.state.fname}/>
+            <input onChange={this.handleChange('lname')} placeholder="Last name" value={this.state.lname}/>
           </div>
 
-          <input onChange={this.handleChange('email')} value={this.state.email} />
-          <input onChange={this.handleChange('password')} value={this.state.password}/>
+          <input onChange={this.handleChange('email')} placeholder="email" value={this.state.email} />
+          <input onChange={this.handleChange('password')} placeholder="password" value={this.state.password}/>
 
           <button onClick={this.handleSubmit}>Sign Up</button>
           <button onClick={() => this.props.history.push('/login')}>Login Instead</button>
