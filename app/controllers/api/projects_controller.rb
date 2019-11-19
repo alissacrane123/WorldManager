@@ -24,7 +24,7 @@ class Api::ProjectsController < ApplicationController
   end
 
   def show  
-    @project = Project.includes(:tasks, :members, :owner).find(params[:id])
+    @project = Project.includes(:tasks, :members ).find(params[:id])
   end
 
   def index

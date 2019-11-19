@@ -11,3 +11,11 @@ json.set! "tasks" do
        
   end
 end
+
+json.set! "users" do 
+  @project.members.each do |member|
+    json.set! member.id do
+      json.partial! "api/users/user", user: member
+    end
+  end
+end

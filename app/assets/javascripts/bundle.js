@@ -86,6 +86,29 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/actions/filter_actions.js":
+/*!********************************************!*\
+  !*** ./frontend/actions/filter_actions.js ***!
+  \********************************************/
+/*! exports provided: UPDATE_USER_FILTER, updateUserFilter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_USER_FILTER", function() { return UPDATE_USER_FILTER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUserFilter", function() { return updateUserFilter; });
+var UPDATE_USER_FILTER = 'UPDATE_USER_FILTER'; //  entity = 'tasks', value = {user: userId }
+
+var updateUserFilter = function updateUserFilter(entity, value) {
+  return {
+    type: UPDATE_USER_FILTER,
+    entity: entity,
+    value: value
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/modal_actions.js":
 /*!*******************************************!*\
   !*** ./frontend/actions/modal_actions.js ***!
@@ -383,6 +406,147 @@ var App = function App() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
+
+/***/ }),
+
+/***/ "./frontend/components/filters/project_task.jsx":
+/*!******************************************************!*\
+  !*** ./frontend/components/filters/project_task.jsx ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var ProjectTaskFilter =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ProjectTaskFilter, _React$Component);
+
+  function ProjectTaskFilter(props) {
+    var _this;
+
+    _classCallCheck(this, ProjectTaskFilter);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectTaskFilter).call(this, props));
+    var userFilter = _this.props.userFilter;
+    userFilter = userFilter ? "tb".concat(userFilter) : 'tb00';
+    _this.state = {
+      taskFilter: userFilter
+    };
+    return _this;
+  }
+
+  _createClass(ProjectTaskFilter, [{
+    key: "renderFilterButtons",
+    value: function renderFilterButtons() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          users = _this$props.users,
+          currentUserId = _this$props.currentUserId,
+          userFilter = _this$props.userFilter; // debugger
+
+      users = users.map(function (user) {
+        if (user.id === currentUserId && user.id === userFilter) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            onClick: function onClick() {
+              return _this2.updateFilter(user.id);
+            },
+            id: "tb".concat(user.id),
+            className: "tb selected"
+          }, "Your Tasks");
+        } else if (user.id === currentUserId) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            onClick: function onClick() {
+              return _this2.updateFilter(user.id);
+            },
+            id: "tb".concat(user.id),
+            className: "tb "
+          }, "Your Tasks");
+        } else if (user.id === userFilter) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            onClick: function onClick() {
+              return _this2.updateFilter(user.id);
+            },
+            id: "tb".concat(user.id),
+            className: "tb selected"
+          }, user.fname, "'s Tasks");
+        } else {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            onClick: function onClick() {
+              return _this2.updateFilter(user.id);
+            },
+            id: "tb".concat(user.id),
+            className: "tb"
+          }, user.fname, "'s Tasks");
+        }
+      });
+      return users;
+    }
+  }, {
+    key: "updateFilter",
+    value: function updateFilter(userId) {
+      var current = document.getElementById(this.state.taskFilter);
+      var newId = userId ? "tb".concat(userId) : 'tb00';
+      var selectedButton = document.getElementById(newId); // debugger
+
+      this.setState({
+        taskFilter: newId
+      });
+      current.classList.toggle('selected');
+      selectedButton.classList.toggle('selected');
+      this.props.updateFilter('tasks', {
+        user: userId
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var _this$props2 = this.props,
+          updateFilter = _this$props2.updateFilter,
+          userFilter = _this$props2.userFilter;
+      var defaultClass = userFilter ? "tb" : "tb selected"; // debugger
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return _this3.updateFilter(null);
+        },
+        id: "tb00",
+        className: defaultClass,
+        key: "all"
+      }, "All Tasks"), this.renderFilterButtons());
+    }
+  }]);
+
+  return ProjectTaskFilter;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ProjectTaskFilter);
 
 /***/ }),
 
@@ -1948,7 +2112,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _task_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task_index_item */ "./frontend/components/task/task_index_item.jsx");
-/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
+/* harmony import */ var _filters_project_task__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../filters/project_task */ "./frontend/components/filters/project_task.jsx");
+/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1966,6 +2131,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2007,10 +2173,20 @@ function (_React$Component) {
       var _this$props2 = this.props,
           notStarted = _this$props2.notStarted,
           inProgress = _this$props2.inProgress,
-          finished = _this$props2.finished;
+          finished = _this$props2.finished,
+          userFilter = _this$props2.userFilter;
       var tasks = [notStarted, inProgress, finished];
       var taskStatus = ["Not Started", "In Progress", "Finished"];
-      tasks = tasks[i].map(function (task) {
+
+      if (userFilter) {
+        tasks = tasks[i].filter(function (task) {
+          return task.user_id === userFilter;
+        });
+      } else {
+        tasks = tasks[i];
+      }
+
+      tasks = tasks.map(function (task) {
         if (task.draggable) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
             key: task.id,
@@ -2035,7 +2211,7 @@ function (_React$Component) {
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "ti close",
             id: "ti-".concat(taskId)
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
             name: "warn",
             h: 24,
             w: 24,
@@ -2086,10 +2262,20 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this$props3 = this.props,
+          users = _this$props3.users,
+          currentUserId = _this$props3.currentUserId,
+          updateFilter = _this$props3.updateFilter,
+          userFilter = _this$props3.userFilter;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-index",
         className: "container-drag"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Current Tasks"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderTasks(0), this.renderTasks(1), this.renderTasks(2)));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_filters_project_task__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        users: users,
+        currentUserId: currentUserId,
+        updateFilter: updateFilter,
+        userFilter: userFilter
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderTasks(0), this.renderTasks(1), this.renderTasks(2)));
     }
   }]);
 
@@ -2111,11 +2297,12 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _task_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task_index */ "./frontend/components/task/task_index.jsx");
-/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/project_actions */ "./frontend/actions/project_actions.js");
-/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
-/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var _actions_filter_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/filter_actions */ "./frontend/actions/filter_actions.js");
+/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 
- // import TaskIndex from './task';
+
 
 
 
@@ -2132,23 +2319,30 @@ var msp = function msp(state, ownProps) {
     }),
     finished: tasks.filter(function (task) {
       return task.status === 'Finished';
-    })
+    }),
+    currentUserId: state.session.id,
+    userFilter: state.ui.filters.tasks.user,
+    users: Object.values(state.entities.users) // users: projectMemberSelector(state)
+
   };
 };
 
 var mdp = function mdp(dispatch) {
   return {
     fetchProjects: function fetchProjects() {
-      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["fetchProjects"])());
+      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_3__["fetchProjects"])());
     },
     fetchProject: function fetchProject(projectId) {
-      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["fetchProject"])(projectId));
+      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_3__["fetchProject"])(projectId));
     },
     updateTask: function updateTask(task) {
-      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_3__["updateTask"])(task));
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_4__["updateTask"])(task));
     },
     openModal: function openModal(modal) {
-      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["openModal"])(modal));
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_5__["openModal"])(modal));
+    },
+    updateFilter: function updateFilter(entity, value) {
+      return dispatch(Object(_actions_filter_actions__WEBPACK_IMPORTED_MODULE_2__["updateUserFilter"])(entity, value));
     }
   };
 };
@@ -2274,17 +2468,27 @@ document.addEventListener('DOMContentLoaded', function () {
 /*!************************************!*\
   !*** ./frontend/helpers/helper.js ***!
   \************************************/
-/*! exports provided: titleize */
+/*! exports provided: titleize, projectMemberSelector */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleize", function() { return titleize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "projectMemberSelector", function() { return projectMemberSelector; });
 var titleize = function titleize(string) {
   var words = string.split(' ').map(function (el) {
     return el[0].toUpperCase() + el.slice(1);
   });
   return words.join(' ');
+};
+var projectMemberSelector = function projectMemberSelector(state) {
+  var users = Object.values(state.entities.users);
+  var sessionId = state.session.id;
+  users = users.filter(function (user) {
+    return user.id !== sessionId;
+  }); // users = users.map(user => user.fname)
+
+  return users;
 };
 
 /***/ }),
@@ -2335,6 +2539,44 @@ var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"]
   task: _task_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/filters_reducer.js":
+/*!**********************************************!*\
+  !*** ./frontend/reducers/filters_reducer.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_filter_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/filter_actions */ "./frontend/actions/filter_actions.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var defaultFilters = Object.freeze({
+  tasks: {
+    user: null
+  },
+  projects: null
+});
+
+var filtersReducer = function filtersReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultFilters;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  if (action.type === _actions_filter_actions__WEBPACK_IMPORTED_MODULE_0__["UPDATE_USER_FILTER"]) {
+    var newFilter = _defineProperty({}, action.entity, action.value);
+
+    return Object.assign({}, state, newFilter);
+  } else {
+    return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (filtersReducer);
 
 /***/ }),
 
@@ -2598,10 +2840,13 @@ var tasksReducer = function tasksReducer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _modal_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal_reducer */ "./frontend/reducers/modal_reducer.js");
+/* harmony import */ var _filters_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./filters_reducer */ "./frontend/reducers/filters_reducer.js");
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  modal: _modal_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  modal: _modal_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  filters: _filters_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
 }));
 
 /***/ }),
@@ -2616,8 +2861,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
-/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
-/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -2627,10 +2871,14 @@ var usersReducer = function usersReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
+  var nextState = Object.assign({}, state);
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      return lodash_merge__WEBPACK_IMPORTED_MODULE_1___default()({}, state, _defineProperty({}, action.user.id, action.user));
+      return Object.assign(nextState, _defineProperty({}, action.user.id, action.user));
+
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PROJECT"]:
+      return Object.assign({}, action.payload.users);
 
     default:
       return state;

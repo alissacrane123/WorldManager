@@ -1,3 +1,9 @@
+/* #0B0C10 - black
+#1F2833 - dark gray blue
+#C5C6C7 - gray
+#66FCF1 - brightteal
+#45A29E - teal */
+
 #project-show {
   margin: 0px 10%;
 }
@@ -6,12 +12,40 @@
   font-size: 30px;
   margin: 50px 0 50px 0;
   /* text-align: center; */
+
+        color: #1F2833;
+    font-weight: 700;
 }
 
 #project-show h2 {
   font-size: 20px;
   /* padding-bottom: 15px; */
   margin-bottom: 30px
+}
+
+#task-index > ul {
+  display: flex;
+  flex-direction: row;
+}
+
+button.tb {
+  outline:none;
+  border: none;
+  font-size: 13px;
+  margin: 0 10px 20px 0;
+  padding: 7px;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
+
+
+button.tb:hover {
+  background: #f3f3f3;
+}
+
+button.tb.selected {
+  background: #f3f3f3;
 }
 
 #task-index > div{
@@ -113,25 +147,3 @@ div.ti h5 {
   cursor: pointer;
 }
 
-/* TEST */
-
-/* .container-drag {
-  height: 500px;
-  display:flex;
-  flex-direction: row;
-  justify-content: space-between;
-  
-}
-
-.droppable {
-  display:flex;
-  flex-direction: column;
-  height: 100%;
-  background: gray;
-  justify-content: space-evenly;
-}
-
-.draggable {
-  height:100px;
-  background: pink;
-} */

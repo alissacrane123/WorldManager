@@ -1,3 +1,8 @@
+/* #0B0C10 - black
+#1F2833 - dark gray blue
+#C5C6C7 - gray
+#66FCF1 - brightteal
+#45A29E - teal */
 
 #home {
   height: 100vh;
@@ -8,6 +13,8 @@
   font-size: 30px;
   margin: 50px 0 50px 0;
   text-align: center;
+
+
 }
 
 #home section {

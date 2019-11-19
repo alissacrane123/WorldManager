@@ -1,9 +1,16 @@
+/* #0B0C10 - black
+#1F2833 - dark gray blue
+#C5C6C7 - gray
+#66FCF1 - brightteal
+#45A29E - teal */
+
 nav.navbar {
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;
   width: 70px;
   background: black;
+  /* background: #1F2833; */
   height: 100vh;
   color: white;
   /* padding: 20px; */

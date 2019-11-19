@@ -1,5 +1,6 @@
 import React from 'react';
 import TaskIndexItem from './task_index_item';
+import ProjectTaskFilter from '../filters/project_task';
 import SVG from '../svg';
 
 class TaskIndex extends React.Component {
@@ -17,12 +18,17 @@ class TaskIndex extends React.Component {
   }
 
   renderTasks(i) {
-    let { notStarted, inProgress, finished } = this.props;
+    let { notStarted, inProgress, finished, userFilter } = this.props;
     let tasks = [ notStarted, inProgress, finished ];
     let taskStatus = ["Not Started", "In Progress", "Finished"];
 
+    if (userFilter) {
+      tasks = tasks[i].filter(task => task.user_id === userFilter);
+    } else {
+      tasks = tasks[i];
+    }
     
-    tasks = tasks[i].map(task => {
+    tasks = tasks.map(task => {
       if (task.draggable) {
         return (
           <li key={task.id} onDragStart={(e) => this.onDragStart(e, task.id)} className="draggable" draggable>
@@ -81,20 +87,20 @@ class TaskIndex extends React.Component {
 
 
   render() {
+    let { users, currentUserId, updateFilter, userFilter } = this.props;
 
     return (
       <div id="task-index" className="container-drag">
-        <h2>Current Tasks</h2>
+
+        <ProjectTaskFilter users={users} currentUserId={currentUserId} updateFilter={updateFilter} userFilter={userFilter}/>
 
         <div>
           {this.renderTasks(0)}
           {this.renderTasks(1)}
           {this.renderTasks(2)}
         </div>
-
-
       </div>
-    )
+    );
   }
 }
 
