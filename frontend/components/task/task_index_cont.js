@@ -14,7 +14,8 @@ const msp = (state, ownProps) => {
     finished: tasks.filter(task => task.status === 'Finished'),
     currentUserId: state.session.id,
     userFilter: state.ui.filters.tasks.user,
-    users: Object.values(state.entities.users)
+    users: Object.values(state.entities.users),
+    adminAccess: Object.values(state.entities.projects)[0].adminAccess
     // users: projectMemberSelector(state)
   }
 }

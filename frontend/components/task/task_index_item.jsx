@@ -2,7 +2,7 @@ import React from 'react';
 import { titleize } from '../../helpers/helper';
 import SVG from '../svg';
 
-const TaskIndexItem = ({ task }) => {
+const TaskIndexItem = ({ task, adminAccess }) => {
 
   function daysAgo(date) {
     let diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000)
@@ -12,6 +12,8 @@ const TaskIndexItem = ({ task }) => {
   let numDaysAgo = daysAgo(task.created_at);
   let daysAgoStr = numDaysAgo > 1 ? `${numDaysAgo} days ago` : `${numDaysAgo} day ago`;
   let arrowColor = { "high": "red", "medium": "#ff7700", "low": "green"}
+
+  let trashSVG = adminAccess ? <SVG className="trash"name="trash" h={18} w={18} fill="gray" transform="scale(0.75)"/> : <div></div>
   
   return (
     <div id="task-item" >
@@ -27,6 +29,8 @@ const TaskIndexItem = ({ task }) => {
         <SVG h={18} w={18} name="profile" fill="gray" transform="scale(0.75)"/>
         <label>{task.owner}</label>
       </div>
+
+      { trashSVG }
     </div>
   )
 

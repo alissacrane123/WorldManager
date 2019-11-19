@@ -1766,6 +1766,11 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var getPath = function getPath(iconName, props) {
   switch (iconName) {
+    case 'trash':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
+        d: "M19 24h-14c-1.104 0-2-.896-2-2v-16h18v16c0 1.104-.896 2-2 2m-9-14c0-.552-.448-1-1-1s-1 .448-1 1v9c0 .552.448 1 1 1s1-.448 1-1v-9zm6 0c0-.552-.448-1-1-1s-1 .448-1 1v9c0 .552.448 1 1 1s1-.448 1-1v-9zm6-5h-20v-2h6v-1.5c0-.827.673-1.5 1.5-1.5h5c.825 0 1.5.671 1.5 1.5v1.5h6v2zm-12-2h4v-1h-4v1z"
+      }));
+
     case 'travel':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
         d: "M3.691 10h6.309l-3-7h2l7 7h5c1.322-.007 3 1.002 3 2s-1.69 1.993-3 2h-5l-7 7h-2l3-7h-6.309l-2.292 2h-1.399l1.491-4-1.491-4h1.399l2.292 2"
@@ -2174,7 +2179,8 @@ function (_React$Component) {
           notStarted = _this$props2.notStarted,
           inProgress = _this$props2.inProgress,
           finished = _this$props2.finished,
-          userFilter = _this$props2.userFilter;
+          userFilter = _this$props2.userFilter,
+          adminAccess = _this$props2.adminAccess;
       var tasks = [notStarted, inProgress, finished];
       var taskStatus = ["Not Started", "In Progress", "Finished"];
 
@@ -2196,7 +2202,8 @@ function (_React$Component) {
             className: "draggable",
             draggable: true
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-            task: task
+            task: task,
+            adminAccess: adminAccess
           }));
         } else {
           var taskId = task.id;
@@ -2217,7 +2224,8 @@ function (_React$Component) {
             w: 24,
             className: "warn"
           }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "You can only move tasks that belong to you!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-            task: task
+            task: task,
+            adminAccess: adminAccess
           }));
         }
       });
@@ -2322,7 +2330,8 @@ var msp = function msp(state, ownProps) {
     }),
     currentUserId: state.session.id,
     userFilter: state.ui.filters.tasks.user,
-    users: Object.values(state.entities.users) // users: projectMemberSelector(state)
+    users: Object.values(state.entities.users),
+    adminAccess: Object.values(state.entities.projects)[0].adminAccess // users: projectMemberSelector(state)
 
   };
 };
@@ -2369,7 +2378,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var TaskIndexItem = function TaskIndexItem(_ref) {
-  var task = _ref.task;
+  var task = _ref.task,
+      adminAccess = _ref.adminAccess;
 
   function daysAgo(date) {
     var diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000);
@@ -2383,6 +2393,14 @@ var TaskIndexItem = function TaskIndexItem(_ref) {
     "medium": "#ff7700",
     "low": "green"
   };
+  var trashSVG = adminAccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    className: "trash",
+    name: "trash",
+    h: 18,
+    w: 18,
+    fill: "gray",
+    transform: "scale(0.75)"
+  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "task-item"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(task.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -2404,7 +2422,7 @@ var TaskIndexItem = function TaskIndexItem(_ref) {
     name: "profile",
     fill: "gray",
     transform: "scale(0.75)"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, task.owner)));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, task.owner)), trashSVG);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (TaskIndexItem);

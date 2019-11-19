@@ -74,6 +74,7 @@ button.tb.selected {
   margin-bottom: 10px;
   padding: 10px;
   box-shadow: 0 2px 5px #adaaaa;
+  position: relative;
 }
 
 #task-item > div:first-child {
@@ -147,3 +148,12 @@ div.ti h5 {
   cursor: pointer;
 }
 
+#task-item div:last-child {
+      margin-right: 25px;
+}
+
+#task-item .trash {
+      position: absolute;
+    bottom: 0;
+    right: 10px;
+}
