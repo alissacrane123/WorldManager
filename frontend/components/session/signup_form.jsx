@@ -33,7 +33,7 @@ class SignupForm extends React.Component {
           <input onChange={this.handleChange('password')} placeholder="password" value={this.state.password}/>
 
           <button onClick={this.handleSubmit}>Sign Up</button>
-          <button onClick={() => this.props.history.push('/login')}>Login Instead</button>
+          <a onClick={() => this.props.history.push('/login')}>Login Instead</a>
 
       </form>
     )

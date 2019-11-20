@@ -13,6 +13,7 @@ const tasksReducer = (state = {}, action) => {
     case RECEIVE_TASKS:
       return action.tasks;
     case RECEIVE_PROJECT:
+      if (!action.payload.tasks) return {};
       return action.payload.tasks;
     default:
       return state;

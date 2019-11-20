@@ -60,8 +60,6 @@ class Navbar extends React.Component {
         <div onClick={() => this.openMenu()}>
           <SVG id="settings" className="sb" name="settings" h={24} w={24} fill="white" />
           <label className="close">Settings</label>
-        {/* </div> */}
-        {/* <button onClick={() => logout()}>Logout</button> */}
 
         {
           this.state.open 

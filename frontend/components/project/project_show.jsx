@@ -10,7 +10,7 @@ class ProjectShow extends React.Component {
   }
 
   render() {
-    let { project } = this.props;
+    let { project, openModal } = this.props;
 
     if (!project) return null;
 
@@ -19,7 +19,9 @@ class ProjectShow extends React.Component {
       <div id="project-show">
         <div>
           <h1>{titleize(project.title)}</h1>
-          <SVG name='plus' h={20} w={20} fill="white" transform="scale(0.84)" className="plus-show" />
+          <div onClick={() => openModal('newTasks')}>
+            <SVG name='plus' h={20} w={20} fill="white" transform="scale(0.84)" className="plus-show" />
+          </div>
         </div>
 
         <TaskIndexCont />

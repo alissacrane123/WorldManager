@@ -29,12 +29,12 @@ class LoginForm extends React.Component {
       <form id="session">
         <h3>Login Below</h3>
         
-        <input value={this.state.email} onChange={this.handleChange('email')} />
-        <input value={this.state.password} onChange={this.handleChange('password')} />
+        <input value={this.state.email} onChange={this.handleChange('email')} placeholder="Email" />
+        <input value={this.state.password} onChange={this.handleChange('password')} placeholder="Password" />
 
         <button onClick={this.handleSubmit}>Login</button>
-        <button onClick={() => this.demoLogin()}>Demo Login</button>
-        <button onClick={() => this.props.history.push('/signup')}>Signup Instead</button>
+        <button className="demo" onClick={() => this.demoLogin()}>Demo Login</button>
+        <a onClick={() => this.props.history.push('/signup')}>Signup Instead</a>
       </form>
     )
   }

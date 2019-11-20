@@ -1401,18 +1401,24 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var project = this.props.project;
+      var _this$props = this.props,
+          project = _this$props.project,
+          openModal = _this$props.openModal;
       if (!project) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "project-show"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(project.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(project.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return openModal('newTasks');
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
         name: "plus",
         h: 20,
         w: 20,
         fill: "white",
         transform: "scale(0.84)",
         className: "plus-show"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_index_cont__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_index_cont__WEBPACK_IMPORTED_MODULE_1__["default"], null));
     }
   }]);
 
@@ -1435,6 +1441,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _project_show__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./project_show */ "./frontend/components/project/project_show.jsx");
 /* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+
 
 
 
@@ -1453,6 +1461,9 @@ var mdp = function mdp(dispatch) {
     },
     fetchProject: function fetchProject(projectId) {
       return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["fetchProject"])(projectId));
+    },
+    openModal: function openModal(modal) {
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])(modal));
     }
   };
 };
@@ -1579,17 +1590,20 @@ function (_React$Component) {
         id: "session"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Login Below"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         value: this.state.email,
-        onChange: this.handleChange('email')
+        onChange: this.handleChange('email'),
+        placeholder: "Email"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         value: this.state.password,
-        onChange: this.handleChange('password')
+        onChange: this.handleChange('password'),
+        placeholder: "Password"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleSubmit
       }, "Login"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "demo",
         onClick: function onClick() {
           return _this3.demoLogin();
         }
-      }, "Demo Login"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, "Demo Login"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick() {
           return _this3.props.history.push('/signup');
         }
@@ -1702,7 +1716,7 @@ function (_React$Component) {
         value: this.state.password
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleSubmit
-      }, "Sign Up"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, "Sign Up"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         onClick: function onClick() {
           return _this3.props.history.push('/login');
         }
@@ -1861,6 +1875,11 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var getPath = function getPath(iconName, props) {
   switch (iconName) {
+    case 'x':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
+        d: "M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z"
+      }));
+
     case 'trash':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
         d: "M19 24h-14c-1.104 0-2-.896-2-2v-16h18v16c0 1.104-.896 2-2 2m-9-14c0-.552-.448-1-1-1s-1 .448-1 1v9c0 .552.448 1 1 1s1-.448 1-1v-9zm6 0c0-.552-.448-1-1-1s-1 .448-1 1v9c0 .552.448 1 1 1s1-.448 1-1v-9zm6-5h-20v-2h6v-1.5c0-.827.673-1.5 1.5-1.5h5c.825 0 1.5.671 1.5 1.5v1.5h6v2zm-12-2h4v-1h-4v1z"
@@ -2007,6 +2026,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -2041,6 +2061,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var TaskForm =
 /*#__PURE__*/
 function (_React$Component) {
@@ -2052,7 +2073,6 @@ function (_React$Component) {
     _classCallCheck(this, TaskForm);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskForm).call(this, props));
-    debugger;
     _this.state = {
       tasks: [],
       newTask: _this.props.emptyTaskObj
@@ -2103,39 +2123,61 @@ function (_React$Component) {
           project = _this$props.project;
       if (!project) return null;
       var tasks = this.state.tasks.map(function (task, i) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, task.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, task.email), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, task.description));
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, task.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          name: "x",
+          h: 12,
+          w: 12,
+          transform: "scale(0.5)",
+          fill: "1F2833"
+        })));
       });
+      var displayClass = tasks.length === 0 ? 'none' : '';
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "task",
         id: "task-form"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Assign Tasks"), tasks, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Assign New Tasks"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: displayClass
+      }, tasks), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Title"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.newTask.title,
         onChange: function onChange() {
           return _this3.handleChange('title');
-        },
-        placeholder: "Title"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assignee's Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.newTask.email,
         onChange: function onChange() {
           return _this3.handleChange('email');
-        },
-        placeholder: "email"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         type: "text",
         value: this.state.newTask.description,
         onChange: function onChange() {
           return _this3.handleChange('description');
-        },
-        placeholder: "description"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Priority"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "radio",
+        name: "rad"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Low"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "radio",
+        name: "rad"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Medium"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "radio",
+        name: "rad"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "High")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
           return _this3.addTask();
         }
-      }, "Add Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        name: "plus",
+        h: 20,
+        w: 20,
+        fill: "white",
+        transform: "scale(0.84)",
+        className: "task-show"
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
           return _this3.handleSubmit();
         }
@@ -2163,6 +2205,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _task_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task_form */ "./frontend/components/task/task_form.jsx");
 /* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 
 
 
@@ -2170,7 +2214,15 @@ __webpack_require__.r(__webpack_exports__);
 
 var msp = function msp(state, ownProps) {
   var projectIds = Object.keys(state.entities.projects);
-  var projectId = projectIds[projectIds.length - 1];
+  var projectId;
+
+  if (ownProps.location.pathname === '/') {
+    projectId = projectIds[projectIds.length - 1];
+  } else {
+    var arr = ownProps.location.pathname.split('/');
+    projectId = Number(arr[arr.length - 1]);
+  }
+
   var project = state.entities.projects[projectId];
   return {
     currentUser: state.entities.users[state.session.id],
@@ -2196,7 +2248,8 @@ var mdp = function mdp(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(msp, mdp)(_task_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
+var TaskFormContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(msp, mdp)(_task_form__WEBPACK_IMPORTED_MODULE_1__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(TaskFormContainer));
 
 /***/ }),
 
@@ -2931,6 +2984,7 @@ var tasksReducer = function tasksReducer() {
       return action.tasks;
 
     case _actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_PROJECT"]:
+      if (!action.payload.tasks) return {};
       return action.payload.tasks;
 
     default:

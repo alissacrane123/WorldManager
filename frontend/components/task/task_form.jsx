@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import SVG from '../svg';
 
 class TaskForm extends React.Component {
   constructor(props) {
     super(props);
-    debugger
+    
     this.state = {
       tasks: [],
       newTask: this.props.emptyTaskObj
@@ -42,27 +43,51 @@ class TaskForm extends React.Component {
     if (!project) return null;
 
     let tasks = this.state.tasks.map((task, i) => (
-      <ul key={i}>
-        <li>{task.title}</li>
-        <li>{task.email}</li>
-        <li>{task.description}</li>
-      </ul>
-    ))
 
+      <li key={i}>
+        <label>{task.title}</label>
+        <div>
+          <SVG name="x" h={12} w={12} transform="scale(0.5)" fill="1F2833" />
+        </div>
+      </li>
+    ));
+
+    let displayClass = tasks.length === 0 ? 'none' : '';
 
     return (
       <form className="task" id="task-form">
-        <h4>Assign Tasks</h4>
+        <h4>Assign New Tasks</h4>
 
-        {tasks}
+        <ul className={displayClass}>
+          {tasks}
+        </ul>
 
         <div>
-          <input type="text" value={this.state.newTask.title} onChange={() => this.handleChange('title') } placeholder="Title"/>
-          <input type="text" value={this.state.newTask.email} onChange={() => this.handleChange('email') } placeholder="email"/>
-          <input type="text" value={this.state.newTask.description} onChange={() => this.handleChange('description') } placeholder="description"/>
+          <label>Title</label>
+          <input type="text" value={this.state.newTask.title} onChange={() => this.handleChange('title') } />
 
-          <button onClick={() => this.addTask()}>Add Task</button>
+          <label>Assignee's Email</label>
+          <input type="text" value={this.state.newTask.email} onChange={() => this.handleChange('email') } />
+          
+          <label>Description</label>
+          <textarea type="text" value={this.state.newTask.description} onChange={() => this.handleChange('description')} ></textarea>
+          
+          <label>Priority</label>
+
+          <ul>
+            <input type="radio" name="rad"/>
+            <div>Low</div>
+            <input type="radio" name="rad"/>
+            <div>Medium</div>
+            <input type="radio" name="rad"/>
+            <div>High</div>
+          </ul>
+
+          <div onClick={() => this.addTask()}>
+            <SVG name='plus' h={20} w={20} fill="white" transform="scale(0.84)" className="task-show" />
+          </div>
         </div>
+
 
         <button onClick={ () => this.handleSubmit() }>Submit All Tasks</button>
 

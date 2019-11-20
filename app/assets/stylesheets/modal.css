@@ -19,9 +19,9 @@
   background: white;
   box-sizing: border-box;
   position: absolute;
-  /* width: 569px; */
+  width: 450px;
   min-width: 300px;
-  top: 30%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 6000;
@@ -32,10 +32,114 @@
 form.project, form.task {
   display:flex;
   flex-direction: column;
-  padding: 20px;
+  /* padding: 30px; */
+  padding: 8% 10%;
+
 }
 
 form.project > *, form.task > * {
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 
+form.task > h4 {
+      color: #1F2833;
+    font-weight: 700;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+form.task > div {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    border-radius: 10px;
+    background: #dadada;
+    margin-bottom: 25px;
+}
+
+form.task > div > input, form.task > div > textarea  {
+    margin-bottom: 10px;
+    padding: 6px;
+    /* border-radius: 10px; */
+    outline: none;
+    border: none;
+    /* border: 1px solid gray; */
+}
+
+form.task > div label {
+      margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+form.task > div > div {
+  margin: 15px auto 0 auto;
+  /* padding-bottom: 10px; */
+  /* margin-bottom: 10px; */
+}
+
+form.task .task-show {
+  background:#1F2833;
+  box-sizing: unset;
+  border-radius: 10px;
+  padding: 6px;
+}
+
+form.task > ul.none {
+  display: none;
+}
+
+form.task > ul {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+form.task li {
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+        padding: 6px 15px;
+    border-radius: 30px;
+    background: #45A29E;
+    justify-content: space-between;
+}
+
+form.task ul label {
+      margin-right: 20px;
+    color: white;
+    font-weight: 500;
+}
+
+form.task li div {
+  cursor: pointer;
+}
+
+form.task > button {
+      padding: 6px 15px;
+    border-radius: 10px;
+    background: #45A29E;
+    font-size: 17px;
+    color: white;
+    font-weight: 600;
+}
+
+form.task > div > ul {
+  display:flex;
+  flex-direction: row;
+  color: #45A29E;
+  font-weight:500;
+  font-size: 13px;
+      align-items: center;
+}
+
+form.task > div > ul div {
+  margin-right: 20px;
+}
+
+form.task > div > ul input {
+  margin-right: 5px;
+}
