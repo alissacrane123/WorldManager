@@ -22,6 +22,7 @@ class SignupForm extends React.Component {
 
     return (
       <form id="session">
+          <h3>Signup Below</h3>
 
           <div>
             <input onChange={this.handleChange('fname')} placeholder="First name" value={this.state.fname}/>

@@ -3,11 +3,29 @@ import { withRouter } from 'react-router-dom';
 
 import SVG from '../svg';
 
-const Navbar = (props) => {
+class Navbar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { open: false }
+    this.openMenu = this.openMenu.bind(this);
+    this.closeMenu = this.closeMenu.bind(this);
+  }
 
-  let { logout } = props;
+  openMenu() {
+    event.preventDefault();
+    this.setState({ open: true }, () => {
+      document.addEventListener('click', this.closeMenu)
+    })
+  }
 
-  function toggleSidebar() {
+  closeMenu() {
+    event.preventDefault();
+    this.setState({ open: false }, () => {
+      document.removeEventListener('click', this.closeMenu)
+    })
+  }
+
+  toggleSidebar() {
     let labels = document.querySelectorAll('#navbar label').forEach(label => {
       label.classList.toggle('close');
     });
@@ -18,28 +36,49 @@ const Navbar = (props) => {
     document.getElementById('sb-menu').classList.toggle('close');
   }
 
-  return(
-    <nav id="navbar" className="navbar">
+  render() {
+    let { logout } = this.props;
 
-      <div onClick={toggleSidebar}>
-        <SVG id="sb-menu" className="sb" h={24} w={24} transform="scale(0.63)" name="menue" fill="white" />
-        <SVG id="sb-arrow" className="sb2 close" name="big-arrow" h={24} w={24} fill="white" transform="translate(32 25) scale(1.3) rotate(180)" id="sb-arrow" />
+    return(
+      <nav id="navbar" className="navbar">
+  
+        <div onClick={() => this.toggleSidebar()}>
+          <SVG id="sb-menu" className="sb" h={24} w={24} transform="scale(0.63)" name="menue" fill="white" />
+          <SVG id="sb-arrow" className="sb2 close" name="big-arrow" h={24} w={24} fill="white" transform="translate(32 25) scale(1.3) rotate(180)" id="sb-arrow" />
+        </div>
+  
+        <div onClick={() => this.props.history.push('/')}>
+          <SVG className="sb" h={24} w={24} name="home" fill="white"/>
+          <label className="close">Home</label>
+        </div>
+  
+        <div>
+          <SVG className="sb" h={24} w={24} name="task" fill="white" />
+          <label className="close">Tasks</label>
+        </div>
+        
+        <div onClick={() => this.openMenu()}>
+          <SVG id="settings" className="sb" name="settings" h={24} w={24} fill="white" />
+          <label className="close">Settings</label>
+        {/* </div> */}
+        {/* <button onClick={() => logout()}>Logout</button> */}
+
+        {
+          this.state.open 
+          ? (
+            <ul>
+              <li onClick={() => logout()}>Logout</li>
+              <li>Profile</li>
+            </ul>
+          )
+          : (
+            null
+          )
+        }
       </div>
-
-      <div onClick={() => props.history.push('/')}>
-        <SVG className="sb" h={24} w={24} name="home" fill="white"/>
-        <label className="close">Home</label>
-      </div>
-
-      <div>
-        <SVG className="sb" h={24} w={24} name="task" fill="white" />
-        <label className="close">Tasks</label>
-      </div>
-      
-
-      <button onClick={() => logout()}>Logout</button>
-    </nav>
-  )
+      </nav>
+    )
+  }
 
 }
 

@@ -1,0 +1,49 @@
+/* #0B0C10 - black
+#1F2833 - dark gray blue
+#C5C6C7 - gray
+#66FCF1 - brightteal
+#45A29E - teal */
+
+
+#splash {
+  width: 100vw;
+  height: 100vh;
+  display:flex;
+  flex-direction: column;
+  background:#1F2833;
+}
+
+#splash > nav {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  background: black;
+  height: 12vh;
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+#splash h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #66FCF1;
+  margin: 0 20px;
+  /* margin: 20vh auto 10vh auto; */
+}
+
+#session {
+  min-width: 300px;
+  background: white;
+  border-radius: 10px;
+  display:flex;
+  flex-direction: column;
+  padding: 20px;
+  margin: auto auto auto auto;
+}
+
+#session > * {
+  margin-bottom: 10px;
+}
+

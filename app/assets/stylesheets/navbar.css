@@ -15,11 +15,11 @@ nav.navbar {
   color: white;
   /* padding: 20px; */
   position:fixed;
-
+  z-index: 2;
 }
 
 nav.navbar.expanded {
-  width: 140px;
+  width: 150px;
 }
 
 #sb-arrow {
@@ -47,11 +47,14 @@ nav.navbar.expanded {
   margin-right: 10px;
 }
 
-#navbar button {
+/* #navbar button, #settings {
   margin: auto auto 20px auto;
   border-radius: 10px;
+} */
+#navbar > div:last-child {
+  margin: auto 23px 20px 23px;
+  position: relative;
 }
-
 
 
 div.home-display-none {
@@ -62,3 +65,22 @@ div.search {
   display: block;
 }
 
+#navbar > div > ul {
+position: absolute;
+    /* height: 200px; */
+    background: white;
+    box-shadow: 0 0 10px grey;
+    right: -180px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background: #45a29e;
+    border-radius: 4px;
+    min-width:140px;
+}
+
+#navbar ul > * {
+  margin-bottom: 10px;
+  font-weight: 500;
+}

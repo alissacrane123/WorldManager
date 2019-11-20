@@ -27,6 +27,8 @@ class LoginForm extends React.Component {
 
     return (
       <form id="session">
+        <h3>Login Below</h3>
+        
         <input value={this.state.email} onChange={this.handleChange('email')} />
         <input value={this.state.password} onChange={this.handleChange('password')} />
 

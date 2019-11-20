@@ -8,13 +8,29 @@
   margin: 0px 10%;
 }
 
+#project-show > div:first-child {
+  display:flex;
+  flex-direction: row;
+  margin: 50px 0 50px 0;
+      align-items: center;
+
+}
+
 #project-show h1 {
   font-size: 30px;
-  margin: 50px 0 50px 0;
+  margin-right: 20px;
+  /* margin: 50px 0 50px 0; */
   /* text-align: center; */
+  color: #1F2833;
+  font-weight: 700;
+}
 
-        color: #1F2833;
-    font-weight: 700;
+.plus-show {
+padding: 7px;
+    box-sizing: unset;
+    background: #45a29e;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 #project-show h2 {
@@ -91,6 +107,7 @@ margin-right: 10px;
 #task-item > * {
   margin-bottom: 10px;
 }
+
 
 #task-item > div {
   display: flex;

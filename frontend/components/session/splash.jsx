@@ -18,7 +18,9 @@ class Splash extends React.Component {
 
     return (
       <div id="splash">
-        <h1>Welcome to ProjectManager</h1>
+        <nav>
+          <h1>World Manager</h1>
+        </nav>
         
         {form}
       </div>
