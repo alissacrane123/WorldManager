@@ -8,7 +8,7 @@ import SplashContainer from './session/splash_cont';
 import NavbarContainer from './navbar/navbar_container';
 import ModalContainer from './modal/modal_container';
 import TaskShowContainer from './task/task_show_cont';
-
+import Calendar from './calendar/calendar';
 
 const App = (props) => {
 
@@ -30,6 +30,7 @@ const App = (props) => {
         <Switch>
           <ProtectedRoute path="/projects/:projectId" component={ProjectShowContainer} />
           <ProtectedRoute path="/tasks" component={TaskShowContainer} />
+          <ProtectedRoute path="/cal" component={Calendar} />
           <ProtectedRoute path="/" component={HomeContainer} />
         </Switch>
       </div>
