@@ -69,6 +69,7 @@ class TaskIndex extends React.Component {
     let id = e.dataTransfer.getData("id");
     this.state.tasks.forEach(task => {
       if (task.id === Number(id)) {
+        // debugger
         task = Object.assign(task, { status: status });
         this.props.updateTask(task)
       }

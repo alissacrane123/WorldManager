@@ -37,7 +37,12 @@ class Api::TasksController < ApplicationController
   end
 
   def index
-    @tasks = current_user.tasks.includes(:project, :user)
+    if params[:filter] == 'all'
+      @tasks = current_user.project_tasks
+    # @tasks = current_user.tasks.includes(:project, :user)
+    else 
+      @tasks = Task.includes(:project, :user).where(user_id: current_user.id)
+    end
   end
 
   def update

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :logged_in?
+  helper_method :current_user, :logged_in?, :titleize
 
   private
 
@@ -31,5 +31,10 @@ class ApplicationController < ActionController::Base
       render json: { base: ['Must be logged in'] }, status: 401
     end
   end
+
+  def titleize(string)
+    string.split(' ').map(&:capitalize).join(' ');
+  end
+
 
 end

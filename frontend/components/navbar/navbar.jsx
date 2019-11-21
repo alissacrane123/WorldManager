@@ -52,7 +52,7 @@ class Navbar extends React.Component {
           <label className="close">Home</label>
         </div>
   
-        <div>
+        <div onClick={() => this.props.history.push('/tasks')}>
           <SVG className="sb" h={24} w={24} name="task" fill="white" />
           <label className="close">Tasks</label>
         </div>

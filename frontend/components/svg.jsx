@@ -2,6 +2,10 @@ import React from 'react';
 
 const getPath = (iconName, props) => {
   switch (iconName) {
+    case 'not-done':
+      return <path {...props} d="M12 1c6.065 0 11 4.935 11 11s-4.935 11-11 11-11-4.935-11-11 4.935-11 11-11zm0-1c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z" />;
+    case 'done':
+      return <path {...props} d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm7 7.457l-9.005 9.565-4.995-5.865.761-.649 4.271 5.016 8.24-8.752.728.685z" />;
     case 'x':
       return <path {...props} d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z" />
     case 'trash':
@@ -54,6 +58,7 @@ const SVG = ({
   className = '',
   transform = "",
   rotate="",
+  rule='',
   id = ''
 }) => (
     <svg
@@ -63,6 +68,8 @@ const SVG = ({
       transform={rotate}
       viewBox={`0 0 ${w} ${h}`}
       id={id}
+      fillRule={rule}
+      clipRule={rule}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >
