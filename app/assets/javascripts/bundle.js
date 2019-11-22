@@ -693,16 +693,13 @@ function (_React$Component) {
           day = _this$props.day,
           month = _this$props.month,
           year = _this$props.year;
-
-      if (day === 8) {
-        debugger;
-      }
-
-      var date = day < 10 ? "".concat(month, "/0").concat(day, "/").concat(year) : "".concat(month, "/").concat(day, "/").concat(year);
-      tasks = tasks.filter(function (task) {
+      day = day < 10 ? "0".concat(day) : day;
+      month = month < 10 ? "0".concat(month) : month;
+      var date = "".concat(month, "/").concat(day, "/").concat(year);
+      var filteredTasks = tasks.filter(function (task) {
         return task.due_date === date;
       });
-      tasks = tasks.map(function (task, i) {
+      tasks = filteredTasks.map(function (task, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i
         }, task.title);

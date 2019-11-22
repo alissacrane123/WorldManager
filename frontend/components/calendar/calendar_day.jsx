@@ -4,14 +4,13 @@ class CalendarDay extends React.Component {
 
   filterTasks() {
     let { tasks, day, month, year } = this.props;
+    day = day < 10 ? `0${day}` : day;
+    month = month < 10 ? `0${month}` : month;
 
-    if (day === 8) {
-      debugger
-    }
+    let date = `${month}/${day}/${year}`;
+    let filteredTasks = tasks.filter(task => task.due_date === date)
 
-    let date = day < 10 ? `${month}/0${day}/${year}` :  `${month}/${day}/${year}`
-    tasks = tasks.filter(task => task.due_date === date)
-    tasks = tasks.map((task, i) => (
+    tasks = filteredTasks.map((task, i) => (
       <li key={i}>{task.title}</li>
     ))
     return tasks;
