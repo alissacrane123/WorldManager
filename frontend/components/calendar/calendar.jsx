@@ -45,6 +45,14 @@ class Calendar extends React.Component {
     this.setState({ hideWeekend: !this.state.hideWeekend })
   }
 
+  // componentDidMount() {
+  //   let month = this.state.month + 1 ;
+  //   let day = new Date().getDay();
+  //   let year = this.state.year
+  //   this.props.fetchTasks('month', `${month}/${day}/${year}`)
+  // }
+
+
 
 
   render() {
@@ -73,7 +81,7 @@ class Calendar extends React.Component {
           </label>
         </section>
 
-        <CalendarMonth month={this.state.month} year={this.state.year} hideWeekend={hideWeekend}/>
+        <CalendarMonth tasks={this.props.tasks} fetchTasks={this.props.fetchTasks} month={this.state.month} year={this.state.year} hideWeekend={hideWeekend}/>
       </div>
     );
   }

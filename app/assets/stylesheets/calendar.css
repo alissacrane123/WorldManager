@@ -70,11 +70,11 @@
 }
 
 
-#cal-month > ul li {
+#cal-month > ul > li {
   flex: 1 1 0px;
   margin:5px;
   background:white;
-  padding:10px;
+  /* padding:10px; */
 }
 #cal-header > li {
   background:none !important;
@@ -86,6 +86,19 @@
   cursor: pointer;
 }
 
-ul.hide li:first-child, ul.hide li:last-child{
+ul.hide > li:first-child, ul.hide > li:last-child{
   display: none;
+}
+
+#cal-day {
+  padding:10px;
+  height:100%;
+}
+
+#cal-day > ul {
+  height:100%;
+}
+
+div.disabled {
+  background: #e2e2e2;
 }

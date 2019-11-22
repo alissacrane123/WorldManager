@@ -20,9 +20,9 @@ export const receiveErrors = errors=> ({
 })
 
 
-export const fetchTasks = (filter) => dispatch => {
+export const fetchTasks = (filter, date) => dispatch => {
   return (
-    TaskAPI.fetchTasks(filter)
+    TaskAPI.fetchTasks(filter, date)
       .then(tasks => dispatch(receiveTasks(tasks)),
         err => dispatch(receiveErrors(err.responseJSON)))
   )

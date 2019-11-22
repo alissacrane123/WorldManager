@@ -1,16 +1,6 @@
 class Api::TasksController < ApplicationController
       before_action :require_logged_in
 
-  # def create
-  #   @task = Task.new(task_params)
-  #   @task.user_id = User.find_by(email: task_params[:email])
-
-  #   if @task.save
-  #     render "api/tasks/show"
-  #   else
-  #     render json: @task.errors.full_messages, status: 422
-  #   end
-  # end
 
   def create
     @tasks = []
@@ -39,7 +29,17 @@ class Api::TasksController < ApplicationController
   def index
     if params[:filter] == 'all'
       @tasks = current_user.project_tasks
-    # @tasks = current_user.tasks.includes(:project, :user)
+    elsif params[:filter] == 'month'
+      month = params[:date].split('/')[0]
+      year = params[:date].split('/')[-1]
+      ending_day =  Date.new(year.to_i,month.to_i,1).next_month.prev_day.day
+      month_start = DateTime.strptime("#{month}/01/#{year}", '%m/%d/%Y')
+      month_end = DateTime.strptime("#{month}/#{ending_day}/#{year}", '%m/%d/%Y')
+      
+      @tasks = Task.where('due_date >= ? AND due_date <= ? AND user_id = ?', month_start, month_end, current_user.id)
+    elsif params[:filter] == 'day'
+      day = DateTime.strptime(params[:day], '%m/%d/%Y')
+      @tasks = Task.where('due_date >= ? AND due_date <= ?', day.beginning_of_day, day.end_of_day)
     else 
       @tasks = Task.includes(:project, :user).where(user_id: current_user.id)
     end

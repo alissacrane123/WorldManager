@@ -1,9 +1,10 @@
 
-export const fetchTasks = (filter) => {
+export const fetchTasks = (filter, date) => {
+  // debugger
   return $.ajax({
     method: 'GET',
     url: '/api/tasks',
-    data: { filter }
+    data: { filter, date }
   })
 }
 
