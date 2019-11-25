@@ -45,18 +45,8 @@ class Calendar extends React.Component {
     this.setState({ hideWeekend: !this.state.hideWeekend })
   }
 
-  // componentDidMount() {
-  //   let month = this.state.month + 1 ;
-  //   let day = new Date().getDay();
-  //   let year = this.state.year
-  //   this.props.fetchTasks('month', `${month}/${day}/${year}`)
-  // }
-
-
-
-
   render() {
-    let  { month, year, displayMonth, hideWeekend } = this.state;
+    let  { month, year, displayMonth, hideWeekend} = this.state;
 
     let monthClass = displayMonth ? "selected" : '';
     let weekClass = displayMonth ? "" : "selected";
@@ -81,7 +71,7 @@ class Calendar extends React.Component {
           </label>
         </section>
 
-        <CalendarMonth tasks={this.props.tasks} fetchTasks={this.props.fetchTasks} month={this.state.month} year={this.state.year} hideWeekend={hideWeekend}/>
+        <CalendarMonth tasks={this.props.tasks} fetchTasks={this.props.fetchTasks} month={this.state.month} year={this.state.year} hideWeekend={hideWeekend} openModal={this.props.openModal}/>
       </div>
     );
   }

@@ -47,7 +47,7 @@ class Api::TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id]);
-
+    # debugger
     if @task.update_attributes(task_params)
       render "api/tasks/show"
     else
@@ -63,7 +63,7 @@ class Api::TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :priority, :description, :status, :project_id, :email)
+    params.require(:task).permit(:title, :due_date, :user_id, :priority, :description, :status, :project_id, :email)
   end
 
 end

@@ -50,7 +50,7 @@ class CalendarMonth extends React.Component {
   }
 
   renderRows() {
-    let { tasks, month, year } = this.props;
+    let { tasks, month, year, openModal } = this.props;
 
     let lastDayOfMonth = this.daysInMonth("cur");
     let first = this.getFirstRow();
@@ -76,14 +76,14 @@ class CalendarMonth extends React.Component {
           {row.map((cell, j) => {
             if ((i === 0 && cell > 7) || (i > 3 && cell < 9)) {
               return (
-                <li>
-                  <CalendarDay tasks={tasks} disabled={true} month={month} year={year} day={cell} />
+                <li key={j}>
+                  <CalendarDay openModal={openModal} tasks={tasks} disabled={true} month={month} year={year} day={cell} />
                 </li>              )
             }
             
             return (
-              <li>
-                <CalendarDay tasks={tasks} disable={false} month={month + 1} year={year} day={cell} />
+              <li key={j}>
+                <CalendarDay openModal={openModal} tasks={tasks} disable={false} month={month + 1} year={year} day={cell} />
               </li>
             )
           })}

@@ -67,15 +67,16 @@
   font-size:15px;
   font-weight:600;
   border-radius:10px;
+      align-items: center;
 }
 
 
 #cal-month > ul > li {
   flex: 1 1 0px;
-  margin:5px;
+  margin:1.5px;
   background:white;
-  /* padding:10px; */
 }
+
 #cal-header > li {
   background:none !important;
   text-align: center;
@@ -91,12 +92,28 @@ ul.hide > li:first-child, ul.hide > li:last-child{
 }
 
 #cal-day {
-  padding:10px;
-  height:100%;
+  padding: 4px;
+  height: 100%;
+  font-size: 11px;
+  font-weight: bold;
+  color:#45A29E;
 }
 
 #cal-day > ul {
-  height:100%;
+    padding: 4px 5px;
+    color: black;
+    font-weight: 500;
+   
+}
+
+#cal-day li {
+  box-shadow:0 1px 3px 0 rgba(21,27,38,.15);
+  padding: 3px 5px;
+   line-height: 14px;
+   border-radius: 4px;
+   margin-bottom:5px;
+   border: 1px solid #e8ecee;
+   cursor:pointer;
 }
 
 div.disabled {

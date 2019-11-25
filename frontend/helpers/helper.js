@@ -1,6 +1,25 @@
 export const titleize = (string) => {
-  let words = string.split(' ').map(el => el[0].toUpperCase() + el.slice(1))
+  let otherWords = [ "and", "a", "or", "for"];
+  let words = string.split(' ').map((el, i) => {
+    if (otherWords.includes(el) && i !== 0) {
+      return el;
+    } else {
+      return el[0].toUpperCase() + el.slice(1);
+    }
+  });
   return words.join(' ');
+}
+
+export const dateToWords = (string) => {
+  let months = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+  
+  let arr = string.split('/');
+  let month = months[Number(arr[0]) - 1];
+  let day = arr[1];
+  let year = arr[2];
+
+  return `${month} ${day}, ${year}`;
 }
 
 export const projectMemberSelector = (state) => {
