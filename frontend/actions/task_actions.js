@@ -28,6 +28,7 @@ export const receiveDeletedTask = task => {
 
 
 export const fetchTasks = (filter, date) => dispatch => {
+  // debugger
   return (
     TaskAPI.fetchTasks(filter, date)
       .then(tasks => dispatch(receiveTasks(tasks)),

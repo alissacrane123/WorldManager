@@ -17,16 +17,23 @@
 
 }
 
-#home section {
+#home section.list {
   margin: 0px 10%;
 
 }
 
-#home h2 {
-  border-bottom: 2px solid gray;
-  font-size: 20px;
-  padding-bottom: 15px;
-  margin-bottom: 30px
+section.list > div {
+    font-size: 18px;
+    font-weight: 500;
+    border-bottom: 2px solid #e8ecee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+section.list h2 {
+  margin-left:10px;
 }
 
 /* PROJECT INDEX AND ITEMS */

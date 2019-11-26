@@ -9,7 +9,7 @@ import { fetchTasks, updateTask } from '../../actions/task_actions';
 import { openModal } from '../../actions/modal_actions';
 
 const msp = (state, ownProps) => {
-  let tasks = Object.values(state.entities.tasks);
+  let tasks = Object.values(state.entities.tasks).filter(task => task.status !== 'Finished');
   let recentTasks = [];
 
   return {

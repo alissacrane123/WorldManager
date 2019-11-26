@@ -1,15 +1,26 @@
 import { connect } from 'react-redux';
 import Home from './home';
 
-// import { login, logout, signup } from '../../actions/session_actions';
+import { fetchTasks, updateTask } from '../../actions/task_actions';
+import { sortByDueDate} from '../../helpers/helper';
+import { openModal } from '../../actions/modal_actions';
 
-const msp = (state, ownProps) => ({
-  currentUser: state.entities.users[state.session.id],
-
-});
+const msp = (state, ownProps) => {
+  let tasks = Object.values(state.entities.tasks);
+  let ownedTasks = tasks.filter(task => task.owner === "You" && task.status !== "Finished");
+  return {
+    currentUser: state.entities.users[state.session.id],
+    tasks: tasks,
+    ownedTasks: sortByDueDate(ownedTasks)
+    // ownedTasks:
+  }
+  // tasks: selectTasksDueThisWeek(Object.values(state.entities.tasks))
+};
 
 const mdp = dispatch => ({
-
+  fetchTasks: (filter, date) => dispatch(fetchTasks(filter, date)),
+  updateTask: (task)  => dispatch(updateTask(task)),
+  openModal: (modal) => dispatch(openModal(modal))
 });
 
 

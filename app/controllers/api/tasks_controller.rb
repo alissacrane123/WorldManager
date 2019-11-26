@@ -39,8 +39,12 @@ class Api::TasksController < ApplicationController
       
       @tasks = Task.where('due_date >= ? AND due_date <= ? AND user_id = ?', month_start, month_end, current_user.id)
     elsif params[:filter] == 'day'
-      day = DateTime.strptime(params[:day], '%m/%d/%Y')
+      day = DateTime.strptime(params[:date], '%m/%d/%Y')
       @tasks = Task.where('due_date >= ? AND due_date <= ?', day.beginning_of_day, day.end_of_day)
+    elsif params[:filter] == 'week'
+      start_day = DateTime.strptime(Date.today.strftime("%m/%d/%Y"), "%m/%d/%Y");
+      ending_day = DateTime.strptime(params[:date], '%m/%d/%Y');
+      @tasks =  Task.where('due_date >= ? AND due_date <= ?', start_day, ending_day.end_of_day);
     else 
       @tasks = Task.includes(:project, :user).where(user_id: current_user.id)
     end

@@ -31,6 +31,7 @@ class Api::ProjectsController < ApplicationController
     current_user_id = current_user.id
     # @projects = Project.includes(:tasks, :members).where(owner_id: current_user_id); 
     owned_projects = Project.includes(:tasks, :members).where(owner_id: current_user_id);
+    
     member_projects = current_user.projects
     @projects = owned_projects + member_projects
   end

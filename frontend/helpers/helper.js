@@ -12,14 +12,17 @@ export const titleize = (string) => {
 
 export const formatJavascriptDate = (date) => {
     let year = date.getFullYear();
+    let month = 1 + date.getMonth();
+    if (month > 12) {
+      month = 1;
+      year = year + 1;
+    }
+    month = month > 9 ? month : `0${month}`;
 
-    let month = (1 + date.getMonth()).toString();
-    month = month.length > 1 ? month : "0" + month;
+    let day = date.getDate()
+    day = day > 9 ? day : `0${day}`;
 
-    let day = date.getDate().toString();
-    day = day.length > 1 ? day : "0" + day;
-
-    return month + "/" + day + "/" + year;
+    return `${month}/${day}/${year}`;
 }
 
 export const dateToWords = (string) => {
@@ -45,7 +48,6 @@ export const projectMemberSelector = (state) => {
 export const selectRecentTasks = (tasks) => {
   // debugger
   tasks = tasks.sort((a, b) => b.id - a.id )
-
   return tasks.slice(0, 5);
 }
 
@@ -53,6 +55,35 @@ export const selectUpcomingTasks = (tasks) => {
   let date = Date.now() + 12096e5;
   tasks = tasks.filter(task => date > Date.parse(task.due_date))
 
-
   return tasks
+}
+
+export const dateInOneWeek = () => {
+  let today = new Date();
+  let nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+  let month = nextweek.getMonth() + 1;
+  let year = nextweek.getFullYear();
+  let day = nextweek.getDate();
+
+  if (month > 12) {
+    month = 1;
+    year = year + 1;
+  } 
+
+  if (month < 10) {
+    month = `0${month}`
+  } 
+
+  if (day < 10) {
+    day = `0${day}`
+  }
+  
+  let nextweekStr = `${month}/${day}/${year}`;
+  return nextweekStr;
+}
+
+export const sortByDueDate = (tasks) => {
+  tasks = tasks.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+
+  return tasks;
 }

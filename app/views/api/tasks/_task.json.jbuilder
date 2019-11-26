@@ -3,7 +3,7 @@ ownerName = taskOwner.id == current_user.id ? "You" : taskOwner.fname + ' ' + ta
 ownerInitials = taskOwner.fname[0] + taskOwner.lname[0]
 
 json.set! task.id do
-  json.extract! task, :id, :title, :description, :status, :project_id, :user_id, :created_at, :priority
+  json.extract! task, :id, :title, :description, :status, :project_id, :due_date,:user_id, :created_at, :priority
   json.owner ownerName
   json.ownerInitials ownerInitials
   json.project_cat task.project.category

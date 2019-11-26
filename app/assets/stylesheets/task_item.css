@@ -1,0 +1,69 @@
+/* #0B0C10 - black
+#1F2833 - dark gray blue
+#C5C6C7 - gray
+#66FCF1 - brightteal
+#45A29E - teal */
+
+.tsi {
+  display: flex;
+  flex-direction: row;
+  line-height: 20px;
+  border: 2px solid #e8ecee;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px 0 rgba(21,27,38,.08);
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  font-size:11px;
+  align-items:center;
+}
+
+.tsi div:first-child {
+  cursor: pointer;
+  margin-right: 10px;
+  display: flex;
+}
+
+.tsi div:first-child:hover * {
+  fill: #45A29E;
+}
+
+.tsi > h4 {
+  cursor: pointer;
+}
+
+.tsi > h4:hover {
+  color: #45A29E;
+}
+
+.tsi > div:last-of-type {
+    background: #6f7782;
+    color: white;
+    line-height: 18px;
+    border-radius: 30px;
+    padding: 0 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 90px;
+    overflow: hidden;
+    text-align: center;
+    margin-left:auto;
+    cursor:pointer;
+}
+
+.tsi > label {
+  margin-left: 10px;
+  font-weight:500;
+  color: #6f7782;
+  /* color:#a4a7ab; */
+}
+
+.fade {
+    opacity: 1;
+    animation: fade 1s linear;
+}
+
+
+@keyframes fade {
+from {opacity :1;}
+    to {opacity :0;}
+}
