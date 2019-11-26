@@ -26,10 +26,18 @@ export const createTask = (tasks) => {
 }
 
 export const updateTask = (task) => {
-  debugger
+  // debugger
   return $.ajax({
     method: 'PATCH',
     url: `/api/tasks/${task.id}`,
     data: { task }
   })
+}
+
+export const deleteTask = (taskId) => {
+  // debugger
+  return $.ajax({
+    method: "DELETE",
+    url: `/api/tasks/${taskId}`
+  });
 }

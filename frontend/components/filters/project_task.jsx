@@ -13,7 +13,7 @@ class ProjectTaskFilter extends React.Component {
 
   renderFilterButtons() {
     let { users, currentUserId, userFilter } = this.props;
-    // debugger
+    
     users = users.map(user => {
       if (user.id === currentUserId && user.id === userFilter) {
         return <button onClick={() => this.updateFilter(user.id)} id={`tb${user.id}`} className="tb selected">Your Tasks</button>
@@ -33,7 +33,7 @@ class ProjectTaskFilter extends React.Component {
     let current = document.getElementById(this.state.taskFilter);
     let newId = userId ? `tb${userId}` : 'tb00'
     let selectedButton = document.getElementById(newId);
-    // debugger
+    
     this.setState({ taskFilter: newId})
     current.classList.toggle('selected');
     selectedButton.classList.toggle('selected');
@@ -45,12 +45,12 @@ class ProjectTaskFilter extends React.Component {
     let { updateFilter, userFilter } = this.props;
 
     let defaultClass = userFilter ? "tb" : "tb selected"
-    // debugger
+    
     return (
-       <ul>
+       <div className="project-task-filter">
           <button onClick={() => this.updateFilter(null)} id="tb00" className={defaultClass} key="all">All Tasks</button>
           { this.renderFilterButtons() }
-       </ul>
+       </div>
     );
   }
 }

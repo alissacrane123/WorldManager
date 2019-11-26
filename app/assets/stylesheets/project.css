@@ -40,9 +40,10 @@ padding: 7px;
   margin-bottom: 30px
 }
 
-#task-index > ul {
+.project-task-filter {
   display: flex;
   flex-direction: row;
+  justify-content: normal !important;
 }
 
 button.tb {

@@ -13,10 +13,11 @@ class Api::TasksController < ApplicationController
       new_task.status = task["status"]
       new_task.project_id = task["project_id"]
       new_task.user_id = User.find_by(email: task["email"]).id
-      
+      new_task.due_date = DateTime.strptime(task["due_date"], '%m/%d/%Y')
       if new_task.save
         @tasks << new_task
       end
+      # debugger
     end
     
     render "api/tasks/index"
@@ -57,7 +58,9 @@ class Api::TasksController < ApplicationController
   end
 
   def destroy
-    current_user.tasks.find(params[:id]).destroy
+    @task = Task.find(params[:id])
+    @task.destroy!
+    render "api/tasks/show"
   end
 
   private

@@ -21,7 +21,7 @@ const msp = (state, ownProps) => {
   return {
     currentUser: state.entities.users[state.session.id],
     project: project,
-    emptyTaskObj: { title: '', email: '', description: '', status: 'Not Started', project_id: project.id }
+    emptyTaskObj: { due_date: new Date(), title: '', priority: 'low',email: '', description: '', status: 'Not Started', project_id: project.id }
   }
 };
 

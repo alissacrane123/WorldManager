@@ -3,7 +3,7 @@ import TaskIndex from './task_index';
 import { updateUserFilter } from '../../actions/filter_actions';
 
 import { fetchProjects, fetchProject } from '../../actions/project_actions';
-import { updateTask } from '../../actions/task_actions';
+import { updateTask, deleteTask } from '../../actions/task_actions';
 import { openModal } from '../../actions/modal_actions';
 
 const msp = (state, ownProps) => {
@@ -25,6 +25,7 @@ const mdp = dispatch => ({
   fetchProject: (projectId) => dispatch(fetchProject(projectId)),
   updateTask: (task) => dispatch(updateTask(task)),
   openModal: (modal) => dispatch(openModal(modal)),
+  deleteTask: (taskId) => dispatch(deleteTask(taskId)),
   updateFilter: (entity, value) => dispatch(updateUserFilter(entity, value))
 })
 

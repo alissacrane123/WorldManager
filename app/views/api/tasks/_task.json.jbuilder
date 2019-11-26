@@ -8,6 +8,8 @@ json.set! task.id do
   json.ownerInitials ownerInitials
   json.project_cat task.project.category
   json.project_name task.project.title
-  json.dueDate task.due_date.strftime("%m/%d/%Y")
+  if task.due_date
+    json.dueDate task.due_date.strftime("%m/%d/%Y")
+  end
   json.draggable (task.user_id == current_user.id || task.project.owner_id == current_user.id) 
 end

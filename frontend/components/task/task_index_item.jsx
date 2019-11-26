@@ -2,7 +2,7 @@ import React from 'react';
 import { titleize } from '../../helpers/helper';
 import SVG from '../svg';
 
-const TaskIndexItem = ({ task, adminAccess }) => {
+const TaskIndexItem = ({ task, adminAccess, deleteTask }) => {
 
   function daysAgo(date) {
     let diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000)
@@ -16,23 +16,30 @@ const TaskIndexItem = ({ task, adminAccess }) => {
   let trashSVG = adminAccess ? <SVG className="trash"name="trash" h={18} w={18} fill="gray" transform="scale(0.75)"/> : <div></div>
   
   return (
-    <div id="task-item" >
+    <div id="task-item">
       <div>
         <h4>{titleize(task.title)}</h4>
-        <SVG h={12} w={12} name="arrow" fill={arrowColor[task.priority]} rotate="rotate(-90)" transform="scale(0.5)" />
+        <SVG
+          h={12}
+          w={12}
+          name="arrow"
+          fill={arrowColor[task.priority]}
+          rotate="rotate(-90)"
+          transform="scale(0.5)"
+        />
       </div>
       <div>
         <SVG h={18} w={18} name="cal" fill="gray" transform="scale(0.75)" />
         <label>{daysAgoStr}</label>
       </div>
       <div>
-        <SVG h={18} w={18} name="profile" fill="gray" transform="scale(0.75)"/>
+        <SVG h={18} w={18} name="profile" fill="gray" transform="scale(0.75)" />
         <label>{task.owner}</label>
       </div>
 
-      { trashSVG }
+      <div onClick={() => deleteTask(task.id)}>{trashSVG}</div>
     </div>
-  )
+  );
 
 }
 

@@ -8,6 +8,7 @@ class CalendarMonth extends React.Component {
       this.fetchTasks();
     }
   }
+  
   componentDidMount() {
     this.fetchTasks();
   }
@@ -16,7 +17,7 @@ class CalendarMonth extends React.Component {
     let month = this.props.month + 1;
     let day = new Date().getDay();
     let year = this.props.year;
-    // debugger
+    
     this.props.fetchTasks("month", `${month}/${day}/${year}`);
   }
 
@@ -69,7 +70,7 @@ class CalendarMonth extends React.Component {
     }
 
     let hideClass = this.props.hideWeekend ? "hide" : "";
-    // debugger;
+    
     rows = rows.map((row, i) => {
       return (
         <ul key={i} className={hideClass}>

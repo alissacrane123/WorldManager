@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { formatJavascriptDate } from '../../helpers/helper';
 import SVG from '../svg';
 
 class TaskForm extends React.Component {
@@ -13,6 +16,7 @@ class TaskForm extends React.Component {
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   addTask() {
@@ -27,9 +31,18 @@ class TaskForm extends React.Component {
     this.setState({newTask: { ...this.state.newTask, [field]: event.target.value }})
   }
 
+  handleDateChange(date) {
+    // debugger
+    this.setState({ newTask: { ...this.state.newTask, due_date: date}})
+  }
+
   handleSubmit() {
     event.preventDefault();
     let tasks = this.state.tasks
+    let newTasks = tasks.map(task => {
+      let newDate = formatJavascriptDate(task.due_date);
+      return Object.assign(task, { due_date: newDate })
+    })
     this.props.createTask(tasks).then(() => {
       this.props.closeModal();
       this.props.history.push(`/projects/${this.state.newTask.project_id}`)
@@ -58,41 +71,62 @@ class TaskForm extends React.Component {
       <form className="task" id="task-form">
         <h4>Assign New Tasks</h4>
 
-        <ul className={displayClass}>
-          {tasks}
-        </ul>
+        <ul className={displayClass}>{tasks}</ul>
 
         <div>
           <label>Title</label>
-          <input type="text" value={this.state.newTask.title} onChange={() => this.handleChange('title') } />
+          <input
+            type="text"
+            value={this.state.newTask.title}
+            onChange={() => this.handleChange("title")}
+          />
 
           <label>Assignee's Email</label>
-          <input type="text" value={this.state.newTask.email} onChange={() => this.handleChange('email') } />
-          
+          <input
+            type="text"
+            value={this.state.newTask.email}
+            onChange={() => this.handleChange("email")}
+          />
+
+          <label>Due Date</label>
+          <DatePicker
+            onChange={this.handleDateChange}
+            selected={this.state.newTask.due_date}
+          />
+
           <label>Description</label>
-          <textarea type="text" value={this.state.newTask.description} onChange={() => this.handleChange('description')} ></textarea>
-          
+          <textarea
+            type="text"
+            value={this.state.newTask.description}
+            onChange={() => this.handleChange("description")}
+          ></textarea>
+
           <label>Priority</label>
 
           <ul>
-            <input type="radio" name="rad"/>
+            <input type="radio" name="rad" />
             <div>Low</div>
-            <input type="radio" name="rad"/>
+            <input type="radio" name="rad" />
             <div>Medium</div>
-            <input type="radio" name="rad"/>
+            <input type="radio" name="rad" />
             <div>High</div>
           </ul>
 
           <div onClick={() => this.addTask()}>
-            <SVG name='plus' h={20} w={20} fill="white" transform="scale(0.84)" className="task-show" />
+            <SVG
+              name="plus"
+              h={20}
+              w={20}
+              fill="white"
+              transform="scale(0.84)"
+              className="task-show"
+            />
           </div>
         </div>
 
-
-        <button onClick={ () => this.handleSubmit() }>Submit All Tasks</button>
-
+        <button onClick={() => this.handleSubmit()}>Submit All Tasks</button>
       </form>
-    )
+    );
   }
 }
 

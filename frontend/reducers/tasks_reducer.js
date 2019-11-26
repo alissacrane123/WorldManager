@@ -1,6 +1,6 @@
 
 import merge from 'lodash/merge';
-import { RECEIVE_TASK, RECEIVE_TASKS } from '../actions/task_actions';
+import { RECEIVE_TASK, RECEIVE_TASKS, RECEIVE_DELETED_TASK } from '../actions/task_actions';
 import { RECEIVE_PROJECT } from '../actions/project_actions';
 
 const tasksReducer = (state = {}, action) => {
@@ -15,6 +15,12 @@ const tasksReducer = (state = {}, action) => {
     case RECEIVE_PROJECT:
       if (!action.payload.tasks) return {};
       return action.payload.tasks;
+    case RECEIVE_DELETED_TASK:
+      // debugger
+      let taskId = Object.keys(action.task)[0]
+      delete nextState[taskId];
+      // debugger
+      return nextState;
     default:
       return state;
   }
