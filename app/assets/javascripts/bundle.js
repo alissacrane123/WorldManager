@@ -3397,6 +3397,7 @@ var TaskIndexItem = function TaskIndexItem(_ref) {
     fill: "gray",
     transform: "scale(0.75)"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, task.owner)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: "trash",
     onClick: function onClick() {
       return deleteTask(task.id);
     }

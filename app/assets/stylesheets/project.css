@@ -95,6 +95,15 @@ button.tb.selected {
   position: relative;
 }
 
+#task-item div#trash {
+      position: absolute !important;
+    bottom: 5px !important;
+    right: 5px !important;
+    margin: 0px !important;
+    display: initial !important;
+}
+
+
 #task-item > div:first-child {
   margin-bottom: 15px;
   align-items: center;
@@ -171,8 +180,8 @@ div.ti h5 {
       margin-right: 25px;
 }
 
-#task-item .trash {
+/* #task-item .trash {
       position: absolute;
     bottom: 0;
     right: 10px;
-}
+} */

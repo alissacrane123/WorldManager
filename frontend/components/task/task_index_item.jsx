@@ -37,7 +37,7 @@ const TaskIndexItem = ({ task, adminAccess, deleteTask }) => {
         <label>{task.owner}</label>
       </div>
 
-      <div onClick={() => deleteTask(task.id)}>{trashSVG}</div>
+      <div id="trash" onClick={() => deleteTask(task.id)}>{trashSVG}</div>
     </div>
   );
 
