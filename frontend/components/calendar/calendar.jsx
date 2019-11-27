@@ -1,5 +1,6 @@
 import React from 'react';
-import CalendarMonth from './calendar_month';
+// import CalendarMonth from './calendar_month';
+import CalendarMonthCont from './cal_month_cont';
 import SVG from '../svg';
 
 class Calendar extends React.Component {
@@ -71,7 +72,8 @@ class Calendar extends React.Component {
           </label>
         </section>
 
-        <CalendarMonth tasks={this.props.tasks} fetchTasks={this.props.fetchTasks} month={this.state.month} year={this.state.year} hideWeekend={hideWeekend} openModal={this.props.openModal}/>
+        {/* <CalendarMonth tasks={this.props.tasks} fetchTasks={this.props.fetchTasks} month={this.state.month} year={this.state.year} hideWeekend={hideWeekend} openModal={this.props.openModal}/> */}
+        <CalendarMonthCont month={this.state.month} year={this.state.year} hideWeekend={hideWeekend} />
       </div>
     );
   }

@@ -27,6 +27,7 @@ class ProjectIndex extends React.Component {
             <div onClick={ () => openModal('newProject') }>
               <SVG h={60} w={60} fill="white" transform="scale(2.5)" name="plus" className="add-svg"/>
             </div>
+            <label>New Project</label>
           </ul>
         </li>
 

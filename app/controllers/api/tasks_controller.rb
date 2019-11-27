@@ -11,11 +11,19 @@ class Api::TasksController < ApplicationController
       new_task.title = task["title"]
       new_task.description = task["description"]
       new_task.status = task["status"]
-      new_task.project_id = task["project_id"]
-      new_task.user_id = User.find_by(email: task["email"]).id
+      if task["project_id"]
+        new_task.project_id = task["project_id"]
+      end
+      if task["email"]
+        new_task.user_id = User.find_by(email: task["email"]).id
+      else
+        new_task.user_id = current_user.id
+      end
       new_task.due_date = DateTime.strptime(task["due_date"], '%m/%d/%Y')
       if new_task.save
         @tasks << new_task
+      else 
+        new_task.save!
       end
       # debugger
     end

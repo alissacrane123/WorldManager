@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import Calendar from "./calendar";
 
-import { fetchTasks } from '../../actions/task_actions';
+import { fetchTasks, createTask } from '../../actions/task_actions';
 import { openModal } from '../../actions/modal_actions';
 
 const msp = (state, ownProps) => ({
@@ -11,7 +11,8 @@ const msp = (state, ownProps) => ({
 
 const mdp = dispatch => ({
   fetchTasks: (filter, date) => dispatch(fetchTasks(filter, date)),
-  openModal: (modal) => dispatch(openModal(modal))
+  openModal: (modal) => dispatch(openModal(modal)),
+  createTask: (task) => dispatch(createTask(task))
 });
 
 export default connect(msp, mdp)(Calendar);

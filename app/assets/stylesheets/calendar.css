@@ -75,6 +75,7 @@
   flex: 1 1 0px;
   margin:1.5px;
   background:white;
+  overflow: hidden;
 }
 
 #cal-header > li {
@@ -97,6 +98,12 @@ ul.hide > li:first-child, ul.hide > li:last-child{
   font-size: 11px;
   font-weight: bold;
   color:#45A29E;
+  display:Flex;
+  flex-direction: column;
+}
+
+#flag {
+  flex:1;
 }
 
 #cal-day > ul {
@@ -118,4 +125,14 @@ ul.hide > li:first-child, ul.hide > li:last-child{
 
 div.disabled {
   background: #e2e2e2;
+}
+
+#cal-day > ul > li > input {
+  outline:none;
+  max-width:100%;
+  border: none;
+}
+
+.cal-day-item {
+  z-index: 1;
 }

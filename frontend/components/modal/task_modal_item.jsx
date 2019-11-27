@@ -72,7 +72,7 @@ class TaskModalItem extends React.Component {
             <div><SVG name="project" h={12} w={12} fill="white" transform="scale(0.5)" /></div>
             <div>
               <label>Project</label>
-              <div>{titleize(task.project_name)}</div>
+              <div>{task.project_name ? titleize(task.project_name) : null}</div>
             </div>
           </div>
         </section>

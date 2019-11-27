@@ -4,6 +4,7 @@ import { lastDayOfISOWeek } from "date-fns/esm";
 
 class CalendarMonth extends React.Component {
   componentDidUpdate(prevProps) {
+    // debugger
     if (prevProps.month !== this.props.month) {
       this.fetchTasks();
     }
@@ -51,7 +52,7 @@ class CalendarMonth extends React.Component {
   }
 
   renderRows() {
-    let { tasks, month, year, openModal } = this.props;
+    let { tasks, month, year, openModal, createTask, emptyTask } = this.props;
 
     let lastDayOfMonth = this.daysInMonth("cur");
     let first = this.getFirstRow();
@@ -78,13 +79,13 @@ class CalendarMonth extends React.Component {
             if ((i === 0 && cell > 7) || (i > 3 && cell < 9)) {
               return (
                 <li key={j}>
-                  <CalendarDay openModal={openModal} tasks={tasks} disabled={true} month={month} year={year} day={cell} />
+                  <CalendarDay emptyTask={emptyTask} createTask={createTask} openModal={openModal} tasks={tasks} disabled={true} month={month} year={year} day={cell} />
                 </li>              )
             }
             
             return (
               <li key={j}>
-                <CalendarDay openModal={openModal} tasks={tasks} disable={false} month={month + 1} year={year} day={cell} />
+                <CalendarDay emptyTask={emptyTask} createTask={createTask}  openModal={openModal} tasks={tasks} disable={false} month={month + 1} year={year} day={cell} />
               </li>
             )
           })}

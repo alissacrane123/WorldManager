@@ -16,7 +16,7 @@ export const fetchTask = (taskId) => {
 }
 
 export const createTask = (tasks) => {
-  // debugger
+  debugger
   return $.ajax({
     method: 'POST',
     url: '/api/tasks',

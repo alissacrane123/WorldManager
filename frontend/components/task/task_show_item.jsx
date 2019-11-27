@@ -36,7 +36,7 @@ class TaskShowItem extends React.Component {
         </h4>
 
         <div onClick={() => this.props.history.push(`/projects/${task.project_id}`)}>
-          {titleize(task.project_name)}
+          {task.project_name ? titleize(task.project_name): null}
         </div>
 
         <label>{ this.getDayOfWeek() }</label>

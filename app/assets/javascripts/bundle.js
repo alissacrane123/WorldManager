@@ -442,6 +442,65 @@ var App = function App(props) {
 
 /***/ }),
 
+/***/ "./frontend/components/calendar/cal_month_cont.js":
+/*!********************************************************!*\
+  !*** ./frontend/components/calendar/cal_month_cont.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _calendar_month__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calendar_month */ "./frontend/components/calendar/calendar_month.jsx");
+/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+
+
+
+
+
+var msp = function msp(state, ownProps) {
+  // let { day, month, year } = ownProps;
+  // let dayStr = day < 10 ? `0${day}` : day;
+  // let monthStr = month < 10 ? `0${month}` : month;
+  // let date = `${monthStr}/${dayStr}/${year}`;
+  return {
+    emptyTask: {
+      title: '',
+      status: '',
+      due_date: '',
+      description: '',
+      priority: ''
+    },
+    month: ownProps.month,
+    year: ownProps.year,
+    hideWeekend: ownProps.hideWeekend,
+    currentUser: state.entities.users[state.session.id],
+    tasks: Object.values(state.entities.tasks).filter(function (task) {
+      return task.status !== 'Finished';
+    })
+  };
+};
+
+var mdp = function mdp(dispatch) {
+  return {
+    fetchTasks: function fetchTasks(filter, date) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["fetchTasks"])(filter, date));
+    },
+    openModal: function openModal(modal) {
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])(modal));
+    },
+    createTask: function createTask(task) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["createTask"])(task));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(msp, mdp)(_calendar_month__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
 /***/ "./frontend/components/calendar/calendar.jsx":
 /*!***************************************************!*\
   !*** ./frontend/components/calendar/calendar.jsx ***!
@@ -453,7 +512,7 @@ var App = function App(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _calendar_month__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calendar_month */ "./frontend/components/calendar/calendar_month.jsx");
+/* harmony import */ var _cal_month_cont__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./cal_month_cont */ "./frontend/components/calendar/cal_month_cont.js");
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -473,6 +532,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+ // import CalendarMonth from './calendar_month';
 
 
 
@@ -606,13 +666,10 @@ function (_React$Component) {
         },
         type: "checkbox",
         checked: hideWeekend
-      }), " Weekdays Only")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_calendar_month__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tasks: this.props.tasks,
-        fetchTasks: this.props.fetchTasks,
+      }), " Weekdays Only")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_cal_month_cont__WEBPACK_IMPORTED_MODULE_1__["default"], {
         month: this.state.month,
         year: this.state.year,
-        hideWeekend: hideWeekend,
-        openModal: this.props.openModal
+        hideWeekend: hideWeekend
       }));
     }
   }]);
@@ -658,6 +715,9 @@ var mdp = function mdp(dispatch) {
     },
     openModal: function openModal(modal) {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])(modal));
+    },
+    createTask: function createTask(task) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["createTask"])(task));
     }
   };
 };
@@ -681,6 +741,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_datepicker__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_datepicker__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -707,29 +771,63 @@ var CalendarDay =
 function (_React$Component) {
   _inherits(CalendarDay, _React$Component);
 
-  function CalendarDay() {
+  function CalendarDay(props) {
+    var _this;
+
     _classCallCheck(this, CalendarDay);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(CalendarDay).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CalendarDay).call(this, props));
+
+    var date = _this.formatDateString();
+
+    var emptyTask = {
+      title: '',
+      status: '',
+      due_date: '',
+      description: '',
+      priority: ''
+    };
+    emptyTask = Object.assign(emptyTask, {
+      due_date: date
+    });
+    _this.state = {
+      task: emptyTask,
+      showForm: false,
+      emptyTask: emptyTask
+    };
+    return _this;
   }
 
   _createClass(CalendarDay, [{
-    key: "filterTasks",
-    value: function filterTasks() {
+    key: "formatDateString",
+    value: function formatDateString() {
+      // debugger
       var _this$props = this.props,
-          tasks = _this$props.tasks,
           day = _this$props.day,
           month = _this$props.month,
-          year = _this$props.year,
-          openModal = _this$props.openModal;
+          year = _this$props.year;
       day = day < 10 ? "0".concat(day) : day;
       month = month < 10 ? "0".concat(month) : month;
-      var date = "".concat(month, "/").concat(day, "/").concat(year);
+      var date = "".concat(month, "/").concat(day, "/").concat(year); // debugger
+
+      return date;
+    }
+  }, {
+    key: "filterTasks",
+    value: function filterTasks() {
+      var _this$props2 = this.props,
+          tasks = _this$props2.tasks,
+          day = _this$props2.day,
+          month = _this$props2.month,
+          year = _this$props2.year,
+          openModal = _this$props2.openModal;
+      var date = this.formatDateString();
       var filteredTasks = tasks.filter(function (task) {
         return task.dueDate === date;
       });
       tasks = filteredTasks.map(function (task, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "cal-day-item",
           key: i,
           onClick: function onClick() {
             return openModal("task".concat(task.id));
@@ -739,19 +837,73 @@ function (_React$Component) {
       return tasks;
     }
   }, {
+    key: "handleChange",
+    value: function handleChange() {
+      event.preventDefault();
+      this.setState({
+        task: _objectSpread({}, this.state.task, {
+          title: event.target.value
+        })
+      });
+    }
+  }, {
+    key: "handleKeyPress",
+    value: function handleKeyPress(e) {
+      var _this2 = this;
+
+      // debugger
+      if (e.key === 'Enter') {
+        var task = this.state.task;
+        this.props.createTask([task]).then(function () {
+          return _this2.setState({
+            task: _this2.state.emptyTask,
+            showForm: false
+          });
+        });
+      }
+    }
+  }, {
+    key: "addTask",
+    value: function addTask() {
+      this.setState({
+        showForm: true
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this$props2 = this.props,
-          day = _this$props2.day,
-          month = _this$props2.month,
-          year = _this$props2.year,
-          tasks = _this$props2.tasks,
-          disabled = _this$props2.disabled;
-      var disabledClass = disabled ? 'disabled' : '';
+      var _this3 = this;
+
+      var _this$props3 = this.props,
+          day = _this$props3.day,
+          month = _this$props3.month,
+          year = _this$props3.year,
+          tasks = _this$props3.tasks,
+          disabled = _this$props3.disabled;
+      var disabledClass = disabled ? 'disabled' : ''; // debugger
+
+      var li = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        value: this.state.task.title,
+        onKeyPress: function onKeyPress(e) {
+          return _this3.handleKeyPress(e);
+        },
+        onChange: function onChange() {
+          return _this3.handleChange();
+        }
+      }));
+      var form = this.state.showForm ? li : null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "cal-day",
         className: disabledClass
-      }, day, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, disabled ? null : this.filterTasks()));
+      }, day, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        id: "cdl".concat(day)
+      }, disabled ? null : this.filterTasks(), form), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "flag",
+        onClick: function onClick() {
+          return _this3.addTask();
+        }
+      }));
     }
   }]);
 
@@ -811,6 +963,7 @@ function (_React$Component) {
   _createClass(CalendarMonth, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
+      // debugger
       if (prevProps.month !== this.props.month) {
         this.fetchTasks();
       }
@@ -860,7 +1013,9 @@ function (_React$Component) {
           tasks = _this$props.tasks,
           month = _this$props.month,
           year = _this$props.year,
-          openModal = _this$props.openModal;
+          openModal = _this$props.openModal,
+          createTask = _this$props.createTask,
+          emptyTask = _this$props.emptyTask;
       var lastDayOfMonth = this.daysInMonth("cur");
       var first = this.getFirstRow();
       var rows = [first];
@@ -884,6 +1039,8 @@ function (_React$Component) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
               key: j
             }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_calendar_day__WEBPACK_IMPORTED_MODULE_1__["default"], {
+              emptyTask: emptyTask,
+              createTask: createTask,
               openModal: openModal,
               tasks: tasks,
               disabled: true,
@@ -896,6 +1053,8 @@ function (_React$Component) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
             key: j
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_calendar_day__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            emptyTask: emptyTask,
+            createTask: createTask,
             openModal: openModal,
             tasks: tasks,
             disable: false,
@@ -1546,7 +1705,7 @@ function (_React$Component) {
         w: 12,
         fill: "white",
         transform: "scale(0.5)"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Project"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(task.project_name))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Project"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, task.project_name ? Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(task.project_name) : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mt-svg"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
         name: "desc",
@@ -2072,7 +2231,7 @@ function (_React$Component) {
         transform: "scale(2.5)",
         name: "plus",
         className: "add-svg"
-      })))));
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Project"))));
     }
   }]);
 
@@ -3752,7 +3911,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this3.props.history.push("/projects/".concat(task.project_id));
         }
-      }, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(task.project_name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, this.getDayOfWeek()));
+      }, task.project_name ? Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(task.project_name) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, this.getDayOfWeek()));
     }
   }]);
 
@@ -4524,7 +4683,7 @@ var fetchTask = function fetchTask(taskId) {
   });
 };
 var createTask = function createTask(tasks) {
-  // debugger
+  debugger;
   return $.ajax({
     method: 'POST',
     url: '/api/tasks',

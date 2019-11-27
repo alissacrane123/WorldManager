@@ -6,8 +6,10 @@ json.set! task.id do
   json.extract! task, :id, :title, :description, :status, :project_id, :due_date,:user_id, :created_at, :priority
   json.owner ownerName
   json.ownerInitials ownerInitials
-  json.project_cat task.project.category
-  json.project_name task.project.title
+  if task.project
+    json.project_cat task.project.category
+    json.project_name task.project.title
+  end
   if task.due_date
     json.dueDate task.due_date.strftime("%m/%d/%Y")
   end

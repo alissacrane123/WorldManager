@@ -1,5 +1,5 @@
 class Task < ApplicationRecord
-  belongs_to :project
+  belongs_to :project, optional:true
   belongs_to :user  
 
   has_one :project_owner, 
@@ -7,5 +7,5 @@ class Task < ApplicationRecord
     source: :owner
 
 
-  validates :title, :status, :project_id, :user_id, presence: true
+  validates :title, :user_id, presence: true
 end
