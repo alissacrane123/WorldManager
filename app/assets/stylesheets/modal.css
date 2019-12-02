@@ -21,7 +21,7 @@
   position: absolute;
   width: 450px;
   min-width: 300px;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 6000;
@@ -41,7 +41,7 @@ form.project > *, form.task > * {
   /* margin-bottom: 20px; */
 }
 
-form.task > h4 {
+form.task > h4, form.project > h4{
       color: #1F2833;
     font-weight: 700;
     text-align: center;
@@ -52,19 +52,37 @@ form.task > h4 {
 form.task > div {
     display: flex;
     flex-direction: column;
-    padding: 15px 20px;
-    border-radius: 10px;
-    background: #dadada;
+    padding: 20px 20px;
+    border-top: 1px solid #dedbdb;
+    border-bottom: 1px solid #dedbdb;
+    /* border-radius: 10px;
+    box-shadow: 0px 0px 10px grey;
+    background: #dadada; */
     margin-bottom: 25px;
 }
 
-form.task > div > input, form.task > div > textarea  {
-    margin-bottom: 10px;
+form.task > div > input, form.task > div > textarea, form.task > div > select, form.project input, form.project select {
+    margin-bottom: 15px;
     padding: 6px;
-    /* border-radius: 10px; */
+    border: 1px solid #a5afbd;
+    border-radius: 4px;
     outline: none;
-    border: none;
+    color:rgb(21, 27, 38);
+    /* border: none; */
     /* border: 1px solid gray; */
+}
+
+form input:focus, form select:focus, form textarea:focus {
+  border-color: #45A29E;
+    box-shadow: 0 0 5px #45A29E;
+} 
+form.task select, form.project select {
+   -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    /* border: none; */
+    background: white url("data:image/svg+xml;utf8,<svg viewBox='0 0 70 70' width='12' height='12' xmlns='http://www.w3.org/2000/svg'><g><path transform='scale(0.5)' d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z' fill='black'/></g></svg>") no-repeat;
+    background-position: right 5px top 50%;
 }
 
 .react-datepicker-wrapper {
@@ -72,17 +90,25 @@ form.task > div > input, form.task > div > textarea  {
 }
 
 .react-datepicker-wrapper input {
-      margin-bottom: 10px;
+    margin-bottom: 15px;
     padding: 6px;
     width: 100%;
     outline: none;
-    border: none;
+    /* border: none; */
+        border: 1px solid #a5afbd;
+    border-radius: 4px;
 }
 
-form.task > div label {
-      margin-bottom: 5px;
-    font-size: 15px;
+form.task > div label, form.project label {
+margin-bottom: 5px;
+    font-size: 13px;
     font-weight: 500;
+    color: #6f7782;
+
+}
+
+button:hover {
+  cursor: pointer !important;
 }
 
 form.task > div > div {
@@ -102,12 +128,18 @@ form.task > ul.none {
   display: none;
 }
 
+input[type="radio"]:focus {
+  outline:none !important;
+  border:none !important;
+}
+
 form.task > ul {
   padding-bottom: 10px;
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+      /* margin-top: 25px; */
 }
 
 form.task li {
@@ -130,13 +162,22 @@ form.task li div {
   cursor: pointer;
 }
 
-form.task > button {
-      padding: 6px 15px;
+form.project button {
+  margin-top:20px;
+}
+form.task > button, form.task > div > button, form.project button {
+    padding: 6px 15px;
     border-radius: 10px;
     background: #45A29E;
-    font-size: 17px;
+    font-size: 15px;
     color: white;
-    font-weight: 600;
+    /* margin: 0px 20px; */
+    font-weight: 500;
+}
+
+form.task > button {
+      margin: 0px 20px;
+    background: #1F2833;
 }
 
 form.task > div > ul {
@@ -146,6 +187,7 @@ form.task > div > ul {
   font-weight:500;
   font-size: 13px;
       align-items: center;
+          margin-bottom: 20px;
 }
 
 form.task > div > ul div {

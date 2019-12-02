@@ -5,7 +5,7 @@ class Api::ProjectMembershipsController < ApplicationController
     @pm.user_id = User.find_by(email: pm_params[:email]).id
     @pm.project_id = pm_params[:project_id]
     @pm.role = pm_params[:role]
-    # debugger
+    
     if @pm.save
       render "api/project_memberships/show"
     else

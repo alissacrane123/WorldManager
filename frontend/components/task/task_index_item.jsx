@@ -2,7 +2,7 @@ import React from 'react';
 import { titleize } from '../../helpers/helper';
 import SVG from '../svg';
 
-const TaskIndexItem = ({ task, adminAccess, deleteTask }) => {
+const TaskIndexItem = ({ task, adminAccess, deleteTask, openModal }) => {
 
   function daysAgo(date) {
     let diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000)
@@ -16,7 +16,7 @@ const TaskIndexItem = ({ task, adminAccess, deleteTask }) => {
   let trashSVG = adminAccess ? <SVG className="trash"name="trash" h={18} w={18} fill="gray" transform="scale(0.75)"/> : <div></div>
   
   return (
-    <div id="task-item">
+    <div id="task-item" onClick={() => openModal(`task${task.id}`)}>
       <div>
         <h4>{titleize(task.title)}</h4>
         <SVG

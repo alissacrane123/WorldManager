@@ -18,10 +18,20 @@ class ProjectMembersForm extends React.Component {
   }
 
   render() {
+    let { users, currentUserId } = this.props;
+    users = users.filter(user => user.id !== currentUserId)
+    let members = users.map((user, i) => {
+      let username = `${user.fname} ${user.lname}`
+      return (
+        <li key={i}>{username}</li>
+      )
+    })
 
     return (
       <form className="task" id="pm-form">
         <h4>Add Team Members</h4>
+
+        <ul>{members}</ul>
 
         <div>
           <label>Team Member Email</label>

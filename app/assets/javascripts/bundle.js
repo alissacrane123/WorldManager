@@ -380,10 +380,10 @@ var fetchTask = function fetchTask(taskId) {
     });
   };
 };
-var createTask = function createTask(tasks) {
+var createTask = function createTask(task) {
   return function (dispatch) {
-    return _util_task_api_util__WEBPACK_IMPORTED_MODULE_0__["createTask"](tasks).then(function (tasks) {
-      return dispatch(receiveTask(tasks));
+    return _util_task_api_util__WEBPACK_IMPORTED_MODULE_0__["createTask"](task).then(function (task) {
+      return dispatch(receiveTask(task));
     }, function (err) {
       return dispatch(receiveErrors(err.responseJSON));
     });
@@ -2136,16 +2136,14 @@ function (_React$Component) {
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "project",
-        id: "project-form",
-        onSubmit: this.handleSubmit
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "New Project Form"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        id: "project-form"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "New Project Form"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Title"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        placeholder: "Title",
         value: this.state.title,
         onChange: function onChange() {
           return _this3.handleProjectChange('title');
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Category"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         value: this.state.category,
         onChange: function onChange() {
           return _this3.handleProjectChange('category');
@@ -2153,22 +2151,9 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "default",
         disabled: true
-      }, "Choose a category"), cats), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        placeholder: "email",
-        onChange: function onChange() {
-          return _this3.handlePmChange('email');
-        }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        placeholder: "role",
-        onChange: function onChange() {
-          return _this3.handlePmChange('role');
-        }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "submit",
-        value: "Create Project"
-      }));
+      }, "Choose a category"), cats), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleSubmit
+      }, "Create Project"));
     }
   }]);
 
@@ -2372,6 +2357,7 @@ __webpack_require__.r(__webpack_exports__);
 var ProjectIndexItem = function ProjectIndexItem(_ref) {
   var project = _ref.project,
       history = _ref.history;
+  var svgName = project.category ? project.category.toLowerCase() : 'profile';
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "project-item",
     onClick: function onClick() {
@@ -2382,7 +2368,7 @@ var ProjectIndexItem = function ProjectIndexItem(_ref) {
     w: 72,
     fill: "white",
     transform: "scale(3)",
-    name: project.category.toLowerCase()
+    name: svgName
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(project.title)));
 };
 
@@ -2466,10 +2452,22 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
+      var _this$props = this.props,
+          users = _this$props.users,
+          currentUserId = _this$props.currentUserId;
+      users = users.filter(function (user) {
+        return user.id !== currentUserId;
+      });
+      var members = users.map(function (user, i) {
+        var username = "".concat(user.fname, " ").concat(user.lname);
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: i
+        }, username);
+      });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "task",
         id: "pm-form"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Add Team Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Team Member Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Add Team Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, members), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Team Member Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.email,
         onChange: function onChange() {
@@ -3235,10 +3233,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -3246,6 +3240,10 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3283,8 +3281,8 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskForm).call(this, props));
     _this.state = {
-      tasks: [],
-      newTask: _this.props.emptyTaskObj
+      newTask: _this.props.emptyTaskObj,
+      tasks: []
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDateChange = _this.handleDateChange.bind(_assertThisInitialized(_this));
@@ -3292,18 +3290,6 @@ function (_React$Component) {
   }
 
   _createClass(TaskForm, [{
-    key: "addTask",
-    value: function addTask() {
-      event.preventDefault();
-      var newTask = this.state.newTask;
-      this.setState({
-        tasks: [].concat(_toConsumableArray(this.state.tasks), [newTask])
-      });
-      this.setState({
-        newTask: this.props.emptyTaskObj
-      });
-    }
-  }, {
     key: "handleChange",
     value: function handleChange(field) {
       this.setState({
@@ -3313,7 +3299,6 @@ function (_React$Component) {
   }, {
     key: "handleDateChange",
     value: function handleDateChange(date) {
-      // debugger
       this.setState({
         newTask: _objectSpread({}, this.state.newTask, {
           due_date: date
@@ -3321,34 +3306,65 @@ function (_React$Component) {
       });
     }
   }, {
-    key: "handleSubmit",
-    value: function handleSubmit() {
+    key: "createTask",
+    value: function createTask() {
       var _this2 = this;
 
       event.preventDefault();
-      var tasks = this.state.tasks;
-      var newTasks = tasks.map(function (task) {
-        var newDate = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_5__["formatJavascriptDate"])(task.due_date);
-        return Object.assign(task, {
-          due_date: newDate
-        });
+      var task = Object.assign({}, this.state.newTask);
+      var newDate = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_5__["formatJavascriptDate"])(task.due_date);
+      var newTask = Object.assign(task, {
+        due_date: newDate
       });
-      this.props.createTask(tasks).then(function () {
-        _this2.props.closeModal();
-
-        _this2.props.history.push("/projects/".concat(_this2.state.newTask.project_id));
+      this.props.createTask(task).then(function (promise) {
+        return _this2.resetState(promise);
       });
+    }
+  }, {
+    key: "resetState",
+    value: function resetState(promise) {
+      var task = Object.values(promise.task)[0];
+      this.setState({
+        tasks: [].concat(_toConsumableArray(this.state.tasks), [task])
+      });
+      this.setState({
+        newTask: this.props.emptyTaskObj
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit() {
+      event.preventDefault();
+      this.props.closeModal();
+      this.props.history.push("/projects/".concat(this.props.project.id));
+    }
+  }, {
+    key: "formatUsers",
+    value: function formatUsers() {
+      var _this$props = this.props,
+          users = _this$props.users,
+          currentUser = _this$props.currentUser;
+      users = users.map(function (user, i) {
+        var username = user.id === currentUser.id ? 'Me' : "".concat(user.fname, " ").concat(user.lname);
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: i,
+          value: user.id
+        }, username);
+      });
+      return users;
     }
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      var _this$props = this.props,
-          currentUser = _this$props.currentUser,
-          project = _this$props.project;
+      var _this$props2 = this.props,
+          project = _this$props2.project,
+          tasks = _this$props2.tasks,
+          closeModal = _this$props2.closeModal,
+          users = _this$props2.users;
       if (!project) return null;
-      var tasks = this.state.tasks.map(function (task, i) {
+      var taskItems = this.state.tasks.map(function (task, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, task.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -3365,19 +3381,18 @@ function (_React$Component) {
         id: "task-form"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Assign New Tasks"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: displayClass
-      }, tasks), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Title"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, taskItems), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Title"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.newTask.title,
         onChange: function onChange() {
           return _this3.handleChange("title");
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assignee's Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        value: this.state.newTask.email,
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assignee"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         onChange: function onChange() {
-          return _this3.handleChange("email");
-        }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_3___default.a, {
+          return _this3.handleChange('user_id');
+        },
+        value: "Me"
+      }, this.formatUsers()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_3___default.a, {
         onChange: this.handleDateChange,
         selected: this.state.newTask.due_date
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
@@ -3388,29 +3403,21 @@ function (_React$Component) {
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Priority"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "radio",
-        name: "rad"
+        name: "rad",
+        defaultChecked: true
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Low"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "radio",
         name: "rad"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Medium"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "radio",
         name: "rad"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "High")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "High")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this3.addTask();
+          return _this3.createTask();
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        name: "plus",
-        h: 20,
-        w: 20,
-        fill: "white",
-        transform: "scale(0.84)",
-        className: "task-show"
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: function onClick() {
-          return _this3.handleSubmit();
-        }
-      }, "Submit All Tasks"));
+      }, "Assign Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleSubmit
+      }, "Done"));
     }
   }]);
 
@@ -3442,25 +3449,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state, ownProps) {
-  var projectIds = Object.keys(state.entities.projects);
-  var projectId;
-
-  if (ownProps.location.pathname === '/') {
-    projectId = projectIds[projectIds.length - 1];
-  } else {
-    var arr = ownProps.location.pathname.split('/');
-    projectId = Number(arr[arr.length - 1]);
-  }
-
-  var project = state.entities.projects[projectId];
+  // let projectIds = Object.keys(state.entities.projects)
+  // let projectId;
+  // if (ownProps.location.pathname === '/') {
+  //   projectId = projectIds[projectIds.length - 1]
+  // } else {
+  //   let arr = ownProps.location.pathname.split('/');
+  //   projectId = Number(arr[arr.length - 1])
+  // }
+  var project = Object.values(state.entities.projects)[0];
   return {
+    tasks: Object.values(state.entities.tasks),
+    users: Object.values(state.entities.users),
     currentUser: state.entities.users[state.session.id],
     project: project,
     emptyTaskObj: {
       due_date: new Date(),
       title: '',
       priority: 'low',
-      email: '',
+      user_id: state.session.id,
       description: '',
       status: 'Not Started',
       project_id: project.id
@@ -3560,7 +3567,8 @@ function (_React$Component) {
           finished = _this$props2.finished,
           userFilter = _this$props2.userFilter,
           adminAccess = _this$props2.adminAccess,
-          deleteTask = _this$props2.deleteTask;
+          deleteTask = _this$props2.deleteTask,
+          openModal = _this$props2.openModal;
       var tasks = [notStarted, inProgress, finished];
       var taskStatus = ["Not Started", "In Progress", "Finished"];
 
@@ -3582,6 +3590,7 @@ function (_React$Component) {
             className: "draggable",
             draggable: true
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            openModal: openModal,
             task: task,
             adminAccess: adminAccess,
             deleteTask: deleteTask
@@ -3605,6 +3614,7 @@ function (_React$Component) {
             w: 24,
             className: "warn"
           }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "You can only move tasks that belong to you!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            openModal: openModal,
             task: task,
             adminAccess: adminAccess
           }));
@@ -3765,7 +3775,8 @@ __webpack_require__.r(__webpack_exports__);
 var TaskIndexItem = function TaskIndexItem(_ref) {
   var task = _ref.task,
       adminAccess = _ref.adminAccess,
-      deleteTask = _ref.deleteTask;
+      deleteTask = _ref.deleteTask,
+      openModal = _ref.openModal;
 
   function daysAgo(date) {
     var diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000);
@@ -3788,7 +3799,10 @@ var TaskIndexItem = function TaskIndexItem(_ref) {
     transform: "scale(0.75)"
   }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    id: "task-item"
+    id: "task-item",
+    onClick: function onClick() {
+      return openModal("task".concat(task.id));
+    }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(task.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
     h: 12,
     w: 12,
@@ -4181,14 +4195,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var titleize = function titleize(string) {
   var otherWords = ["and", "a", "or", "for"];
-  var words = string.split(' ').map(function (el, i) {
+  var words = string.split(' ');
+  var newWords = words.map(function (el, i) {
     if (otherWords.includes(el) && i !== 0) {
+      return el;
+    } else if (el.length === 0) {
       return el;
     } else {
       return el[0].toUpperCase() + el.slice(1);
     }
   });
-  return words.join(' ');
+  return newWords.join(' ');
 };
 var selectNewProjectId = function selectNewProjectId(projects) {
   var ids = Object.keys(projects);
@@ -4936,13 +4953,13 @@ var fetchTask = function fetchTask(taskId) {
     url: "api/tasks/".concat(taskId)
   });
 };
-var createTask = function createTask(tasks) {
-  debugger;
+var createTask = function createTask(task) {
+  // debugger
   return $.ajax({
     method: 'POST',
     url: '/api/tasks',
     data: {
-      tasks: tasks // data: { tasks: JSON.stringify(data) }
+      task: task // data: { tasks: JSON.stringify(data) }
 
     }
   });

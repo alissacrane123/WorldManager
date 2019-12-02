@@ -34,22 +34,24 @@ class ProjectForm extends React.Component {
     ))
 
     return (
-      <form className="project" id="project-form" onSubmit={ this.handleSubmit }>
+      <form className="project" id="project-form" >
 
         <h4>New Project Form</h4>
 
-        <input type="text" placeholder="Title" value={this.state.title} onChange={() => this.handleProjectChange('title')}/>
+        <label>Title</label>
+        <input type="text" value={this.state.title} onChange={() => this.handleProjectChange('title')}/>
 
+        <label>Category</label>
         <select value={ this.state.category } onChange={ () => this.handleProjectChange('category') }>
           <option value="default" disabled={true}>Choose a category</option>
           { cats }
         </select>
         
-        <input type="text" placeholder="email" onChange={() => this.handlePmChange('email')}/>
-        <input type="text" placeholder="role" onChange={() => this.handlePmChange('role')} />
+        {/* <input type="text" placeholder="email" onChange={() => this.handlePmChange('email')}/>
+        <input type="text" placeholder="role" onChange={() => this.handlePmChange('role')} /> */}
 
 
-        <input type="submit" value="Create Project" />
+        <button onClick={this.handleSubmit}>Create Project</button>
 
       </form>
     )

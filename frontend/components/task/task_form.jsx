@@ -10,53 +10,63 @@ class TaskForm extends React.Component {
   constructor(props) {
     super(props);
     
-    this.state = {
-      tasks: [],
-      newTask: this.props.emptyTaskObj
-    }
+    this.state = { newTask: this.props.emptyTaskObj, tasks: [] };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
   }
 
-  addTask() {
-    event.preventDefault();
-    let newTask = this.state.newTask;
-    this.setState({ tasks: [...this.state.tasks, newTask]})
-
-    this.setState({ newTask: this.props.emptyTaskObj })
-  }
-
   handleChange(field) {
-    this.setState({newTask: { ...this.state.newTask, [field]: event.target.value }})
+    this.setState({ newTask: { ...this.state.newTask, [field]: event.target.value } });
   }
 
   handleDateChange(date) {
-    // debugger
-    this.setState({ newTask: { ...this.state.newTask, due_date: date}})
+    this.setState({ newTask: { ...this.state.newTask, due_date: date } });
+  }
+
+  createTask() {
+    event.preventDefault();
+    let task = Object.assign({}, this.state.newTask);
+    let newDate = formatJavascriptDate(task.due_date);
+    let newTask = Object.assign(task, { due_date: newDate })
+    
+    this.props.createTask(task)
+      .then((promise) => this.resetState(promise))
+  }
+
+  resetState(promise) {
+    let task = Object.values(promise.task)[0]
+    
+    this.setState({ tasks: [...this.state.tasks, task]})
+    this.setState({ newTask: this.props.emptyTaskObj })
   }
 
   handleSubmit() {
     event.preventDefault();
-    let tasks = this.state.tasks
-    let newTasks = tasks.map(task => {
-      let newDate = formatJavascriptDate(task.due_date);
-      return Object.assign(task, { due_date: newDate })
-    })
-    this.props.createTask(tasks).then(() => {
-      this.props.closeModal();
-      this.props.history.push(`/projects/${this.state.newTask.project_id}`)
-    });
+    this.props.closeModal();
+    this.props.history.push(`/projects/${this.props.project.id}`);
+  }
+
+  formatUsers() {
+    let { users, currentUser } = this.props;
+   
+    users = users.map((user, i) => {
+      let username = user.id === currentUser.id ? 'Me' : `${user.fname} ${user.lname}`;
+      return (
+        <option key={i} value={user.id}>{username}</option>
+      )
+    }) 
+
+    return users;
   }
 
 
   render() {
-    let { currentUser, project } = this.props;
+    let { project, tasks, closeModal, users } = this.props;
     
     if (!project) return null;
 
-    let tasks = this.state.tasks.map((task, i) => (
-
+    let taskItems = this.state.tasks.map((task, i) => (
       <li key={i}>
         <label>{task.title}</label>
         <div>
@@ -71,7 +81,7 @@ class TaskForm extends React.Component {
       <form className="task" id="task-form">
         <h4>Assign New Tasks</h4>
 
-        <ul className={displayClass}>{tasks}</ul>
+        <ul className={displayClass}>{taskItems}</ul>
 
         <div>
           <label>Title</label>
@@ -81,12 +91,11 @@ class TaskForm extends React.Component {
             onChange={() => this.handleChange("title")}
           />
 
-          <label>Assignee's Email</label>
-          <input
-            type="text"
-            value={this.state.newTask.email}
-            onChange={() => this.handleChange("email")}
-          />
+          <label>Assignee</label>
+          <select onChange={() => this.handleChange('user_id')} value="Me">
+            { this.formatUsers() }
+          </select>
+
 
           <label>Due Date</label>
           <DatePicker
@@ -104,7 +113,7 @@ class TaskForm extends React.Component {
           <label>Priority</label>
 
           <ul>
-            <input type="radio" name="rad" />
+            <input type="radio" name="rad" defaultChecked/>
             <div>Low</div>
             <input type="radio" name="rad" />
             <div>Medium</div>
@@ -112,19 +121,13 @@ class TaskForm extends React.Component {
             <div>High</div>
           </ul>
 
-          <div onClick={() => this.addTask()}>
-            <SVG
-              name="plus"
-              h={20}
-              w={20}
-              fill="white"
-              transform="scale(0.84)"
-              className="task-show"
-            />
-          </div>
+          <button onClick={() => this.createTask()}>Assign Task</button>
+          {/* <div onClick={() => this.createTask()}>
+            <SVG name="plus" h={20} w={20} fill="white" transform="scale(0.84)" className="task-show"/>
+          </div> */}
         </div>
 
-        <button onClick={() => this.handleSubmit()}>Submit All Tasks</button>
+        <button onClick={ this.handleSubmit }>Done</button>
       </form>
     );
   }

@@ -18,7 +18,7 @@ class TaskIndex extends React.Component {
   }
 
   renderTasks(i) {
-    let { notStarted, inProgress, finished, userFilter, adminAccess, deleteTask } = this.props;
+    let { notStarted, inProgress, finished, userFilter, adminAccess, deleteTask, openModal } = this.props;
     let tasks = [ notStarted, inProgress, finished ];
     let taskStatus = ["Not Started", "In Progress", "Finished"];
 
@@ -33,7 +33,7 @@ class TaskIndex extends React.Component {
         return (
           <li key={task.id} onDragStart={(e) => this.onDragStart(e, task.id)} className="draggable" draggable>
             
-            <TaskIndexItem task={task} adminAccess={adminAccess} deleteTask={deleteTask}/>
+            <TaskIndexItem openModal={openModal} task={task} adminAccess={adminAccess} deleteTask={deleteTask}/>
           </li>
         )
       } else {
@@ -45,7 +45,7 @@ class TaskIndex extends React.Component {
               <SVG name="warn" h={24} w={24} className="warn"/>
               <h5>You can only move tasks that belong to you!</h5>
             </div>
-            <TaskIndexItem task={task} adminAccess={adminAccess}/>
+            <TaskIndexItem openModal={openModal} task={task} adminAccess={adminAccess}/>
           </li>         
         )
       }

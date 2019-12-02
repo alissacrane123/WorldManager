@@ -1,34 +1,15 @@
 class Api::TasksController < ApplicationController
-      before_action :require_logged_in
-
+  before_action :require_logged_in
 
   def create
-    @tasks = []
+    @task = Task.new(task_params);
+    @task.due_date = DateTime.strptime(task_params[:due_date], '%m/%d/%Y')
     
-    params[:tasks].values.map do |task|
-      new_task = Task.new()
-      
-      new_task.title = task["title"]
-      new_task.description = task["description"]
-      new_task.status = task["status"]
-      if task["project_id"]
-        new_task.project_id = task["project_id"]
-      end
-      if task["email"]
-        new_task.user_id = User.find_by(email: task["email"]).id
-      else
-        new_task.user_id = current_user.id
-      end
-      new_task.due_date = DateTime.strptime(task["due_date"], '%m/%d/%Y')
-      if new_task.save
-        @tasks << new_task
-      else 
-        new_task.save!
-      end
-      # debugger
+    if @task.save
+      render "api/tasks/show"
+    else
+      render json: @task.errors.full_messages, status: 422
     end
-    
-    render "api/tasks/index"
   end
 
   def show 
@@ -82,3 +63,32 @@ class Api::TasksController < ApplicationController
   end
 
 end
+
+  # def create
+  #   @tasks = []
+    
+  #   params[:tasks].values.map do |task|
+  #     new_task = Task.new()
+      
+  #     new_task.title = task["title"]
+  #     new_task.description = task["description"]
+  #     new_task.status = task["status"]
+  #     if task["project_id"]
+  #       new_task.project_id = task["project_id"]
+  #     end
+  #     if task["email"]
+  #       new_task.user_id = User.find_by(email: task["email"]).id
+  #     else
+  #       new_task.user_id = current_user.id
+  #     end
+  #     new_task.due_date = DateTime.strptime(task["due_date"], '%m/%d/%Y')
+  #     if new_task.save
+  #       @tasks << new_task
+  #     else 
+  #       new_task.save!
+  #     end
+  #     # debugger
+  #   end
+    
+  #   render "api/tasks/index"
+  # end

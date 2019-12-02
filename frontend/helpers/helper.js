@@ -1,13 +1,17 @@
 export const titleize = (string) => {
   let otherWords = [ "and", "a", "or", "for"];
-  let words = string.split(' ').map((el, i) => {
+  let words = string.split(' ');
+  
+  let newWords = words.map((el, i) => {
     if (otherWords.includes(el) && i !== 0) {
+      return el;
+    } else if (el.length === 0) {
       return el;
     } else {
       return el[0].toUpperCase() + el.slice(1);
     }
   });
-  return words.join(' ');
+  return newWords.join(' ');
 }
 
 export const selectNewProjectId = (projects) => {
