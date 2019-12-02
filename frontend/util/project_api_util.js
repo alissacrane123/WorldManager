@@ -21,3 +21,12 @@ export const createProject = (project, pm={} ) => {
     data: { project, pm }
   })
 }
+
+export const createPM = (pm) => {
+
+  return $.ajax({
+    method: 'POST',
+    url: '/api/project_memberships',
+    data: { pm }
+  })
+}

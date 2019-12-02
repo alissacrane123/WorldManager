@@ -2,6 +2,7 @@ import React from 'react';
 import ProjectFormContainer from '../project/project_form_cont';
 import TaskFormContainer from '../task/task_form_cont';
 import TaskModalItem from './task_modal_item';
+import ProjectMembersForm from '../project/project_members_form';
 
 class Modal extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class Modal extends React.Component {
   }
 
   render() {
-    let { modal, closeModal, tasks, updateTask } =  this.props;
+    let { modal, closeModal, users, currentUserId, tasks, updateTask, openModal, projectId, createPM } =  this.props;
 
     if (!modal) return null;
     let taskId;
@@ -22,6 +23,9 @@ class Modal extends React.Component {
     
     let component;
     switch (modal) {
+      case 'newPM':
+        component = <ProjectMembersForm projectId={projectId} openModal={openModal} createPM={createPM} users={users} currentUserId={currentUserId}/>;
+        break;
       case 'newProject':
         component = <ProjectFormContainer />;
         break;

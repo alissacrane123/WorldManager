@@ -24,7 +24,7 @@ class ProjectForm extends React.Component {
     let pm = Object.assign({}, this.state.pm);
 
     this.props.createProject(project, pm)
-      .then(() => this.props.openModal('newTasks'));
+      .then(() => this.props.openModal('newPM'));
   }
 
   render() {

@@ -10,6 +10,11 @@ export const titleize = (string) => {
   return words.join(' ');
 }
 
+export const selectNewProjectId = (projects) => {
+  let ids = Object.keys(projects);
+  return Math.max(...ids); // most recent
+}
+
 export const formatJavascriptDate = (date) => {
     let year = date.getFullYear();
     let month = 1 + date.getMonth();
