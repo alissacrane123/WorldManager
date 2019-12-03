@@ -1748,10 +1748,16 @@ function (_React$Component) {
     value: function handleSubmit() {
       var _this2 = this;
 
-      event.preventDefault();
-      var newTask = Object.assign({}, this.state, {
-        new_date: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(this.state.new_date)
-      });
+      event.preventDefault(); // debugger
+
+      var newTask = Object.assign({}, this.state);
+
+      if (!this.state.new_date.length) {
+        newTask = Object.assign(newTask, {
+          new_date: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(this.state.new_date)
+        });
+      }
+
       this.props.updateTask(newTask).then(function () {
         return _this2.props.closeModal();
       });

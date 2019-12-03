@@ -34,7 +34,12 @@ class TaskModalItem extends React.Component {
 
   handleSubmit() {
     event.preventDefault();
-    let newTask = Object.assign({}, this.state, { new_date: formatJavascriptDate(this.state.new_date) })
+    // debugger
+    let newTask = Object.assign({}, this.state)
+
+    if (!this.state.new_date.length) {
+      newTask = Object.assign(newTask, { new_date: formatJavascriptDate(this.state.new_date) })
+    }
     
     this.props.updateTask(newTask)
       .then(() => this.props.closeModal())
