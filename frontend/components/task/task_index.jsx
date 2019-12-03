@@ -66,6 +66,7 @@ class TaskIndex extends React.Component {
   }
 
   onDrop(e, status) {
+    debugger
     let id = e.dataTransfer.getData("id");
     this.state.tasks.forEach(task => {
       if (task.id === Number(id)) {

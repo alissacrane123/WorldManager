@@ -3690,6 +3690,7 @@ function (_React$Component) {
     value: function onDrop(e, status) {
       var _this3 = this;
 
+      debugger;
       var id = e.dataTransfer.getData("id");
       this.state.tasks.forEach(function (task) {
         if (task.id === Number(id)) {

@@ -42,7 +42,7 @@ class Api::TasksController < ApplicationController
   def update
     @task = Task.find(params[:id]);
     # debugger
-    if new_date_params[:new_date].length <= 10
+    if new_date_params[:new_date] && new_date_params[:new_date].length <= 10
       @task.update_attributes(due_date: DateTime.strptime(new_date_params[:new_date], '%m/%d/%Y'))
     end
     # debugger
