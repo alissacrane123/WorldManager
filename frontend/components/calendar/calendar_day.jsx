@@ -6,7 +6,7 @@ class CalendarDay extends React.Component {
   constructor(props) {
     super(props);
     let date = this.formatDateString();
-    let emptyTask = { title: '', status: '', due_date: '', description: '', priority: '' }
+    let emptyTask = { title: '', user_id: this.props.user.id, status: 'Not Started', due_date: '', description: '', priority: 'low' }
 
     emptyTask = Object.assign(emptyTask, {due_date: date})
    
@@ -52,7 +52,7 @@ class CalendarDay extends React.Component {
     // debugger
     if (e.key === 'Enter') {
       let task = this.state.task;
-      this.props.createTask([task])
+      this.props.createTask(task)
         .then(() => this.setState({ task: this.state.emptyTask, showForm: false}))
     }
   }

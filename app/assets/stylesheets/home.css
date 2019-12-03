@@ -10,17 +10,24 @@
 }
 
 #home h1 {
-  font-size: 30px;
-  margin: 50px 0 50px 0;
-  text-align: center;
-
-
+    font-size: 18px;
+    font-weight: 500;
+    color: grey;
+    margin: 0 0 50px 0;
+    text-align: right;
 }
+
 
 #home section.list {
-  margin: 0px 10%;
-
+  /* margin: 0px 10%; */
+    margin: 0 auto 30px auto;
+    width: 700px;
 }
+
+#home section:first-of-type {
+  margin: 70px auto 30px auto;
+}
+
 
 section.list > div {
     font-size: 18px;

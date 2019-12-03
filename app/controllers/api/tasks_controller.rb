@@ -42,7 +42,11 @@ class Api::TasksController < ApplicationController
   def update
     @task = Task.find(params[:id]);
     # debugger
-    if @task.update_attributes(task_params)
+    if new_date_params[:new_date].length <= 10
+      @task.update_attributes(due_date: DateTime.strptime(new_date_params[:new_date], '%m/%d/%Y'))
+    end
+    # debugger
+    if @task.update_attributes(update_task_params)
       render "api/tasks/show"
     else
       render json: @task.errors.full_messages, status: 422
@@ -60,6 +64,14 @@ class Api::TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :due_date, :user_id, :priority, :description, :status, :project_id, :email)
+  end
+
+  def new_date_params
+    params.require(:task).permit(:new_date)
+  end
+
+  def update_task_params
+      params.require(:task).permit(:title, :user_id, :priority, :description, :status, :project_id, :email)
   end
 
 end

@@ -817,10 +817,11 @@ function (_React$Component) {
 
     var emptyTask = {
       title: '',
-      status: '',
+      user_id: _this.props.user.id,
+      status: 'Not Started',
       due_date: '',
       description: '',
-      priority: ''
+      priority: 'low'
     };
     emptyTask = Object.assign(emptyTask, {
       due_date: date
@@ -889,7 +890,7 @@ function (_React$Component) {
       // debugger
       if (e.key === 'Enter') {
         var task = this.state.task;
-        this.props.createTask([task]).then(function () {
+        this.props.createTask(task).then(function () {
           return _this2.setState({
             task: _this2.state.emptyTask,
             showForm: false
@@ -1050,7 +1051,8 @@ function (_React$Component) {
           year = _this$props.year,
           openModal = _this$props.openModal,
           createTask = _this$props.createTask,
-          emptyTask = _this$props.emptyTask;
+          emptyTask = _this$props.emptyTask,
+          currentUser = _this$props.currentUser;
       var lastDayOfMonth = this.daysInMonth("cur");
       var first = this.getFirstRow();
       var rows = [first];
@@ -1074,6 +1076,7 @@ function (_React$Component) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
               key: j
             }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_calendar_day__WEBPACK_IMPORTED_MODULE_1__["default"], {
+              user: currentUser,
               emptyTask: emptyTask,
               createTask: createTask,
               openModal: openModal,
@@ -1088,6 +1091,7 @@ function (_React$Component) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
             key: j
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_calendar_day__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            user: currentUser,
             emptyTask: emptyTask,
             createTask: createTask,
             openModal: openModal,
@@ -1665,6 +1669,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+/* harmony import */ var react_datepicker__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-datepicker */ "./node_modules/react-datepicker/dist/react-datepicker.min.js");
+/* harmony import */ var react_datepicker__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_datepicker__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-datepicker/dist/react-datepicker.css */ "./node_modules/react-datepicker/dist/react-datepicker.css");
+/* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1677,13 +1685,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
 
 
 
@@ -1703,31 +1714,52 @@ function (_React$Component) {
     var _this$props = _this.props,
         tasks = _this$props.tasks,
         taskId = _this$props.taskId;
-    var task = Object.assign({}, tasks[taskId]);
+    var task = Object.assign({}, tasks[taskId], {
+      new_date: tasks[taskId].dueDate
+    });
     _this.state = task;
+    _this.handleDateChange = _this.handleDateChange.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(TaskModalItem, [{
+    key: "editValue",
+    value: function editValue(id) {
+      var el = document.getElementById(id);
+      el.classList.remove('hide');
+    }
+  }, {
+    key: "handleDateChange",
+    value: function handleDateChange(date) {
+      this.setState({
+        new_date: date
+      });
+    }
+  }, {
     key: "handleChange",
     value: function handleChange(field) {
       event.preventDefault();
       var otherStatus = this.state.status === 'Finished' ? 'In Progress' : 'Finished';
-      var newValue = field === 'status' ? otherStatus : event.target.value; // debugger
-
+      var newValue = field === 'status' ? otherStatus : event.target.value;
       this.setState(_defineProperty({}, field, newValue));
     }
   }, {
     key: "handleSubmit",
     value: function handleSubmit() {
+      var _this2 = this;
+
       event.preventDefault();
-      var newTask = Object.assign({}, this.state);
-      this.props.updateTask(newTask);
+      var newTask = Object.assign({}, this.state, {
+        new_date: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(this.state.new_date)
+      });
+      this.props.updateTask(newTask).then(function () {
+        return _this2.props.closeModal();
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$props2 = this.props,
           tasks = _this$props2.tasks,
@@ -1749,7 +1781,7 @@ function (_React$Component) {
         id: "modal-task"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(task.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.handleChange('status');
+          return _this3.handleChange('status');
         },
         className: statusColor
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -1765,13 +1797,24 @@ function (_React$Component) {
         w: 12,
         fill: "white",
         transform: "scale(0.5)"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["dateToWords"])(task.dueDate).split(',')[0]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "editable",
+        onClick: function onClick() {
+          return _this3.editValue('tmi-date');
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["dateToWords"])(task.dueDate).split(',')[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "tmi-date",
+        className: "hide"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        onChange: this.handleDateChange,
+        selected: new Date(this.state.new_date)
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
         name: "project",
         h: 12,
         w: 12,
         fill: "white",
         transform: "scale(0.5)"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Project"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, task.project_name ? Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(task.project_name) : null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Project"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, task.project_name ? Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(task.project_name) : "Unassigned")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Description"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mt-svg"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
         name: "desc",
@@ -1781,7 +1824,7 @@ function (_React$Component) {
         transform: "scale(0.75)"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         onChange: function onChange() {
-          return _this2.handleChange('description');
+          return _this3.handleChange('description');
         },
         value: this.state.description
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -1790,7 +1833,7 @@ function (_React$Component) {
         }
       }, "Cancel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this2.handleSubmit();
+          return _this3.handleSubmit();
         }
       }, "Save")));
     }
@@ -3030,6 +3073,11 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var getPath = function getPath(iconName, props) {
   switch (iconName) {
+    case 'edit':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
+        d: "M19.769 9.923l-12.642 12.639-7.127 1.438 1.438-7.128 12.641-12.64 5.69 5.691zm1.414-1.414l2.817-2.82-5.691-5.689-2.816 2.817 5.69 5.692z"
+      }));
+
     case 'carrot':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
         d: "M6 0l12 12-12 12z"
@@ -3893,8 +3941,9 @@ function (_React$Component) {
           recentTasks = _this$props.recentTasks,
           upcomingTasks = _this$props.upcomingTasks,
           updateTask = _this$props.updateTask,
-          openModal = _this$props.openModal;
-      var sections = [[allTasks, 'All'], [recentTasks, 'Recent'], [upcomingTasks, 'Upcoming']].map(function (section, i) {
+          openModal = _this$props.openModal; // let sections = [[allTasks, 'All'], [recentTasks, 'Recent'], [upcomingTasks, 'Upcoming']].map((section, i) => {
+
+      var sections = [[recentTasks, 'Recent'], [upcomingTasks, 'Upcoming']].map(function (section, i) {
         var tasks = section[0].map(function (task, i) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_show_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
             task: task,

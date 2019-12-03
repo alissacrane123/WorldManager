@@ -1,28 +1,43 @@
 import React from 'react';
 import SVG from '../svg';
 import { dateToWords, titleize } from '../../helpers/helper';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { formatJavascriptDate } from '../../helpers/helper';
 
 class TaskModalItem extends React.Component {
   constructor(props) {
     super(props);
     let { tasks, taskId  } = this.props;
-    let task = Object.assign({}, tasks[taskId]);
+    let task = Object.assign({}, tasks[taskId], {new_date: tasks[taskId].dueDate});
     this.state = task;
+    this.handleDateChange = this.handleDateChange.bind(this);
+  }
+
+  editValue(id) {
+    let el = document.getElementById(id);
+    el.classList.remove('hide')
   }
   
+  handleDateChange(date) {
+    
+    this.setState({ new_date: date })
+  }
 
   handleChange(field) {
     event.preventDefault();
     let otherStatus = this.state.status === 'Finished' ? 'In Progress' : 'Finished';
     let newValue = field === 'status' ? otherStatus : event.target.value;
-    // debugger
+    
     this.setState({ [field]: newValue });
   }
 
   handleSubmit() {
     event.preventDefault();
-    let newTask = Object.assign({}, this.state)
+    let newTask = Object.assign({}, this.state, { new_date: formatJavascriptDate(this.state.new_date) })
+    
     this.props.updateTask(newTask)
+      .then(() => this.props.closeModal())
   }
   
   render() {
@@ -58,13 +73,21 @@ class TaskModalItem extends React.Component {
               <label>Assigned To</label>
               <div>{task.owner}</div>
             </div>
+
+            {/* <SVG h={12} w={12} transform="scale(0.5)" name="edit" fill="#45A29E" /> */}
           </div>
   
           <div>
             <div><SVG name="cal" h={12} w={12} fill="white" transform="scale(0.5)" /></div>
-            <div>
+            <div className="editable" onClick={() => this.editValue('tmi-date')}>
               <label>Due Date</label>
               <div>{dateToWords(task.dueDate).split(',')[0]}</div>
+              <div id="tmi-date" className="hide">
+                <DatePicker
+                  onChange={this.handleDateChange}
+                  selected={new Date(this.state.new_date)}
+                />
+              </div>
             </div>
           </div>
   
@@ -72,7 +95,7 @@ class TaskModalItem extends React.Component {
             <div><SVG name="project" h={12} w={12} fill="white" transform="scale(0.5)" /></div>
             <div>
               <label>Project</label>
-              <div>{task.project_name ? titleize(task.project_name) : null}</div>
+              <div>{task.project_name ? titleize(task.project_name) : "Unassigned"}</div>
             </div>
           </div>
         </section>
