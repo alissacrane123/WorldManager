@@ -17,7 +17,12 @@ class TaskForm extends React.Component {
   }
 
   handleChange(field) {
-    this.setState({ newTask: { ...this.state.newTask, [field]: event.target.value } });
+    // debugger
+    let newValue = event.target.value 
+    if (field === 'user_id') {
+      newValue = Number(newValue);
+    }
+    this.setState({ newTask: { ...this.state.newTask, [field]: newValue } });
   }
 
   handleDateChange(date) {
@@ -92,7 +97,7 @@ class TaskForm extends React.Component {
           />
 
           <label>Assignee</label>
-          <select onChange={() => this.handleChange('user_id')} value="Me">
+          <select onChange={() => this.handleChange('user_id')} >
             { this.formatUsers() }
           </select>
 

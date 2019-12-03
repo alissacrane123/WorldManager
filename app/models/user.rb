@@ -2,7 +2,7 @@ class User < ApplicationRecord
   has_many :project_memberships
   has_many :owned_projects, foreign_key: :owner_id, class_name: :Project 
   has_many :projects, through: :project_memberships, source: :project 
-  has_many :tasks 
+  has_many :tasks, dependent: :destroy
   has_many :project_tasks, through: :projects, source: :tasks
 
   attr_reader :password

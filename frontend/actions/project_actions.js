@@ -5,6 +5,7 @@ export const RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
 export const RECEIVE_NEW_PROJECT = 'RECEIVE_NEW_PROJECT';
 export const RECEIVE_NEW_PM = 'RECEIVE_NEW_PM';
 export const RECEIVE_PROJECT_ERRORS = 'RECEIVE_PROJECT_ERRORS';
+export const RECEIVE_DELETED_PROJECT = 'RECEIVE_DELETED_PROJECT'
 
 export const receiveNewProject = payload => ({
   type: RECEIVE_NEW_PROJECT,
@@ -23,6 +24,15 @@ export const receiveProjects = projects => {
     projects
   }
 }
+
+export const receiveDeletedProject = payload => {
+  // debugger
+  return {
+    type: RECEIVE_DELETED_PROJECT,
+    payload
+  }
+}
+
 
 export const receiveNewPM = user => {
   
@@ -71,3 +81,11 @@ export const createPM = pm => dispatch => {
   )
 }
 
+
+export const deleteProject = (projectId) => dispatch => {
+  return (
+    ProjectAPI.deleteProject(projectId)
+      .then(payload => dispatch(receiveDeletedProject(payload)),
+        err => dispatch(receiveErrors(err.responseJSON)))
+  )
+}

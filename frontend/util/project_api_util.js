@@ -30,3 +30,11 @@ export const createPM = (pm) => {
     data: { pm }
   })
 }
+
+export const deleteProject = (projectId) => {
+  // debugger
+  return $.ajax({
+    method: "DELETE",
+    url: `/api/projects/${projectId}`
+  });
+}

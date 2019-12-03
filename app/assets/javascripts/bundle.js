@@ -142,7 +142,7 @@ var closeModal = function closeModal() {
 /*!*********************************************!*\
   !*** ./frontend/actions/project_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_PROJECT, RECEIVE_PROJECTS, RECEIVE_NEW_PROJECT, RECEIVE_NEW_PM, RECEIVE_PROJECT_ERRORS, receiveNewProject, receiveProject, receiveProjects, receiveNewPM, receiveErrors, fetchProjects, fetchProject, createProject, createPM */
+/*! exports provided: RECEIVE_PROJECT, RECEIVE_PROJECTS, RECEIVE_NEW_PROJECT, RECEIVE_NEW_PM, RECEIVE_PROJECT_ERRORS, RECEIVE_DELETED_PROJECT, receiveNewProject, receiveProject, receiveProjects, receiveDeletedProject, receiveNewPM, receiveErrors, fetchProjects, fetchProject, createProject, createPM, deleteProject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -152,15 +152,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_PROJECT", function() { return RECEIVE_NEW_PROJECT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_PM", function() { return RECEIVE_NEW_PM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECT_ERRORS", function() { return RECEIVE_PROJECT_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_DELETED_PROJECT", function() { return RECEIVE_DELETED_PROJECT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewProject", function() { return receiveNewProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveProject", function() { return receiveProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveProjects", function() { return receiveProjects; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveDeletedProject", function() { return receiveDeletedProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewPM", function() { return receiveNewPM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchProjects", function() { return fetchProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchProject", function() { return fetchProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProject", function() { return createProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPM", function() { return createPM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
 /* harmony import */ var _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/project_api_util */ "./frontend/util/project_api_util.js");
 
 var RECEIVE_PROJECT = 'RECEIVE_PROJECT';
@@ -168,6 +171,7 @@ var RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
 var RECEIVE_NEW_PROJECT = 'RECEIVE_NEW_PROJECT';
 var RECEIVE_NEW_PM = 'RECEIVE_NEW_PM';
 var RECEIVE_PROJECT_ERRORS = 'RECEIVE_PROJECT_ERRORS';
+var RECEIVE_DELETED_PROJECT = 'RECEIVE_DELETED_PROJECT';
 var receiveNewProject = function receiveNewProject(payload) {
   return {
     type: RECEIVE_NEW_PROJECT,
@@ -185,6 +189,13 @@ var receiveProjects = function receiveProjects(projects) {
   return {
     type: RECEIVE_PROJECTS,
     projects: projects
+  };
+};
+var receiveDeletedProject = function receiveDeletedProject(payload) {
+  // debugger
+  return {
+    type: RECEIVE_DELETED_PROJECT,
+    payload: payload
   };
 };
 var receiveNewPM = function receiveNewPM(user) {
@@ -231,6 +242,15 @@ var createPM = function createPM(pm) {
   return function (dispatch) {
     return _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__["createPM"](pm).then(function (user) {
       return dispatch(receiveNewPM(user));
+    }, function (err) {
+      return dispatch(receiveErrors(err.responseJSON));
+    });
+  };
+};
+var deleteProject = function deleteProject(projectId) {
+  return function (dispatch) {
+    return _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteProject"](projectId).then(function (payload) {
+      return dispatch(receiveDeletedProject(payload));
     }, function (err) {
       return dispatch(receiveErrors(err.responseJSON));
     });
@@ -2376,7 +2396,8 @@ var mdp = function mdp(dispatch) {
     },
     openModal: function openModal(modal) {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])(modal));
-    }
+    } // deleteProject: (projectId) => dispatch(deleteProject(projectId))
+
   };
 };
 
@@ -2603,11 +2624,24 @@ function (_React$Component) {
       this.props.fetchProject(this.props.projectId);
     }
   }, {
+    key: "handleDelete",
+    value: function handleDelete() {
+      var _this = this;
+
+      event.preventDefault();
+      this.props.deleteProject(this.props.project.id).then(function () {
+        return _this.props.history.push('/');
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var _this$props = this.props,
           project = _this$props.project,
-          openModal = _this$props.openModal;
+          openModal = _this$props.openModal,
+          deleteProject = _this$props.deleteProject;
       if (!project) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "project-show"
@@ -2622,6 +2656,16 @@ function (_React$Component) {
         fill: "white",
         transform: "scale(0.84)",
         className: "plus-show"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this2.handleDelete();
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        className: "trash",
+        name: "trash",
+        h: 24,
+        w: 24,
+        fill: "gray"
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_index_cont__WEBPACK_IMPORTED_MODULE_1__["default"], null));
     }
   }]);
@@ -2668,6 +2712,9 @@ var mdp = function mdp(dispatch) {
     },
     openModal: function openModal(modal) {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])(modal));
+    },
+    deleteProject: function deleteProject(projectId) {
+      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["deleteProject"])(projectId));
     }
   };
 };
@@ -3346,8 +3393,15 @@ function (_React$Component) {
   _createClass(TaskForm, [{
     key: "handleChange",
     value: function handleChange(field) {
+      // debugger
+      var newValue = event.target.value;
+
+      if (field === 'user_id') {
+        newValue = Number(newValue);
+      }
+
       this.setState({
-        newTask: _objectSpread({}, this.state.newTask, _defineProperty({}, field, event.target.value))
+        newTask: _objectSpread({}, this.state.newTask, _defineProperty({}, field, newValue))
       });
     }
   }, {
@@ -3444,8 +3498,7 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assignee"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         onChange: function onChange() {
           return _this3.handleChange('user_id');
-        },
-        value: "Me"
+        }
       }, this.formatUsers()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_3___default.a, {
         onChange: this.handleDateChange,
         selected: this.state.newTask.due_date
@@ -3853,18 +3906,23 @@ var TaskIndexItem = function TaskIndexItem(_ref) {
     transform: "scale(0.75)"
   }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    id: "task-item",
+    id: "task-item"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
     onClick: function onClick() {
       return openModal("task".concat(task.id));
     }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(task.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(task.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
     h: 12,
     w: 12,
     name: "arrow",
     fill: arrowColor[task.priority],
     rotate: "rotate(-90)",
     transform: "scale(0.5)"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    onClick: function onClick() {
+      return openModal("task".concat(task.id));
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
     h: 18,
     w: 18,
     name: "cal",
@@ -4546,6 +4604,12 @@ var projectsReducer = function projectsReducer() {
       return Object.assign(nextState, action.payload.project);
     // return action.payload.project;
 
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_DELETED_PROJECT"]:
+      var projectId = Object.keys(action.payload.project)[0];
+      delete nextState[projectId]; // debugger
+
+      return nextState;
+
     default:
       return state;
   }
@@ -4832,7 +4896,7 @@ var configureStore = function configureStore() {
 /*!*******************************************!*\
   !*** ./frontend/util/project_api_util.js ***!
   \*******************************************/
-/*! exports provided: fetchProjects, fetchProject, createProject, createPM */
+/*! exports provided: fetchProjects, fetchProject, createProject, createPM, deleteProject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4841,6 +4905,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchProject", function() { return fetchProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProject", function() { return createProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPM", function() { return createPM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
 var fetchProjects = function fetchProjects() {
   return $.ajax({
     method: 'GET',
@@ -4871,6 +4936,13 @@ var createPM = function createPM(pm) {
     data: {
       pm: pm
     }
+  });
+};
+var deleteProject = function deleteProject(projectId) {
+  // debugger
+  return $.ajax({
+    method: "DELETE",
+    url: "/api/projects/".concat(projectId)
   });
 };
 

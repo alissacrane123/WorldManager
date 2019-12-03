@@ -32,6 +32,11 @@ padding: 7px;
     background: #45a29e;
     border-radius: 10px;
     cursor: pointer;
+        margin-right: 20px;
+}
+
+.trash {
+  cursor: pointer;
 }
 
 #project-show h2 {

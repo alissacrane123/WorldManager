@@ -16,9 +16,9 @@ const TaskIndexItem = ({ task, adminAccess, deleteTask, openModal }) => {
   let trashSVG = adminAccess ? <SVG className="trash"name="trash" h={18} w={18} fill="gray" transform="scale(0.75)"/> : <div></div>
   
   return (
-    <div id="task-item" onClick={() => openModal(`task${task.id}`)}>
+    <div id="task-item">
       <div>
-        <h4>{titleize(task.title)}</h4>
+        <h4 onClick={() => openModal(`task${task.id}`)}>{titleize(task.title)}</h4>
         <SVG
           h={12}
           w={12}
@@ -28,7 +28,7 @@ const TaskIndexItem = ({ task, adminAccess, deleteTask, openModal }) => {
           transform="scale(0.5)"
         />
       </div>
-      <div>
+      <div onClick={() => openModal(`task${task.id}`)}>
         <SVG h={18} w={18} name="cal" fill="gray" transform="scale(0.75)" />
         <label>{daysAgoStr}</label>
       </div>

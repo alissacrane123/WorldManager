@@ -14,6 +14,7 @@ class ProjectIndex extends React.Component {
     projects = projects.map(project => (
       <li key={project.id}>
         <ProjectIndexItem project={project} />
+
       </li>
     ))
 
@@ -29,6 +30,7 @@ class ProjectIndex extends React.Component {
             </div>
             <label>New Project</label>
           </ul>
+
         </li>
 
         
