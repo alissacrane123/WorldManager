@@ -3,7 +3,6 @@ import SVG from '../svg';
 import TaskShowItemContainer from './task_show_item_cont';
 
 const TaskSection = ({ tasks, filter }) => {
-  // debugger
   tasks = tasks.map((task, i) => (
     <TaskShowItemContainer key={i} task={task}/>
   ))

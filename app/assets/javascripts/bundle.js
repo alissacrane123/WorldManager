@@ -4399,7 +4399,6 @@ __webpack_require__.r(__webpack_exports__);
 var TaskSection = function TaskSection(_ref) {
   var tasks = _ref.tasks,
       filter = _ref.filter;
-  // debugger
   tasks = tasks.map(function (task, i) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_show_item_cont__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: i,
@@ -4435,6 +4434,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _task_show_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task_show_item */ "./frontend/components/task/task_show_item.jsx");
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
+/* harmony import */ var _task_section__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./task_section */ "./frontend/components/task/task_section.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4457,6 +4457,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var TaskShow =
 /*#__PURE__*/
 function (_React$Component) {
@@ -4474,46 +4475,25 @@ function (_React$Component) {
       this.props.fetchTasks();
     }
   }, {
-    key: "renderSections",
-    value: function renderSections() {
+    key: "render",
+    value: function render() {
       var _this$props = this.props,
           allTasks = _this$props.allTasks,
           recentTasks = _this$props.recentTasks,
           upcomingTasks = _this$props.upcomingTasks,
           updateTask = _this$props.updateTask,
-          openModal = _this$props.openModal;
-      var sections = [[recentTasks, 'Recent'], [upcomingTasks, 'Upcoming']].map(function (section, i) {
-        var tasks = section[0].map(function (task, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_show_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-            task: task,
-            key: i,
-            updateTask: updateTask,
-            openModal: openModal
-          });
-        });
-        var filter = section[1];
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-          key: i,
-          className: "list"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          name: "carrot",
-          h: 12,
-          w: 12,
-          rotate: "rotate(90)",
-          fill: "gray",
-          transform: "scale(0.5)"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "".concat(filter, " Tasks"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, tasks));
-      });
-      return sections;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var sections = this.renderSections();
+          openModal = _this$props.openModal; // let sections = this.renderSections();
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-show",
         className: "show"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, sections));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        tasks: upcomingTasks,
+        filter: "Upcoming"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        tasks: recentTasks,
+        filter: "Resent"
+      })));
     }
   }]);
 
