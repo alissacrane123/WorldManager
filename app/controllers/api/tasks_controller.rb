@@ -35,7 +35,7 @@ class Api::TasksController < ApplicationController
       ending_day = DateTime.strptime(params[:date], '%m/%d/%Y');
       @tasks =  Task.where('due_date >= ? AND due_date <= ?', start_day, ending_day.end_of_day);
     else 
-      @tasks = Task.includes(:project, :user).where(user_id: current_user.id)
+      @tasks = Task.includes(:project).where(user_id: current_user.id)
     end
   end
 

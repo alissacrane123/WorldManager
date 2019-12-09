@@ -9,9 +9,9 @@ class ProjectIndex extends React.Component {
   }
 
   render() {
-    let { projects, openModal } = this.props;
-
-    projects = projects.map(project => (
+    let { projects, openModal, acceptedProjects } = this.props;
+    
+    acceptedProjects = acceptedProjects.map(project => (
       <li key={project.id}>
         <ProjectIndexItem project={project} />
 
@@ -20,8 +20,8 @@ class ProjectIndex extends React.Component {
 
     
     return (
-      <ul className="project-index">
-        {projects}
+      <ul id="project-index" className="index">
+        {acceptedProjects}
 
         <li>
           <ul className="project-item new">

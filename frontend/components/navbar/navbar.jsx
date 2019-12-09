@@ -61,6 +61,16 @@ class Navbar extends React.Component {
           <SVG className="sb" h={24} w={24} name="calendar" fill="white" />
           <label className="close">Calendar</label>
         </div>
+  
+        <div onClick={() => this.props.history.push('/team')}>
+          <SVG className="sb" h={24} w={24} name="team" fill="white" />
+          <label className="close">Team</label>
+        </div>
+
+        <div onClick={() => this.props.history.push('/notify')}>
+          <SVG className="sb" h={24} w={24} name="notify" fill="white" />
+          <label className="close">Notifications</label>
+        </div>
         
         <div onClick={() => this.openMenu()}>
           <SVG id="settings" className="sb" name="settings" h={24} w={24} fill="white" />

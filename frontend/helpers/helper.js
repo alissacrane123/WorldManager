@@ -96,3 +96,15 @@ export const sortByDueDate = (tasks) => {
 
   return tasks;
 }
+
+export const selectAcceptedProjects = (state) => {
+  let pmProjectIds = Object.values(state.entities.pms).map(pm => pm.project_id);
+  let projects = Object.values(state.entities.projects).filter(project => !pmProjectIds.includes(project.id))
+  return projects;
+}
+
+export const selectAcceptedTasks = (state) => {
+  let pmProjectIds = Object.values(state.entities.pms).map(pm => pm.project_id);
+  let tasks = Object.values(state.entities.tasks).filter(task => !pmProjectIds.includes(task.project_id))
+  return tasks;
+}

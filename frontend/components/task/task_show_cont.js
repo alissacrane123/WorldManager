@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import TaskShow from './task_show';
-import { selectRecentTasks, selectUpcomingTasks } from '../../helpers/helper';
+import { selectRecentTasks, selectUpcomingTasks, selectAcceptedTasks } from '../../helpers/helper';
 import { updateUserFilter } from '../../actions/filter_actions';
 
 import { fetchProjects, fetchProject } from '../../actions/project_actions';
@@ -9,7 +9,8 @@ import { fetchTasks, updateTask } from '../../actions/task_actions';
 import { openModal } from '../../actions/modal_actions';
 
 const msp = (state, ownProps) => {
-  let tasks = Object.values(state.entities.tasks).filter(task => task.status !== 'Finished');
+  // let tasks = Object.values(state.entities.tasks).filter(task => task.status !== 'Finished');
+  let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
   let recentTasks = [];
 
   return {
@@ -17,9 +18,9 @@ const msp = (state, ownProps) => {
     userFilter: state.ui.filters.tasks.user,
     users: Object.values(state.entities.users),
     // adminAccess: Object.values(state.entities.projects)[0].adminAccess,
-    allTasks: tasks,
-    recentTasks: selectRecentTasks(tasks),
-    upcomingTasks: selectUpcomingTasks(tasks)
+    allTasks: acceptedTasks,
+    recentTasks: selectRecentTasks(acceptedTasks),
+    upcomingTasks: selectUpcomingTasks(acceptedTasks)
     // users: projectMemberSelector(state)
   }
 }

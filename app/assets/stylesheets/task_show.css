@@ -5,20 +5,21 @@
 #45A29E - teal */
 
 
-#task-show {
+.show {
   display:flex;
   flex-direction: column;
   padding: 60px;
   background: #f6f8f9;
+  min-height: 100vh;
 }
 
-#task-show section {
+.show section {
 /* padding: 30px 30px 0px 30px; */
     /* background: white; */
     padding-bottom: 30px;
 }
 
-#task-show > div {
+.show > div {
   box-shadow: 0 1px 3px 0 rgba(21,27,38,.15);
       padding: 30px;
     background: white;

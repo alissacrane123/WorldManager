@@ -17,11 +17,11 @@ export const receiveProject = payload => ({
   payload
 })
 
-export const receiveProjects = projects => {
+export const receiveProjects = payload => {
   // debugger
   return {
     type: RECEIVE_PROJECTS,
-    projects
+    payload
   }
 }
 
@@ -34,11 +34,11 @@ export const receiveDeletedProject = payload => {
 }
 
 
-export const receiveNewPM = user => {
+export const receiveNewPM = payload => {
   
   return {
     type: RECEIVE_NEW_PM,
-    user
+    payload
   }
 }
 

@@ -11,7 +11,6 @@ class TaskShow extends React.Component {
 
   renderSections() {
     let { allTasks, recentTasks, upcomingTasks, updateTask, openModal } = this.props;
-    // let sections = [[allTasks, 'All'], [recentTasks, 'Recent'], [upcomingTasks, 'Upcoming']].map((section, i) => {
     let sections = [[recentTasks, 'Recent'], [upcomingTasks, 'Upcoming']].map((section, i) => {
       let tasks = section[0].map((task, i) => <TaskShowItem task={task} key={i} updateTask={updateTask} openModal={openModal}/>);
       let filter = section[1];
@@ -38,7 +37,7 @@ class TaskShow extends React.Component {
     let sections = this.renderSections();
 
     return (
-      <div id="task-show">
+      <div id="task-show" className="show">
 
         <div>
           { sections }

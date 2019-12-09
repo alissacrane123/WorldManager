@@ -21,7 +21,7 @@
 #home section.list {
   /* margin: 0px 10%; */
     margin: 0 auto 30px auto;
-    width: 700px;
+    width: 730px;
 }
 
 #home section:first-of-type {
@@ -45,14 +45,14 @@ section.list h2 {
 
 /* PROJECT INDEX AND ITEMS */
 
-ul.project-index {
+ul#project-index {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-ul.project-index li {
-  padding: 20px;
+ul#project-index li {
+  padding: 10px;
   min-height: 50px;
   border-radius: 4px;
 }

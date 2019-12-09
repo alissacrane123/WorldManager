@@ -6,7 +6,7 @@ class Api::ProjectsController < ApplicationController
     @project.owner_id = current_user.id
     
     if @project.save
-      ProjectMembership.create!(user_id: @project.owner_id, project_id: @project.id, role: "admin")
+      ProjectMembership.create!(user_id: @project.owner_id, project_id: @project.id, role: "admin", request_status:true, inviter_id: @project.owner_id)
       # debugger
       if pm_params[:email].length > 0
         new_member = ProjectMembership.new()

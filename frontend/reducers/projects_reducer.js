@@ -12,7 +12,7 @@ const projectsReducer = (state = {}, action) => {
       return action.payload.project;
     case RECEIVE_PROJECTS:
       // debugger
-      return action.projects
+      return action.payload.projects
     case RECEIVE_NEW_PROJECT:
       return Object.assign(nextState, action.payload.project)
       // return action.payload.project;

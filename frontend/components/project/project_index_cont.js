@@ -3,9 +3,11 @@ import ProjectIndex from './project_index';
 
 import { fetchProjects, fetchProject, deleteProject } from '../../actions/project_actions';
 import { openModal } from '../../actions/modal_actions';
+import { selectAcceptedProjects } from '../../helpers/helper';
 
 const msp = state => ({
-  projects: Object.values(state.entities.projects)
+  projects: Object.values(state.entities.projects),
+  acceptedProjects: selectAcceptedProjects(state)
 })
 
 const mdp = dispatch => ({

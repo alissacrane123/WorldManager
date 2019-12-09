@@ -4,7 +4,7 @@
 #66FCF1 - brightteal
 #45A29E - teal */
 
-.tsi {
+.list-item {
   display: flex;
   flex-direction: row;
   line-height: 20px;
@@ -17,25 +17,25 @@
   align-items:center;
 }
 
-.tsi div:first-child {
+.list-item div:first-child {
   cursor: pointer;
   margin-right: 10px;
   display: flex;
 }
 
-.tsi div:first-child:hover * {
+.list-item div:first-child:hover * {
   fill: #45A29E;
 }
 
-.tsi > h4 {
+.list-item > h4 {
   cursor: pointer;
 }
 
-.tsi > h4:hover {
+.list-item > h4:hover {
   color: #45A29E;
 }
 
-.tsi > div:last-of-type {
+.list-item > div:last-of-type {
     background: #6f7782;
     color: white;
     line-height: 18px;
@@ -50,7 +50,7 @@
     cursor:pointer;
 }
 
-.tsi > label {
+.list-item > label {
   margin-left: 10px;
   font-weight:500;
   color: #6f7782;

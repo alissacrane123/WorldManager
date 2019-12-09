@@ -1,0 +1,7 @@
+#team {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 60px;
+  background: #f6f8f9;
+}

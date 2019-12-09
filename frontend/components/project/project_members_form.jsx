@@ -3,7 +3,7 @@ import React from 'react';
 class ProjectMembersForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', role: '', project_id: this.props.projectId };
+    this.state = { email: '', role: '', project_id: this.props.projectId, inviter_id: this.props.currentUserId };
   }
 
   handleSubmit() {

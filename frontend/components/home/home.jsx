@@ -4,6 +4,8 @@ import { dateInOneWeek } from '../../helpers/helper';
 
 import ProjectIndexCont from '../project/project_index_cont';
 import TaskShowItem from '../task/task_show_item';
+import PmIndexContainer from '../notifications/pm_index_cont';
+
 import SVG from '../svg'
 
 class Home extends React.Component {
@@ -14,7 +16,7 @@ class Home extends React.Component {
   }
 
   render() {
-    let { currentUser, tasks, ownedTasks, updateTask, openModal } = this.props;
+    let { currentUser, tasks, pms, ownedTasks, updateTask, openModal,fetchPMs } = this.props;
   
     ownedTasks = ownedTasks.map((task, i) => (
       <TaskShowItem task={task} key={i} updateTask={updateTask} openModal={openModal} />
@@ -23,6 +25,8 @@ class Home extends React.Component {
       <div id="home">
         
         <h1>Welcome, { currentUser.fname }</h1>
+        
+        { pms.length > 0 ? <PmIndexContainer /> : null }
 
         <section className="list">
           <div>

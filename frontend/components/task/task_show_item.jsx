@@ -26,7 +26,7 @@ class TaskShowItem extends React.Component {
     let { task, openModal } = this.props;
     
     return (
-      <li id={`tsi${task.id}`} className="tsi">
+      <li id={`tsi${task.id}`} className="list-item">
         <div onClick={ this.completeTask }>
           <SVG name="done" rule="evenodd" h={18} w={18} fill="gray" transform="scale(0.75)" />
         </div>
