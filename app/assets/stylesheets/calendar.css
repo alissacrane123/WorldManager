@@ -21,7 +21,14 @@
   justify-content: space-between;
 }
 
-#calendar > section > h1 {
+#calendar header {
+      display: flex;
+    justify-content: space-between;
+    width: 255px;
+
+}
+
+#calendar header > h1 {
   margin: 0px 10px;
   font-size: 25px;
   font-weight: 600;
@@ -57,7 +64,8 @@
   flex-direction: row;
   width: 100%;
   /* flex-grow: 1; */
-  flex: 1 1 0px
+  flex: 1 1 0px;
+  
 }
 
 #cal-header {
@@ -76,6 +84,7 @@
   margin:1.5px;
   background:white;
   overflow: hidden;
+  max-height: 175px;
 }
 
 #cal-header > li {
@@ -84,7 +93,7 @@
   margin: 0px !important;
 }
 
-#calendar > section > div {
+#calendar header > div {
   cursor: pointer;
 }
 
@@ -110,7 +119,8 @@ ul.hide > li:first-child, ul.hide > li:last-child{
     padding: 4px 5px;
     color: black;
     font-weight: 500;
-   
+       max-height: 90%;
+    overflow: scroll;
 }
 
 #cal-day li {
@@ -121,7 +131,12 @@ ul.hide > li:first-child, ul.hide > li:last-child{
    margin-bottom:5px;
    border: 1px solid #e8ecee;
    cursor:pointer;
+   display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+
 
 div.disabled {
   background: #e2e2e2;
@@ -135,4 +150,16 @@ div.disabled {
 
 .cal-day-item {
   z-index: 1;
+}
+
+.cal-day-item h4 {
+  max-width: 80%;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    line-height: 16px;
+}
+
+.cal-day-item > div:hover * {
+  fill: #45A29E;
 }

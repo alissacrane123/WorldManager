@@ -15,7 +15,7 @@ class Team extends React.Component {
     projects = projects.map((project, i) => {
       let projectUsers = users.filter(user => project.memberIds.includes(user.id))
       projectUsers = projectUsers.map((user,i) => (
-        <li className="list-item">{user.fullName}</li>
+        <li key={i} className="list-item">{user.fullName}</li>
       ))
       return (
         <section key={i} className="list">

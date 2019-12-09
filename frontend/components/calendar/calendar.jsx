@@ -55,15 +55,17 @@ class Calendar extends React.Component {
     return (
       <div id="calendar">
         <section>
-          <div onClick={() => this.prevMonth()}>
-            <SVG name="arrow2" h={24} w={24} rotate="rotate(180)" />
-          </div>
+          <header>
+            <div onClick={() => this.prevMonth()}>
+              <SVG name="arrow2" h={24} w={24} rotate="rotate(180)" />
+            </div>
 
-          {this.renderHeader()}
+            {this.renderHeader()}
 
-          <div onClick={() => this.nextMonth()}>
-            <SVG name="arrow2" h={24} w={24} />
-          </div>
+            <div onClick={() => this.nextMonth()}>
+              <SVG name="arrow2" h={24} w={24} />
+            </div>
+          </header>
 
           <button onClick={() => this.toggleDisplay()} className={monthClass}>Month</button>
           <button onClick={() => this.toggleDisplay()}className={weekClass}>Week</button>

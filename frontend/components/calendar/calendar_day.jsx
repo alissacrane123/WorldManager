@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 import { titleize} from '../../helpers/helper';
+import SVG from '../svg';
 
 class CalendarDay extends React.Component {
   constructor(props) {
@@ -15,16 +16,25 @@ class CalendarDay extends React.Component {
       showForm: false,
       emptyTask: emptyTask
     }
+    // this.completeTask = this.completeTask.bind(this);
+  }
+
+  completeTask(task) {
+    event.preventDefault();
+    let newTask = Object.assign({}, task, { status: 'Finished' });
+
+    this.props.updateTask(newTask);
+
   }
 
 
   formatDateString() {
-    // debugger
+    
     let { day, month, year } = this.props;
     day = day < 10 ? `0${day}` : day;
     month = month < 10 ? `0${month}` : month;
     let date = `${month}/${day}/${year}`;
-    // debugger
+    
     return date;
   }
 
@@ -37,7 +47,10 @@ class CalendarDay extends React.Component {
 
     tasks = filteredTasks.map((task, i) => (
       <li className="cal-day-item" key={i} onClick={ () => openModal(`task${task.id}`)}>
-        {titleize(task.title)}
+        <h4>{titleize(task.title)}</h4>
+        <div onClick={() => this.completeTask(task)}>
+          <SVG name="done" rule="evenodd" h={18} w={18} fill="gray" transform="scale(0.75)" />
+        </div>
       </li>
     ))
     return tasks;
@@ -49,7 +62,7 @@ class CalendarDay extends React.Component {
   }
 
   handleKeyPress(e) {
-    // debugger
+
     if (e.key === 'Enter') {
       let task = this.state.task;
       this.props.createTask(task)
@@ -65,7 +78,7 @@ class CalendarDay extends React.Component {
   
     let { day, month, year, tasks, disabled } = this.props;
     let disabledClass = disabled ? 'disabled' : '';
-    // debugger
+
     let li = (
       <li>
         <input 

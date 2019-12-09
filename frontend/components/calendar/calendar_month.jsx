@@ -52,7 +52,7 @@ class CalendarMonth extends React.Component {
   }
 
   renderRows() {
-    let { tasks, month, year, openModal, createTask, emptyTask, currentUser } = this.props;
+    let { tasks, month, year, openModal, createTask, emptyTask, currentUser, updateTask } = this.props;
 
     let lastDayOfMonth = this.daysInMonth("cur");
     let first = this.getFirstRow();
@@ -79,13 +79,13 @@ class CalendarMonth extends React.Component {
             if ((i === 0 && cell > 7) || (i > 3 && cell < 9)) {
               return (
                 <li key={j}>
-                  <CalendarDay user={currentUser} emptyTask={emptyTask} createTask={createTask} openModal={openModal} tasks={tasks} disabled={true} month={month} year={year} day={cell} />
+                  <CalendarDay user={currentUser} updateTask={updateTask} emptyTask={emptyTask} createTask={createTask} openModal={openModal} tasks={tasks} disabled={true} month={month} year={year} day={cell} />
                 </li>              )
             }
             
             return (
               <li key={j}>
-                <CalendarDay user={currentUser} emptyTask={emptyTask} createTask={createTask}  openModal={openModal} tasks={tasks} disable={false} month={month + 1} year={year} day={cell} />
+                <CalendarDay user={currentUser} updateTask={updateTask} emptyTask={emptyTask} createTask={createTask}  openModal={openModal} tasks={tasks} disable={false} month={month + 1} year={year} day={cell} />
               </li>
             )
           })}

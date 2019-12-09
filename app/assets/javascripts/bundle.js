@@ -629,6 +629,9 @@ var mdp = function mdp(dispatch) {
     },
     createTask: function createTask(task) {
       return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["createTask"])(task));
+    },
+    updateTask: function updateTask(task) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["updateTask"])(task));
     }
   };
 };
@@ -769,7 +772,7 @@ function (_React$Component) {
       var weekClass = displayMonth ? "" : "selected";
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "calendar"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
           return _this2.prevMonth();
         }
@@ -786,7 +789,7 @@ function (_React$Component) {
         name: "arrow2",
         h: 24,
         w: 24
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
           return _this2.toggleDisplay();
         },
@@ -876,6 +879,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-datepicker */ "./node_modules/react-datepicker/dist/react-datepicker.min.js");
 /* harmony import */ var react_datepicker__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_datepicker__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -897,6 +901,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -930,28 +935,38 @@ function (_React$Component) {
     _this.state = {
       task: emptyTask,
       showForm: false,
-      emptyTask: emptyTask
+      emptyTask: emptyTask // this.completeTask = this.completeTask.bind(this);
+
     };
     return _this;
   }
 
   _createClass(CalendarDay, [{
+    key: "completeTask",
+    value: function completeTask(task) {
+      event.preventDefault();
+      var newTask = Object.assign({}, task, {
+        status: 'Finished'
+      });
+      this.props.updateTask(newTask);
+    }
+  }, {
     key: "formatDateString",
     value: function formatDateString() {
-      // debugger
       var _this$props = this.props,
           day = _this$props.day,
           month = _this$props.month,
           year = _this$props.year;
       day = day < 10 ? "0".concat(day) : day;
       month = month < 10 ? "0".concat(month) : month;
-      var date = "".concat(month, "/").concat(day, "/").concat(year); // debugger
-
+      var date = "".concat(month, "/").concat(day, "/").concat(year);
       return date;
     }
   }, {
     key: "filterTasks",
     value: function filterTasks() {
+      var _this2 = this;
+
       var _this$props2 = this.props,
           tasks = _this$props2.tasks,
           day = _this$props2.day,
@@ -969,7 +984,18 @@ function (_React$Component) {
           onClick: function onClick() {
             return openModal("task".concat(task.id));
           }
-        }, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(task.title));
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(task.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          onClick: function onClick() {
+            return _this2.completeTask(task);
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          name: "done",
+          rule: "evenodd",
+          h: 18,
+          w: 18,
+          fill: "gray",
+          transform: "scale(0.75)"
+        })));
       });
       return tasks;
     }
@@ -986,14 +1012,13 @@ function (_React$Component) {
   }, {
     key: "handleKeyPress",
     value: function handleKeyPress(e) {
-      var _this2 = this;
+      var _this3 = this;
 
-      // debugger
       if (e.key === 'Enter') {
         var task = this.state.task;
         this.props.createTask(task).then(function () {
-          return _this2.setState({
-            task: _this2.state.emptyTask,
+          return _this3.setState({
+            task: _this3.state.emptyTask,
             showForm: false
           });
         });
@@ -1009,7 +1034,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _this$props3 = this.props,
           day = _this$props3.day,
@@ -1017,16 +1042,15 @@ function (_React$Component) {
           year = _this$props3.year,
           tasks = _this$props3.tasks,
           disabled = _this$props3.disabled;
-      var disabledClass = disabled ? 'disabled' : ''; // debugger
-
+      var disabledClass = disabled ? 'disabled' : '';
       var li = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.task.title,
         onKeyPress: function onKeyPress(e) {
-          return _this3.handleKeyPress(e);
+          return _this4.handleKeyPress(e);
         },
         onChange: function onChange() {
-          return _this3.handleChange();
+          return _this4.handleChange();
         }
       }));
       var form = this.state.showForm ? li : null;
@@ -1038,7 +1062,7 @@ function (_React$Component) {
       }, disabled ? null : this.filterTasks(), form), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "flag",
         onClick: function onClick() {
-          return _this3.addTask();
+          return _this4.addTask();
         }
       }));
     }
@@ -1153,7 +1177,8 @@ function (_React$Component) {
           openModal = _this$props.openModal,
           createTask = _this$props.createTask,
           emptyTask = _this$props.emptyTask,
-          currentUser = _this$props.currentUser;
+          currentUser = _this$props.currentUser,
+          updateTask = _this$props.updateTask;
       var lastDayOfMonth = this.daysInMonth("cur");
       var first = this.getFirstRow();
       var rows = [first];
@@ -1178,6 +1203,7 @@ function (_React$Component) {
               key: j
             }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_calendar_day__WEBPACK_IMPORTED_MODULE_1__["default"], {
               user: currentUser,
+              updateTask: updateTask,
               emptyTask: emptyTask,
               createTask: createTask,
               openModal: openModal,
@@ -1193,6 +1219,7 @@ function (_React$Component) {
             key: j
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_calendar_day__WEBPACK_IMPORTED_MODULE_1__["default"], {
             user: currentUser,
+            updateTask: updateTask,
             emptyTask: emptyTask,
             createTask: createTask,
             openModal: openModal,
@@ -4632,9 +4659,9 @@ function (_React$Component) {
 
     _classCallCheck(this, TaskShowItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskShowItem).call(this, props));
-    var task = Object.assign({}, _this.props.task);
-    _this.state = task;
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskShowItem).call(this, props)); // let task = Object.assign({}, this.props.task)
+    // this.state  = task;
+
     _this.completeTask = _this.completeTask.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -4645,9 +4672,8 @@ function (_React$Component) {
       event.preventDefault();
       var task = Object.assign({}, this.props.task, {
         status: 'Finished'
-      }); // debugger
-
-      this.props.updateTask(task); // this.setState({ status: 'Finished' }, () => this.props.updateTask(this.state));
+      });
+      this.props.updateTask(task);
     }
   }, {
     key: "getDayOfWeek",
@@ -4663,8 +4689,7 @@ function (_React$Component) {
 
       var _this$props = this.props,
           task = _this$props.task,
-          openModal = _this$props.openModal; // debugger
-
+          openModal = _this$props.openModal;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         id: "tsi".concat(task.id),
         className: "list-item"
@@ -4798,6 +4823,7 @@ function (_React$Component) {
         });
         projectUsers = projectUsers.map(function (user, i) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            key: i,
             className: "list-item"
           }, user.fullName);
         });
