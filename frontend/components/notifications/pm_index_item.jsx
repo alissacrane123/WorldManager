@@ -19,10 +19,10 @@ class PmIndexItem extends React.Component {
     let { pm, updatePM } = this.props;
 
     return (
-      <li className="list-item" >
+      <li className="list-item task" >
         {titleize(pm.projectName)}
 
-        <button onClick={() => this.handleClick()}>Accept Request</button>
+        <button className="accept" onClick={() => this.handleClick()}>Accept</button>
       </li>
     )
   }

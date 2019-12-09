@@ -101,3 +101,20 @@ li.new-pi >ul > div{
   background:white;
   border: 2px dashed #45a29e;
 } */
+
+.list-item.task {
+  line-height: 30px;
+}
+.accept {
+outline: none;
+    border: none;
+    background: #45a29e;
+    color: white;
+    border-radius: 6px;
+    margin-left: auto;
+    height: 30px;
+    padding: 0px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 0 4px grey;
+}

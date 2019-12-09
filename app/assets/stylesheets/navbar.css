@@ -19,7 +19,7 @@ nav.navbar {
 }
 
 nav.navbar.expanded {
-  width: 150px;
+  width: 180px;
 }
 
 #sb-arrow {
@@ -83,5 +83,24 @@ position: absolute;
 #navbar ul > * {
   margin-bottom: 10px;
   font-weight: 500;
+}
+
+.notify {
+  position:relative;
+}
+
+#notify-num {
+position: absolute;
+    height: 25px;
+    width: 25px;
+    top: -18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 50%;
+    left: 15px;
+    background: red;
+    color: white;
 }
 

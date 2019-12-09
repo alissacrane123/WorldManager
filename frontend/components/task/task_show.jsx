@@ -11,9 +11,8 @@ class TaskShow extends React.Component {
   }
 
   render() {
-    let { allTasks, recentTasks, upcomingTasks, updateTask, openModal } = this.props;
+    let { allTasks, recentTasks, upcomingTasks, updateTask, openModal, overdueTasks } = this.props;
 
-    // let sections = this.renderSections();
 
     return (
       <div id="task-show" className="show">
@@ -21,7 +20,7 @@ class TaskShow extends React.Component {
         <div>
           <TaskSection tasks={upcomingTasks} filter="Upcoming" />
           <TaskSection tasks={recentTasks} filter="Resent" />
-
+          <TaskSection tasks={overdueTasks} filter="Overdue" />
         </div>
 
       </div>

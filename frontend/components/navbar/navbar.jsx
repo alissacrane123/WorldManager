@@ -37,7 +37,7 @@ class Navbar extends React.Component {
   }
 
   render() {
-    let { logout } = this.props;
+    let { logout, pms } = this.props;
 
     return(
       <nav id="navbar" className="navbar">
@@ -67,8 +67,9 @@ class Navbar extends React.Component {
           <label className="close">Team</label>
         </div>
 
-        <div onClick={() => this.props.history.push('/notify')}>
+        <div onClick={() => this.props.history.push('/notify')} className="notify">
           <SVG className="sb" h={24} w={24} name="notify" fill="white" />
+          {pms.length > 0 ? <div id="notify-num">{pms.length}</div> : null }
           <label className="close">Notifications</label>
         </div>
         

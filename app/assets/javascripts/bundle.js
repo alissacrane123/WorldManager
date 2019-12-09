@@ -1485,10 +1485,7 @@ function (_React$Component) {
           updateTask = _this$props.updateTask,
           openModal = _this$props.openModal,
           fetchPMs = _this$props.fetchPMs,
-          upcomingTasks = _this$props.upcomingTasks; // ownedTasks = ownedTasks.map((task, i) => (
-      //   <TaskShowItem task={task} key={i} updateTask={updateTask} openModal={openModal} />
-      // ))
-
+          upcomingTasks = _this$props.upcomingTasks;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "home"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome, ", currentUser.fname), pms.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_notifications_pm_index_cont__WEBPACK_IMPORTED_MODULE_5__["default"], null) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -2056,7 +2053,9 @@ function (_React$Component) {
     value: function render() {
       var _this4 = this;
 
-      var logout = this.props.logout;
+      var _this$props = this.props,
+          logout = _this$props.logout,
+          pms = _this$props.pms;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
         id: "navbar",
         className: "navbar"
@@ -2131,14 +2130,17 @@ function (_React$Component) {
       }, "Team")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
           return _this4.props.history.push('/notify');
-        }
+        },
+        className: "notify"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
         className: "sb",
         h: 24,
         w: 24,
         name: "notify",
         fill: "white"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      }), pms.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "notify-num"
+      }, pms.length) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "close"
       }, "Notifications")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
@@ -2188,7 +2190,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var msp = function msp(state, ownProps) {
   return {
-    currentUser: state.entities.users[state.session.id]
+    currentUser: state.entities.users[state.session.id],
+    pms: Object.values(state.entities.pms)
   };
 };
 
@@ -2505,12 +2508,13 @@ function (_React$Component) {
           pm = _this$props.pm,
           updatePM = _this$props.updatePM;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "list-item"
+        className: "list-item task"
       }, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(pm.projectName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "accept",
         onClick: function onClick() {
           return _this.handleClick();
         }
-      }, "Accept Request"));
+      }, "Accept"));
     }
   }]);
 
@@ -3551,7 +3555,7 @@ var getPath = function getPath(iconName, props) {
   switch (iconName) {
     case 'notify':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
-        d: "M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-.001 5.75c.69 0 1.251.56 1.251 1.25s-.561 1.25-1.251 1.25-1.249-.56-1.249-1.25.559-1.25 1.249-1.25zm2.001 12.25h-4v-1c.484-.179 1-.201 1-.735v-4.467c0-.534-.516-.618-1-.797v-1h3v6.265c0 .535.517.558 1 .735v.999z"
+        d: "M15.137 3.945c-.644-.374-1.042-1.07-1.041-1.82v-.003c.001-1.172-.938-2.122-2.096-2.122s-2.097.95-2.097 2.122v.003c.001.751-.396 1.446-1.041 1.82-4.667 2.712-1.985 11.715-6.862 13.306v1.749h20v-1.749c-4.877-1.591-2.195-10.594-6.863-13.306zm-3.137-2.945c.552 0 1 .449 1 1 0 .552-.448 1-1 1s-1-.448-1-1c0-.551.448-1 1-1zm3 20c0 1.598-1.392 3-2.971 3s-3.029-1.402-3.029-3h6z"
       }));
 
     case 'team':
@@ -4406,7 +4410,7 @@ var TaskSection = function TaskSection(_ref) {
     });
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "list"
+    className: "task list"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
     name: "carrot",
     h: 12,
@@ -4482,8 +4486,8 @@ function (_React$Component) {
           recentTasks = _this$props.recentTasks,
           upcomingTasks = _this$props.upcomingTasks,
           updateTask = _this$props.updateTask,
-          openModal = _this$props.openModal; // let sections = this.renderSections();
-
+          openModal = _this$props.openModal,
+          overdueTasks = _this$props.overdueTasks;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-show",
         className: "show"
@@ -4493,6 +4497,9 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
         tasks: recentTasks,
         filter: "Resent"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        tasks: overdueTasks,
+        filter: "Overdue"
       })));
     }
   }]);
@@ -4541,7 +4548,8 @@ var msp = function msp(state, ownProps) {
     // adminAccess: Object.values(state.entities.projects)[0].adminAccess,
     allTasks: acceptedTasks,
     recentTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectRecentTasks"])(acceptedTasks),
-    upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectUpcomingTasks"])(acceptedTasks) // users: projectMemberSelector(state)
+    upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectUpcomingTasks"])(acceptedTasks),
+    overdueTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectOverdueTasks"])(acceptedTasks) // users: projectMemberSelector(state)
 
   };
 };
@@ -4903,7 +4911,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*!************************************!*\
   !*** ./frontend/helpers/helper.js ***!
   \************************************/
-/*! exports provided: titleize, selectNewProjectId, formatJavascriptDate, dateToWords, projectMemberSelector, selectRecentTasks, selectUpcomingTasks, dateInOneWeek, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks */
+/*! exports provided: titleize, selectNewProjectId, formatJavascriptDate, dateToWords, projectMemberSelector, selectRecentTasks, selectUpcomingTasks, selectOverdueTasks, dateInOneWeek, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4915,6 +4923,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "projectMemberSelector", function() { return projectMemberSelector; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectRecentTasks", function() { return selectRecentTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectUpcomingTasks", function() { return selectUpcomingTasks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectOverdueTasks", function() { return selectOverdueTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateInOneWeek", function() { return dateInOneWeek; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortByDueDate", function() { return sortByDueDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectAcceptedProjects", function() { return selectAcceptedProjects; });
@@ -4984,10 +4993,17 @@ var selectRecentTasks = function selectRecentTasks(tasks) {
 };
 var selectUpcomingTasks = function selectUpcomingTasks(tasks) {
   var date = Date.now() + 12096e5;
-  tasks = tasks.filter(function (task) {
-    return date > Date.parse(task.due_date);
+  var upcoming = tasks.filter(function (task) {
+    return date > Date.parse(task.due_date) && Date.now() <= Date.parse(task.due_date);
+  }); // debugger
+
+  return upcoming;
+};
+var selectOverdueTasks = function selectOverdueTasks(tasks) {
+  var past = tasks.filter(function (task) {
+    return Date.now() > Date.parse(task.due_date);
   });
-  return tasks;
+  return past;
 };
 var dateInOneWeek = function dateInOneWeek() {
   var today = new Date();

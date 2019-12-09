@@ -20,9 +20,6 @@ class Home extends React.Component {
   render() {
     let { currentUser, tasks, pms, ownedTasks, updateTask, openModal,fetchPMs, upcomingTasks } = this.props;
   
-    // ownedTasks = ownedTasks.map((task, i) => (
-    //   <TaskShowItem task={task} key={i} updateTask={updateTask} openModal={openModal} />
-    // ))
     return(
       <div id="home">
         
@@ -39,18 +36,10 @@ class Home extends React.Component {
           <ProjectIndexCont />
 
         </section>
-
-        {/* <section className="list">
-          <div>
-            <SVG name="carrot" h={12} w={12} rotate="rotate(90)" fill="gray" transform="scale(0.5)"/>
-            <h2>Upcoming Tasks</h2>
-          </div>
-          <ul>
-            {  ownedTasks }
-          </ul>
-        </section> */}
    
         <TaskSection tasks={upcomingTasks} filter="Upcoming"/>
+
+        
       </div>
     )
   }

@@ -63,9 +63,14 @@ export const selectRecentTasks = (tasks) => {
 export const selectUpcomingTasks = (tasks) => {
   let date = Date.now() + 12096e5;
   
-  tasks = tasks.filter(task => date > Date.parse(task.due_date))
-  
-  return tasks
+  let upcoming = tasks.filter(task => date > Date.parse(task.due_date) && Date.now() <= Date.parse(task.due_date))
+  // debugger
+  return upcoming
+}
+
+export const selectOverdueTasks = (tasks) => {
+  let past = tasks.filter(task => Date.now() > Date.parse(task.due_date))
+  return past;
 }
 
 export const dateInOneWeek = () => {

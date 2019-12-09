@@ -8,13 +8,13 @@ const TaskSection = ({ tasks, filter }) => {
   ))
   
   return (
-    <section className="list">
+    <section className="task list">
       <div>
         <SVG name="carrot" h={12} w={12} rotate="rotate(90)" fill="gray" transform="scale(0.5)" />
         <h2>{`${filter} Tasks`}</h2>
       </div>
       <ul>
-        {tasks}
+        {tasks }
       </ul>
 
     </section>
