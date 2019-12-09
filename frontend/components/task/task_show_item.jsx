@@ -7,13 +7,17 @@ import { titleize } from '../../helpers/helper';
 class TaskShowItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state  = this.props.task;
+    let task = Object.assign({}, this.props.task)
+    this.state  = task;
     this.completeTask = this.completeTask.bind(this);
   }
 
   completeTask() {
     event.preventDefault();
-    this.setState({ status: 'Finished' }, () => this.props.updateTask(this.state));
+    let task = Object.assign({}, this.props.task, { status: 'Finished' });
+    // debugger
+    this.props.updateTask(task);
+    // this.setState({ status: 'Finished' }, () => this.props.updateTask(this.state));
   }
 
   getDayOfWeek() {
@@ -24,7 +28,7 @@ class TaskShowItem extends React.Component {
 
   render() {
     let { task, openModal } = this.props;
-    
+    // debugger
     return (
       <li id={`tsi${task.id}`} className="list-item">
         <div onClick={ this.completeTask }>

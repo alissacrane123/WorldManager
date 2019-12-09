@@ -21,7 +21,7 @@ user2 = User.create!(email: 'brandon@gmail.com', password: 'password', fname: 'B
 
 project1 = Project.create!(title: "full stack", owner_id: user1.id, category: 'work')
 project2 = Project.create!(title: "santa barbara trip", owner_id: user1.id, category: 'travel')
-project3 = Project.create!(title: "project manager", owner_id: user1.id, category: 'word')
+project3 = Project.create!(title: "project manager", owner_id: user1.id, category: 'work')
 
 pm1 = ProjectMembership.create!(project_id: project1.id, user_id: user1.id, role: 'admin', request_status: true)
 pm1 = ProjectMembership.create!(project_id: project1.id, user_id: user2.id, role: 'member', inviter_id: user1.id, request_status: false)

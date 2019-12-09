@@ -55,15 +55,16 @@ export const projectMemberSelector = (state) => {
 }
 
 export const selectRecentTasks = (tasks) => {
-  // debugger
+  
   tasks = tasks.sort((a, b) => b.id - a.id )
   return tasks.slice(0, 5);
 }
 
 export const selectUpcomingTasks = (tasks) => {
   let date = Date.now() + 12096e5;
+  
   tasks = tasks.filter(task => date > Date.parse(task.due_date))
-
+  
   return tasks
 }
 

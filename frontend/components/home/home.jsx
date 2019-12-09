@@ -5,6 +5,7 @@ import { dateInOneWeek } from '../../helpers/helper';
 import ProjectIndexCont from '../project/project_index_cont';
 import TaskShowItem from '../task/task_show_item';
 import PmIndexContainer from '../notifications/pm_index_cont';
+import TaskSection from '../task/task_section';
 
 import SVG from '../svg'
 
@@ -17,11 +18,11 @@ class Home extends React.Component {
   }
 
   render() {
-    let { currentUser, tasks, pms, ownedTasks, updateTask, openModal,fetchPMs } = this.props;
+    let { currentUser, tasks, pms, ownedTasks, updateTask, openModal,fetchPMs, upcomingTasks } = this.props;
   
-    ownedTasks = ownedTasks.map((task, i) => (
-      <TaskShowItem task={task} key={i} updateTask={updateTask} openModal={openModal} />
-    ))
+    // ownedTasks = ownedTasks.map((task, i) => (
+    //   <TaskShowItem task={task} key={i} updateTask={updateTask} openModal={openModal} />
+    // ))
     return(
       <div id="home">
         
@@ -39,7 +40,7 @@ class Home extends React.Component {
 
         </section>
 
-        <section className="list">
+        {/* <section className="list">
           <div>
             <SVG name="carrot" h={12} w={12} rotate="rotate(90)" fill="gray" transform="scale(0.5)"/>
             <h2>Upcoming Tasks</h2>
@@ -47,9 +48,9 @@ class Home extends React.Component {
           <ul>
             {  ownedTasks }
           </ul>
-        </section>
+        </section> */}
    
-
+        <TaskSection tasks={upcomingTasks} filter="Upcoming"/>
       </div>
     )
   }
