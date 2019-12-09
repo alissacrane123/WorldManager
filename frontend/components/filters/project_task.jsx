@@ -14,15 +14,15 @@ class ProjectTaskFilter extends React.Component {
   renderFilterButtons() {
     let { users, currentUserId, userFilter } = this.props;
     
-    users = users.map(user => {
+    users = users.map((user,i) => {
       if (user.id === currentUserId && user.id === userFilter) {
-        return <button onClick={() => this.updateFilter(user.id)} id={`tb${user.id}`} className="tb selected">Your Tasks</button>
+        return <button key={i} onClick={() => this.updateFilter(user.id)} id={`tb${user.id}`} className="tb selected">Your Tasks</button>
       } else if (user.id === currentUserId) {
-        return <button onClick={() => this.updateFilter(user.id)} id={`tb${user.id}`} className="tb ">Your Tasks</button>
+        return <button key={i} onClick={() => this.updateFilter(user.id)} id={`tb${user.id}`} className="tb ">Your Tasks</button>
       } else if (user.id === userFilter) {
-        return <button onClick={() => this.updateFilter(user.id)} id={`tb${user.id}`} className="tb selected">{user.fname}'s Tasks</button>
+        return <button key={i} onClick={() => this.updateFilter(user.id)} id={`tb${user.id}`} className="tb selected">{user.fname}'s Tasks</button>
       } else {
-        return <button onClick={() => this.updateFilter(user.id)} id={`tb${user.id}`} className="tb">{user.fname}'s Tasks</button>
+        return <button key={i} onClick={() => this.updateFilter(user.id)} id={`tb${user.id}`} className="tb">{user.fname}'s Tasks</button>
       }
     })
 

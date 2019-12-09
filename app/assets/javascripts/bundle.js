@@ -1330,9 +1330,10 @@ function (_React$Component) {
           users = _this$props.users,
           currentUserId = _this$props.currentUserId,
           userFilter = _this$props.userFilter;
-      users = users.map(function (user) {
+      users = users.map(function (user, i) {
         if (user.id === currentUserId && user.id === userFilter) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            key: i,
             onClick: function onClick() {
               return _this2.updateFilter(user.id);
             },
@@ -1341,6 +1342,7 @@ function (_React$Component) {
           }, "Your Tasks");
         } else if (user.id === currentUserId) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            key: i,
             onClick: function onClick() {
               return _this2.updateFilter(user.id);
             },
@@ -1349,6 +1351,7 @@ function (_React$Component) {
           }, "Your Tasks");
         } else if (user.id === userFilter) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            key: i,
             onClick: function onClick() {
               return _this2.updateFilter(user.id);
             },
@@ -1357,6 +1360,7 @@ function (_React$Component) {
           }, user.fname, "'s Tasks");
         } else {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            key: i,
             onClick: function onClick() {
               return _this2.updateFilter(user.id);
             },
