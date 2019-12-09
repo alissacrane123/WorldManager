@@ -6,7 +6,7 @@ import PmIndexItem from './pm_index_item';
 class PmIndex extends React.Component {
 
   componentDidMount() {
-    this.props.fetchPMs();
+    // this.props.fetchPMs();
   }
 
   render() {

@@ -4,7 +4,8 @@ class Api::TasksController < ApplicationController
   def create
     @task = Task.new(task_params);
     @task.due_date = DateTime.strptime(task_params[:due_date], '%m/%d/%Y')
-   
+    @task.title = titleize(task_params[:title])
+    
     if @task.save
       render "api/tasks/show"
     else

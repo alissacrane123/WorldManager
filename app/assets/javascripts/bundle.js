@@ -1470,6 +1470,7 @@ function (_React$Component) {
     value: function componentDidMount() {
       var date = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["dateInOneWeek"])();
       this.props.fetchTasks('week', date);
+      this.props.fetchPMs();
     }
   }, {
     key: "render",
@@ -2364,8 +2365,7 @@ function (_React$Component) {
 
   _createClass(PmIndex, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.fetchPMs();
+    value: function componentDidMount() {// this.props.fetchPMs();
     }
   }, {
     key: "render",

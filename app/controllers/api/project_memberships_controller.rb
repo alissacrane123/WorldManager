@@ -6,6 +6,7 @@ class Api::ProjectMembershipsController < ApplicationController
     @pm.project_id = pm_params[:project_id]
     @pm.inviter_id = current_user.id
     @pm.role = pm_params[:role]
+    
     # debugger
     if @pm.save
       render "api/project_memberships/show"

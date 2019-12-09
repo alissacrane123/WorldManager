@@ -33,7 +33,12 @@ class ApplicationController < ActionController::Base
   end
 
   def titleize(string)
-    string.split(' ').map(&:capitalize).join(' ');
+    other_words = [ "and", "a", "or", "for"];
+    words = string.split(' ').map do |word|
+      other_words.include?(word.downcase) ? word : word.capitalize
+    end
+    words.join(' ')
+    # string.split(' ').map(&:capitalize).join(' ');
   end
 
 

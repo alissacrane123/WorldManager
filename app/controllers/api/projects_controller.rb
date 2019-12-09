@@ -4,18 +4,19 @@ class Api::ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     @project.owner_id = current_user.id
-    
+    @project.title = titleize(project_params[:title])
+
     if @project.save
       ProjectMembership.create!(user_id: @project.owner_id, project_id: @project.id, role: "admin", request_status:true, inviter_id: @project.owner_id)
       # debugger
-      if pm_params[:email].length > 0
-        new_member = ProjectMembership.new()
-        new_member.user_id = User.find_by(email: pm_params[:email]).id 
-        new_member.project_id = @project.id
-        new_member.role = pm_params[:role]
+      # if pm_params[:email].length > 0
+      #   new_member = ProjectMembership.new()
+      #   new_member.user_id = User.find_by(email: pm_params[:email]).id 
+      #   new_member.project_id = @project.id
+      #   new_member.role = pm_params[:role]
 
-        new_member.save!
-      end
+      #   new_member.save!
+      # end
 
       render "api/projects/show"
     else
