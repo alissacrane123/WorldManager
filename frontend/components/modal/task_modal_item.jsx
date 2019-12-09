@@ -50,14 +50,17 @@ class TaskModalItem extends React.Component {
 
     let task = tasks[taskId];
 
-    let statusSvg, statusColor, statusTxt;
+    let statusSvg, statusColor, statusTxt, color;
     if (this.state.status === 'Finished') {
       statusSvg = 'x';
-      statusTxt = 'Mark Incomplete'
-      statusColor = 'red';
+      statusTxt = 'Completed'
+      statusColor = 'status green';
+      color = "#45a29e";
     } else {
       statusSvg = 'check';
-      statusTxt = 'Mark Complete'
+      statusColor = 'status red'
+      statusTxt = 'Incomplete';
+      color = "gray"
     }
 
     return (
@@ -65,9 +68,13 @@ class TaskModalItem extends React.Component {
         <section>
           <h1>{titleize(task.title)}</h1>
           <div onClick={() => this.handleChange('status')} className={statusColor}>
+            { statusTxt}
+            {/* <SVG name="done" rule="evenodd" h={18} w={18} fill={color} transform="scale(0.75)" /> */}
+          </div>
+          {/* <div onClick={() => this.handleChange('status')} className={statusColor}>
             <SVG name={statusSvg} h={12} w={12} fill="#6f7782" transform="scale(0.5)" className="mt-svg2" />
             { statusTxt }
-          </div>
+          </div> */}
           
         </section>
   

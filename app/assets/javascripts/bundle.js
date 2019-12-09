@@ -1908,15 +1908,18 @@ function (_React$Component) {
           taskId = _this$props2.taskId,
           closeModal = _this$props2.closeModal;
       var task = tasks[taskId];
-      var statusSvg, statusColor, statusTxt;
+      var statusSvg, statusColor, statusTxt, color;
 
       if (this.state.status === 'Finished') {
         statusSvg = 'x';
-        statusTxt = 'Mark Incomplete';
-        statusColor = 'red';
+        statusTxt = 'Completed';
+        statusColor = 'status green';
+        color = "#45a29e";
       } else {
         statusSvg = 'check';
-        statusTxt = 'Mark Complete';
+        statusColor = 'status red';
+        statusTxt = 'Incomplete';
+        color = "gray";
       }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1926,14 +1929,7 @@ function (_React$Component) {
           return _this3.handleChange('status');
         },
         className: statusColor
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        name: statusSvg,
-        h: 12,
-        w: 12,
-        fill: "#6f7782",
-        transform: "scale(0.5)",
-        className: "mt-svg2"
-      }), statusTxt)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, task.ownerInitials), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assigned To"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, task.owner))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, statusTxt)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, task.ownerInitials), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assigned To"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, task.owner))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
         name: "cal",
         h: 12,
         w: 12,
