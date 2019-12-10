@@ -18,35 +18,78 @@ class Api::TasksController < ApplicationController
   end
 
   def index
-    start_date, end_date, created_at = params[:start], params[:end], params[:created]
+    start_date, end_date, created_at = params[:start_date], params[:end_date], params[:created_at]
     user_id, project_id = params[:user_id], params[:project_id]
     status, priority = params[:status], params[:priority]
 
     all_filters = [["start_date", start_date], ["end_date",end_date], ["created_at",created_at], ["user_id",user_id], ["project_id",project_id], ["status",status], ["priority",priority]]
+    # debugger
 
     filters = []
     filter_value = []
+    id_filters = []
+    id_filter_value = []
+    word_filters = []
+    word_filter_values = []
+
 
     all_filters.each_with_index do |filter, i|
       filter_name = filter[0]
 
-      if filter[1] && i == 0
+      if i == 0 && filter[1].length > 0
         filters << "due_date >= ?"
         filter_value << format_date(filter[1])
       elsif filter[1] && i == 1
         filters << "due_date <= ?"
         filter_value << format_date(filter[1])
-      elsif filter[1] && i == 2
+      elsif i == 2 && filter[1].length > 0
         filters << "created_at >= ?"
         filter_value << format_date(filter[1])
-      elsif filter[1] 
-        filters << "#{filter_name} IN ?"
-        filter_value << filter[1]
+      elsif [3,4].include?(i) && filter[1]
+        value = [filter[1].map(&:to_i)] 
+
+        value.each do |val|
+          id_filters << "#{filter_name} = ?"
+          id_filter_value << val
+        end
+      elsif filter[1] && ![0,1,2].include?(i)
+        value =  filter[1]
+
+        value.each do |val|
+          word_filters << "#{filter_name} = ?"
+          word_filter_values << val
+        end
+        # filters << "#{filter_name} = ?"
+        # filter_value << 
       end
     end
+    # all_filters.each_with_index do |filter, i|
+    #   filter_name = filter[0]
 
-    query = filters.join('AND')
-    @tasks = Task.where(query, ...filter_value)
+    #   if i == 0 && filter[1].length > 0
+    #     filters << "due_date >= ?"
+    #     filter_value << format_date(filter[1])
+    #   elsif filter[1] && i == 1
+    #     filters << "due_date <= ?"
+    #     filter_value << format_date(filter[1])
+    #   elsif i == 2 && filter[1].length > 0
+    #     filters << "created_at >= ?"
+    #     filter_value << format_date(filter[1])
+    #   # elsif [3,4].include(i) && filter[1]
+    #   #   value = filter[1].map(&:to_i)
+    #   #   filters 
+    #   elsif filter[1] && ![0,1,2].include?(i)
+    #     value = [3,4].include?(i) ? filter[1].map(&:to_i) : filter[1]
+    #     filters << "#{filter_name} = ?"
+    #     filter_value << value
+    #   end
+    # end
+
+    query = filters.join(' AND ')
+    query2 = id_filters.join(' OR ')
+    query3 = word_filters.join(' OR ')
+
+    @tasks = Task.where(query, *filter_value).where(query2, *id_filter_value).where(query3, *word_filter_values)
     
   end
 

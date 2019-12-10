@@ -33,6 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def format_date(date) 
+    # debugger
     DateTime.strptime(date, '%m/%d/%Y')
   end
 

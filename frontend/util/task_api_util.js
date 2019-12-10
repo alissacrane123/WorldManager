@@ -1,12 +1,20 @@
 
-export const fetchTasks = (filter, date) => {
+export const fetchTasks = (filter) => {
   // debugger
   return $.ajax({
     method: 'GET',
     url: '/api/tasks',
-    data: { filter, date }
+    data: filter
   })
 }
+// export const fetchTasks = (filter, date) => {
+  
+//   return $.ajax({
+//     method: 'GET',
+//     url: '/api/tasks',
+//     data: { filter, date }
+//   })
+// }
 
 export const fetchTask = (taskId) => {
   return $.ajax({
@@ -16,7 +24,7 @@ export const fetchTask = (taskId) => {
 }
 
 export const createTask = (task) => {
-  // debugger
+  
   return $.ajax({
     method: 'POST',
     url: '/api/tasks',
@@ -26,7 +34,7 @@ export const createTask = (task) => {
 }
 
 export const updateTask = (task) => {
-  // debugger
+  
   return $.ajax({
     method: 'PATCH',
     url: `/api/tasks/${task.id}`,
@@ -35,7 +43,7 @@ export const updateTask = (task) => {
 }
 
 export const deleteTask = (taskId) => {
-  // debugger
+  
   return $.ajax({
     method: "DELETE",
     url: `/api/tasks/${taskId}`

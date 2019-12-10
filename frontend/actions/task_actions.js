@@ -10,10 +10,12 @@ export const receiveTask = task => ({
   task
 })
 
-export const receiveTasks = tasks => ({
-  type: RECEIVE_TASKS,
-  tasks
-})
+export const receiveTasks = tasks => {
+  debugger
+  return {
+    type: RECEIVE_TASKS,
+    tasks
+}}
 
 export const receiveErrors = errors=> ({
   type: RECEIVE_TASK_ERRORS,
@@ -27,14 +29,23 @@ export const receiveDeletedTask = task => {
 }
 
 
-export const fetchTasks = (filter, date) => dispatch => {
+export const fetchTasks = (filter) => dispatch => {
   // debugger
   return (
-    TaskAPI.fetchTasks(filter, date)
+    TaskAPI.fetchTasks(filter)
       .then(tasks => dispatch(receiveTasks(tasks)),
         err => dispatch(receiveErrors(err.responseJSON)))
   )
 }
+
+// export const fetchTasks = (filter, date) => dispatch => {
+//   // debugger
+//   return (
+//     TaskAPI.fetchTasks(filter, date)
+//       .then(tasks => dispatch(receiveTasks(tasks)),
+//         err => dispatch(receiveErrors(err.responseJSON)))
+//   )
+// }
 
 export const fetchTask = (taskId) => dispatch => {
   return (

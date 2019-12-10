@@ -434,6 +434,7 @@ var receiveTask = function receiveTask(task) {
   };
 };
 var receiveTasks = function receiveTasks(tasks) {
+  debugger;
   return {
     type: RECEIVE_TASKS,
     tasks: tasks
@@ -452,16 +453,24 @@ var receiveDeletedTask = function receiveDeletedTask(task) {
     task: task
   };
 };
-var fetchTasks = function fetchTasks(filter, date) {
+var fetchTasks = function fetchTasks(filter) {
   return function (dispatch) {
     // debugger
-    return _util_task_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchTasks"](filter, date).then(function (tasks) {
+    return _util_task_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchTasks"](filter).then(function (tasks) {
       return dispatch(receiveTasks(tasks));
     }, function (err) {
       return dispatch(receiveErrors(err.responseJSON));
     });
   };
-};
+}; // export const fetchTasks = (filter, date) => dispatch => {
+//   // debugger
+//   return (
+//     TaskAPI.fetchTasks(filter, date)
+//       .then(tasks => dispatch(receiveTasks(tasks)),
+//         err => dispatch(receiveErrors(err.responseJSON)))
+//   )
+// }
+
 var fetchTask = function fetchTask(taskId) {
   return function (dispatch) {
     return _util_task_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchTask"](taskId).then(function (task) {
@@ -1439,6 +1448,158 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (ProjectTaskFilter);
+
+/***/ }),
+
+/***/ "./frontend/components/filters/task_filter.jsx":
+/*!*****************************************************!*\
+  !*** ./frontend/components/filters/task_filter.jsx ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var TaskFilter =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(TaskFilter, _React$Component);
+
+  function TaskFilter(props) {
+    var _this;
+
+    _classCallCheck(this, TaskFilter);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskFilter).call(this, props));
+    _this.state = _this.props.defaultFilter;
+    return _this;
+  }
+
+  _createClass(TaskFilter, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var filter = Object.assign({}, this.state);
+      this.props.fetchTasks(filter);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var currentUser = this.props.currentUser;
+      var teammates = currentUser.teammates.map(function (mate, i) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          key: i,
+          value: mate.id
+        }, mate.name);
+      });
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "task-filter",
+        className: "filter"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Owner"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: null
+      }, "Any"), teammates)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Project")));
+    }
+  }]);
+
+  return TaskFilter;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (TaskFilter);
+
+/***/ }),
+
+/***/ "./frontend/components/filters/task_filter_cont.js":
+/*!*********************************************************!*\
+  !*** ./frontend/components/filters/task_filter_cont.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+/* harmony import */ var _actions_filter_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/filter_actions */ "./frontend/actions/filter_actions.js");
+/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var _task_filter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./task_filter */ "./frontend/components/filters/task_filter.jsx");
+
+
+
+
+
+
+
+
+var msp = function msp(state, ownProps) {
+  var acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectAcceptedTasks"])(state); // let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
+
+  var recentTasks = [];
+  return {
+    currentUser: state.entities.users[state.session.id],
+    users: Object.values(state.entities.users),
+    allTasks: acceptedTasks,
+    recentTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectRecentTasks"])(acceptedTasks),
+    upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectUpcomingTasks"])(acceptedTasks),
+    overdueTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectOverdueTasks"])(acceptedTasks),
+    defaultFilter: {
+      start_date: null,
+      end_date: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["dateInOneWeek"])(),
+      created_at: null,
+      user_id: [state.session.id],
+      project_id: [],
+      status: ["Not Started", "In Progress"],
+      priority: []
+    }
+  };
+};
+
+var mdp = function mdp(dispatch) {
+  return {
+    fetchProjects: function fetchProjects() {
+      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_3__["fetchProjects"])());
+    },
+    fetchProject: function fetchProject(projectId) {
+      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_3__["fetchProject"])(projectId));
+    },
+    fetchTasks: function fetchTasks(filter) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_4__["fetchTasks"])(filter));
+    },
+    updateTask: function updateTask(task) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_4__["updateTask"])(task));
+    },
+    openModal: function openModal(modal) {
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_5__["openModal"])(modal));
+    },
+    updateFilter: function updateFilter(entity, value) {
+      return dispatch(Object(_actions_filter_actions__WEBPACK_IMPORTED_MODULE_2__["updateUserFilter"])(entity, value));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(msp, mdp)(_task_filter__WEBPACK_IMPORTED_MODULE_6__["default"]));
 
 /***/ }),
 
@@ -4466,6 +4627,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _task_show_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task_show_item */ "./frontend/components/task/task_show_item.jsx");
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 /* harmony import */ var _task_section__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./task_section */ "./frontend/components/task/task_section.jsx");
+/* harmony import */ var _filters_task_filter_cont__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../filters/task_filter_cont */ "./frontend/components/filters/task_filter_cont.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4489,6 +4651,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var TaskShow =
 /*#__PURE__*/
 function (_React$Component) {
@@ -4501,12 +4664,10 @@ function (_React$Component) {
   }
 
   _createClass(TaskShow, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.fetchTasks();
-    }
-  }, {
     key: "render",
+    // componentDidMount() {
+    //   this.props.fetchTasks();
+    // }
     value: function render() {
       var _this$props = this.props,
           allTasks = _this$props.allTasks,
@@ -4518,15 +4679,9 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-show",
         className: "show"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        tasks: upcomingTasks,
-        filter: "Upcoming"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        tasks: recentTasks,
-        filter: "Resent"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        tasks: overdueTasks,
-        filter: "Overdue"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_filters_task_filter_cont__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        tasks: allTasks,
+        filter: "All"
       })));
     }
   }]);
@@ -4564,9 +4719,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var msp = function msp(state, ownProps) {
   // let tasks = Object.values(state.entities.tasks).filter(task => task.status !== 'Finished');
-  var acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectAcceptedTasks"])(state).filter(function (task) {
-    return task.status !== 'Finished';
-  });
+  var acceptedTasks = Object.values(state.entities.tasks); // let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
+
   var recentTasks = [];
   return {
     currentUserId: state.session.id,
@@ -5840,17 +5994,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTask", function() { return createTask; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateTask", function() { return updateTask; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteTask", function() { return deleteTask; });
-var fetchTasks = function fetchTasks(filter, date) {
+var fetchTasks = function fetchTasks(filter) {
   // debugger
   return $.ajax({
     method: 'GET',
     url: '/api/tasks',
-    data: {
-      filter: filter,
-      date: date
-    }
+    data: filter
   });
-};
+}; // export const fetchTasks = (filter, date) => {
+//   return $.ajax({
+//     method: 'GET',
+//     url: '/api/tasks',
+//     data: { filter, date }
+//   })
+// }
+
 var fetchTask = function fetchTask(taskId) {
   return $.ajax({
     method: 'GET',
@@ -5858,7 +6016,6 @@ var fetchTask = function fetchTask(taskId) {
   });
 };
 var createTask = function createTask(task) {
-  // debugger
   return $.ajax({
     method: 'POST',
     url: '/api/tasks',
@@ -5869,7 +6026,6 @@ var createTask = function createTask(task) {
   });
 };
 var updateTask = function updateTask(task) {
-  // debugger
   return $.ajax({
     method: 'PATCH',
     url: "/api/tasks/".concat(task.id),
@@ -5879,7 +6035,6 @@ var updateTask = function updateTask(task) {
   });
 };
 var deleteTask = function deleteTask(taskId) {
-  // debugger
   return $.ajax({
     method: "DELETE",
     url: "/api/tasks/".concat(taskId)
@@ -56141,7 +56296,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

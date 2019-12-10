@@ -10,7 +10,8 @@ import { openModal } from '../../actions/modal_actions';
 
 const msp = (state, ownProps) => {
   // let tasks = Object.values(state.entities.tasks).filter(task => task.status !== 'Finished');
-  let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
+  let acceptedTasks = Object.values(state.entities.tasks)
+  // let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
   let recentTasks = [];
 
   return {
