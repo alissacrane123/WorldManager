@@ -13,7 +13,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     let date = dateInOneWeek();
-    this.props.fetchTasks('week', date);
+    this.props.fetchTasks(this.props.defaultFilter);
     this.props.fetchPMs()
   }
 

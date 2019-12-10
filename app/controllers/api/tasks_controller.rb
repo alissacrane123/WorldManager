@@ -23,7 +23,7 @@ class Api::TasksController < ApplicationController
     status, priority = params[:status], params[:priority]
 
     all_filters = [["start_date", start_date], ["end_date",end_date], ["created_at",created_at], ["user_id",user_id], ["project_id",project_id], ["status",status], ["priority",priority]]
-    # debugger
+
 
     filters = []
     filter_value = []
@@ -59,31 +59,9 @@ class Api::TasksController < ApplicationController
           word_filters << "#{filter_name} = ?"
           word_filter_values << val
         end
-        # filters << "#{filter_name} = ?"
-        # filter_value << 
+
       end
     end
-    # all_filters.each_with_index do |filter, i|
-    #   filter_name = filter[0]
-
-    #   if i == 0 && filter[1].length > 0
-    #     filters << "due_date >= ?"
-    #     filter_value << format_date(filter[1])
-    #   elsif filter[1] && i == 1
-    #     filters << "due_date <= ?"
-    #     filter_value << format_date(filter[1])
-    #   elsif i == 2 && filter[1].length > 0
-    #     filters << "created_at >= ?"
-    #     filter_value << format_date(filter[1])
-    #   # elsif [3,4].include(i) && filter[1]
-    #   #   value = filter[1].map(&:to_i)
-    #   #   filters 
-    #   elsif filter[1] && ![0,1,2].include?(i)
-    #     value = [3,4].include?(i) ? filter[1].map(&:to_i) : filter[1]
-    #     filters << "#{filter_name} = ?"
-    #     filter_value << value
-    #   end
-    # end
 
     query = filters.join(' AND ')
     query2 = id_filters.join(' OR ')
@@ -96,11 +74,11 @@ class Api::TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id]);
-    # debugger
+
     if new_date_params[:new_date] && new_date_params[:new_date].length <= 10
       @task.update_attributes(due_date: DateTime.strptime(new_date_params[:new_date], '%m/%d/%Y'))
     end
-    # debugger
+
     if @task.update_attributes(update_task_params)
       render "api/tasks/show"
     else
@@ -187,3 +165,25 @@ end
   #     @tasks = Task.includes(:project).where(user_id: current_user.id)
   #   end
   # end
+
+      # all_filters.each_with_index do |filter, i|
+    #   filter_name = filter[0]
+
+    #   if i == 0 && filter[1].length > 0
+    #     filters << "due_date >= ?"
+    #     filter_value << format_date(filter[1])
+    #   elsif filter[1] && i == 1
+    #     filters << "due_date <= ?"
+    #     filter_value << format_date(filter[1])
+    #   elsif i == 2 && filter[1].length > 0
+    #     filters << "created_at >= ?"
+    #     filter_value << format_date(filter[1])
+    #   # elsif [3,4].include(i) && filter[1]
+    #   #   value = filter[1].map(&:to_i)
+    #   #   filters 
+    #   elsif filter[1] && ![0,1,2].include?(i)
+    #     value = [3,4].include?(i) ? filter[1].map(&:to_i) : filter[1]
+    #     filters << "#{filter_name} = ?"
+    #     filter_value << value
+    #   end
+    # end

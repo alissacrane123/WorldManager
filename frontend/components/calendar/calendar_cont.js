@@ -10,7 +10,7 @@ const msp = (state, ownProps) => ({
 });
 
 const mdp = dispatch => ({
-  fetchTasks: (filter, date) => dispatch(fetchTasks(filter, date)),
+  fetchTasks: (filter) => dispatch(fetchTasks(filter)),
   openModal: (modal) => dispatch(openModal(modal)),
   createTask: (task) => dispatch(createTask(task))
 });

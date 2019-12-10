@@ -16,13 +16,22 @@ const msp = (state, ownProps) => {
     tasks: tasks,
     ownedTasks: sortByDueDate(ownedTasks),
     pms: Object.values(state.entities.pms),
-    upcomingTasks: selectUpcomingTasks(acceptedTasks)
+    upcomingTasks: selectUpcomingTasks(acceptedTasks),
+    defaultFilter: {
+      start_date: null,
+      end_date: dateInOneWeek(),
+      created_at: null,
+      user_id: [state.session.id],
+      project_id: [],
+      status: ["Not Started", "In Progress"],
+      priority: []
+    }
   }
   // tasks: selectTasksDueThisWeek(Object.values(state.entities.tasks))
 };
 
 const mdp = dispatch => ({
-  fetchTasks: (filter, date) => dispatch(fetchTasks(filter, date)),
+  fetchTasks: (filter) => dispatch(fetchTasks(filter)),
   updateTask: (task)  => dispatch(updateTask(task)),
   openModal: (modal) => dispatch(openModal(modal)),
   fetchPMs: () => dispatch(fetchPMs())

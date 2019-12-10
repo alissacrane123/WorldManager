@@ -19,7 +19,7 @@ class CalendarMonth extends React.Component {
     let day = new Date().getDay();
     let year = this.props.year;
     
-    this.props.fetchTasks("month", `${month}/${day}/${year}`);
+    this.props.fetchTasks(this.props.defaultFilter);
   }
 
   daysInMonth(curOrPrev) {

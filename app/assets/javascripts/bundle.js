@@ -434,7 +434,7 @@ var receiveTask = function receiveTask(task) {
   };
 };
 var receiveTasks = function receiveTasks(tasks) {
-  debugger;
+  // debugger
   return {
     type: RECEIVE_TASKS,
     tasks: tasks
@@ -606,10 +606,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state, ownProps) {
-  // let { day, month, year } = ownProps;
-  // let dayStr = day < 10 ? `0${day}` : day;
-  // let monthStr = month < 10 ? `0${month}` : month;
-  // let date = `${monthStr}/${dayStr}/${year}`;
+  var day = ownProps.day,
+      month = ownProps.month,
+      year = ownProps.year;
+  var lastDay = new Date(year, month + 1, 0).getDate();
+  var monthStr = month + 1 < 10 ? "0".concat(month + 1) : month + 1;
   return {
     emptyTask: {
       title: '',
@@ -624,14 +625,23 @@ var msp = function msp(state, ownProps) {
     currentUser: state.entities.users[state.session.id],
     tasks: Object.values(state.entities.tasks).filter(function (task) {
       return task.status !== 'Finished';
-    })
+    }),
+    defaultFilter: {
+      start_date: "".concat(monthStr, "/01/").concat(year),
+      end_date: "".concat(monthStr, "/").concat(lastDay, "/").concat(year),
+      created_at: null,
+      user_id: [state.session.id],
+      project_id: [],
+      status: ["Not Started", "In Progress"],
+      priority: []
+    }
   };
 };
 
 var mdp = function mdp(dispatch) {
   return {
-    fetchTasks: function fetchTasks(filter, date) {
-      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["fetchTasks"])(filter, date));
+    fetchTasks: function fetchTasks(filter) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["fetchTasks"])(filter));
     },
     openModal: function openModal(modal) {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])(modal));
@@ -858,8 +868,8 @@ var msp = function msp(state, ownProps) {
 
 var mdp = function mdp(dispatch) {
   return {
-    fetchTasks: function fetchTasks(filter, date) {
-      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["fetchTasks"])(filter, date));
+    fetchTasks: function fetchTasks(filter) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["fetchTasks"])(filter));
     },
     openModal: function openModal(modal) {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])(modal));
@@ -1149,7 +1159,7 @@ function (_React$Component) {
       var month = this.props.month + 1;
       var day = new Date().getDay();
       var year = this.props.year;
-      this.props.fetchTasks("month", "".concat(month, "/").concat(day, "/").concat(year));
+      this.props.fetchTasks(this.props.defaultFilter);
     }
   }, {
     key: "daysInMonth",
@@ -1663,7 +1673,7 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var date = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["dateInOneWeek"])();
-      this.props.fetchTasks('week', date);
+      this.props.fetchTasks(this.props.defaultFilter);
       this.props.fetchPMs();
     }
   }, {
@@ -1739,15 +1749,24 @@ var msp = function msp(state, ownProps) {
     tasks: tasks,
     ownedTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["sortByDueDate"])(ownedTasks),
     pms: Object.values(state.entities.pms),
-    upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["selectUpcomingTasks"])(acceptedTasks) // tasks: selectTasksDueThisWeek(Object.values(state.entities.tasks))
+    upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["selectUpcomingTasks"])(acceptedTasks),
+    defaultFilter: {
+      start_date: null,
+      end_date: dateInOneWeek(),
+      created_at: null,
+      user_id: [state.session.id],
+      project_id: [],
+      status: ["Not Started", "In Progress"],
+      priority: []
+    } // tasks: selectTasksDueThisWeek(Object.values(state.entities.tasks))
 
   };
 };
 
 var mdp = function mdp(dispatch) {
   return {
-    fetchTasks: function fetchTasks(filter, date) {
-      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["fetchTasks"])(filter, date));
+    fetchTasks: function fetchTasks(filter) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["fetchTasks"])(filter));
     },
     updateTask: function updateTask(task) {
       return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_2__["updateTask"])(task));

@@ -11,7 +11,7 @@ export const receiveTask = task => ({
 })
 
 export const receiveTasks = tasks => {
-  debugger
+  // debugger
   return {
     type: RECEIVE_TASKS,
     tasks
