@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def format_date(date) 
+    DateTime.strptime(date, '%m/%d/%Y')
+  end
+
   def titleize(string)
     other_words = [ "and", "a", "or", "for"];
     words = string.split(' ').map do |word|

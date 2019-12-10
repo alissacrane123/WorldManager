@@ -25,6 +25,7 @@ class ProjectShow extends React.Component {
       <div id="project-show">
         <div>
           <h1>{titleize(project.title)}</h1>
+
           <div onClick={() => openModal('newTasks')}>
             <SVG name='plus' h={20} w={20} fill="white" transform="scale(0.84)" className="plus-show" />
           </div>
@@ -33,6 +34,12 @@ class ProjectShow extends React.Component {
             <SVG className="trash" name="trash" h={24} w={24} fill="gray" />
           </div>
         </div>
+
+        <ul>
+          <li>Tasks</li>
+          <li>Feed</li>
+          <li>People</li>
+        </ul>
 
         <TaskIndexCont />
 

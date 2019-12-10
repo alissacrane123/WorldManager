@@ -3120,7 +3120,7 @@ function (_React$Component) {
         h: 24,
         w: 24,
         fill: "gray"
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_index_cont__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Tasks"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Feed"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "People")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_index_cont__WEBPACK_IMPORTED_MODULE_1__["default"], null));
     }
   }]);
 
@@ -56141,7 +56141,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

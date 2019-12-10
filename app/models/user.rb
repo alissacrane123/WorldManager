@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :projects, through: :project_memberships, source: :project 
   has_many :tasks, dependent: :destroy
   has_many :project_tasks, through: :projects, source: :tasks
+  has_many :teammates, through: :projects, source: :members
 
   attr_reader :password
 

@@ -5,15 +5,18 @@
 #45A29E - teal */
 
 #project-show {
-  margin: 0px 10%;
-  padding: 20px;
+  /* margin: 0px 10%; */
+  margin: 0px ;
+  padding: 40px 0px;
 }
 
 #project-show > div:first-child {
   display:flex;
   flex-direction: row;
-  margin: 50px 0 50px 0;
+  /* margin: 50px 0 50px 0; */
+  margin: 0px 0 50px 0;
       align-items: center;
+      padding: 0px 40px;
 
 }
 
@@ -24,6 +27,28 @@
   /* text-align: center; */
   color: #1F2833;
   font-weight: 700;
+}
+
+#project-show > ul {
+  display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    font-weight: 600;
+    border-bottom: 2px solid #e8ecee;
+    /* padding-bottom: 20px; */
+    margin-bottom: 40px;
+    padding: 0px 40px;
+}
+
+#project-show > ul >li {
+  margin-right: 30px;
+      padding: 0 3px 20px 3px;
+    border-bottom: 3px solid #45a29e;
+}
+
+#task-index {
+      padding: 50px 100px;
+
 }
 
 .plus-show {

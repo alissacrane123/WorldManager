@@ -1,0 +1,34 @@
+import React from 'react';
+
+class TaskFilter extends React.Component {
+
+
+  render() {
+    let { currentUser } = this.props;
+
+    let teammates = currentUser.teammates.map((mate, i) => (
+      <option key={i} value={mate.id}>{mate.name}</option>
+    ))
+
+    
+
+    return (
+      <div id="task-filter" className="filter">
+        <div>
+          <label>Owner</label>
+          <select>
+            <option value={null}>Any</option>
+            { teammates }
+          </select>
+        </div>
+
+        <div>
+          <label>Project</label>
+        </div>
+
+      </div>  
+    )
+  }
+}
+
+export default TaskFilter;
