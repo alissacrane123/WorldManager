@@ -43,8 +43,13 @@
 #project-show > ul >li {
   margin-right: 30px;
       padding: 0 3px 20px 3px;
-    border-bottom: 3px solid #45a29e;
+    /* border-bottom: 3px solid #45a29e; */
+    cursor: pointer;
 }
+#project-show > ul >li.selected {
+  border-bottom: 3px solid #45a29e;
+}
+
 
 #task-index {
       padding: 50px 100px;
@@ -215,3 +220,4 @@ div.ti h5 {
     bottom: 0;
     right: 10px;
 } */
+

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Home from './home';
 
 import { fetchTasks, updateTask } from '../../actions/task_actions';
-import { sortByDueDate, selectUpcomingTasks, selectAcceptedTasks} from '../../helpers/helper';
+import { sortByDueDate, selectUpcomingTasks, selectAcceptedTasks, dateInOneWeek} from '../../helpers/helper';
 import { openModal } from '../../actions/modal_actions';
 import { fetchPMs } from '../../actions/pm_actions';
 

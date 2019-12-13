@@ -1,0 +1,9 @@
+#task-filter {
+  display: flex;
+    flex-direction: row;
+}
+
+#task-filter h4 {
+  font-size: 18px;
+  font-weight:600;
+}
