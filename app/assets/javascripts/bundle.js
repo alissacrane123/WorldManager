@@ -1936,9 +1936,9 @@ function (_React$Component) {
     _this.state = {
       filter: _this.props.defaultFilter,
       expanded: {
-        owner: false,
-        project: false,
-        status: false
+        Owner: false,
+        Project: false,
+        Status: false
       }
     };
     _this.handleDateChange = _this.handleDateChange.bind(_assertThisInitialized(_this));
@@ -2005,59 +2005,57 @@ function (_React$Component) {
       return inputs;
     }
   }, {
-    key: "render",
-    value: function render() {
+    key: "expandFilter",
+    value: function expandFilter(filter) {
+      // debugger
+      this.setState({
+        expanded: _objectSpread({}, this.state.expanded, _defineProperty({}, filter, !this.state.expanded[filter]))
+      });
+    }
+  }, {
+    key: "renderFilter",
+    value: function renderFilter(filter, count, inputs) {
       var _this3 = this;
 
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "filter"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+        onClick: function onClick() {
+          return _this3.expandFilter(filter);
+        }
+      }, "".concat(filter).concat(count)), this.state.expanded[filter] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, inputs) : null);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+
       var currentUser = this.props.currentUser;
-      var teammates = this.renderInputs(currentUser.teammates, "user_id"); // let teammates = currentUser.teammates.map((mate, i) => (
-      //   <li key={i}>
-      //     <input type="checkbox" checked={this.state.filter.user_id.includes(mate.id)} onChange={() => this.handleChange('user_id',mate.id)}/>
-      //     <label>{mate.name}</label>
-      //   </li>
-      // ))
-
-      var projects = this.renderInputs(currentUser.projects, "project_id"); // let projects = currentUser.projects.map((project, j) => {
-      //   let ids = this.state.filter.project_id
-      //   return (
-      //     <li key={j}>
-      //       <input type="checkbox" checked={ids.includes(project.id)} onChange={() => this.handleChange('project_id', project.id)} />
-      //       <label>{project.title}</label>
-      //     </li>
-      // )})
-
-      var statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status"); // let statuses = ["Not Started", "In Progress", "Finished"].map((stat, i) => (
-      //   <li key={i}>
-      //     <input type="checkbox" checked={this.state.filter.status.includes(stat)} onChange={() => this.handleChange('status', stat)} />
-      //     <label>{stat}</label>
-      //   </li>
-      // ))
-
+      var teammates = this.renderInputs(currentUser.teammates, "user_id");
+      var projects = this.renderInputs(currentUser.projects, "project_id");
+      var statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status");
       var countUserFilters = this.state.filter.user_id.length > 0 ? " (".concat(this.state.filter.user_id.length, ")") : '';
       var countProjectFilters = this.state.filter.project_id.length > 0 ? " (".concat(this.state.filter.project_id.length, ")") : '';
       var countStatusFilters = this.state.filter.status.length > 0 ? " (".concat(this.state.filter.status.length, ")") : '';
+      var userFilter = this.renderFilter('Owner', countUserFilters, teammates);
+      var projectFilter = this.renderFilter('Project', countProjectFilters, projects);
+      var statusFilter = this.renderFilter('Status', countStatusFilters, statuses);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-filter",
         className: "filters"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "filter"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Owner".concat(countUserFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, teammates)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "filter"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project".concat(countProjectFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, projects)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "filter"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Status".concat(countStatusFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, statuses)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }, userFilter, projectFilter, statusFilter, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
-          return _this3.handleDateChange('start_date', event);
+          return _this4.handleDateChange('start_date', event);
         },
         selected: new Date(this.state.filter.start_date)
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
-          return _this3.handleDateChange('end_date', event);
+          return _this4.handleDateChange('end_date', event);
         },
         selected: new Date(this.state.filter.end_date)
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this3.handleSubmit();
+          return _this4.handleSubmit();
         }
       }, "Apply"));
     }

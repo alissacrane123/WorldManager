@@ -9,7 +9,8 @@ class TaskFilter extends React.Component {
     super(props);
     this.state = { 
       filter: this.props.defaultFilter,
-      expanded: { owner: false, project: false, status: false} 
+      expanded: { Owner: false, Project: false, Status: false} 
+
     }
     this.handleDateChange = this.handleDateChange.bind(this);
   }
@@ -40,7 +41,6 @@ class TaskFilter extends React.Component {
   }
 
   renderInputs(array, key) {
-
     let inputs = array.map((el, i) => {
       let ids = this.state.filter[key];
       let id = key === 'status' ? el : el.id 
@@ -53,56 +53,55 @@ class TaskFilter extends React.Component {
           <label>{titleize(label)}</label>
         </li>
       )
-    })
+    });
     return inputs;
+  }
+
+  expandFilter(filter) {
+    // debugger
+    this.setState({ expanded: { ...this.state.expanded, [filter]: !this.state.expanded[filter] } })
+  }
+
+  renderFilter(filter, count, inputs) {
+    return (
+      <div className="filter">
+        <h4 onClick={() => this.expandFilter(filter)}>{`${filter}${count}`}</h4>
+        {this.state.expanded[filter] ? (
+          <ul>
+            {inputs}
+          </ul>
+        ) : null}
+      </div>
+    )
   }
  
   render() {
     let { currentUser } = this.props;
 
-    let teammates = this.renderInputs(currentUser.teammates, "user_id")
-
-    // let teammates = currentUser.teammates.map((mate, i) => (
-    //   <li key={i}>
-    //     <input type="checkbox" checked={this.state.filter.user_id.includes(mate.id)} onChange={() => this.handleChange('user_id',mate.id)}/>
-    //     <label>{mate.name}</label>
-    //   </li>
-    // ))
-
-    let projects = this.renderInputs(currentUser.projects, "project_id")
-
-    // let projects = currentUser.projects.map((project, j) => {
-    //   let ids = this.state.filter.project_id
-    //   return (
-    //     <li key={j}>
-    //       <input type="checkbox" checked={ids.includes(project.id)} onChange={() => this.handleChange('project_id', project.id)} />
-    //       <label>{project.title}</label>
-    //     </li>
-    // )})
-
-    let statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status")
-
-    // let statuses = ["Not Started", "In Progress", "Finished"].map((stat, i) => (
-    //   <li key={i}>
-    //     <input type="checkbox" checked={this.state.filter.status.includes(stat)} onChange={() => this.handleChange('status', stat)} />
-    //     <label>{stat}</label>
-    //   </li>
-    // ))
-
+    let teammates = this.renderInputs(currentUser.teammates, "user_id");
+    let projects = this.renderInputs(currentUser.projects, "project_id");
+    let statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status");
     let countUserFilters = this.state.filter.user_id.length > 0 ? ` (${this.state.filter.user_id.length})` : '';
     let countProjectFilters = this.state.filter.project_id.length > 0 ? ` (${this.state.filter.project_id.length})` : '';
     let countStatusFilters = this.state.filter.status.length > 0 ? ` (${this.state.filter.status.length})` : '';
-
+    let userFilter = this.renderFilter('Owner', countUserFilters, teammates);
+    let projectFilter = this.renderFilter('Project', countProjectFilters, projects);
+    let statusFilter = this.renderFilter('Status', countStatusFilters, statuses);
     return (
       <div id="task-filter" className="filters">
-        <div className="filter">
-          <h4>{`Owner${countUserFilters}`}</h4>
-          <ul>
-            { teammates }
-          </ul>
-        </div>
+        { userFilter }
+        { projectFilter}
+        { statusFilter}
+        {/* <div className="filter">
+          <h4 onClick={() => this.expandFilter('Owner')}>{`Owner${countUserFilters}`}</h4>
+          { this.state.expanded.owner ? (
+              <ul>
+                { teammates }
+              </ul>
+          ) : null }
+        </div> */}
 
-        <div className="filter">
+        {/* <div className="filter">
           <h4>{`Project${countProjectFilters}`}</h4>
             <ul>
             { projects }
@@ -114,7 +113,7 @@ class TaskFilter extends React.Component {
             <ul>
             { statuses }
             </ul>
-        </div>
+        </div> */}
 
         <div>
           <h4>Due Date</h4>
