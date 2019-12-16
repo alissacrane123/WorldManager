@@ -80,7 +80,7 @@ class TaskModalItem extends React.Component {
   
         <section>
           <div>
-            <div>{task.ownerInitials}</div>
+            <div className="initial-circle">{task.ownerInitials}</div>
             <div>
               <label>Assigned To</label>
               <div>{task.owner}</div>

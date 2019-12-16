@@ -1,16 +1,17 @@
 import React from 'react';
-import { titleize } from '../../helpers/helper';
+import { titleize, daysAgo, timeSince} from '../../helpers/helper';
 import SVG from '../svg';
 
 const TaskIndexItem = ({ task, adminAccess, deleteTask, openModal }) => {
 
-  function daysAgo(date) {
-    let diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000)
-    return Math.abs(diffInDays);
-  }
+  // function daysAgo(date) {
+  //   let diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000)
+  //   return Math.abs(diffInDays);
+  // }
 
-  let numDaysAgo = daysAgo(task.created_at);
-  let daysAgoStr = numDaysAgo > 1 ? `${numDaysAgo} days ago` : `${numDaysAgo} day ago`;
+  // let numDaysAgo = daysAgo(task.created_at);
+  // let daysAgoStr = numDaysAgo > 1 ? `${numDaysAgo} days ago` : 'today';
+  let daysAgoStr = timeSince(task.created_at)
   let arrowColor = { "high": "red", "medium": "#ff7700", "low": "green"}
 
   let trashSVG = adminAccess ? <SVG className="trash"name="trash" h={18} w={18} fill="gray" transform="scale(0.75)"/> : <div></div>

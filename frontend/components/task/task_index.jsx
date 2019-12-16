@@ -92,7 +92,7 @@ class TaskIndex extends React.Component {
     let { users, currentUserId, updateFilter, userFilter } = this.props;
 
     return (
-      <div id="task-index" className="container-drag">
+      <div id="task-index" className="container-drag index">
 
         <ProjectTaskFilter users={users} currentUserId={currentUserId} updateFilter={updateFilter} userFilter={userFilter}/>
 

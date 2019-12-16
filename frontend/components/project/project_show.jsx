@@ -1,5 +1,6 @@
 import React from 'react';
 import TaskIndexCont from '../task/task_index_cont'
+import ProjectFeedCont from '../feed/project_feed_cont';
 import { titleize } from '../../helpers/helper';
 import SVG from '../svg';
 
@@ -35,7 +36,7 @@ class ProjectShow extends React.Component {
         component =  <TaskIndexCont />
         break;
       case 'Feed':
-        component = <div>FEED</div>;
+        component = <ProjectFeedCont />;
         break;
       case 'People':
         component = <div>People</div>

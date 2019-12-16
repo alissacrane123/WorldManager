@@ -51,7 +51,7 @@
 }
 
 
-#task-index {
+.index {
       padding: 50px 100px;
 
 }
@@ -101,13 +101,13 @@ button.tb.selected {
   background: #f3f3f3;
 }
 
-#task-index > div{
+.index > div{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-#task-index > div > section {
+.index > div > section {
   padding: 30px 15px;
   background: #f3f3f3;
   border-radius: 10px;
@@ -115,7 +115,7 @@ button.tb.selected {
   
 }
 
-#task-index h3 {
+.index h3 {
   margin-bottom: 15px;
   font-weight: 600;
   font-size: 17px;

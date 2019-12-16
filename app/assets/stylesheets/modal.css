@@ -300,7 +300,8 @@ form.task > div > ul input {
       min-width: 105px;
 }
 
-#modal-task > section > div > div:first-child {
+/* #modal-task > section > div > div:first-child { */
+.initial-circle {
   border-radius: 50%;
   background: #45A29E;
   font-size: 11px;

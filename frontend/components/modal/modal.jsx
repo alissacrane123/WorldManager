@@ -3,6 +3,7 @@ import ProjectFormContainer from '../project/project_form_cont';
 import TaskFormContainer from '../task/task_form_cont';
 import TaskModalItem from './task_modal_item';
 import ProjectMembersForm from '../project/project_members_form';
+import PostFormContainer from '../feed/post_form_cont';
 
 class Modal extends React.Component {
   constructor(props) {
@@ -34,6 +35,9 @@ class Modal extends React.Component {
         break;
       case 'task':
         component = <TaskModalItem tasks={tasks} taskId={taskId} updateTask={updateTask} closeModal={closeModal}/>
+        break;
+      case 'newPost':
+        component = <PostFormContainer />
         break;
       default:
         return null;

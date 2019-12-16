@@ -1,27 +1,31 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import ProjectFeed from './project_feed';
 
-import { login, signup, logout } from '../../actions/session_actions';
 import { openModal, closeModal } from '../../actions/modal_actions';
+import { fetchPosts } from '../../actions/post_actions';
 
 const msp = (state, ownProps) => {
-  let projectId = Object.keys(state.entities.projects)[0];
+  let projectId = ownProps.match.params.projectId;
 
   return {
     posts: Object.values(state.entities.posts),
-    emptyPost: { project_id: projectId, body: ''}
+    tasks: Object.values(state.entities.tasks),
+    project: state.entities.projects[projectId],
+    emptyPost: { project_id: projectId, body: '', user_id: state.session.id},
+    projectId: projectId,
+    currentUser: state.entities.users[state.session.id]
   }
 }
 
 const mdp = dispatch => {
 
   return {
-    login: (user) => dispatch(login(user)),
-    signup: (user) => dispatch(signup(user)),
-    logout: () => dispatch(logout()),
     openModal: (modalType) => dispatch(openModal(modalType)),
-    closeModal: () => dispatch(closeModal())
+    closeModal: () => dispatch(closeModal()),
+    fetchPosts: (params) => dispatch(fetchPosts(params))
   }
 }
 
-export default connect(msp, mdp)(ProjectFeed);
+const ProjectFeedContainer = connect(msp, mdp)(ProjectFeed);
+export default withRouter(ProjectFeedContainer);

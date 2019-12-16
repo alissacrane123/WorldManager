@@ -16,3 +16,9 @@ export const receivePosts = posts => ({
 export const createPost = (post) => dispatch => (
   PostAPI.createPost(post).then(post => dispatch(receivePost(post)))
 )
+
+export const fetchPosts = (params) => dispatch => {
+  return (
+    PostAPI.fetchPosts(params).then(posts => dispatch(receivePosts(posts)))
+  )
+}
