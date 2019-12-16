@@ -1,9 +1,14 @@
 #task-filter {
   display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    padding:0px;
 }
 
 #task-filter h4 {
   font-size: 18px;
   font-weight:600;
+}
+
+.filter {
+  
 }

@@ -1727,6 +1727,80 @@ var ProjectFeedContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["conn
 
 /***/ }),
 
+/***/ "./frontend/components/filters/checkbox.jsx":
+/*!**************************************************!*\
+  !*** ./frontend/components/filters/checkbox.jsx ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var Checkbox =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Checkbox, _React$Component);
+
+  function Checkbox(props) {
+    var _this;
+
+    _classCallCheck(this, Checkbox);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Checkbox).call(this, props));
+    _this.state = {
+      checked: _this.props.isChecked
+    };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Checkbox, [{
+    key: "handleChange",
+    value: function handleChange() {
+      event.preventDefault();
+      this.setState({
+        checked: !this.state.checked
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "checkbox",
+        onChange: this.handleChange
+      });
+    }
+  }]);
+
+  return Checkbox;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Checkbox);
+
+/***/ }),
+
 /***/ "./frontend/components/filters/project_task.jsx":
 /*!******************************************************!*\
   !*** ./frontend/components/filters/project_task.jsx ***!
@@ -1887,9 +1961,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-datepicker/dist/react-datepicker.css */ "./node_modules/react-datepicker/dist/react-datepicker.css");
 /* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+/* harmony import */ var _checkbox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./checkbox */ "./frontend/components/filters/checkbox.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -1898,6 +1971,10 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1920,6 +1997,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var TaskFilter =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1931,46 +2009,71 @@ function (_React$Component) {
     _classCallCheck(this, TaskFilter);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskFilter).call(this, props));
-    _this.state = _this.props.defaultFilter;
+    _this.state = {
+      filter: _this.props.defaultFilter,
+      expanded: {
+        owner: false,
+        project: false,
+        status: false
+      } // this.state = this.props.defaultFilter;
+
+    };
     _this.handleStartDateChange = _this.handleStartDateChange.bind(_assertThisInitialized(_this));
     _this.handleEndDateChange = _this.handleEndDateChange.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // this.setState({ pm: { ...this.state.pm, [field]: event.target.value } });
+
 
   _createClass(TaskFilter, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var filter = Object.assign({}, this.state);
+      var filter = Object.assign({}, this.state.filter);
       this.props.fetchTasks(filter);
     }
   }, {
     key: "handleChange",
     value: function handleChange(field, value) {
-      event.preventDefault();
-      this.setState(_defineProperty({}, field, [].concat(_toConsumableArray(this.state.field), [value])));
+      this.setState({
+        filter: _objectSpread({}, this.state.filter, _defineProperty({}, field, [].concat(_toConsumableArray(this.state.filter[field]), [value])))
+      }); // this.setState({ [field]: [...this.state.field, value]})
     }
   }, {
     key: "handleStartDateChange",
     value: function handleStartDateChange(date) {
       var newDate = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["formatJavascriptDate"])(date);
       this.setState({
-        start_date: newDate
-      });
+        filter: _objectSpread({}, this.state.filter, {
+          start_date: newDate
+        })
+      }); // this.setState({ start_date: newDate })
     }
   }, {
     key: "handleEndDateChange",
     value: function handleEndDateChange(date) {
       var newDate = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["formatJavascriptDate"])(date);
       this.setState({
-        end_date: newDate
-      });
+        filter: _objectSpread({}, this.state.filter, {
+          end_date: newDate
+        })
+      }); // this.setState({ end_date: newDate })
     }
   }, {
     key: "handleSubmit",
     value: function handleSubmit() {
       event.preventDefault();
-      var filters = Object.assign({}, this.state);
+      var filters = Object.assign({}, this.state.filter);
       this.props.fetchTasks(filters);
+    }
+  }, {
+    key: "isChecked",
+    value: function isChecked(project) {
+      var ids = this.state.filter.project_id;
+
+      if (ids.includes(project.id)) {
+        return true;
+      }
+
+      return false;
     }
   }, {
     key: "render",
@@ -1983,18 +2086,20 @@ function (_React$Component) {
           key: i
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "checkbox",
-          checked: _this2.state.user_id.includes(mate.id),
+          checked: _this2.state.filter.user_id.includes(mate.id),
           onChange: function onChange() {
             return _this2.handleChange('user_id', mate.id);
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, mate.name));
       });
+      var ids = this.state.filter.project_id;
       var projects = currentUser.projects.map(function (project, j) {
+        // debugger
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: j
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "checkbox",
-          checked: _this2.state.project_id.includes(project.id),
+          checked: ids.includes(project.id),
           onChange: function onChange() {
             return _this2.handleChange('project_id', project.id);
           }
@@ -2005,24 +2110,30 @@ function (_React$Component) {
           key: i
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "checkbox",
-          checked: _this2.state.status.includes(stat),
+          checked: _this2.state.filter.status.includes(stat),
           onChange: function onChange() {
             return _this2.handleChange('status', stat);
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, stat));
       });
-      var countUserFilters = this.state.user_id.length > 0 ? " (".concat(this.state.user_id.length, ")") : '';
-      var countProjectFilters = this.state.project_id.length > 0 ? " (".concat(this.state.project_id.length, ")") : '';
-      var countStatusFilters = this.state.status.length > 0 ? " (".concat(this.state.status.length, ")") : '';
+      var countUserFilters = this.state.filter.user_id.length > 0 ? " (".concat(this.state.filter.user_id.length, ")") : '';
+      var countProjectFilters = this.state.filter.project_id.length > 0 ? " (".concat(this.state.filter.project_id.length, ")") : '';
+      var countStatusFilters = this.state.filter.status.length > 0 ? " (".concat(this.state.filter.status.length, ")") : '';
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-filter",
+        className: "filters"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "filter"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Owner".concat(countUserFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, teammates)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project".concat(countProjectFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, projects)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Status".concat(countStatusFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, statuses)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Owner".concat(countUserFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, teammates)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "filter"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Project".concat(countProjectFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, projects)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "filter"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Status".concat(countStatusFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, statuses)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: this.handleStartDateChange,
         selected: new Date()
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: this.handleEndDateChange,
-        selected: new Date(this.state.end_date)
+        selected: new Date(this.state.filter.end_date)
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
           return _this2.handleSubmit();

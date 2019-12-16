@@ -13,6 +13,11 @@
   min-height: 100vh;
 }
 
+#task-show {
+      flex-direction: row;
+    padding: 0px;
+}
+
 .show section {
 /* padding: 30px 30px 0px 30px; */
     /* background: white; */
@@ -23,6 +28,7 @@
   box-shadow: 0 1px 3px 0 rgba(21,27,38,.15);
       padding: 30px;
     background: white;
+        flex-grow: 1;
 }
 
 #task-section {
