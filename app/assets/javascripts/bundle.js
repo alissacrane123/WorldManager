@@ -1939,8 +1939,7 @@ function (_React$Component) {
         owner: false,
         project: false,
         status: false
-      } // this.handleStartDateChange = this.handleStartDateChange.bind(this);
-
+      }
     };
     _this.handleDateChange = _this.handleDateChange.bind(_assertThisInitialized(_this));
     return _this;
@@ -1984,45 +1983,56 @@ function (_React$Component) {
       this.props.fetchTasks(filters);
     }
   }, {
-    key: "render",
-    value: function render() {
+    key: "renderInputs",
+    value: function renderInputs(array, key) {
       var _this2 = this;
 
+      var inputs = array.map(function (el, i) {
+        var ids = _this2.state.filter[key];
+        var id = key === 'status' ? el : el.id;
+        var label = key === 'user_id' ? el.name : el;
+        label = key === 'project_id' ? el.title : label;
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: i
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "checkbox",
+          checked: ids.includes(id),
+          onChange: function onChange() {
+            return _this2.handleChange(key, id);
+          }
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(label)));
+      });
+      return inputs;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
       var currentUser = this.props.currentUser;
-      var teammates = currentUser.teammates.map(function (mate, i) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: i
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "checkbox",
-          checked: _this2.state.filter.user_id.includes(mate.id),
-          onChange: function onChange() {
-            return _this2.handleChange('user_id', mate.id);
-          }
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, mate.name));
-      });
-      var projects = currentUser.projects.map(function (project, j) {
-        var ids = _this2.state.filter.project_id;
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: j
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "checkbox",
-          checked: ids.includes(project.id),
-          onChange: function onChange() {
-            return _this2.handleChange('project_id', project.id);
-          }
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, project.title));
-      });
-      var statuses = ["Not Started", "In Progress", "Finished"].map(function (stat, i) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: i
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "checkbox",
-          checked: _this2.state.filter.status.includes(stat),
-          onChange: function onChange() {
-            return _this2.handleChange('status', stat);
-          }
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, stat));
-      });
+      var teammates = this.renderInputs(currentUser.teammates, "user_id"); // let teammates = currentUser.teammates.map((mate, i) => (
+      //   <li key={i}>
+      //     <input type="checkbox" checked={this.state.filter.user_id.includes(mate.id)} onChange={() => this.handleChange('user_id',mate.id)}/>
+      //     <label>{mate.name}</label>
+      //   </li>
+      // ))
+
+      var projects = this.renderInputs(currentUser.projects, "project_id"); // let projects = currentUser.projects.map((project, j) => {
+      //   let ids = this.state.filter.project_id
+      //   return (
+      //     <li key={j}>
+      //       <input type="checkbox" checked={ids.includes(project.id)} onChange={() => this.handleChange('project_id', project.id)} />
+      //       <label>{project.title}</label>
+      //     </li>
+      // )})
+
+      var statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status"); // let statuses = ["Not Started", "In Progress", "Finished"].map((stat, i) => (
+      //   <li key={i}>
+      //     <input type="checkbox" checked={this.state.filter.status.includes(stat)} onChange={() => this.handleChange('status', stat)} />
+      //     <label>{stat}</label>
+      //   </li>
+      // ))
+
       var countUserFilters = this.state.filter.user_id.length > 0 ? " (".concat(this.state.filter.user_id.length, ")") : '';
       var countProjectFilters = this.state.filter.project_id.length > 0 ? " (".concat(this.state.filter.project_id.length, ")") : '';
       var countStatusFilters = this.state.filter.status.length > 0 ? " (".concat(this.state.filter.status.length, ")") : '';
@@ -2037,17 +2047,17 @@ function (_React$Component) {
         className: "filter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Status".concat(countStatusFilters)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, statuses)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
-          return _this2.handleDateChange('start_date', event);
+          return _this3.handleDateChange('start_date', event);
         },
         selected: new Date(this.state.filter.start_date)
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
-          return _this2.handleDateChange('end_date', event);
+          return _this3.handleDateChange('end_date', event);
         },
         selected: new Date(this.state.filter.end_date)
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this2.handleSubmit();
+          return _this3.handleSubmit();
         }
       }, "Apply"));
     }

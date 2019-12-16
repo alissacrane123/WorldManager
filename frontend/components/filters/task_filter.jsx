@@ -1,7 +1,7 @@
 import React from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { formatJavascriptDate } from '../../helpers/helper';
+import { formatJavascriptDate, titleize } from '../../helpers/helper';
 
 
 class TaskFilter extends React.Component {
@@ -11,7 +11,6 @@ class TaskFilter extends React.Component {
       filter: this.props.defaultFilter,
       expanded: { owner: false, project: false, status: false} 
     }
-    // this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
   }
 
@@ -39,32 +38,56 @@ class TaskFilter extends React.Component {
     let filters = Object.assign({}, this.state.filter);
     this.props.fetchTasks(filters)
   }
+
+  renderInputs(array, key) {
+
+    let inputs = array.map((el, i) => {
+      let ids = this.state.filter[key];
+      let id = key === 'status' ? el : el.id 
+      let label = key === 'user_id' ? el.name : el;
+      label = key === 'project_id' ? el.title : label;
+
+      return ( 
+        <li key={i}>
+          <input type="checkbox" checked={ids.includes(id)} onChange={() => this.handleChange(key, id)} />
+          <label>{titleize(label)}</label>
+        </li>
+      )
+    })
+    return inputs;
+  }
  
   render() {
     let { currentUser } = this.props;
 
-    let teammates = currentUser.teammates.map((mate, i) => (
-      <li key={i}>
-        <input type="checkbox" checked={this.state.filter.user_id.includes(mate.id)} onChange={() => this.handleChange('user_id',mate.id)}/>
-        <label>{mate.name}</label>
-      </li>
-    ))
+    let teammates = this.renderInputs(currentUser.teammates, "user_id")
 
-    let projects = currentUser.projects.map((project, j) => {
-      let ids = this.state.filter.project_id
-      return (
-        <li key={j}>
-          <input type="checkbox" checked={ids.includes(project.id)} onChange={() => this.handleChange('project_id', project.id)} />
-          <label>{project.title}</label>
-        </li>
-    )})
+    // let teammates = currentUser.teammates.map((mate, i) => (
+    //   <li key={i}>
+    //     <input type="checkbox" checked={this.state.filter.user_id.includes(mate.id)} onChange={() => this.handleChange('user_id',mate.id)}/>
+    //     <label>{mate.name}</label>
+    //   </li>
+    // ))
 
-    let statuses = ["Not Started", "In Progress", "Finished"].map((stat, i) => (
-      <li key={i}>
-        <input type="checkbox" checked={this.state.filter.status.includes(stat)} onChange={() => this.handleChange('status', stat)} />
-        <label>{stat}</label>
-      </li>
-    ))
+    let projects = this.renderInputs(currentUser.projects, "project_id")
+
+    // let projects = currentUser.projects.map((project, j) => {
+    //   let ids = this.state.filter.project_id
+    //   return (
+    //     <li key={j}>
+    //       <input type="checkbox" checked={ids.includes(project.id)} onChange={() => this.handleChange('project_id', project.id)} />
+    //       <label>{project.title}</label>
+    //     </li>
+    // )})
+
+    let statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status")
+
+    // let statuses = ["Not Started", "In Progress", "Finished"].map((stat, i) => (
+    //   <li key={i}>
+    //     <input type="checkbox" checked={this.state.filter.status.includes(stat)} onChange={() => this.handleChange('status', stat)} />
+    //     <label>{stat}</label>
+    //   </li>
+    // ))
 
     let countUserFilters = this.state.filter.user_id.length > 0 ? ` (${this.state.filter.user_id.length})` : '';
     let countProjectFilters = this.state.filter.project_id.length > 0 ? ` (${this.state.filter.project_id.length})` : '';
