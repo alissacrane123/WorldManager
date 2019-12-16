@@ -1569,7 +1569,7 @@ var PostItem = function PostItem(_ref) {
     h: 36,
     w: 36,
     transform: "scale(1.5)"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, header, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "created at"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, post.body));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, header, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["timeSince"])(post.created_at)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, post.body));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (PostItem);
@@ -3816,7 +3816,7 @@ function (_React$Component) {
           break;
       }
 
-      var tabs = ['Tasks', 'Feed', 'People'].map(function (tab, i) {
+      var tabs = ['Tasks', 'Feed'].map(function (tab, i) {
         var c = _this3.state.openTab === tab ? 'selected' : '';
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i,
@@ -3829,17 +3829,6 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "project-show"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(project.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: function onClick() {
-          return openModal('newTasks');
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        name: "plus",
-        h: 20,
-        w: 20,
-        fill: "white",
-        transform: "scale(0.84)",
-        className: "plus-show"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
           return _this3.handleDelete();
         }
@@ -4975,12 +4964,16 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-index",
         className: "container-drag index"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_filters_project_task__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_filters_project_task__WEBPACK_IMPORTED_MODULE_2__["default"], {
         users: users,
         currentUserId: currentUserId,
         updateFilter: updateFilter,
         userFilter: userFilter
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderTasks(0), this.renderTasks(1), this.renderTasks(2)));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return openModal('newTasks');
+        }
+      }, "New Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderTasks(0), this.renderTasks(1), this.renderTasks(2)));
     }
   }]);
 
@@ -5082,12 +5075,6 @@ var TaskIndexItem = function TaskIndexItem(_ref) {
       adminAccess = _ref.adminAccess,
       deleteTask = _ref.deleteTask,
       openModal = _ref.openModal;
-  // function daysAgo(date) {
-  //   let diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000)
-  //   return Math.abs(diffInDays);
-  // }
-  // let numDaysAgo = daysAgo(task.created_at);
-  // let daysAgoStr = numDaysAgo > 1 ? `${numDaysAgo} days ago` : 'today';
   var daysAgoStr = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["timeSince"])(task.created_at);
   var arrowColor = {
     "high": "red",
@@ -5663,7 +5650,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*!************************************!*\
   !*** ./frontend/helpers/helper.js ***!
   \************************************/
-/*! exports provided: titleize, selectNewProjectId, formatJavascriptDate, daysAgo, timeSince, dateToWords, projectMemberSelector, selectRecentTasks, selectUpcomingTasks, selectOverdueTasks, dateInOneWeek, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks */
+/*! exports provided: titleize, selectNewProjectId, formatJavascriptDate, timeSince, dateToWords, projectMemberSelector, selectRecentTasks, selectUpcomingTasks, selectOverdueTasks, dateInOneWeek, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5671,7 +5658,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleize", function() { return titleize; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectNewProjectId", function() { return selectNewProjectId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatJavascriptDate", function() { return formatJavascriptDate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "daysAgo", function() { return daysAgo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timeSince", function() { return timeSince; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateToWords", function() { return dateToWords; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "projectMemberSelector", function() { return projectMemberSelector; });
@@ -5721,10 +5707,6 @@ var formatJavascriptDate = function formatJavascriptDate(date) {
   var day = date.getDate();
   day = day > 9 ? day : "0".concat(day);
   return "".concat(month, "/").concat(day, "/").concat(year);
-};
-var daysAgo = function daysAgo(date) {
-  var diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000);
-  return Math.abs(diffInDays);
 };
 var timeSince = function timeSince(date) {
   var seconds = Math.floor((new Date() - new Date(date)) / 1000);

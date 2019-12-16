@@ -1,6 +1,6 @@
 import React from 'react';
 import SVG from '../svg';
-import { titleize } from '../../helpers/helper'
+import { titleize, timeSince } from '../../helpers/helper'
 
 const PostItem = ({ post, project, task }) => {
 
@@ -34,7 +34,7 @@ const PostItem = ({ post, project, task }) => {
         <div>
           {/* <h4>{header}</h4> */}
           { header }
-          <h5>created at</h5>
+          <h5>{timeSince(post.created_at)}</h5>
         </div>
       </div>
 

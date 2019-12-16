@@ -34,11 +34,6 @@ export const formatJavascriptDate = (date) => {
     return `${month}/${day}/${year}`;
 }
 
-export const daysAgo = (date) => {
-  let diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000)
-  return Math.abs(diffInDays);
-}
-
 
 export const timeSince = (date) => {
 

@@ -4,13 +4,7 @@ import SVG from '../svg';
 
 const TaskIndexItem = ({ task, adminAccess, deleteTask, openModal }) => {
 
-  // function daysAgo(date) {
-  //   let diffInDays = Math.floor((Date.parse(date) - Date.parse(new Date())) / 86400000)
-  //   return Math.abs(diffInDays);
-  // }
-
-  // let numDaysAgo = daysAgo(task.created_at);
-  // let daysAgoStr = numDaysAgo > 1 ? `${numDaysAgo} days ago` : 'today';
+  
   let daysAgoStr = timeSince(task.created_at)
   let arrowColor = { "high": "red", "medium": "#ff7700", "low": "green"}
 

@@ -43,7 +43,7 @@ class ProjectShow extends React.Component {
         break;
     }
 
-    let tabs = ['Tasks', 'Feed', 'People'].map((tab, i) => {
+    let tabs = ['Tasks', 'Feed'].map((tab, i) => {
       let c = this.state.openTab === tab ? 'selected' : '';
       return (
         <li key={i} className={c} onClick={() => this.changeTab(tab)}>{tab}</li>
@@ -55,10 +55,6 @@ class ProjectShow extends React.Component {
       <div id="project-show">
         <div>
           <h1>{titleize(project.title)}</h1>
-
-          <div onClick={() => openModal('newTasks')}>
-            <SVG name='plus' h={20} w={20} fill="white" transform="scale(0.84)" className="plus-show" />
-          </div>
 
           <div onClick={() => this.handleDelete()}>
             <SVG className="trash" name="trash" h={24} w={24} fill="gray" />

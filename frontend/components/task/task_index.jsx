@@ -94,7 +94,14 @@ class TaskIndex extends React.Component {
     return (
       <div id="task-index" className="container-drag index">
 
-        <ProjectTaskFilter users={users} currentUserId={currentUserId} updateFilter={updateFilter} userFilter={userFilter}/>
+        <header>
+          <ProjectTaskFilter users={users} currentUserId={currentUserId} updateFilter={updateFilter} userFilter={userFilter}/>       
+          <button onClick={() => openModal('newTasks')}>New Task</button>
+          {/* <div onClick={() => openModal('newTasks')}>
+            
+            <SVG name='plus' h={20} w={20} fill="white" transform="scale(0.84)" className="plus-show" />
+          </div> */}
+        </header>
 
         <div>
           {this.renderTasks(0)}
