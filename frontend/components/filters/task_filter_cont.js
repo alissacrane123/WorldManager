@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { selectRecentTasks, selectUpcomingTasks, selectAcceptedTasks, selectOverdueTasks, dateInOneWeek } from '../../helpers/helper';
+import { selectRecentTasks, selectUpcomingTasks, selectAcceptedTasks, selectOverdueTasks, dateInOneWeek, formatJavascriptDate } from '../../helpers/helper';
 import { updateUserFilter } from '../../actions/filter_actions';
 
 import { fetchProjects, fetchProject } from '../../actions/project_actions';
@@ -23,7 +23,7 @@ const msp = (state, ownProps) => {
     overdueTasks: selectOverdueTasks(acceptedTasks),
 
     defaultFilter: {
-      start_date: null,
+      start_date: formatJavascriptDate(new Date()),
       end_date: dateInOneWeek(),
       created_at: null,
       user_id: [state.session.id],

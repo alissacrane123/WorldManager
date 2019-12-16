@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatJavascriptDate } from '../../helpers/helper';
-import Checkbox from './checkbox';
+
 
 class TaskFilter extends React.Component {
   constructor(props) {
@@ -11,32 +11,27 @@ class TaskFilter extends React.Component {
       filter: this.props.defaultFilter,
       expanded: { owner: false, project: false, status: false} 
     }
-    // this.state = this.props.defaultFilter;
-    this.handleStartDateChange = this.handleStartDateChange.bind(this);
-    this.handleEndDateChange = this.handleEndDateChange.bind(this);
+    // this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
-  // this.setState({ pm: { ...this.state.pm, [field]: event.target.value } });
   componentDidMount() {
     let filter = Object.assign({}, this.state.filter);
     this.props.fetchTasks(filter)
   }
 
   handleChange(field, value) {
-    this.setState({ filter: { ...this.state.filter, [field]: [...this.state.filter[field], value] } })
-    // this.setState({ [field]: [...this.state.field, value]})
+    if (!this.state.filter[field].includes(value)) {
+      this.setState({ filter: { ...this.state.filter, [field]: [...this.state.filter[field], value] } })   
+    } else {
+      let newArr = this.state.filter[field].filter(id => id !== value)
+      this.setState({ filter: { ...this.state.filter, [field]: newArr } })   
+    }
   }
 
-
-  handleStartDateChange(date) {
-    let newDate = formatJavascriptDate(date)
-    this.setState({ filter: { ...this.state.filter, start_date: newDate } })
-    // this.setState({ start_date: newDate })
-  }
-  handleEndDateChange(date) {
-    let newDate = formatJavascriptDate(date)
-    this.setState({ filter: { ...this.state.filter, end_date: newDate } })
-    // this.setState({ end_date: newDate })
+  handleDateChange(date, event) {
+    let newDate = formatJavascriptDate(event);
+    this.setState({ filter: { ...this.state.filter, [date]: newDate } })
   }
 
   handleSubmit() {
@@ -44,15 +39,7 @@ class TaskFilter extends React.Component {
     let filters = Object.assign({}, this.state.filter);
     this.props.fetchTasks(filters)
   }
-  
-  isChecked(project) {
-    let ids = this.state.filter.project_id
-    if (ids.includes(project.id)) {
-      return true;
-    }
-    return false;
-  }
-
+ 
   render() {
     let { currentUser } = this.props;
 
@@ -62,16 +49,14 @@ class TaskFilter extends React.Component {
         <label>{mate.name}</label>
       </li>
     ))
-    let ids = this.state.filter.project_id
 
     let projects = currentUser.projects.map((project, j) => {
-      // debugger
+      let ids = this.state.filter.project_id
       return (
-      <li key={j}>
-        {/* <Checkbox isChecked={this.state.filter.project_id.includes(project.id)} /> */}
-        <input type="checkbox" checked={ids.includes(project.id)} onChange={() => this.handleChange('project_id', project.id)} />
-        <label>{project.title}</label>
-      </li>
+        <li key={j}>
+          <input type="checkbox" checked={ids.includes(project.id)} onChange={() => this.handleChange('project_id', project.id)} />
+          <label>{project.title}</label>
+        </li>
     )})
 
     let statuses = ["Not Started", "In Progress", "Finished"].map((stat, i) => (
@@ -110,8 +95,8 @@ class TaskFilter extends React.Component {
 
         <div>
           <h4>Due Date</h4>
-          <DatePicker onChange={this.handleStartDateChange} selected={new Date()} />
-          <DatePicker onChange={this.handleEndDateChange} selected={new Date(this.state.filter.end_date)} />
+          <DatePicker onChange={(event) => this.handleDateChange('start_date', event)} selected={new Date(this.state.filter.start_date)} />
+          <DatePicker onChange={(event) => this.handleDateChange('end_date', event)} selected={new Date(this.state.filter.end_date)} />
         </div>
 
         <button onClick={() => this.handleSubmit()}>Apply</button>
