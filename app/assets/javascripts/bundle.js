@@ -4995,6 +4995,8 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       var _this$props3 = this.props,
           users = _this$props3.users,
           currentUserId = _this$props3.currentUserId,
@@ -5010,7 +5012,7 @@ function (_React$Component) {
         userFilter: userFilter
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return openModal('newTasks');
+          return _this4.props.openModal('newTasks');
         }
       }, "New Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderTasks(0), this.renderTasks(1), this.renderTasks(2)));
     }
