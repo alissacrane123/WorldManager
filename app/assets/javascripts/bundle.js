@@ -1887,6 +1887,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-datepicker/dist/react-datepicker.css */ "./node_modules/react-datepicker/dist/react-datepicker.css");
 /* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -1916,6 +1917,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -1970,6 +1972,7 @@ function (_React$Component) {
   }, {
     key: "handleDateChange",
     value: function handleDateChange(date, event) {
+      // debugger
       var newDate = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["formatJavascriptDate"])(event);
       this.setState({
         filter: _objectSpread({}, this.state.filter, _defineProperty({}, date, newDate))
@@ -1978,7 +1981,8 @@ function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit() {
-      event.preventDefault();
+      event.preventDefault(); // debugger
+
       var filters = Object.assign({}, this.state.filter);
       this.props.fetchTasks(filters);
     }
@@ -2007,7 +2011,6 @@ function (_React$Component) {
   }, {
     key: "expandFilter",
     value: function expandFilter(filter) {
-      // debugger
       this.setState({
         expanded: _objectSpread({}, this.state.expanded, _defineProperty({}, filter, !this.state.expanded[filter]))
       });
@@ -2019,11 +2022,17 @@ function (_React$Component) {
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "filter"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
           return _this3.expandFilter(filter);
         }
-      }, "".concat(filter).concat(count)), this.state.expanded[filter] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, inputs) : null);
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, filter), count === '' ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, count), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        h: 16,
+        w: 16,
+        name: "plus",
+        transform: "scale(0.667)",
+        fill: "black"
+      })), this.state.expanded[filter] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, inputs) : null);
     }
   }, {
     key: "render",
@@ -2043,7 +2052,11 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-filter",
         className: "filters"
-      }, userFilter, projectFilter, statusFilter, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "FILTER BY"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return _this4.handleSubmit();
+        }
+      }, "Apply"), userFilter, projectFilter, statusFilter, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
           return _this4.handleDateChange('start_date', event);
         },
@@ -2053,11 +2066,7 @@ function (_React$Component) {
           return _this4.handleDateChange('end_date', event);
         },
         selected: new Date(this.state.filter.end_date)
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: function onClick() {
-          return _this4.handleSubmit();
-        }
-      }, "Apply"));
+      })));
     }
   }]);
 

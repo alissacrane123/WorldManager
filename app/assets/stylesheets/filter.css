@@ -1,3 +1,9 @@
+/* #0B0C10 - black
+#1F2833 - dark gray blue
+#C5C6C7 - gray
+#66FCF1 - brightteal
+#45A29E - teal */
+
 #task-filter {
   display: flex;
     flex-direction: column;
@@ -5,10 +11,64 @@
 }
 
 #task-filter h4 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight:600;
+  /* padding-bottom:15px; */
+}
+#task-filter > div {
+  border-top: 1px solid #ccc;
+  padding:15px 0px;
 }
 
-.filter {
 
+#task-filter > div:first-of-type {
+  border-top:none;
+}
+
+#task-filter > div {
+  border-top: 1px solid #ccc;
+}
+
+#task-filter > h1 {
+  font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 25px;
+}
+.filter > div{
+  cursor:pointer;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.filter > div > * {
+  margin-right:5px;
+}
+
+.filter > ul {
+  padding-top:  15px;
+}
+
+#task-filter > div:last-of-type h4 {
+  padding-bottom:15px;
+}
+
+#task-filter > button {
+border: none;
+    outline: none;
+    padding: 7px;
+    background:#45A29E;
+    border-radius:10px;
+    color:white;
+    font-weight:500;
+    font-size:16px;
+    margin-bottom:20px;
+}
+
+#task-filter .react-datepicker-wrapper {
+  width: 80px !important;
+}
+
+#task-filter .react-datepicker-wrapper:first-of-type {
+  margin-right:10px !important;
 }

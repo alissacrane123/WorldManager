@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatJavascriptDate, titleize } from '../../helpers/helper';
-
+import SVG from '../svg';
 
 class TaskFilter extends React.Component {
   constructor(props) {
@@ -30,12 +30,14 @@ class TaskFilter extends React.Component {
   }
 
   handleDateChange(date, event) {
+    // debugger
     let newDate = formatJavascriptDate(event);
     this.setState({ filter: { ...this.state.filter, [date]: newDate } })
   }
 
   handleSubmit() {
     event.preventDefault();
+    // debugger
     let filters = Object.assign({}, this.state.filter);
     this.props.fetchTasks(filters)
   }
@@ -58,14 +60,19 @@ class TaskFilter extends React.Component {
   }
 
   expandFilter(filter) {
-    // debugger
     this.setState({ expanded: { ...this.state.expanded, [filter]: !this.state.expanded[filter] } })
   }
 
   renderFilter(filter, count, inputs) {
     return (
       <div className="filter">
-        <h4 onClick={() => this.expandFilter(filter)}>{`${filter}${count}`}</h4>
+
+        <div onClick={() => this.expandFilter(filter)}>
+          <h4 >{filter}</h4>
+          {count === '' ? null : <h5>{count}</h5>  }
+          <SVG h={16} w={16} name="plus" transform="scale(0.667)" fill="black" />
+        </div>
+
         {this.state.expanded[filter] ? (
           <ul>
             {inputs}
@@ -87,33 +94,16 @@ class TaskFilter extends React.Component {
     let userFilter = this.renderFilter('Owner', countUserFilters, teammates);
     let projectFilter = this.renderFilter('Project', countProjectFilters, projects);
     let statusFilter = this.renderFilter('Status', countStatusFilters, statuses);
+
     return (
       <div id="task-filter" className="filters">
+
+        <h1>FILTER BY</h1>
+        <button onClick={() => this.handleSubmit()}>Apply</button>
+
         { userFilter }
         { projectFilter}
         { statusFilter}
-        {/* <div className="filter">
-          <h4 onClick={() => this.expandFilter('Owner')}>{`Owner${countUserFilters}`}</h4>
-          { this.state.expanded.owner ? (
-              <ul>
-                { teammates }
-              </ul>
-          ) : null }
-        </div> */}
-
-        {/* <div className="filter">
-          <h4>{`Project${countProjectFilters}`}</h4>
-            <ul>
-            { projects }
-            </ul>
-        </div>
-
-        <div className="filter">
-          <h4>{`Status${countStatusFilters}`}</h4>
-            <ul>
-            { statuses }
-            </ul>
-        </div> */}
 
         <div>
           <h4>Due Date</h4>
@@ -121,7 +111,7 @@ class TaskFilter extends React.Component {
           <DatePicker onChange={(event) => this.handleDateChange('end_date', event)} selected={new Date(this.state.filter.end_date)} />
         </div>
 
-        <button onClick={() => this.handleSubmit()}>Apply</button>
+
       </div>  
     )
   }
