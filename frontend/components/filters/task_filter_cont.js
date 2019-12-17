@@ -13,9 +13,10 @@ const msp = (state, ownProps) => {
   let acceptedTasks = selectAcceptedTasks(state);
   // let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
   let recentTasks = [];
-
+  let currentUser = state.entities.users[state.session.id];
+  let projectIds = currentUser.projects.map(project => project.id);
   return {
-    currentUser: state.entities.users[state.session.id],
+    currentUser: currentUser,
     users: Object.values(state.entities.users),
     allTasks: acceptedTasks,
     recentTasks: selectRecentTasks(acceptedTasks),
@@ -27,7 +28,7 @@ const msp = (state, ownProps) => {
       end_date: dateInOneWeek(),
       created_at: null,
       user_id: [state.session.id],
-      project_id: [],
+      project_id: projectIds,
       status: ["Not Started", "In Progress"],
       priority: []
     }

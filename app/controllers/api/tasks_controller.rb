@@ -29,6 +29,8 @@ class Api::TasksController < ApplicationController
     filter_value = []
     id_filters = []
     id_filter_value = []
+    user_id_filters = []
+    user_id_filter_value = []
     word_filters = []
     word_filter_values = []
 
@@ -46,11 +48,16 @@ class Api::TasksController < ApplicationController
         filters << "created_at >= ?"
         filter_value << format_date(filter[1])
       elsif [3,4].include?(i) && filter[1]
-        value = [filter[1].map(&:to_i)] 
+        value = filter[1].map(&:to_i)
 
         value.each do |val|
-          id_filters << "#{filter_name} = ?"
-          id_filter_value << val
+          if filter_name == 'project_id'
+            id_filters << "#{filter_name} = ?" 
+            id_filter_value << val
+          else
+            user_id_filters << "#{filter_name} = ?" 
+            user_id_filter_value << val
+          end
         end
       elsif filter[1] && ![0,1,2].include?(i)
         value =  filter[1]
@@ -66,8 +73,9 @@ class Api::TasksController < ApplicationController
     query = filters.join(' AND ')
     query2 = id_filters.join(' OR ')
     query3 = word_filters.join(' OR ')
-
-    @tasks = Task.where(query, *filter_value).where(query2, *id_filter_value).where(query3, *word_filter_values)
+    query4 = user_id_filters.join(' OR ')
+    # debuggc/er
+    @tasks = Task.where(query, *filter_value).where(query2, *id_filter_value).where(query3, *word_filter_values).where(query4, *user_id_filter_value)
     
   end
 

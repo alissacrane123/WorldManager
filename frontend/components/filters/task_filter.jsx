@@ -4,6 +4,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { formatJavascriptDate, titleize } from '../../helpers/helper';
 import SVG from '../svg';
 
+
+// NOTE THAT THIS IS MESSED UP AND WONT FETCH PROJECTS BY ID CORRECTLY
+
 class TaskFilter extends React.Component {
   constructor(props) {
     super(props);
@@ -30,14 +33,12 @@ class TaskFilter extends React.Component {
   }
 
   handleDateChange(date, event) {
-    // debugger
     let newDate = formatJavascriptDate(event);
     this.setState({ filter: { ...this.state.filter, [date]: newDate } })
   }
 
   handleSubmit() {
     event.preventDefault();
-    // debugger
     let filters = Object.assign({}, this.state.filter);
     this.props.fetchTasks(filters)
   }

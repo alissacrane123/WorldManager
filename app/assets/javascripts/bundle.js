@@ -1922,7 +1922,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-
+ // NOTE THAT THIS IS MESSED UP AND WONT FETCH PROJECTS BY ID CORRECTLY
 
 var TaskFilter =
 /*#__PURE__*/
@@ -1972,7 +1972,6 @@ function (_React$Component) {
   }, {
     key: "handleDateChange",
     value: function handleDateChange(date, event) {
-      // debugger
       var newDate = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["formatJavascriptDate"])(event);
       this.setState({
         filter: _objectSpread({}, this.state.filter, _defineProperty({}, date, newDate))
@@ -1981,8 +1980,7 @@ function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit() {
-      event.preventDefault(); // debugger
-
+      event.preventDefault();
       var filters = Object.assign({}, this.state.filter);
       this.props.fetchTasks(filters);
     }
@@ -2105,8 +2103,12 @@ var msp = function msp(state, ownProps) {
   var acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectAcceptedTasks"])(state); // let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
 
   var recentTasks = [];
+  var currentUser = state.entities.users[state.session.id];
+  var projectIds = currentUser.projects.map(function (project) {
+    return project.id;
+  });
   return {
-    currentUser: state.entities.users[state.session.id],
+    currentUser: currentUser,
     users: Object.values(state.entities.users),
     allTasks: acceptedTasks,
     recentTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectRecentTasks"])(acceptedTasks),
@@ -2117,7 +2119,7 @@ var msp = function msp(state, ownProps) {
       end_date: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["dateInOneWeek"])(),
       created_at: null,
       user_id: [state.session.id],
-      project_id: [],
+      project_id: projectIds,
       status: ["Not Started", "In Progress"],
       priority: []
     }
