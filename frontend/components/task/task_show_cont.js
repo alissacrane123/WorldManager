@@ -16,7 +16,7 @@ const msp = (state, ownProps) => {
 
   return {
     currentUserId: state.session.id,
-    userFilter: state.ui.filters.tasks.user,
+    userFilter: state.ui.filters.tasks,
     users: Object.values(state.entities.users),
     // adminAccess: Object.values(state.entities.projects)[0].adminAccess,
     allTasks: acceptedTasks,

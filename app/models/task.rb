@@ -1,13 +1,12 @@
 class Task < ApplicationRecord
+  validates :title, :user_id, presence: true
+  
   belongs_to :project, optional:true
-  belongs_to :user  
-
+  belongs_to :user
   has_one :project_owner, 
     through: :project,
     source: :owner
 
-
-  validates :title, :user_id, presence: true
 
   def fetch_filtered_tasks(filters)
     valid_filters = []

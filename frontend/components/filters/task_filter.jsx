@@ -21,6 +21,7 @@ class TaskFilter extends React.Component {
   componentDidMount() {
     let filter = Object.assign({}, this.state.filter);
     this.props.fetchTasks(filter)
+      .then(this.props.updateFilter('tasks', filter))
   }
 
   handleChange(field, value) {
@@ -70,7 +71,7 @@ class TaskFilter extends React.Component {
 
         <div onClick={() => this.expandFilter(filter)}>
           <h4 >{filter}</h4>
-          {count === '' ? null : <h5>{count}</h5>  }
+          {/* {count === '' ? null : <h5>{count}</h5>  } */}
           <SVG h={16} w={16} name="plus" transform="scale(0.667)" fill="black" />
         </div>
 

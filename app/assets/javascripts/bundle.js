@@ -1544,7 +1544,8 @@ __webpack_require__.r(__webpack_exports__);
 var PostItem = function PostItem(_ref) {
   var post = _ref.post,
       project = _ref.project,
-      task = _ref.task;
+      task = _ref.task,
+      initials = _ref.initials;
   var header;
   var svg = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
     h: 8,
@@ -1569,7 +1570,18 @@ var PostItem = function PostItem(_ref) {
     h: 36,
     w: 36,
     transform: "scale(1.5)"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, header, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["timeSince"])(post.created_at)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, post.body));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "header"
+  }, header, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["timeSince"])(post.created_at)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, post.body), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "comment"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "new-comment"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "initial-circle"
+  }, initials), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+    // onClick={() => this.props.openModal('newPost')}
+    placeholder: "Write a comment..."
+  }))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (PostItem);
@@ -1646,7 +1658,8 @@ function (_React$Component) {
           key: i,
           post: post,
           project: project,
-          task: postTask
+          task: postTask,
+          initials: initials
         });
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1654,7 +1667,9 @@ function (_React$Component) {
         className: "index feed"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "post"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Create Post"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Create Post"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "new-post"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "initial-circle"
       }, initials), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         onClick: function onClick() {
@@ -1951,7 +1966,7 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var filter = Object.assign({}, this.state.filter);
-      this.props.fetchTasks(filter);
+      this.props.fetchTasks(filter).then(this.props.updateFilter('tasks', filter));
     }
   }, {
     key: "handleChange",
@@ -2024,7 +2039,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this3.expandFilter(filter);
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, filter), count === '' ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, count), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, filter), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_4__["default"], {
         h: 16,
         w: 16,
         name: "plus",
@@ -5326,7 +5341,7 @@ var msp = function msp(state, ownProps) {
   var recentTasks = [];
   return {
     currentUserId: state.session.id,
-    userFilter: state.ui.filters.tasks.user,
+    userFilter: state.ui.filters.tasks,
     users: Object.values(state.entities.users),
     // adminAccess: Object.values(state.entities.projects)[0].adminAccess,
     allTasks: acceptedTasks,
