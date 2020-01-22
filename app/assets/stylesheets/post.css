@@ -30,7 +30,8 @@ form.post textarea {
   margin-left: 15px;
 }
 
-form.post > div:first-of-type {
+/* form.post > div:first-of-type { */
+div.new-post {
    background:white;
    display:flex;
    flex-direction: row;
@@ -57,7 +58,7 @@ border: none;
   align-items: center;
 }
 
-#post-item > div > div {
+#post-item > div > div.header {
   display:flex;
   flex-direction: column;
   height: 36px;
@@ -90,4 +91,24 @@ border: none;
 
 #post-item header > * {
   margin-right:8px;
+}
+
+#post-item div.comment {
+  border-top: 1px solid #dddfe2;
+}
+
+div.new-comment {
+    display:flex;
+   flex-direction: row;
+   width:100%;
+}
+
+div.new-comment textarea {
+      flex: 1;
+    margin-left: 10px;
+    border-radius: 10px;
+    background-color: white;
+    padding: 6px;
+    height: auto;
+    border: 1px solid #dedfe2;
 }

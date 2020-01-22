@@ -2,7 +2,7 @@ import React from 'react';
 import SVG from '../svg';
 import { titleize, timeSince } from '../../helpers/helper'
 
-const PostItem = ({ post, project, task }) => {
+const PostItem = ({ post, project, task, initials }) => {
 
   let header;
   let svg = <SVG h={8} w={8} name="round-tri" fill="gray" transform="scale(0.333)" rotate="rotate(90)" />;
@@ -29,16 +29,25 @@ const PostItem = ({ post, project, task }) => {
 
   return (
     <li id="post-item">
-      <div>
+      <div >
         <SVG name="profile" fill="#45A29E" h={36} w={36} transform="scale(1.5)" />
-        <div>
-          {/* <h4>{header}</h4> */}
+        <div className="header">
           { header }
           <h5>{timeSince(post.created_at)}</h5>
         </div>
       </div>
 
       <p>{ post.body}</p>
+
+      <div className="comment">
+        <div className="new-comment">
+          <div className="initial-circle">{initials}</div>
+          <textarea
+            // onClick={() => this.props.openModal('newPost')}
+            placeholder="Write a comment...">
+          </textarea>
+        </div>
+      </div>
     </li>
   )
 }

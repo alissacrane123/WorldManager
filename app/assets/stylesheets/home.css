@@ -49,11 +49,13 @@ ul#project-index {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 ul#project-index li {
   padding: 10px;
   min-height: 50px;
+  width: 200px;
   border-radius: 4px;
 }
 

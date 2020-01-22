@@ -17,7 +17,7 @@ class ProjectFeed extends React.Component {
     posts = posts.map((post, i) => {
       let postTask = post.task_id ? tasks.filter(task => task.id === post.task_id)[0] : null;
       return (
-        <PostItem key={i} post={post} project={project} task={postTask}/>
+        <PostItem key={i} post={post} project={project} task={postTask} initials={initials}/>
       )
     })
     
@@ -26,7 +26,7 @@ class ProjectFeed extends React.Component {
         <form className="post">
           <h4>Create Post</h4>
 
-          <div>
+          <div className="new-post">
             <div className="initial-circle">{initials}</div>
             <textarea  
               onClick={() => this.props.openModal('newPost')} 
