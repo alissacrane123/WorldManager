@@ -15,6 +15,7 @@ class ProjectForm extends React.Component {
   }
 
   handlePmChange(field) {
+    
     this.setState({ pm: { ...this.state.pm, [field]: event.target.value } });
   }
 
@@ -22,7 +23,7 @@ class ProjectForm extends React.Component {
     e.preventDefault();
     let project = Object.assign({}, this.state.project);
     let pm = Object.assign({}, this.state.pm);
-
+    
     this.props.createProject(project, pm)
       .then(() => this.props.openModal('newPM'));
   }
@@ -30,7 +31,7 @@ class ProjectForm extends React.Component {
   render() {
 
     let cats = ["School", "Work", "Travel", "Fun", "Family", "Other"].map((el, i) => (
-      <option key={i} value={el}>{el}</option>
+      <option selected={this.state.project.category === el} key={i} value={el}>{el}</option>
     ))
 
     return (
@@ -43,7 +44,7 @@ class ProjectForm extends React.Component {
 
         <label>Category</label>
         <select value={ this.state.category } onChange={ () => this.handleProjectChange('category') }>
-          <option value="default" disabled={true}>Choose a category</option>
+          <option value="default" selected={ this.state.project.category === 'default'} disabled={true}>Choose a category</option>
           { cats }
         </select>
         

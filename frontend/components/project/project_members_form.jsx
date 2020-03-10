@@ -3,17 +3,19 @@ import React from 'react';
 class ProjectMembersForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', role: '', project_id: this.props.projectId, inviter_id: this.props.currentUserId };
+    this.state = { email: '', role: 'default', project_id: this.props.projectId, inviter_id: this.props.currentUserId };
   }
 
   handleSubmit() {
     event.preventDefault();
     let pm = Object.assign({}, this.state)
+    // debugger
     this.props.createPM(pm)
-      .then(() => this.setState({ email: '', role: '' }))
+      // .then(() => this.setState({ email: '', role: 'default' }))
   }
 
   handleChange(field) {
+    // debugger
     this.setState({ [field]: event.target.value })
   }
 
@@ -41,7 +43,8 @@ class ProjectMembersForm extends React.Component {
           />
 
           <label>Team Member Role</label>
-          <select onChange={() => this.handleChange("role")}>
+          <select value={this.state.role} defaultValue="default" onChange={() => this.handleChange("role")}>
+            <option value="default" disabled={true}>Choose a role</option>
             <option value="Admin">Administrator</option>
             <option value="Member">Team Member</option>
           </select>

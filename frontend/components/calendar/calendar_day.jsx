@@ -7,9 +7,9 @@ class CalendarDay extends React.Component {
   constructor(props) {
     super(props);
     let date = this.formatDateString();
-    let emptyTask = { title: '', user_id: this.props.user.id, status: 'Not Started', due_date: '', description: '', priority: 'low' }
-
-    emptyTask = Object.assign(emptyTask, {due_date: date})
+    // let emptyTask = { title: '', user_id: this.props.user.id, status: 'Not Started', due_date: '', description: '', priority: 'low' }
+    let emptyTask = { title: '', user_id: this.props.user.id, status: 'Not Started', description: '', priority: 'low' }
+    // emptyTask = Object.assign(emptyTask, {due_date: date})
    
     this.state = {
       task: emptyTask,
@@ -21,7 +21,7 @@ class CalendarDay extends React.Component {
 
   completeTask(task) {
     event.preventDefault();
-    let newTask = Object.assign({}, task, { status: 'Finished' });
+    let newTask = Object.assign({}, task, { status: 'Finished' }, {due_date: this.formatDateString()});
 
     this.props.updateTask(newTask);
 
@@ -62,9 +62,10 @@ class CalendarDay extends React.Component {
   }
 
   handleKeyPress(e) {
-
     if (e.key === 'Enter') {
       let task = this.state.task;
+      task = Object.assign(task, { due_date: this.formatDateString() })
+      debugger
       this.props.createTask(task)
         .then(() => this.setState({ task: this.state.emptyTask, showForm: false}))
     }

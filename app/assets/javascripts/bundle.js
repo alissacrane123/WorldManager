@@ -986,19 +986,17 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(CalendarDay).call(this, props));
 
-    var date = _this.formatDateString();
+    var date = _this.formatDateString(); // let emptyTask = { title: '', user_id: this.props.user.id, status: 'Not Started', due_date: '', description: '', priority: 'low' }
+
 
     var emptyTask = {
       title: '',
       user_id: _this.props.user.id,
       status: 'Not Started',
-      due_date: '',
       description: '',
-      priority: 'low'
+      priority: 'low' // emptyTask = Object.assign(emptyTask, {due_date: date})
+
     };
-    emptyTask = Object.assign(emptyTask, {
-      due_date: date
-    });
     _this.state = {
       task: emptyTask,
       showForm: false,
@@ -1014,6 +1012,8 @@ function (_React$Component) {
       event.preventDefault();
       var newTask = Object.assign({}, task, {
         status: 'Finished'
+      }, {
+        due_date: this.formatDateString()
       });
       this.props.updateTask(newTask);
     }
@@ -1083,6 +1083,10 @@ function (_React$Component) {
 
       if (e.key === 'Enter') {
         var task = this.state.task;
+        task = Object.assign(task, {
+          due_date: this.formatDateString()
+        });
+        debugger;
         this.props.createTask(task).then(function () {
           return _this3.setState({
             task: _this3.state.emptyTask,
@@ -3390,6 +3394,7 @@ function (_React$Component) {
 
       var cats = ["School", "Work", "Travel", "Fun", "Family", "Other"].map(function (el, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          selected: _this3.state.project.category === el,
           key: i,
           value: el
         }, el);
@@ -3410,6 +3415,7 @@ function (_React$Component) {
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "default",
+        selected: this.state.project.category === 'default',
         disabled: true
       }, "Choose a category"), cats), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleSubmit
@@ -3688,7 +3694,7 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectMembersForm).call(this, props));
     _this.state = {
       email: '',
-      role: '',
+      role: 'default',
       project_id: _this.props.projectId,
       inviter_id: _this.props.currentUserId
     };
@@ -3698,26 +3704,21 @@ function (_React$Component) {
   _createClass(ProjectMembersForm, [{
     key: "handleSubmit",
     value: function handleSubmit() {
-      var _this2 = this;
-
       event.preventDefault();
-      var pm = Object.assign({}, this.state);
-      this.props.createPM(pm).then(function () {
-        return _this2.setState({
-          email: '',
-          role: ''
-        });
-      });
+      var pm = Object.assign({}, this.state); // debugger
+
+      this.props.createPM(pm); // .then(() => this.setState({ email: '', role: 'default' }))
     }
   }, {
     key: "handleChange",
     value: function handleChange(field) {
+      // debugger
       this.setState(_defineProperty({}, field, event.target.value));
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var _this$props = this.props,
           users = _this$props.users,
@@ -3738,23 +3739,28 @@ function (_React$Component) {
         type: "text",
         value: this.state.email,
         onChange: function onChange() {
-          return _this3.handleChange("email");
+          return _this2.handleChange("email");
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Team Member Role"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        value: this.state.role,
+        defaultValue: "default",
         onChange: function onChange() {
-          return _this3.handleChange("role");
+          return _this2.handleChange("role");
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "default",
+        disabled: true
+      }, "Choose a role"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "Admin"
       }, "Administrator"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "Member"
       }, "Team Member")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this3.handleSubmit();
+          return _this2.handleSubmit();
         }
       }, "Submit")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this3.props.openModal('newTasks');
+          return _this2.props.openModal('newTasks');
         }
       }, "Next"));
     }
@@ -4354,6 +4360,11 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var getPath = function getPath(iconName, props) {
   switch (iconName) {
+    case 'fun':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
+        d: "M13.5 20c1.104 0 2 .896 2 2s-.896 2-2 2-2-.896-2-2 .896-2 2-2zm-10.502 4c-.598 0-2.429-1.754-2.747-4.304-.424-3.414 2.124-5.593 4.413-5.87.587-1.895 2.475-4.684 6.434-4.77.758-1.982 3.409-4.507 6.84-3.186 1.647.634 3.101 2.101 3.705 3.737.231.624-.71.965-.937.347-.51-1.378-1.737-2.615-3.127-3.151-2.577-.99-4.695.731-5.422 2.298 1.107.12 2.092.455 2.755.889.909.594 1.473 1.558 1.508 2.577.031.889-.33 1.687-.991 2.187-.654.496-1.492.643-2.298.404-.966-.286-1.748-1.076-2.143-2.169-.287-.793-.384-1.847-.178-2.921-3.064.185-4.537 2.306-5.075 3.742 1.18.102 2.211.574 2.831 1.012.959.676 1.497 1.6 1.513 2.599.015.859-.363 1.664-1.011 2.155-.608.46-1.535.599-2.363.348-.961-.289-1.7-1.041-2.079-2.118-.255-.723-.375-1.776-.204-2.919-1.631.361-3.512 1.995-3.178 4.685.18 1.448 1.008 2.888 2.015 3.502.43.261.242.926-.261.926zm17.308-10.026l1.205 2.225 2.489.459-1.744 1.833.333 2.509-2.283-1.092-2.283 1.092.333-2.509-1.744-1.833 2.489-.459 1.205-2.225zm-14.85.822c-.202 1.024-.128 1.993.113 2.678.347.984.966 1.355 1.424 1.492.604.183 1.175.036 1.472-.187.388-.294.624-.808.614-1.34-.011-.673-.398-1.313-1.09-1.801-.545-.385-1.479-.803-2.533-.842zm6.373-4.716c-.226 1.018-.11 1.99.099 2.569.287.79.828 1.356 1.486 1.55.501.148 1.014.06 1.411-.242.398-.301.615-.795.596-1.355-.025-.705-.409-1.353-1.056-1.775-.511-.334-1.448-.657-2.536-.747zm-7.329-10.08l1.468 2.711 3.032.558-2.124 2.234.405 3.057-2.781-1.331-2.781 1.331.405-3.057-2.124-2.234 3.032-.558 1.468-2.711zm17 0c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5z"
+      }));
+
     case 'round-tri':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
         d: "M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z"
@@ -5677,6 +5688,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 document.addEventListener('DOMContentLoaded', function () {
   var root = document.getElementById('root');
   var store; // bootstrapping
+  // debugger
 
   if (window.currentUser) {
     var preloadedState = {

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let store;
 
   // bootstrapping
+  // debugger
 
   if (window.currentUser) {
     const preloadedState = {

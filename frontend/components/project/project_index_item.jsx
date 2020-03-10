@@ -6,7 +6,7 @@ import { titleize } from '../../helpers/helper';
 
 const ProjectIndexItem = ({ project, history }) => {
   let svgName = project.category ? project.category.toLowerCase() : 'profile';
-
+  
   return (
     <ul className="project-item" onClick={ () => history.push(`/projects/${project.id}`) } >
 
