@@ -13,13 +13,14 @@ class TaskFilter extends React.Component {
     this.state = { 
       filter: this.props.defaultFilter,
       expanded: { Owner: false, Project: false, Status: false} 
-
     }
+
     this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   componentDidMount() {
     let filter = Object.assign({}, this.state.filter);
+    debugger
     this.props.fetchTasks(filter)
       .then(this.props.updateFilter('tasks', filter))
   }

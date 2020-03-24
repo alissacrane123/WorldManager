@@ -1085,8 +1085,8 @@ function (_React$Component) {
         var task = this.state.task;
         task = Object.assign(task, {
           due_date: this.formatDateString()
-        });
-        debugger;
+        }); // debugger
+
         this.props.createTask(task).then(function () {
           return _this3.setState({
             task: _this3.state.emptyTask,
@@ -1970,6 +1970,7 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var filter = Object.assign({}, this.state.filter);
+      debugger;
       this.props.fetchTasks(filter).then(this.props.updateFilter('tasks', filter));
     }
   }, {
@@ -3534,23 +3535,24 @@ function (_React$Component) {
           project: project
         }));
       });
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        id: "project-index",
-        className: "index"
-      }, acceptedProjects, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "project-item new"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: function onClick() {
-          return openModal('newProject');
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        h: 60,
-        w: 60,
-        fill: "white",
-        transform: "scale(2.5)",
-        name: "plus",
-        className: "add-svg"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Project"))));
+      return (// <ul id="project-index" className="index">
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          id: "project-index"
+        }, acceptedProjects, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "project-item new"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          onClick: function onClick() {
+            return openModal('newProject');
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          h: 60,
+          w: 60,
+          fill: "white",
+          transform: "scale(2.5)",
+          name: "plus",
+          className: "add-svg"
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Project"))))
+      );
     }
   }]);
 
@@ -3890,7 +3892,9 @@ function (_React$Component) {
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "project-show"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(project.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "proj-header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(project.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
           return _this3.handleDelete();
         }
@@ -3900,7 +3904,9 @@ function (_React$Component) {
         h: 24,
         w: 24,
         fill: "gray"
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, tabs), component);
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "tabs"
+      }, tabs), component);
     }
   }]);
 
@@ -5437,9 +5443,7 @@ function (_React$Component) {
 
     _classCallCheck(this, TaskShowItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskShowItem).call(this, props)); // let task = Object.assign({}, this.props.task)
-    // this.state  = task;
-
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskShowItem).call(this, props));
     _this.completeTask = _this.completeTask.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -5454,11 +5458,28 @@ function (_React$Component) {
       this.props.updateTask(task);
     }
   }, {
+    key: "getNextSunday",
+    value: function getNextSunday() {
+      var d = new Date();
+      var num = d.setDate(d.getDate() + ((7 - d.getDay()) % 7 + 0) % 7);
+      d = new Date(num);
+      return Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["formatJavascriptDate"])(d);
+    }
+  }, {
     key: "getDayOfWeek",
     value: function getDayOfWeek() {
-      var day = new Date(this.props.task.dueDate).getDay();
-      var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      return days[day];
+      var dueDate = this.props.task.dueDate;
+      var sunday = new Date(this.getNextSunday());
+      var date = new Date(dueDate);
+
+      if (sunday >= date) {
+        var day = new Date(dueDate).getDay();
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return days[day];
+      } else {
+        if (dueDate[0] === "0") return dueDate.slice(1, 5);
+        return dueDate.slice(0, 5);
+      }
     }
   }, {
     key: "render",

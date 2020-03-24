@@ -17,6 +17,11 @@ class Task < ApplicationRecord
     end
   end
 
+  def self.fetch_user_tasks(user_ids) 
+    tasks = []
+    Task.where('user_id IN (?)', user_ids)
+  end 
+
 
   def self.fetch_month_tasks(month)
     month = month.split('/')[0]

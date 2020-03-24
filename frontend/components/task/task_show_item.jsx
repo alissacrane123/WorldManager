@@ -2,13 +2,11 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import SVG from '../svg';
-import { titleize } from '../../helpers/helper';
+import { titleize, formatJavascriptDate } from '../../helpers/helper';
 
 class TaskShowItem extends React.Component {
   constructor(props) {
     super(props);
-    // let task = Object.assign({}, this.props.task)
-    // this.state  = task;
     this.completeTask = this.completeTask.bind(this);
   }
 
@@ -20,10 +18,25 @@ class TaskShowItem extends React.Component {
     
   }
 
+  getNextSunday() {
+    let d = new Date();
+    let num = d.setDate(d.getDate() + ((7 - d.getDay()) % 7 + 0) % 7);
+    d = new Date(num)
+    return formatJavascriptDate(d);
+  }
+
   getDayOfWeek() {
-    let day = new Date(this.props.task.dueDate).getDay();
-    let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return days[day];
+    let { dueDate } = this.props.task 
+    let sunday = new Date(this.getNextSunday());
+    let date = new Date(dueDate);
+    if (sunday >= date) {
+      let day = new Date(dueDate).getDay();
+      let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      return days[day];
+    } else {
+      if (dueDate[0] === "0") return dueDate.slice(1, 5);
+      return dueDate.slice(0, 5);
+    }
   }
 
   render() {

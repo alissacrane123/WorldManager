@@ -20,7 +20,8 @@ class ProjectIndex extends React.Component {
 
     
     return (
-      <ul id="project-index" className="index">
+      // <ul id="project-index" className="index">
+      <ul id="project-index">
         {acceptedProjects}
 
         <li>

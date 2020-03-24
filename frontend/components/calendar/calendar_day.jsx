@@ -65,7 +65,7 @@ class CalendarDay extends React.Component {
     if (e.key === 'Enter') {
       let task = this.state.task;
       task = Object.assign(task, { due_date: this.formatDateString() })
-      debugger
+      // debugger
       this.props.createTask(task)
         .then(() => this.setState({ task: this.state.emptyTask, showForm: false}))
     }

@@ -10,13 +10,13 @@
   padding: 40px 0px;
 }
 
-#project-show > div:first-child {
+.proj-header {
   display:flex;
   flex-direction: row;
   /* margin: 50px 0 50px 0; */
   margin: 0px 0 50px 0;
       align-items: center;
-      padding: 0px 40px;
+      padding: 0px 80px;
 
 }
 
@@ -29,7 +29,7 @@
   font-weight: 700;
 }
 
-#project-show > ul {
+.tabs {
   display: flex;
     flex-direction: row;
     font-size: 20px;
@@ -37,7 +37,7 @@
     border-bottom: 2px solid #e8ecee;
     /* padding-bottom: 20px; */
     /* margin-bottom: 40px; */
-    padding: 0px 40px;
+    padding: 0px 80px;
 }
 
 #project-show > ul >li {
@@ -51,9 +51,14 @@
 }
 
 
-.index {
-      padding: 50px 100px;
+/* .index {
+      padding: 30px 0px;
 
+} */
+
+.index {
+      width: 1000px;
+    margin: 2vw auto;
 }
 
 #task-index > header {

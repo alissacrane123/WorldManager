@@ -1,0 +1,10 @@
+@media only screen and (max-width: 1220px) {
+  #project-show > div:first-child, #project-show > ul {
+    padding: 0px 6vw;
+  }
+
+  #task-index, #project-feed {
+    margin: 2vw 6vw;
+    width:auto;
+  }
+}

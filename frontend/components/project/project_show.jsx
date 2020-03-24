@@ -53,7 +53,7 @@ class ProjectShow extends React.Component {
 
     return (
       <div id="project-show">
-        <div>
+        <div className="proj-header">
           <h1>{titleize(project.title)}</h1>
 
           <div onClick={() => this.handleDelete()}>
@@ -61,7 +61,7 @@ class ProjectShow extends React.Component {
           </div>
         </div>
 
-        <ul>
+        <ul className="tabs">
           { tabs }
         </ul>
 

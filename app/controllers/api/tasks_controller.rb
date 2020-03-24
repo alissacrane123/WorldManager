@@ -22,62 +22,80 @@ class Api::TasksController < ApplicationController
     user_id, project_id = params[:user_id], params[:project_id]
     status, priority = params[:status], params[:priority]
 
-    all_filters = [["start_date", start_date], ["end_date",end_date], ["created_at",created_at], ["user_id",user_id], ["project_id",project_id], ["status",status], ["priority",priority]]
+    start_date = DateTime.strptime(start_date, '%m/%d/%Y').beginning_of_day
+    end_date = DateTime.strptime(end_date, '%m/%d/%Y').end_of_day
+    # debugger
 
+    tasks = Task.where('user_id IN (?)', user_id)
+                      .where('project_id IN (?) OR project_id IS NULL', project_id)
+                      .where('due_date <= ? AND due_date >= ?', end_date, start_date)
+                      .where('status != ?', 'Finished')
 
-    filters = []
-    filter_value = []
-    id_filters = []
-    id_filter_value = []
-    user_id_filters = []
-    user_id_filter_value = []
-    word_filters = []
-    word_filter_values = []
-
-
-    all_filters.each_with_index do |filter, i|
-      filter_name = filter[0]
-
-      if i == 0 && filter[1].length > 0
-        filters << "due_date >= ?"
-        filter_value << format_date(filter[1])
-      elsif filter[1] && i == 1
-        filters << "due_date <= ?"
-        filter_value << format_date(filter[1])
-      elsif i == 2 && filter[1].length > 0
-        filters << "created_at >= ?"
-        filter_value << format_date(filter[1])
-      elsif [3,4].include?(i) && filter[1]
-        value = filter[1].map(&:to_i)
-
-        value.each do |val|
-          if filter_name == 'project_id'
-            id_filters << "#{filter_name} = ?" 
-            id_filter_value << val
-          else
-            user_id_filters << "#{filter_name} = ?" 
-            user_id_filter_value << val
-          end
-        end
-      elsif filter[1] && ![0,1,2].include?(i)
-        value =  filter[1]
-
-        value.each do |val|
-          word_filters << "#{filter_name} = ?"
-          word_filter_values << val
-        end
-
-      end
-    end
-
-    query = filters.join(' AND ')
-    query2 = id_filters.join(' OR ')
-    query3 = word_filters.join(' OR ')
-    query4 = user_id_filters.join(' OR ')
-    # debuggc/er
-    @tasks = Task.where(query, *filter_value).where(query2, *id_filter_value).where(query3, *word_filter_values).where(query4, *user_id_filter_value)
-    
+    @tasks = user_tasks
+    # debugger
   end
+
+  # def index
+  #   start_date, end_date, created_at = params[:start_date], params[:end_date], params[:created_at]
+  #   user_id, project_id = params[:user_id], params[:project_id]
+  #   status, priority = params[:status], params[:priority]
+
+  #   all_filters = [["start_date", start_date], ["end_date",end_date], ["created_at",created_at], ["user_id",user_id], ["project_id",project_id], ["status",status], ["priority",priority]]
+
+
+  #   filters = []
+  #   filter_value = []
+  #   id_filters = []
+  #   id_filter_value = []
+  #   user_id_filters = []
+  #   user_id_filter_value = []
+  #   word_filters = []
+  #   word_filter_values = []
+
+
+  #   all_filters.each_with_index do |filter, i|
+  #     filter_name = filter[0]
+
+  #     if i == 0 && filter[1].length > 0
+  #       filters << "due_date >= ?"
+  #       filter_value << format_date(filter[1])
+  #     elsif filter[1] && i == 1
+  #       filters << "due_date <= ?"
+  #       filter_value << format_date(filter[1])
+  #     elsif i == 2 && filter[1].length > 0
+  #       filters << "created_at >= ?"
+  #       filter_value << format_date(filter[1])
+  #     elsif [3,4].include?(i) && filter[1]
+  #       value = filter[1].map(&:to_i)
+
+  #       value.each do |val|
+  #         if filter_name == 'project_id'
+  #           id_filters << "#{filter_name} = ?" 
+  #           id_filter_value << val
+  #         else
+  #           user_id_filters << "#{filter_name} = ?" 
+  #           user_id_filter_value << val
+  #         end
+  #       end
+  #     elsif filter[1] && ![0,1,2].include?(i)
+  #       value =  filter[1]
+
+  #       value.each do |val|
+  #         word_filters << "#{filter_name} = ?"
+  #         word_filter_values << val
+  #       end
+
+  #     end
+  #   end
+
+  #   query = filters.join(' AND ')
+  #   query2 = id_filters.join(' OR ')
+  #   query3 = word_filters.join(' OR ')
+  #   query4 = user_id_filters.join(' OR ')
+  #   # debuggc/er
+  #   @tasks = Task.where(query, *filter_value).where(query2, *id_filter_value).where(query3, *word_filter_values).where(query4, *user_id_filter_value)
+    
+  # end
 
 
   def update
