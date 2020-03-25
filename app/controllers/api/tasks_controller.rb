@@ -24,13 +24,14 @@ class Api::TasksController < ApplicationController
 
     start_date = DateTime.strptime(start_date, '%m/%d/%Y').beginning_of_day
     end_date = DateTime.strptime(end_date, '%m/%d/%Y').end_of_day
-    # debugger
+
 
     tasks = Task.where('user_id IN (?)', user_id)
                       .where('project_id IN (?) OR project_id IS NULL', project_id)
                       .where('due_date <= ? AND due_date >= ?', end_date, start_date)
                       .where('status != ?', 'Finished')
 
+    # debugger
     @tasks = tasks
     # debugger
   end

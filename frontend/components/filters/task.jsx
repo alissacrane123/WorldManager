@@ -15,6 +15,7 @@ class TaskFilter extends React.Component {
     }
 
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -24,24 +25,27 @@ class TaskFilter extends React.Component {
       .then(this.props.updateFilter('tasks', filter))
   }
 
-  handleChange(field, value) {
+  handleChange(field, value, filter) {
     if (!this.state.filter[field].includes(value)) {
-      this.setState({ filter: { ...this.state.filter, [field]: [...this.state.filter[field], value] } })
+      this.setState({ filter: { ...this.state.filter, [field]: [...this.state.filter[field], value] } }, this.handleSubmit)
     } else {
       let newArr = this.state.filter[field].filter(id => id !== value)
-      this.setState({ filter: { ...this.state.filter, [field]: newArr } })
+      this.setState({ filter: { ...this.state.filter, [field]: newArr } }, this.handleSubmit)
     }
+
+    this.setState({ expanded: { ...this.state.expanded, [filter]: false}})
   }
 
   handleDateChange(date, event) {
     let newDate = formatJavascriptDate(event);
-    this.setState({ filter: { ...this.state.filter, [date]: newDate } })
+    this.setState({ filter: { ...this.state.filter, [date]: newDate } }, this.handleSubmit)
+    // this.handleSubmit();
   }
 
   handleSubmit() {
-    event.preventDefault();
+    // event.preventDefault();
     let filters = Object.assign({}, this.state.filter);
-    debugger
+    // debugger
     this.props.fetchTasks(filters)
   }
 
@@ -99,7 +103,7 @@ class TaskFilter extends React.Component {
     return selected;
   }
 
-  renderInputs(array, key) {
+  renderInputs(array, key, filter) {
     let { unnassigned } = this.state.filter;
     let inputs = array.map((el, i) => {
       let ids = this.state.filter[key];
@@ -109,7 +113,7 @@ class TaskFilter extends React.Component {
       // debugger
       return (
         <li key={i}>
-          <input type="checkbox" checked={ids.includes(id)} onChange={() => this.handleChange(key, id)} />
+          <input type="checkbox" checked={ids.includes(id)} onChange={() => this.handleChange(key, id, filter)} />
           <label>{titleize(label)}</label>
         </li>
       )
@@ -118,7 +122,7 @@ class TaskFilter extends React.Component {
     if (key === 'project_id') {
       inputs.push(
         <li>
-          <input type="checkbox" checked={unnassigned} onChange={() => this.handleChange('unnassigned', !unnassigned)} />
+          <input type="checkbox" checked={unnassigned} onChange={() => this.handleChange('unnassigned', !unnassigned, filter)} />
           <label>Unnassigned</label>
         </li>
       )
@@ -129,9 +133,9 @@ class TaskFilter extends React.Component {
   render() {
     let { currentUser } = this.props;
 
-    let teammates = this.renderInputs(currentUser.teammates, "user_id");
-    let projects = this.renderInputs(currentUser.projects, "project_id");
-    let statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status");
+    let teammates = this.renderInputs(currentUser.teammates, "user_id", "Owner");
+    let projects = this.renderInputs(currentUser.projects, "project_id", "Project");
+    let statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status", "Status");
     // let countUserFilters = this.state.filter.user_id.length > 0 ? ` (${this.state.filter.user_id.length})` : '';
     // let countProjectFilters = this.state.filter.project_id.length > 0 ? ` (${this.state.filter.project_id.length})` : '';
     // let countStatusFilters = this.state.filter.status.length > 0 ? ` (${this.state.filter.status.length})` : '';
@@ -150,14 +154,14 @@ class TaskFilter extends React.Component {
 
           
 
-          <div>
+          <div className="dates">
             <h4>Due Date</h4>
             <DatePicker onChange={(event) => this.handleDateChange('start_date', event)} selected={new Date(this.state.filter.start_date)} />
             <DatePicker onChange={(event) => this.handleDateChange('end_date', event)} selected={new Date(this.state.filter.end_date)} />
           </div>
-\
 
-        <button onClick={() => this.handleSubmit()}>Apply</button>
+
+        {/* <button onClick={() => this.handleSubmit()}>Apply</button> */}
 
       </div>  
     )

@@ -111,7 +111,7 @@ export const selectProjectTasks = (tasks) => {
       projectTasks[0] = [task]
     } else if (!task.project_id) {
       projectTasks[0].push(task);
-    } else if (!projectTasks[task.project_id]) {
+    } else if (!projectTasks[titleize(task.project_name)]) {
       projectTasks[titleize(task.project_name)] = [task]
     } else {
       projectTasks[titleize(task.project_name)].push(task);

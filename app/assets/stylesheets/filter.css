@@ -9,6 +9,8 @@
     flex-direction: row;
     padding:15px;
     background: #e8ecee;
+    box-shadow: 0 0 4px #bbbbbb;
+    z-index: 1;
 }
 
 #task-filter h4 {
@@ -131,7 +133,7 @@ ul.dd input {
 }
 
 #task-filter > div:last-of-type h4 {
-  padding-bottom:15px;
+  padding-bottom:10px;
 }
 
 #task-filter > button {
@@ -148,8 +150,17 @@ border: none;
 
 #task-filter .react-datepicker-wrapper {
   width: 80px !important;
+  
 }
 
 #task-filter .react-datepicker-wrapper:first-of-type {
   margin-right:10px !important;
+}
+
+#task-filter .dates {
+  display:flex;
+  flex-direction: column;
+}
+#task-filter .react-datepicker-wrapper input {
+  margin-bottom:5px;
 }

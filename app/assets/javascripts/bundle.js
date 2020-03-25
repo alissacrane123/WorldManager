@@ -1963,6 +1963,7 @@ function (_React$Component) {
       }
     };
     _this.handleDateChange = _this.handleDateChange.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1975,19 +1976,23 @@ function (_React$Component) {
     }
   }, {
     key: "handleChange",
-    value: function handleChange(field, value) {
+    value: function handleChange(field, value, filter) {
       if (!this.state.filter[field].includes(value)) {
         this.setState({
           filter: _objectSpread({}, this.state.filter, _defineProperty({}, field, [].concat(_toConsumableArray(this.state.filter[field]), [value])))
-        });
+        }, this.handleSubmit);
       } else {
         var newArr = this.state.filter[field].filter(function (id) {
           return id !== value;
         });
         this.setState({
           filter: _objectSpread({}, this.state.filter, _defineProperty({}, field, newArr))
-        });
+        }, this.handleSubmit);
       }
+
+      this.setState({
+        expanded: _objectSpread({}, this.state.expanded, _defineProperty({}, filter, false))
+      });
     }
   }, {
     key: "handleDateChange",
@@ -1995,14 +2000,14 @@ function (_React$Component) {
       var newDate = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["formatJavascriptDate"])(event);
       this.setState({
         filter: _objectSpread({}, this.state.filter, _defineProperty({}, date, newDate))
-      });
+      }, this.handleSubmit); // this.handleSubmit();
     }
   }, {
     key: "handleSubmit",
     value: function handleSubmit() {
-      event.preventDefault();
-      var filters = Object.assign({}, this.state.filter);
-      debugger;
+      // event.preventDefault();
+      var filters = Object.assign({}, this.state.filter); // debugger
+
       this.props.fetchTasks(filters);
     }
   }, {
@@ -2080,7 +2085,7 @@ function (_React$Component) {
     }
   }, {
     key: "renderInputs",
-    value: function renderInputs(array, key) {
+    value: function renderInputs(array, key, filter) {
       var _this3 = this;
 
       var unnassigned = this.state.filter.unnassigned;
@@ -2096,7 +2101,7 @@ function (_React$Component) {
           type: "checkbox",
           checked: ids.includes(id),
           onChange: function onChange() {
-            return _this3.handleChange(key, id);
+            return _this3.handleChange(key, id, filter);
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(label)));
       });
@@ -2106,7 +2111,7 @@ function (_React$Component) {
           type: "checkbox",
           checked: unnassigned,
           onChange: function onChange() {
-            return _this3.handleChange('unnassigned', !unnassigned);
+            return _this3.handleChange('unnassigned', !unnassigned, filter);
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Unnassigned")));
       }
@@ -2119,9 +2124,9 @@ function (_React$Component) {
       var _this4 = this;
 
       var currentUser = this.props.currentUser;
-      var teammates = this.renderInputs(currentUser.teammates, "user_id");
-      var projects = this.renderInputs(currentUser.projects, "project_id");
-      var statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status"); // let countUserFilters = this.state.filter.user_id.length > 0 ? ` (${this.state.filter.user_id.length})` : '';
+      var teammates = this.renderInputs(currentUser.teammates, "user_id", "Owner");
+      var projects = this.renderInputs(currentUser.projects, "project_id", "Project");
+      var statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status", "Status"); // let countUserFilters = this.state.filter.user_id.length > 0 ? ` (${this.state.filter.user_id.length})` : '';
       // let countProjectFilters = this.state.filter.project_id.length > 0 ? ` (${this.state.filter.project_id.length})` : '';
       // let countStatusFilters = this.state.filter.status.length > 0 ? ` (${this.state.filter.status.length})` : '';
 
@@ -2130,7 +2135,9 @@ function (_React$Component) {
       var statusFilter = this.renderFilter('Status', statuses);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-filter"
-      }, userFilter, projectFilter, statusFilter, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }, userFilter, projectFilter, statusFilter, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dates"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
           return _this4.handleDateChange('start_date', event);
         },
@@ -2140,11 +2147,7 @@ function (_React$Component) {
           return _this4.handleDateChange('end_date', event);
         },
         selected: new Date(this.state.filter.end_date)
-      })), "\\", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: function onClick() {
-          return _this4.handleSubmit();
-        }
-      }, "Apply"));
+      })));
     }
   }]);
 
@@ -5287,7 +5290,8 @@ __webpack_require__.r(__webpack_exports__);
 var TaskSection = function TaskSection(_ref) {
   var tasks = _ref.tasks,
       filter = _ref.filter;
-  tasks = tasks.map(function (task, i) {
+  // debugger
+  var taskItems = tasks.map(function (task, i) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_show_item_cont__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: i,
       task: task
@@ -5302,7 +5306,7 @@ var TaskSection = function TaskSection(_ref) {
     rotate: "rotate(90)",
     fill: "gray",
     transform: "scale(0.5)"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "".concat(filter, " Tasks"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, tasks));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "".concat(filter, " Tasks"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, taskItems));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (TaskSection);
@@ -5423,6 +5427,8 @@ var msp = function msp(state, ownProps) {
   var acceptedTasks = Object.values(state.entities.tasks); // let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
 
   var recentTasks = [];
+  var projectTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectProjectTasks"])(acceptedTasks); // debugger
+
   return {
     currentUserId: state.session.id,
     userFilter: state.ui.filters.tasks,
@@ -5432,7 +5438,7 @@ var msp = function msp(state, ownProps) {
     recentTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectRecentTasks"])(acceptedTasks),
     upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectUpcomingTasks"])(acceptedTasks),
     overdueTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectOverdueTasks"])(acceptedTasks),
-    projectTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectProjectTasks"])(acceptedTasks) // users: projectMemberSelector(state)
+    projectTasks: projectTasks // users: projectMemberSelector(state)
 
   };
 };
@@ -5946,7 +5952,7 @@ var selectProjectTasks = function selectProjectTasks(tasks) {
       projectTasks[0] = [task];
     } else if (!task.project_id) {
       projectTasks[0].push(task);
-    } else if (!projectTasks[task.project_id]) {
+    } else if (!projectTasks[titleize(task.project_name)]) {
       projectTasks[titleize(task.project_name)] = [task];
     } else {
       projectTasks[titleize(task.project_name)].push(task);

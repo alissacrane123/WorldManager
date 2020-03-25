@@ -3,7 +3,8 @@ import SVG from '../svg';
 import TaskShowItemContainer from './task_show_item_cont';
 
 const TaskSection = ({ tasks, filter }) => {
-  tasks = tasks.map((task, i) => (
+  // debugger
+  let taskItems = tasks.map((task, i) => (
     <TaskShowItemContainer key={i} task={task}/>
   ))
   
@@ -14,7 +15,7 @@ const TaskSection = ({ tasks, filter }) => {
         <h2>{`${filter} Tasks`}</h2>
       </div>
       <ul>
-        {tasks }
+        {taskItems }
       </ul>
 
     </section>

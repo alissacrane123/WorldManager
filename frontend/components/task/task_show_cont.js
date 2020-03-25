@@ -13,7 +13,8 @@ const msp = (state, ownProps) => {
   let acceptedTasks = Object.values(state.entities.tasks)
   // let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
   let recentTasks = [];
-
+  let projectTasks = selectProjectTasks(acceptedTasks)
+  // debugger
   return {
     currentUserId: state.session.id,
     userFilter: state.ui.filters.tasks,
@@ -23,7 +24,7 @@ const msp = (state, ownProps) => {
     recentTasks: selectRecentTasks(acceptedTasks),
     upcomingTasks: selectUpcomingTasks(acceptedTasks),
     overdueTasks: selectOverdueTasks(acceptedTasks),
-    projectTasks: selectProjectTasks(acceptedTasks)
+    projectTasks: projectTasks
     // users: projectMemberSelector(state)
   }
 }
