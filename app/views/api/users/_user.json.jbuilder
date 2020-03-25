@@ -9,5 +9,4 @@ if user.id == current_user.id
   json.teammates teammates.map { |mate| { id: mate.id, name: mate.fname + ' ' + mate.lname} }.uniq
   json.projects projects.map { |p| { id: p.id, title: p.title } }.uniq
 
-  
 end

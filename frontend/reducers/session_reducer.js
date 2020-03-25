@@ -8,7 +8,8 @@ const sessionReducer = (state = _nullUser, action) => {
   Object.freeze(state);
   switch(action.type) {
     case RECEIVE_CURRENT_USER:
-      return { id: action.user.id };
+      // let user = Object.values(action.user.user)[0]
+      return { id: action.user.id};
     case LOGOUT_CURRENT_USER:
       return _nullUser;
     default:

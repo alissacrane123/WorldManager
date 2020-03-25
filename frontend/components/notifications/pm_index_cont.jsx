@@ -7,8 +7,12 @@ const msp = (state, ownProps) => {
   return {
     projects: Object.values(state.entities.projects),
     users: Object.values(state.entities.users),
-    pms: Object.values(state.entities.pms)
-  }
+    pms: Object.values(state.entities.pms),
+    newPms: Object.values(state.entities.pms).filter(pm => !pm.request_status),
+    completedPms: Object.values(state.entities.pms).filter(
+      pm => pm.request_status
+    )
+  };
 }
 
 

@@ -23,9 +23,9 @@ class Home extends React.Component {
     return(
       <div id="home">
         
-        <h1>Welcome, { currentUser.fname }</h1>
+        {/* <h1>Welcome, { currentUser.fname }</h1> */}
         
-        { pms.length > 0 ? <PmIndexContainer /> : null }
+        {/* { pms.length > 0 ? <PmIndexContainer /> : null } */}
 
         <section className="list">
           <div>

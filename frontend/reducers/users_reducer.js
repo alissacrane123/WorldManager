@@ -1,4 +1,4 @@
-import { RECEIVE_CURRENT_USER } from '../actions/session_actions';
+import { RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER } from '../actions/session_actions';
 import { RECEIVE_PROJECT, RECEIVE_NEW_PM, RECEIVE_PROJECTS } from '../actions/project_actions';
 
 const usersReducer = (state = {}, action) => {
@@ -7,13 +7,19 @@ const usersReducer = (state = {}, action) => {
   switch(action.type) {
     case RECEIVE_CURRENT_USER:
       return Object.assign(nextState, { [action.user.id]: action.user });
+      // return action.user.user;
     case RECEIVE_PROJECT:
       // take away because now creating PM - maybe not
       return Object.assign({}, action.payload.users);
     case RECEIVE_NEW_PM:
       return Object.assign(nextState, { [action.payload.user.id]: action.payload.user})
     case RECEIVE_PROJECTS:
-      return action.payload.users
+      if (action.payload.users) {
+        return action.payload.users
+      }
+      return state;
+    case LOGOUT_CURRENT_USER:
+      return {};
     default: 
       return state;
   }

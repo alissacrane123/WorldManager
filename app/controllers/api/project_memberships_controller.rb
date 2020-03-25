@@ -18,8 +18,16 @@ class Api::ProjectMembershipsController < ApplicationController
   def index
     @pms = ProjectMembership
       .includes(:project)
-      .where("user_id = ? AND request_status = ?", current_user.id, false)
+      .where("user_id = ?", current_user.id)
       .where.not(projects: { id: nil })
+      .order(updated_at: :asc)
+      .last(10)
+      
+      # .order("updated_at desc")
+    # @pms = ProjectMembership
+    #   .includes(:project)
+    #   .where("user_id = ? AND request_status = ?", current_user.id, false)
+    #   .where.not(projects: { id: nil })
   end
 
   def update

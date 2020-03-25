@@ -18,7 +18,7 @@ class ProjectIndex extends React.Component {
       </li>
     ))
 
-    
+    // debugger
     return (
       // <ul id="project-index" className="index">
       <ul id="project-index">

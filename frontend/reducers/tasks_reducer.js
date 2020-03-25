@@ -2,6 +2,7 @@
 import merge from 'lodash/merge';
 import { RECEIVE_TASK, RECEIVE_TASKS, RECEIVE_DELETED_TASK } from '../actions/task_actions';
 import { RECEIVE_PROJECT } from '../actions/project_actions';
+import { LOGOUT_CURRENT_USER } from '../actions/session_actions';
 
 const tasksReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -21,6 +22,8 @@ const tasksReducer = (state = {}, action) => {
       delete nextState[taskId];
       // debugger
       return nextState;
+    case LOGOUT_CURRENT_USER:
+      return {};
     default:
       return state;
   }

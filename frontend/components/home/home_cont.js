@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Home from './home';
 
 import { fetchTasks, updateTask } from '../../actions/task_actions';
-import { sortByDueDate, selectUpcomingTasks, selectAcceptedTasks, dateInOneWeek} from '../../helpers/helper';
+import { formatJavascriptDate, sortByDueDate, selectUpcomingTasks, selectAcceptedTasks, dateInOneWeek} from '../../helpers/helper';
 import { openModal } from '../../actions/modal_actions';
 import { fetchPMs } from '../../actions/pm_actions';
 
@@ -18,7 +18,7 @@ const msp = (state, ownProps) => {
     pms: Object.values(state.entities.pms),
     upcomingTasks: selectUpcomingTasks(acceptedTasks),
     defaultFilter: {
-      start_date: null,
+      start_date: formatJavascriptDate(new Date()),
       end_date: dateInOneWeek(),
       created_at: null,
       user_id: [state.session.id],
@@ -26,7 +26,7 @@ const msp = (state, ownProps) => {
       status: ["Not Started", "In Progress"],
       priority: []
     }
-  }
+  };
   // tasks: selectTasksDueThisWeek(Object.values(state.entities.tasks))
 };
 

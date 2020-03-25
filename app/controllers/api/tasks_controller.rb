@@ -21,7 +21,7 @@ class Api::TasksController < ApplicationController
     start_date, end_date, created_at = params[:start_date], params[:end_date], params[:created_at]
     user_id, project_id = params[:user_id], params[:project_id]
     status, priority = params[:status], params[:priority]
-
+    # debugger/
     start_date = DateTime.strptime(start_date, '%m/%d/%Y').beginning_of_day
     end_date = DateTime.strptime(end_date, '%m/%d/%Y').end_of_day
 

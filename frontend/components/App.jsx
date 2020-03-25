@@ -11,6 +11,8 @@ import TaskShowContainer from './task/task_show_cont';
 import TeamContainer from './team/team_cont';
 import CalendarContainer from './calendar/calendar_cont';
 import NotifyContainer from './notifications/notify_cont';
+import TopbarContainer from './navbar/topbar_cont';
+import Topbar from './navbar/topbar';
 
 const App = (props) => {
 
@@ -21,6 +23,7 @@ const App = (props) => {
   return (
     <div className="app-container">
       <ModalContainer />
+      <Route path="/" component={TopbarContainer} />
 
       <Switch>
         <AuthRoute path="/signup" component={SplashContainer} />
