@@ -3113,7 +3113,12 @@ function (_React$Component) {
           newPms = _this$props.newPms,
           completedPms = _this$props.completedPms;
 
-      if (history.location.pathname === '/' && currentUser) {
+      if (history.location.pathname === '/login' || history.location.pathname === "/signup" || !currentUser) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+          id: "topbar",
+          className: "topbar so"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "World Manager"));
+      } else {
         var cn = this.state.ddOpen ? 'dd' : 'dd hide';
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
           id: "topbar",
@@ -3136,12 +3141,14 @@ function (_React$Component) {
         }, newPms.length) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: cn
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_notifications_pm_index_cont__WEBPACK_IMPORTED_MODULE_2__["default"], null))));
-      } else {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-          id: "topbar",
-          className: "topbar so"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "World Manager"));
-      }
+      } // else {
+      //   return (
+      //     <nav id="topbar" className="topbar so">
+      //       <h1>World Manager</h1>
+      //     </nav>
+      //   );
+      // }
+
     }
   }]);
 

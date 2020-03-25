@@ -11,7 +11,13 @@ class Topbar extends React.Component {
   render() {
     let { currentUser, history, newPms, completedPms } = this.props;
 
-    if (history.location.pathname === '/' && currentUser) {
+    if (history.location.pathname === '/login' || history.location.pathname === "/signup" || !currentUser) {
+      return (
+        <nav id="topbar" className="topbar so">
+          <h1>World Manager</h1>
+        </nav>
+      );
+    } else {
       let cn = this.state.ddOpen ? 'dd' : 'dd hide'
       return (
         <nav id="topbar" className="topbar si">
@@ -27,13 +33,14 @@ class Topbar extends React.Component {
 
         </nav>
       );
-    } else {
-      return (
-        <nav id="topbar" className="topbar so">
-          <h1>World Manager</h1>
-        </nav>
-      );
-    }
+    } 
+    // else {
+    //   return (
+    //     <nav id="topbar" className="topbar so">
+    //       <h1>World Manager</h1>
+    //     </nav>
+    //   );
+    // }
   }
 }
 
