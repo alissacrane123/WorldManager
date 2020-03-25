@@ -7,7 +7,8 @@ import { fetchProjects, fetchProject } from '../../actions/project_actions';
 import { fetchTasks, updateTask } from '../../actions/task_actions';
 import { openModal } from '../../actions/modal_actions';
  
-import TaskFilter from './task_filter';
+// import TaskFilter from './task_filter';
+import TaskFilter from './task'
 
 const msp = (state, ownProps) => {
   let acceptedTasks = selectAcceptedTasks(state);
@@ -15,6 +16,7 @@ const msp = (state, ownProps) => {
   let recentTasks = [];
   let currentUser = state.entities.users[state.session.id];
   let projectIds = currentUser.projects.map(project => project.id);
+  
   return {
     currentUser: currentUser,
     users: Object.values(state.entities.users),
@@ -28,7 +30,8 @@ const msp = (state, ownProps) => {
       end_date: dateInOneWeek(),
       created_at: null,
       user_id: [state.session.id],
-      project_id: projectIds,
+      project_id: [],
+      unnassigned: true,
       status: ["Not Started", "In Progress"],
       priority: []
     }

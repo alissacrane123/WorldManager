@@ -6,7 +6,7 @@
 
 #task-filter {
   display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding:15px;
     background: #e8ecee;
 }
@@ -16,38 +16,118 @@
   font-weight:600;
   /* padding-bottom:15px; */
 }
-#task-filter > div {
-  border-top: 1px solid #ccc;
-  padding:15px 0px;
+#task-filter .filter {
+    width: 18%;
+    margin-right: 2%;
+    position:relative;
 }
 
 
-#task-filter > div:first-of-type {
+/* #task-filter > div:first-of-type {
   border-top:none;
+} */
+
+#task-filter ul.hide {
+  display:none;
 }
 
-#task-filter > div {
-  border-top: 1px solid #ccc;
+.filter > ul {
+  display:flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  /* margin-top: 10px; */
+  background: white;
+    padding: 7px;
+    border: 1px solid #cccccc;
+    overflow: scroll;
+    max-height: 80px;
+    border-radius: 0px 0px 10px 10px;
+}
+
+#task-filter li.selected {
+    border-radius: 20px;
+    padding: 3px 10px;
+  border: 1px solid #cccccc;
+  display: flex;
+  flex-direction: row;
+  background:white;
+  align-items: center;
+  margin-bottom:5px;
+}
+
+li.selected label {
+    font-size: 12px;
+    line-height: 12px;
+    margin-right: 10px;
+}
+
+#task-filter ul.dd {
+    display:unset;
+    position: absolute;
+    top: 31px;
+    margin-top:0px;
+    /* transform: translateY(38%); */
+    border: 1px solid #cccccc;
+    border-radius: 0 0 4px 4px;
+    left: 0;
+    background: white;
+    padding: 5px;
+    width: 100%;
+    max-height: unset;
+}
+
+ul.dd > li {
+padding: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+ul.dd input {
+  margin-right:8px;
 }
 
 #task-filter > h1 {
   font-size: 18px;
     font-weight: 600;
-    padding-bottom: 25px;
+    /* padding-bottom: 25px; */
 }
-.filter > div{
+.filter div.header{
   cursor:pointer;
   display:flex;
   flex-direction: row;
   align-items: center;
+  position:relative;
+     border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 6px 6px 6px 6px;
+    background:white;
 }
 
+.filter div.no-b {
+      cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    border: 1px solid #cccccc;
+    border-radius: 4px 4px 0px 0px;
+    padding: 6px 6px 8px 6px;
+    background: white;
+    border-bottom: 0px;
+}
+
+.filter ul.header {
+  display:none;
+}
+
+
 .filter > div > * {
-  margin-right:5px;
+  /* margin-right:5px; */
 }
 
 .filter > ul {
-  padding-top:  15px;
+  /* padding-top:  15px; */
 }
 
 #task-filter > div:last-of-type h4 {

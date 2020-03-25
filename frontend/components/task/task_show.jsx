@@ -12,15 +12,22 @@ class TaskShow extends React.Component {
   // }
 
   render() {
-    let { allTasks, recentTasks, upcomingTasks, updateTask, openModal, overdueTasks } = this.props;
+    let { allTasks, projectTasks, upcomingTasks, updateTask, openModal, overdueTasks } = this.props;
 
-
+    let sections = Object.keys(projectTasks).map((el, i) => {
+      let label = el === '0' ? 'Unassigned' : el
+      return (
+        <TaskSection tasks={projectTasks[el]} filter={label} />
+      )
+    })
+    // debugger
     return (
       <div id="task-show" className="show">
         <TaskFilterContainer />
 
         <div>
-          <TaskSection tasks={allTasks} filter="All" />
+          {/* <TaskSection tasks={allTasks} filter="All" /> */}
+          { sections }
           {/* <TaskSection tasks={upcomingTasks} filter="Upcoming" />
           <TaskSection tasks={recentTasks} filter="Resent" />
           <TaskSection tasks={overdueTasks} filter="Overdue" /> */}

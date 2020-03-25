@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import TaskShow from './task_show';
-import { selectRecentTasks, selectUpcomingTasks, selectAcceptedTasks, selectOverdueTasks } from '../../helpers/helper';
+import { selectRecentTasks, selectUpcomingTasks, projectTasks, selectOverdueTasks, selectProjectTasks } from '../../helpers/helper';
 import { updateUserFilter } from '../../actions/filter_actions';
 
 import { fetchProjects, fetchProject } from '../../actions/project_actions';
@@ -22,7 +22,8 @@ const msp = (state, ownProps) => {
     allTasks: acceptedTasks,
     recentTasks: selectRecentTasks(acceptedTasks),
     upcomingTasks: selectUpcomingTasks(acceptedTasks),
-    overdueTasks: selectOverdueTasks(acceptedTasks)
+    overdueTasks: selectOverdueTasks(acceptedTasks),
+    projectTasks: selectProjectTasks(acceptedTasks)
     // users: projectMemberSelector(state)
   }
 }

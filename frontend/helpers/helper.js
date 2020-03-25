@@ -103,6 +103,24 @@ export const selectOverdueTasks = (tasks) => {
   return past;
 }
 
+export const selectProjectTasks = (tasks) => {
+  let projectTasks = {};
+
+  tasks.forEach(task => {
+    if (!task.project_id && !projectTasks[0]) {
+      projectTasks[0] = [task]
+    } else if (!task.project_id) {
+      projectTasks[0].push(task);
+    } else if (!projectTasks[task.project_id]) {
+      projectTasks[titleize(task.project_name)] = [task]
+    } else {
+      projectTasks[titleize(task.project_name)].push(task);
+    }
+  })
+
+  return projectTasks
+}
+
 export const dateInOneWeek = () => {
   let today = new Date();
   let nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);

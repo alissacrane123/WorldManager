@@ -14,7 +14,7 @@
 }
 
 #task-show {
-      flex-direction: row;
+      flex-direction: column;
     padding: 0px;
 }
 

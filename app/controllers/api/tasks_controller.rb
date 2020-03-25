@@ -31,7 +31,7 @@ class Api::TasksController < ApplicationController
                       .where('due_date <= ? AND due_date >= ?', end_date, start_date)
                       .where('status != ?', 'Finished')
 
-    @tasks = user_tasks
+    @tasks = tasks
     # debugger
   end
 

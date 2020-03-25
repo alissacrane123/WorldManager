@@ -1890,10 +1890,10 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/filters/task_filter.jsx":
-/*!*****************************************************!*\
-  !*** ./frontend/components/filters/task_filter.jsx ***!
-  \*****************************************************/
+/***/ "./frontend/components/filters/task.jsx":
+/*!**********************************************!*\
+  !*** ./frontend/components/filters/task.jsx ***!
+  \**********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1941,7 +1941,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
- // NOTE THAT THIS IS MESSED UP AND WONT FETCH PROJECTS BY ID CORRECTLY
+
 
 var TaskFilter =
 /*#__PURE__*/
@@ -1969,8 +1969,8 @@ function (_React$Component) {
   _createClass(TaskFilter, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var filter = Object.assign({}, this.state.filter);
-      debugger;
+      var filter = Object.assign({}, this.state.filter); // debugger
+
       this.props.fetchTasks(filter).then(this.props.updateFilter('tasks', filter));
     }
   }, {
@@ -2002,29 +2002,8 @@ function (_React$Component) {
     value: function handleSubmit() {
       event.preventDefault();
       var filters = Object.assign({}, this.state.filter);
+      debugger;
       this.props.fetchTasks(filters);
-    }
-  }, {
-    key: "renderInputs",
-    value: function renderInputs(array, key) {
-      var _this2 = this;
-
-      var inputs = array.map(function (el, i) {
-        var ids = _this2.state.filter[key];
-        var id = key === 'status' ? el : el.id;
-        var label = key === 'user_id' ? el.name : el;
-        label = key === 'project_id' ? el.title : label;
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: i
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "checkbox",
-          checked: ids.includes(id),
-          onChange: function onChange() {
-            return _this2.handleChange(key, id);
-          }
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(label)));
-      });
-      return inputs;
     }
   }, {
     key: "expandFilter",
@@ -2035,22 +2014,104 @@ function (_React$Component) {
     }
   }, {
     key: "renderFilter",
-    value: function renderFilter(filter, count, inputs) {
-      var _this3 = this;
+    value: function renderFilter(filter, inputs) {
+      var _this2 = this;
 
+      var cn = this.state.expanded[filter] ? 'dd' : 'hide';
+      var selected = this.getSelected(filter).map(function (el, i) {
+        var key = filter === 'Project' ? "title" : "name";
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "selected"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, el[key]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          name: "x",
+          h: "12",
+          w: "12",
+          transform: "scale(0.5)",
+          fill: "black"
+        })));
+      });
+      var cnSel = selected.length > 0 ? 'no-b' : 'header';
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "filter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this3.expandFilter(filter);
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, filter), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        h: 16,
-        w: 16,
-        name: "plus",
-        transform: "scale(0.667)",
-        fill: "black"
-      })), this.state.expanded[filter] ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, inputs) : null);
+          return _this2.expandFilter(filter);
+        },
+        className: cnSel
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, filter)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: cn
+      }, inputs), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: cnSel
+      }, selected));
+    }
+  }, {
+    key: "getSelected",
+    value: function getSelected(filter) {
+      var _this$state$filter = this.state.filter,
+          user_id = _this$state$filter.user_id,
+          project_id = _this$state$filter.project_id,
+          status = _this$state$filter.status,
+          unnassigned = _this$state$filter.unnassigned;
+      var _this$props$currentUs = this.props.currentUser,
+          teammates = _this$props$currentUs.teammates,
+          projects = _this$props$currentUs.projects;
+      var selected;
+
+      if (filter === 'Owner') {
+        selected = teammates.filter(function (el) {
+          return user_id.includes(el.id);
+        });
+      } else if (filter === 'Project') {
+        selected = projects.filter(function (el) {
+          return project_id.includes(el.id);
+        });
+        unnassigned ? selected.push({
+          title: 'Unnassigned'
+        }) : null; // debugger
+      } else {
+        selected = status.map(function (stat) {
+          return {
+            name: stat
+          };
+        }); // debugger
+      }
+
+      return selected;
+    }
+  }, {
+    key: "renderInputs",
+    value: function renderInputs(array, key) {
+      var _this3 = this;
+
+      var unnassigned = this.state.filter.unnassigned;
+      var inputs = array.map(function (el, i) {
+        var ids = _this3.state.filter[key];
+        var id = key === 'status' ? el : el.id;
+        var label = key === 'user_id' ? el.name : el;
+        label = key === 'project_id' ? el.title : label; // debugger
+
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: i
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "checkbox",
+          checked: ids.includes(id),
+          onChange: function onChange() {
+            return _this3.handleChange(key, id);
+          }
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(label)));
+      });
+
+      if (key === 'project_id') {
+        inputs.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "checkbox",
+          checked: unnassigned,
+          onChange: function onChange() {
+            return _this3.handleChange('unnassigned', !unnassigned);
+          }
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Unnassigned")));
+      }
+
+      return inputs;
     }
   }, {
     key: "render",
@@ -2060,21 +2121,16 @@ function (_React$Component) {
       var currentUser = this.props.currentUser;
       var teammates = this.renderInputs(currentUser.teammates, "user_id");
       var projects = this.renderInputs(currentUser.projects, "project_id");
-      var statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status");
-      var countUserFilters = this.state.filter.user_id.length > 0 ? " (".concat(this.state.filter.user_id.length, ")") : '';
-      var countProjectFilters = this.state.filter.project_id.length > 0 ? " (".concat(this.state.filter.project_id.length, ")") : '';
-      var countStatusFilters = this.state.filter.status.length > 0 ? " (".concat(this.state.filter.status.length, ")") : '';
-      var userFilter = this.renderFilter('Owner', countUserFilters, teammates);
-      var projectFilter = this.renderFilter('Project', countProjectFilters, projects);
-      var statusFilter = this.renderFilter('Status', countStatusFilters, statuses);
+      var statuses = this.renderInputs(["Not Started", "In Progress", "Finished"], "status"); // let countUserFilters = this.state.filter.user_id.length > 0 ? ` (${this.state.filter.user_id.length})` : '';
+      // let countProjectFilters = this.state.filter.project_id.length > 0 ? ` (${this.state.filter.project_id.length})` : '';
+      // let countStatusFilters = this.state.filter.status.length > 0 ? ` (${this.state.filter.status.length})` : '';
+
+      var userFilter = this.renderFilter('Owner', teammates);
+      var projectFilter = this.renderFilter('Project', projects);
+      var statusFilter = this.renderFilter('Status', statuses);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "task-filter",
-        className: "filters"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "FILTER BY"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: function onClick() {
-          return _this4.handleSubmit();
-        }
-      }, "Apply"), userFilter, projectFilter, statusFilter, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        id: "task-filter"
+      }, userFilter, projectFilter, statusFilter, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
           return _this4.handleDateChange('start_date', event);
         },
@@ -2084,7 +2140,11 @@ function (_React$Component) {
           return _this4.handleDateChange('end_date', event);
         },
         selected: new Date(this.state.filter.end_date)
-      })));
+      })), "\\", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return _this4.handleSubmit();
+        }
+      }, "Apply"));
     }
   }]);
 
@@ -2110,12 +2170,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/project_actions */ "./frontend/actions/project_actions.js");
 /* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
-/* harmony import */ var _task_filter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./task_filter */ "./frontend/components/filters/task_filter.jsx");
+/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./task */ "./frontend/components/filters/task.jsx");
 
 
 
 
 
+ // import TaskFilter from './task_filter';
 
 
 
@@ -2139,7 +2200,8 @@ var msp = function msp(state, ownProps) {
       end_date: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["dateInOneWeek"])(),
       created_at: null,
       user_id: [state.session.id],
-      project_id: projectIds,
+      project_id: [],
+      unnassigned: true,
       status: ["Not Started", "In Progress"],
       priority: []
     }
@@ -2169,7 +2231,7 @@ var mdp = function mdp(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(msp, mdp)(_task_filter__WEBPACK_IMPORTED_MODULE_6__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(msp, mdp)(_task__WEBPACK_IMPORTED_MODULE_6__["default"]));
 
 /***/ }),
 
@@ -5305,18 +5367,23 @@ function (_React$Component) {
     value: function render() {
       var _this$props = this.props,
           allTasks = _this$props.allTasks,
-          recentTasks = _this$props.recentTasks,
+          projectTasks = _this$props.projectTasks,
           upcomingTasks = _this$props.upcomingTasks,
           updateTask = _this$props.updateTask,
           openModal = _this$props.openModal,
           overdueTasks = _this$props.overdueTasks;
+      var sections = Object.keys(projectTasks).map(function (el, i) {
+        var label = el === '0' ? 'Unassigned' : el;
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          tasks: projectTasks[el],
+          filter: label
+        });
+      }); // debugger
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-show",
         className: "show"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_filters_task_filter_cont__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        tasks: allTasks,
-        filter: "All"
-      })));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_filters_task_filter_cont__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, sections));
     }
   }]);
 
@@ -5364,7 +5431,8 @@ var msp = function msp(state, ownProps) {
     allTasks: acceptedTasks,
     recentTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectRecentTasks"])(acceptedTasks),
     upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectUpcomingTasks"])(acceptedTasks),
-    overdueTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectOverdueTasks"])(acceptedTasks) // users: projectMemberSelector(state)
+    overdueTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectOverdueTasks"])(acceptedTasks),
+    projectTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectProjectTasks"])(acceptedTasks) // users: projectMemberSelector(state)
 
   };
 };
@@ -5741,7 +5809,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*!************************************!*\
   !*** ./frontend/helpers/helper.js ***!
   \************************************/
-/*! exports provided: titleize, selectNewProjectId, formatJavascriptDate, timeSince, dateToWords, projectMemberSelector, selectRecentTasks, selectUpcomingTasks, selectOverdueTasks, dateInOneWeek, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks */
+/*! exports provided: titleize, selectNewProjectId, formatJavascriptDate, timeSince, dateToWords, projectMemberSelector, selectRecentTasks, selectUpcomingTasks, selectOverdueTasks, selectProjectTasks, dateInOneWeek, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5755,6 +5823,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectRecentTasks", function() { return selectRecentTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectUpcomingTasks", function() { return selectUpcomingTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectOverdueTasks", function() { return selectOverdueTasks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectProjectTasks", function() { return selectProjectTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateInOneWeek", function() { return dateInOneWeek; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortByDueDate", function() { return sortByDueDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectAcceptedProjects", function() { return selectAcceptedProjects; });
@@ -5869,6 +5938,21 @@ var selectOverdueTasks = function selectOverdueTasks(tasks) {
     return Date.now() > Date.parse(task.due_date);
   });
   return past;
+};
+var selectProjectTasks = function selectProjectTasks(tasks) {
+  var projectTasks = {};
+  tasks.forEach(function (task) {
+    if (!task.project_id && !projectTasks[0]) {
+      projectTasks[0] = [task];
+    } else if (!task.project_id) {
+      projectTasks[0].push(task);
+    } else if (!projectTasks[task.project_id]) {
+      projectTasks[titleize(task.project_name)] = [task];
+    } else {
+      projectTasks[titleize(task.project_name)].push(task);
+    }
+  });
+  return projectTasks;
 };
 var dateInOneWeek = function dateInOneWeek() {
   var today = new Date();
