@@ -6,11 +6,15 @@
 
 #task-filter {
   display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding:15px;
     background: #e8ecee;
     box-shadow: 0 0 4px #bbbbbb;
     z-index: 1;
+    padding-top:80px;
+    height:100vh;
+        position: absolute;
+    top: 0;
 }
 
 #task-filter h4 {
@@ -19,7 +23,8 @@
   /* padding-bottom:15px; */
 }
 #task-filter .filter {
-    width: 18%;
+    width: 100%;
+    height:15%;
     margin-right: 2%;
     position:relative;
 }
