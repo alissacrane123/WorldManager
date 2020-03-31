@@ -27,20 +27,16 @@ class Topbar extends React.Component {
             {newPms.length > 0 ? <div id="notify-num">{newPms.length}</div> : null }
    
             <div className={cn}>
+              <h3>Notifications</h3>
               <PmIndexCont />
+              <h4>See All</h4>
             </div>
           </div>
 
         </nav>
       );
     } 
-    // else {
-    //   return (
-    //     <nav id="topbar" className="topbar so">
-    //       <h1>World Manager</h1>
-    //     </nav>
-    //   );
-    // }
+
   }
 }
 

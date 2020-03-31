@@ -1,6 +1,6 @@
 import React from 'react';
 import SVG from '../svg';
-import { titleize } from "../../helpers/helper";
+import { titleize, timeSince } from "../../helpers/helper";
 import PmIndexItem from './pm_index_item';
 
 class PmIndex extends React.Component {
@@ -17,39 +17,35 @@ class PmIndex extends React.Component {
   }
 
   render() {
-    let { pms, updatePM } = this.props;
+    let { pms, updatePM, currentUserId } = this.props;
 
     pms = pms.map((pm, i) => {
       let el = <label>Accepted</label>
-      if (!pm.request_status) {
+      let text = <div>{pm.inviterName} <span>invited you to</span> {titleize(pm.projectName)}</div>
+      // let text = `${pm.inviterName} invited you to ${titleize(pm.projectName)}`
+
+      if (!pm.request_status && pm.user_id  === currentUserId) {
         el = (
-          <button className="accept" onClick={() => this.handleClick(pm.id)}>
+          <button className="notify" onClick={() => this.handleClick(pm.id)}>
             Accept
           </button>
         );
+      } else if (pm.inviter_id === currentUserId) {
+        el = <label>{ timeSince(pm.updated_at, true) }</label>;
+        text = <div>{pm.inviteeName} <span>accepted your invite to</span> {titleize(pm.projectName)}</div>
       }
 
       return (
-        <li className="list-item task">
-          {`${pm.inviterName} invited you to ${titleize(pm.projectName)} project`}
-
+        <li className="notify">
+          {text}
           { el }
-          {/* <button className="accept" onClick={() => this.handleClick(pm.id)}>
-            Accept
-          </button> */}
         </li>
     )});
 
     return (
-      // <section className="list">
-      //   <div>
-      //     <SVG name="carrot" h={12} w={12} rotate="rotate(90)" fill="gray" transform="scale(0.5)" />
-      //     <h2>Project Invitations</h2>
-      //   </div>
-      <ul id="pm-index" >
+      <ul id="notify-index" className="notify">
         {pms}
       </ul>
-      // </section>
     );
   }
 }

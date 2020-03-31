@@ -3140,15 +3140,8 @@ function (_React$Component) {
           id: "notify-num"
         }, newPms.length) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: cn
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_notifications_pm_index_cont__WEBPACK_IMPORTED_MODULE_2__["default"], null))));
-      } // else {
-      //   return (
-      //     <nav id="topbar" className="topbar so">
-      //       <h1>World Manager</h1>
-      //     </nav>
-      //   );
-      // }
-
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Notifications"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_notifications_pm_index_cont__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "See All"))));
+      }
     }
   }]);
 
@@ -3384,33 +3377,32 @@ function (_React$Component) {
 
       var _this$props = this.props,
           pms = _this$props.pms,
-          updatePM = _this$props.updatePM;
+          updatePM = _this$props.updatePM,
+          currentUserId = _this$props.currentUserId;
       pms = pms.map(function (pm, i) {
         var el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Accepted");
+        var text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, pm.inviterName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "invited you to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(pm.projectName)); // let text = `${pm.inviterName} invited you to ${titleize(pm.projectName)}`
 
-        if (!pm.request_status) {
+        if (!pm.request_status && pm.user_id === currentUserId) {
           el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-            className: "accept",
+            className: "notify",
             onClick: function onClick() {
               return _this.handleClick(pm.id);
             }
           }, "Accept");
+        } else if (pm.inviter_id === currentUserId) {
+          el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["timeSince"])(pm.updated_at, true));
+          text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, pm.inviteeName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "accepted your invite to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(pm.projectName));
         }
 
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "list-item task"
-        }, "".concat(pm.inviterName, " invited you to ").concat(Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(pm.projectName), " project"), el);
+          className: "notify"
+        }, text, el);
       });
-      return (// <section className="list">
-        //   <div>
-        //     <SVG name="carrot" h={12} w={12} rotate="rotate(90)" fill="gray" transform="scale(0.5)" />
-        //     <h2>Project Invitations</h2>
-        //   </div>
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-          id: "pm-index"
-        }, pms) // </section>
-
-      );
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        id: "notify-index",
+        className: "notify"
+      }, pms);
     }
   }]);
 
@@ -3435,16 +3427,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _pm_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pm_index */ "./frontend/components/notifications/pm_index.jsx");
 /* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/pm_actions */ "./frontend/actions/pm_actions.js");
+/* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+
 
 
 
 
 
 var msp = function msp(state, ownProps) {
+  var pms = Object.values(state.entities.pms);
+  pms = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_4__["sortByUpdatedAt"])(pms); // debugger
+
   return {
+    currentUserId: state.session.id,
     projects: Object.values(state.entities.projects),
     users: Object.values(state.entities.users),
-    pms: Object.values(state.entities.pms),
+    // pms: Object.values(state.entities.pms),
+    pms: pms,
     newPms: Object.values(state.entities.pms).filter(function (pm) {
       return !pm.request_status;
     }),
@@ -5954,7 +5953,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*!************************************!*\
   !*** ./frontend/helpers/helper.js ***!
   \************************************/
-/*! exports provided: titleize, selectNewProjectId, formatJavascriptDate, timeSince, dateToWords, projectMemberSelector, selectRecentTasks, selectUpcomingTasks, selectOverdueTasks, selectProjectTasks, dateInOneWeek, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks */
+/*! exports provided: titleize, selectNewProjectId, formatJavascriptDate, timeSince, dateToWords, projectMemberSelector, selectRecentTasks, selectUpcomingTasks, selectOverdueTasks, selectProjectTasks, dateInOneWeek, sortByUpdatedAt, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5970,6 +5969,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectOverdueTasks", function() { return selectOverdueTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectProjectTasks", function() { return selectProjectTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateInOneWeek", function() { return dateInOneWeek; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortByUpdatedAt", function() { return sortByUpdatedAt; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortByDueDate", function() { return sortByDueDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectAcceptedProjects", function() { return selectAcceptedProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectAcceptedTasks", function() { return selectAcceptedTasks; });
@@ -6012,10 +6012,23 @@ var formatJavascriptDate = function formatJavascriptDate(date) {
   var day = date.getDate();
   day = day > 9 ? day : "0".concat(day);
   return "".concat(month, "/").concat(day, "/").concat(year);
-};
+}; // can accept ruby date
+
 var timeSince = function timeSince(date) {
+  var weeks = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var seconds = Math.floor((new Date() - new Date(date)) / 1000);
   var interval = Math.floor(seconds / 31536000);
+
+  if (weeks) {
+    var daysAgo = Math.floor(seconds / 86400);
+
+    if (daysAgo > 6) {
+      var weeksAgo = Math.floor(daysAgo / 7);
+      return weeksAgo + "w";
+    } else if (daysAgo >= 1) {
+      return daysAgo + "d";
+    }
+  }
 
   if (interval > 1) {
     return interval + " years ago";
@@ -6121,6 +6134,12 @@ var dateInOneWeek = function dateInOneWeek() {
 
   var nextweekStr = "".concat(month, "/").concat(day, "/").concat(year);
   return nextweekStr;
+};
+var sortByUpdatedAt = function sortByUpdatedAt(items) {
+  var sorted = items.sort(function (b, a) {
+    return new Date(a.updated_at) - new Date(b.updated_at);
+  });
+  return sorted;
 };
 var sortByDueDate = function sortByDueDate(tasks) {
   tasks = tasks.sort(function (a, b) {

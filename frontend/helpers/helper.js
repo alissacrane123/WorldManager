@@ -34,12 +34,22 @@ export const formatJavascriptDate = (date) => {
     return `${month}/${day}/${year}`;
 }
 
-
-export const timeSince = (date) => {
+// can accept ruby date
+export const timeSince = (date, weeks=false) => {
 
   let seconds = Math.floor((new Date() - new Date(date)) / 1000);
 
   let interval = Math.floor(seconds / 31536000);
+
+  if (weeks) {
+    let daysAgo = Math.floor(seconds / 86400)
+    if (daysAgo > 6) {
+      let weeksAgo = Math.floor(daysAgo/7);
+      return weeksAgo + "w";
+    } else if (daysAgo >= 1) {
+      return daysAgo + "d"
+    }
+  }
 
   if (interval > 1) {
     return interval + " years ago";
@@ -143,6 +153,11 @@ export const dateInOneWeek = () => {
   
   let nextweekStr = `${month}/${day}/${year}`;
   return nextweekStr;
+}
+
+export const sortByUpdatedAt = (items) => {
+  let sorted = items.sort((b, a) => new Date(a.updated_at) - new Date(b.updated_at));
+  return sorted;
 }
 
 export const sortByDueDate = (tasks) => {

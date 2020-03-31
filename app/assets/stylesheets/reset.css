@@ -47,3 +47,15 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+button:focus {
+	outline:none;
+}
+
+button:hover {
+	box-shadow: 0 0 5px #9E9E9E;
+}
+
+svg {
+	cursor:pointer;
+}
