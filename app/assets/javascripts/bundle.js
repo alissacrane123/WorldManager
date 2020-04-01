@@ -2336,8 +2336,7 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var date = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["dateInOneWeek"])();
-      this.props.fetchTasks(this.props.defaultFilter);
-      this.props.fetchPMs();
+      this.props.fetchTasks(this.props.defaultFilter); // this.props.fetchPMs()
     }
   }, {
     key: "render",
@@ -6420,8 +6419,8 @@ var notifyReducer = function notifyReducer() {
 
   switch (action.type) {
     case _actions_notify_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_NOTIFICATIONS"]:
-      debugger;
-      return action.notifications.payload;
+      // debugger
+      return action.payload.notifications;
 
     default:
       return state;
@@ -6442,6 +6441,8 @@ var notifyReducer = function notifyReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
+/* harmony import */ var _actions_notify_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/notify_actions */ "./frontend/actions/notify_actions.js");
+
 
 
 var pmsReducer = function pmsReducer() {
@@ -6463,6 +6464,9 @@ var pmsReducer = function pmsReducer() {
     //   let projectId = Object.keys(action.payload.project)[0]
     //   delete nextState[projectId];
     //   return nextState;
+
+    case _actions_notify_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NOTIFICATIONS"]:
+      return action.payload.pms;
 
     default:
       return state;

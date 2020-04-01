@@ -7,8 +7,8 @@ const notifyReducer = (state = {}, action) => {
 
   switch (action.type) {
     case RECEIVE_NOTIFICATIONS:
-      debugger
-      return action.notifications.payload;
+      // debugger
+      return action.payload.notifications;
     default:
       return state;
   }

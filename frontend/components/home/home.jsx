@@ -14,7 +14,7 @@ class Home extends React.Component {
   componentDidMount() {
     let date = dateInOneWeek();
     this.props.fetchTasks(this.props.defaultFilter);
-    this.props.fetchPMs()
+    // this.props.fetchPMs()
   }
 
   render() {
