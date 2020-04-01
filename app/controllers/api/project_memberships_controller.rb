@@ -9,6 +9,7 @@ class Api::ProjectMembershipsController < ApplicationController
     
     # debugger
     if @pm.save
+      @pm.create_notification('invitee') if @pm.inviter_id != @pm.user_id
       render "api/project_memberships/show"
     else
       render json: @pm.errors.full_messages, status: 422
@@ -33,8 +34,9 @@ class Api::ProjectMembershipsController < ApplicationController
 
   def update
     @pm = ProjectMembership.find(params[:id]);
-    # debugger
+
     if @pm.update_attributes(pm_params)
+      @pm.create_notification('inviter') if @pm.request_status
       render "api/project_memberships/show"
     else
       render json: @pm.errors.full_messages, status: 422

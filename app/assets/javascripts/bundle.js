@@ -138,6 +138,37 @@ var closeModal = function closeModal() {
 
 /***/ }),
 
+/***/ "./frontend/actions/notify_actions.js":
+/*!********************************************!*\
+  !*** ./frontend/actions/notify_actions.js ***!
+  \********************************************/
+/*! exports provided: RECEIVE_NOTIFICATIONS, receiveNotifications, fetchNotifications */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NOTIFICATIONS", function() { return RECEIVE_NOTIFICATIONS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNotifications", function() { return receiveNotifications; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchNotifications", function() { return fetchNotifications; });
+/* harmony import */ var _util_notify_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/notify_api_util */ "./frontend/util/notify_api_util.js");
+
+var RECEIVE_NOTIFICATIONS = 'RECEIVE_NOTIFICATIONS';
+var receiveNotifications = function receiveNotifications(payload) {
+  return {
+    type: RECEIVE_NOTIFICATIONS,
+    payload: payload
+  };
+};
+var fetchNotifications = function fetchNotifications() {
+  return function (dispatch) {
+    return _util_notify_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchNotifications"]().then(function (payload) {
+      return dispatch(receiveNotifications(payload));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/pm_actions.js":
 /*!****************************************!*\
   !*** ./frontend/actions/pm_actions.js ***!
@@ -3103,6 +3134,11 @@ function (_React$Component) {
   }
 
   _createClass(Topbar, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchNotifications();
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -3165,6 +3201,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _topbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./topbar */ "./frontend/components/navbar/topbar.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var _actions_notify_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/notify_actions */ "./frontend/actions/notify_actions.js");
+
 
 
 
@@ -3198,6 +3236,9 @@ var mdp = function mdp(dispatch) {
     },
     closeModal: function closeModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["closeModal"])());
+    },
+    fetchNotifications: function fetchNotifications() {
+      return dispatch(Object(_actions_notify_actions__WEBPACK_IMPORTED_MODULE_4__["fetchNotifications"])());
     }
   };
 };
@@ -6242,6 +6283,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tasks_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tasks_reducer */ "./frontend/reducers/tasks_reducer.js");
 /* harmony import */ var _pm_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pm_reducer */ "./frontend/reducers/pm_reducer.js");
 /* harmony import */ var _posts_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./posts_reducer */ "./frontend/reducers/posts_reducer.js");
+/* harmony import */ var _notify_reducer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./notify_reducer */ "./frontend/reducers/notify_reducer.js");
+
 
 
 
@@ -6253,7 +6296,8 @@ var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
   projects: _projects_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
   tasks: _tasks_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
   posts: _posts_reducer__WEBPACK_IMPORTED_MODULE_5__["default"],
-  pms: _pm_reducer__WEBPACK_IMPORTED_MODULE_4__["default"]
+  pms: _pm_reducer__WEBPACK_IMPORTED_MODULE_4__["default"],
+  notifications: _notify_reducer__WEBPACK_IMPORTED_MODULE_6__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -6353,6 +6397,38 @@ var ModalReducer = function ModalReducer() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ModalReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/notify_reducer.js":
+/*!*********************************************!*\
+  !*** ./frontend/reducers/notify_reducer.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_notify_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/notify_actions */ "./frontend/actions/notify_actions.js");
+
+
+var notifyReducer = function notifyReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+  var nextState = Object.assign({}, state);
+
+  switch (action.type) {
+    case _actions_notify_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_NOTIFICATIONS"]:
+      debugger;
+      return action.notifications.payload;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (notifyReducer);
 
 /***/ }),
 
@@ -6780,6 +6856,35 @@ var configureStore = function configureStore() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
+
+/***/ }),
+
+/***/ "./frontend/util/notify_api_util.js":
+/*!******************************************!*\
+  !*** ./frontend/util/notify_api_util.js ***!
+  \******************************************/
+/*! exports provided: updateNotifications, fetchNotifications */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateNotifications", function() { return updateNotifications; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchNotifications", function() { return fetchNotifications; });
+var updateNotifications = function updateNotifications(ids) {
+  return $.ajax({
+    method: 'PATCH',
+    url: '/api/notifications/update_all',
+    data: {
+      notif_ids: ids
+    }
+  });
+};
+var fetchNotifications = function fetchNotifications() {
+  return $.ajax({
+    method: 'GET',
+    url: '/api/notifications'
+  });
+};
 
 /***/ }),
 

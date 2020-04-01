@@ -3,6 +3,7 @@ import Topbar from "./topbar";
 
 import { login, signup, logout } from "../../actions/session_actions";
 import { openModal, closeModal } from "../../actions/modal_actions";
+import { fetchNotifications } from '../../actions/notify_actions';
 
 const msp = (state, ownProps) => {
   
@@ -19,7 +20,8 @@ const mdp = dispatch => {
     signup: user => dispatch(signup(user)),
     logout: () => dispatch(logout()),
     openModal: modalType => dispatch(openModal(modalType)),
-    closeModal: () => dispatch(closeModal())
+    closeModal: () => dispatch(closeModal()),
+    fetchNotifications: () => dispatch(fetchNotifications())
   };
 };
 

@@ -10,14 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_12_233704) do
+ActiveRecord::Schema.define(version: 2020_04_01_004147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "add_role_to_project_memberships", force: :cascade do |t|
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "notifiable_id", null: false
+    t.string "notifiable_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.boolean "checked", default: false
+    t.index ["notifiable_id"], name: "index_notifications_on_notifiable_id"
+    t.index ["notifiable_type"], name: "index_notifications_on_notifiable_type"
   end
 
   create_table "posts", force: :cascade do |t|

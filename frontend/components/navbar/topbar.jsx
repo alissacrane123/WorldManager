@@ -8,6 +8,10 @@ class Topbar extends React.Component {
     this.state = { ddOpen: false }
   }
 
+  componentDidMount() {
+    this.props.fetchNotifications();
+  }
+
   render() {
     let { currentUser, history, newPms, completedPms } = this.props;
 

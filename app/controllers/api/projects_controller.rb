@@ -7,17 +7,8 @@ class Api::ProjectsController < ApplicationController
     @project.title = titleize(project_params[:title])
 
     if @project.save
-      ProjectMembership.create!(user_id: @project.owner_id, project_id: @project.id, role: "admin", request_status:true, inviter_id: @project.owner_id)
-      # debugger
-      # if pm_params[:email].length > 0
-      #   new_member = ProjectMembership.new()
-      #   new_member.user_id = User.find_by(email: pm_params[:email]).id 
-      #   new_member.project_id = @project.id
-      #   new_member.role = pm_params[:role]
-
-      #   new_member.save!
-      # end
-
+      # ProjectMembership.create!(user_id: @project.owner_id, project_id: @project.id, role: "admin", request_status:true, inviter_id: @project.owner_id)
+      @project.create_project_membership
       render "api/projects/show"
     else
       render json: @project.errors.full_messages
