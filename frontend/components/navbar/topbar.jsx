@@ -9,7 +9,7 @@ class Topbar extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchNotifications();
+    this.props.fetchAlerts();
   }
 
   render() {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 class ProjectForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { project: {title: '', category: 'default'}, pm: {email: '', role: '' }}
+    this.state = { project: {title: '', category: 'default'}, pm: {email: '' }}
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }

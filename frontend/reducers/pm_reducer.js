@@ -1,5 +1,5 @@
 import { RECEIVE_PMS, RECEIVE_PM } from '../actions/pm_actions';
-import { RECEIVE_NOTIFICATIONS } from '../actions/notify_actions';
+import { RECEIVE_ALERTS } from '../actions/alert_actions';
 
 const pmsReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -18,7 +18,7 @@ const pmsReducer = (state = {}, action) => {
     //   let projectId = Object.keys(action.payload.project)[0]
     //   delete nextState[projectId];
     //   return nextState;
-    case RECEIVE_NOTIFICATIONS:
+    case RECEIVE_ALERTS:
       return action.payload.pms;
     default:
       return state;

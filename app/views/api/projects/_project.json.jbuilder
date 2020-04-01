@@ -1,6 +1,6 @@
 project_membership = project.project_memberships.select { |mem| mem.user_id == current_user.id }
 
-if project_membership.first && project_membership.first.role.downcase === 'admin'
+if project_membership.first && project_membership.first.admin
   access = true
 else
   access = false

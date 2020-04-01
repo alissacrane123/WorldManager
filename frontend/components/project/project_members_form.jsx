@@ -3,7 +3,7 @@ import React from 'react';
 class ProjectMembersForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { email: '', role: 'default', project_id: this.props.projectId, inviter_id: this.props.currentUserId };
+    this.state = { email: '', project_id: this.props.projectId, inviter_id: this.props.currentUserId };
   }
 
   handleSubmit() {
@@ -42,12 +42,12 @@ class ProjectMembersForm extends React.Component {
             onChange={() => this.handleChange("email")} 
           />
 
-          <label>Team Member Role</label>
+          {/* <label>Team Member Role</label>
           <select value={this.state.role} defaultValue="default" onChange={() => this.handleChange("role")}>
             <option value="default" disabled={true}>Choose a role</option>
             <option value="Admin">Administrator</option>
             <option value="Member">Team Member</option>
-          </select>
+          </select> */}
 
           <button onClick={() => this.handleSubmit()}>Submit</button>
         </div>

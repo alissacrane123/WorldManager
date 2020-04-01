@@ -14,9 +14,9 @@ const msp = (state, ownProps) => {
     users: Object.values(state.entities.users),
     // pms: Object.values(state.entities.pms),
     pms: pms,
-    newPms: Object.values(state.entities.pms).filter(pm => !pm.request_status),
+    newPms: Object.values(state.entities.pms).filter(pm => !pm.accepted),
     completedPms: Object.values(state.entities.pms).filter(
-      pm => pm.request_status
+      pm => pm.accepted
     )
   };
 }

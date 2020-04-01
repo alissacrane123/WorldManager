@@ -5,11 +5,11 @@ class Api::ProjectMembershipsController < ApplicationController
     @pm.user_id = User.find_by(email: pm_params[:email]).id
     @pm.project_id = pm_params[:project_id]
     @pm.inviter_id = current_user.id
-    @pm.role = pm_params[:role]
+    @pm.admin = pm_params[:admin]
     
     # debugger
     if @pm.save
-      @pm.create_notification('invitee') if @pm.inviter_id != @pm.user_id
+      @pm.create_alerts('invitee') if @pm.inviter_id != @pm.user_id
       render "api/project_memberships/show"
     else
       render json: @pm.errors.full_messages, status: 422
@@ -28,7 +28,7 @@ class Api::ProjectMembershipsController < ApplicationController
       # .order("updated_at desc")
     # @pms = ProjectMembership
     #   .includes(:project)
-    #   .where("user_id = ? AND request_status = ?", current_user.id, false)
+    #   .where("user_id = ? AND accepted = ?", current_user.id, false)
     #   .where.not(projects: { id: nil })
   end
 
@@ -36,7 +36,7 @@ class Api::ProjectMembershipsController < ApplicationController
     @pm = ProjectMembership.find(params[:id]);
 
     if @pm.update_attributes(pm_params)
-      @pm.create_notification('inviter') if @pm.request_status
+      @pm.create_alerts('inviter') if @pm.accepted
       render "api/project_memberships/show"
     else
       render json: @pm.errors.full_messages, status: 422
@@ -47,6 +47,6 @@ class Api::ProjectMembershipsController < ApplicationController
   private
 
   def pm_params
-    params.require(:pm).permit(:email, :project_id, :role, :request_status, :inviter_id)
+    params.require(:pm).permit(:email, :project_id, :admin, :accepted, :inviter_id)
   end
 end

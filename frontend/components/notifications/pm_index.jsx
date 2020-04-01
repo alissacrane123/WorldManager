@@ -12,7 +12,7 @@ class PmIndex extends React.Component {
     event.preventDefault();
     let pms = this.props.pms;
     let pm = pms.filter(pm => pm.id === pmId)[0]
-    let newPm = Object.assign({}, pm, { request_status: true });
+    let newPm = Object.assign({}, pm, { accepted: true });
     this.props.updatePM(newPm);
   }
 
@@ -24,7 +24,7 @@ class PmIndex extends React.Component {
       let text = <div>{pm.inviterName} <span>invited you to</span> {titleize(pm.projectName)}</div>
       // let text = `${pm.inviterName} invited you to ${titleize(pm.projectName)}`
 
-      if (!pm.request_status && pm.user_id  === currentUserId) {
+      if (!pm.accepted && pm.user_id  === currentUserId) {
         el = (
           <button className="notify" onClick={() => this.handleClick(pm.id)}>
             Accept

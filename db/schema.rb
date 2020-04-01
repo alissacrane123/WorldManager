@@ -10,20 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_01_004147) do
+ActiveRecord::Schema.define(version: 2020_04_01_035049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "notifications", force: :cascade do |t|
-    t.bigint "notifiable_id", null: false
-    t.string "notifiable_type", null: false
+  create_table "alerts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.boolean "checked", default: false
-    t.index ["notifiable_id"], name: "index_notifications_on_notifiable_id"
-    t.index ["notifiable_type"], name: "index_notifications_on_notifiable_type"
+    t.bigint "alertable_id", null: false
+    t.string "alertable_type", null: false
   end
 
   create_table "posts", force: :cascade do |t|
@@ -43,9 +41,9 @@ ActiveRecord::Schema.define(version: 2020_04_01_004147) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "role"
-    t.boolean "request_status", default: false
     t.integer "inviter_id"
+    t.boolean "accepted", default: false
+    t.boolean "admin", default: false
     t.index ["project_id", "user_id"], name: "index_project_memberships_on_project_id_and_user_id", unique: true
     t.index ["user_id"], name: "index_project_memberships_on_user_id"
   end
@@ -67,9 +65,9 @@ ActiveRecord::Schema.define(version: 2020_04_01_004147) do
     t.datetime "updated_at", null: false
     t.datetime "due_date"
     t.text "description"
-    t.string "status", default: "Not Started", null: false
     t.integer "project_id"
     t.string "priority", default: "low"
+    t.string "status", default: "todo"
     t.index ["due_date"], name: "index_tasks_on_due_date"
     t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["title"], name: "index_tasks_on_title"

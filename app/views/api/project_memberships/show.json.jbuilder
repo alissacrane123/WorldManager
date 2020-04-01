@@ -6,6 +6,6 @@ end
 
 json.set! "pm" do
   json.set! @pm.id do
-    json.extract! @pm, :id, :user_id, :project_id, :request_status, :role, :created_at
+    json.extract! @pm, :id, :user_id, :project_id, :accepted, :admin, :created_at
   end
 end

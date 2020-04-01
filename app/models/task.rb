@@ -1,11 +1,21 @@
 class Task < ApplicationRecord
   validates :title, :user_id, presence: true
-  
+  validates :status, inclusion: { in: ['todo', 'doing', 'done']}
+  validates :priority, inclusion: { in: ['low', 'medium', 'high']}
+
   belongs_to :project, optional:true
   belongs_to :user
   has_one :project_owner, 
     through: :project,
     source: :owner
+
+  has_many :alerts, :as => :alertable
+
+  def self.create_alerts 
+    Task.all.each do |task|
+      task.alerts.create!(user_id: task.user_id)
+    end
+  end
 
 
   def fetch_filtered_tasks(filters)

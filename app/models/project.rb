@@ -9,7 +9,7 @@ class Project < ApplicationRecord
   validates :title, :owner_id, :category, presence: true
 
 
-  def create_project_membership
-    ProjectMembership.create!(user_id: self.owner_id, project_id: self.id, role: "admin", request_status:true, inviter_id: self.owner_id)
+  def create_pm
+    ProjectMembership.create!(user_id: self.owner_id, project_id: self.id, admin: true, accepted:true, inviter_id: nil)
   end
 end

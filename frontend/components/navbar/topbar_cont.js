@@ -3,14 +3,14 @@ import Topbar from "./topbar";
 
 import { login, signup, logout } from "../../actions/session_actions";
 import { openModal, closeModal } from "../../actions/modal_actions";
-import { fetchNotifications } from '../../actions/notify_actions';
+import { fetchAlerts } from '../../actions/alert_actions';
 
 const msp = (state, ownProps) => {
   
   return {
     currentUser: state.entities.users[state.session.id],
-    newPms: Object.values(state.entities.pms).filter(pm => !pm.request_status),
-    completedPms: Object.values(state.entities.pms).filter(pm => pm.request_status)
+    newPms: Object.values(state.entities.pms).filter(pm => !pm.accepted),
+    completedPms: Object.values(state.entities.pms).filter(pm => pm.accepted)
   };
 };
 
@@ -21,7 +21,7 @@ const mdp = dispatch => {
     logout: () => dispatch(logout()),
     openModal: modalType => dispatch(openModal(modalType)),
     closeModal: () => dispatch(closeModal()),
-    fetchNotifications: () => dispatch(fetchNotifications())
+    fetchAlerts: () => dispatch(fetchAlerts())
   };
 };
 

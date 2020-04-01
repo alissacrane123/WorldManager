@@ -4,7 +4,7 @@ import projectsReducer from './projects_reducer';
 import tasksReducer from './tasks_reducer';
 import pmsReducer from './pm_reducer';
 import postsReducer from './posts_reducer';
-import notifyReducer from './notify_reducer';
+import alertsReducer from './alerts_reducer';
 
 const entitiesReducer = combineReducers({
   users: usersReducer,
@@ -12,7 +12,7 @@ const entitiesReducer = combineReducers({
   tasks: tasksReducer,
   posts:postsReducer,
   pms: pmsReducer,
-  notifications: notifyReducer
+  alerts: alertsReducer
 });
 
 export default entitiesReducer;

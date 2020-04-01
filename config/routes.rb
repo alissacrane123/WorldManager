@@ -8,8 +8,8 @@ Rails.application.routes.draw do
     resource :session, only: [:create, :destroy, :show]
     resources :project_memberships, only: [:create, :index, :update, :destroy]
     resources :posts, only: [:create, :index, :update, :show, :destroy]
-    # resources :notifications, only: [:create, :index, :destroy]
-    resources :notifications, only: [:create, :index, :destroy] do
+    
+    resources :alerts, only: [:create, :index, :destroy] do
       collection do
         patch 'update_all'
       end

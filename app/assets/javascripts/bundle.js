@@ -86,6 +86,37 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/actions/alert_actions.js":
+/*!*******************************************!*\
+  !*** ./frontend/actions/alert_actions.js ***!
+  \*******************************************/
+/*! exports provided: RECEIVE_ALERTS, receiveAlerts, fetchAlerts */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_ALERTS", function() { return RECEIVE_ALERTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveAlerts", function() { return receiveAlerts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAlerts", function() { return fetchAlerts; });
+/* harmony import */ var _util_alert_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/alert_api_util */ "./frontend/util/alert_api_util.js");
+
+var RECEIVE_ALERTS = 'RECEIVE_ALERTS';
+var receiveAlerts = function receiveAlerts(payload) {
+  return {
+    type: RECEIVE_ALERTS,
+    payload: payload
+  };
+};
+var fetchAlerts = function fetchAlerts() {
+  return function (dispatch) {
+    return _util_alert_api_util__WEBPACK_IMPORTED_MODULE_1__["fetchAlerts"]().then(function (payload) {
+      return dispatch(receiveAlerts(payload));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/filter_actions.js":
 /*!********************************************!*\
   !*** ./frontend/actions/filter_actions.js ***!
@@ -133,37 +164,6 @@ var openModal = function openModal(modal) {
 var closeModal = function closeModal() {
   return {
     type: CLOSE_MODAL
-  };
-};
-
-/***/ }),
-
-/***/ "./frontend/actions/notify_actions.js":
-/*!********************************************!*\
-  !*** ./frontend/actions/notify_actions.js ***!
-  \********************************************/
-/*! exports provided: RECEIVE_NOTIFICATIONS, receiveNotifications, fetchNotifications */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NOTIFICATIONS", function() { return RECEIVE_NOTIFICATIONS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNotifications", function() { return receiveNotifications; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchNotifications", function() { return fetchNotifications; });
-/* harmony import */ var _util_notify_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/notify_api_util */ "./frontend/util/notify_api_util.js");
-
-var RECEIVE_NOTIFICATIONS = 'RECEIVE_NOTIFICATIONS';
-var receiveNotifications = function receiveNotifications(payload) {
-  return {
-    type: RECEIVE_NOTIFICATIONS,
-    payload: payload
-  };
-};
-var fetchNotifications = function fetchNotifications() {
-  return function (dispatch) {
-    return _util_notify_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchNotifications"]().then(function (payload) {
-      return dispatch(receiveNotifications(payload));
-    });
   };
 };
 
@@ -3135,7 +3135,7 @@ function (_React$Component) {
   _createClass(Topbar, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.fetchNotifications();
+      this.props.fetchAlerts();
     }
   }, {
     key: "render",
@@ -3200,7 +3200,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _topbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./topbar */ "./frontend/components/navbar/topbar.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
-/* harmony import */ var _actions_notify_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/notify_actions */ "./frontend/actions/notify_actions.js");
+/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/alert_actions */ "./frontend/actions/alert_actions.js");
 
 
 
@@ -3211,10 +3211,10 @@ var msp = function msp(state, ownProps) {
   return {
     currentUser: state.entities.users[state.session.id],
     newPms: Object.values(state.entities.pms).filter(function (pm) {
-      return !pm.request_status;
+      return !pm.accepted;
     }),
     completedPms: Object.values(state.entities.pms).filter(function (pm) {
-      return pm.request_status;
+      return pm.accepted;
     })
   };
 };
@@ -3236,8 +3236,8 @@ var mdp = function mdp(dispatch) {
     closeModal: function closeModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["closeModal"])());
     },
-    fetchNotifications: function fetchNotifications() {
-      return dispatch(Object(_actions_notify_actions__WEBPACK_IMPORTED_MODULE_4__["fetchNotifications"])());
+    fetchAlerts: function fetchAlerts() {
+      return dispatch(Object(_actions_alert_actions__WEBPACK_IMPORTED_MODULE_4__["fetchAlerts"])());
     }
   };
 };
@@ -3406,7 +3406,7 @@ function (_React$Component) {
         return pm.id === pmId;
       })[0];
       var newPm = Object.assign({}, pm, {
-        request_status: true
+        accepted: true
       });
       this.props.updatePM(newPm);
     }
@@ -3423,7 +3423,7 @@ function (_React$Component) {
         var el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Accepted");
         var text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, pm.inviterName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "invited you to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(pm.projectName)); // let text = `${pm.inviterName} invited you to ${titleize(pm.projectName)}`
 
-        if (!pm.request_status && pm.user_id === currentUserId) {
+        if (!pm.accepted && pm.user_id === currentUserId) {
           el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             className: "notify",
             onClick: function onClick() {
@@ -3485,10 +3485,10 @@ var msp = function msp(state, ownProps) {
     // pms: Object.values(state.entities.pms),
     pms: pms,
     newPms: Object.values(state.entities.pms).filter(function (pm) {
-      return !pm.request_status;
+      return !pm.accepted;
     }),
     completedPms: Object.values(state.entities.pms).filter(function (pm) {
-      return pm.request_status;
+      return pm.accepted;
     })
   };
 };
@@ -3525,7 +3525,7 @@ var mdp = function mdp(dispatch) {
 //   handleClick() {
 //     event.preventDefault();
 //     let pm = this.props.pm;
-//     let newPm = Object.assign({}, pm, { request_status: true })
+//     let newPm = Object.assign({}, pm, { accepted: true })
 //     this.props.updatePM(newPm)
 //   }
 //   render() {
@@ -3596,8 +3596,7 @@ function (_React$Component) {
         category: 'default'
       },
       pm: {
-        email: '',
-        role: ''
+        email: ''
       }
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -3939,7 +3938,6 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ProjectMembersForm).call(this, props));
     _this.state = {
       email: '',
-      role: 'default',
       project_id: _this.props.projectId,
       inviter_id: _this.props.currentUserId
     };
@@ -3986,20 +3984,7 @@ function (_React$Component) {
         onChange: function onChange() {
           return _this2.handleChange("email");
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Team Member Role"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        value: this.state.role,
-        defaultValue: "default",
-        onChange: function onChange() {
-          return _this2.handleChange("role");
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "default",
-        disabled: true
-      }, "Choose a role"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "Admin"
-      }, "Administrator"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "Member"
-      }, "Team Member")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
           return _this2.handleSubmit();
         }
@@ -6189,7 +6174,7 @@ var sortByDueDate = function sortByDueDate(tasks) {
 };
 var selectAcceptedProjects = function selectAcceptedProjects(state) {
   var pmProjectIds = Object.values(state.entities.pms).filter(function (pm) {
-    return !pm.request_status;
+    return !pm.accepted;
   }).map(function (pm) {
     return pm.project_id;
   });
@@ -6207,6 +6192,38 @@ var selectAcceptedTasks = function selectAcceptedTasks(state) {
   });
   return tasks;
 };
+
+/***/ }),
+
+/***/ "./frontend/reducers/alerts_reducer.js":
+/*!*********************************************!*\
+  !*** ./frontend/reducers/alerts_reducer.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
+
+
+var alertsReducer = function alertsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+  var nextState = Object.assign({}, state);
+
+  switch (action.type) {
+    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_ALERTS"]:
+      // debugger
+      return action.payload.alerts;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (alertsReducer);
 
 /***/ }),
 
@@ -6282,7 +6299,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tasks_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./tasks_reducer */ "./frontend/reducers/tasks_reducer.js");
 /* harmony import */ var _pm_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pm_reducer */ "./frontend/reducers/pm_reducer.js");
 /* harmony import */ var _posts_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./posts_reducer */ "./frontend/reducers/posts_reducer.js");
-/* harmony import */ var _notify_reducer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./notify_reducer */ "./frontend/reducers/notify_reducer.js");
+/* harmony import */ var _alerts_reducer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./alerts_reducer */ "./frontend/reducers/alerts_reducer.js");
 
 
 
@@ -6296,7 +6313,7 @@ var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
   tasks: _tasks_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
   posts: _posts_reducer__WEBPACK_IMPORTED_MODULE_5__["default"],
   pms: _pm_reducer__WEBPACK_IMPORTED_MODULE_4__["default"],
-  notifications: _notify_reducer__WEBPACK_IMPORTED_MODULE_6__["default"]
+  alerts: _alerts_reducer__WEBPACK_IMPORTED_MODULE_6__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -6399,38 +6416,6 @@ var ModalReducer = function ModalReducer() {
 
 /***/ }),
 
-/***/ "./frontend/reducers/notify_reducer.js":
-/*!*********************************************!*\
-  !*** ./frontend/reducers/notify_reducer.js ***!
-  \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_notify_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/notify_actions */ "./frontend/actions/notify_actions.js");
-
-
-var notifyReducer = function notifyReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-  Object.freeze(state);
-  var nextState = Object.assign({}, state);
-
-  switch (action.type) {
-    case _actions_notify_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_NOTIFICATIONS"]:
-      // debugger
-      return action.payload.notifications;
-
-    default:
-      return state;
-  }
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (notifyReducer);
-
-/***/ }),
-
 /***/ "./frontend/reducers/pm_reducer.js":
 /*!*****************************************!*\
   !*** ./frontend/reducers/pm_reducer.js ***!
@@ -6441,7 +6426,7 @@ var notifyReducer = function notifyReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
-/* harmony import */ var _actions_notify_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/notify_actions */ "./frontend/actions/notify_actions.js");
+/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
 
 
 
@@ -6465,7 +6450,7 @@ var pmsReducer = function pmsReducer() {
     //   delete nextState[projectId];
     //   return nextState;
 
-    case _actions_notify_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NOTIFICATIONS"]:
+    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_ALERTS"]:
       return action.payload.pms;
 
     default:
@@ -6863,30 +6848,30 @@ var configureStore = function configureStore() {
 
 /***/ }),
 
-/***/ "./frontend/util/notify_api_util.js":
-/*!******************************************!*\
-  !*** ./frontend/util/notify_api_util.js ***!
-  \******************************************/
-/*! exports provided: updateNotifications, fetchNotifications */
+/***/ "./frontend/util/alert_api_util.js":
+/*!*****************************************!*\
+  !*** ./frontend/util/alert_api_util.js ***!
+  \*****************************************/
+/*! exports provided: updateAlerts, fetchAlerts */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateNotifications", function() { return updateNotifications; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchNotifications", function() { return fetchNotifications; });
-var updateNotifications = function updateNotifications(ids) {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAlerts", function() { return updateAlerts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAlerts", function() { return fetchAlerts; });
+var updateAlerts = function updateAlerts(ids) {
   return $.ajax({
     method: 'PATCH',
-    url: '/api/notifications/update_all',
+    url: '/api/alerts/update_all',
     data: {
-      notif_ids: ids
+      alert_ids: ids
     }
   });
 };
-var fetchNotifications = function fetchNotifications() {
+var fetchAlerts = function fetchAlerts() {
   return $.ajax({
     method: 'GET',
-    url: '/api/notifications'
+    url: '/api/alerts'
   });
 };
 

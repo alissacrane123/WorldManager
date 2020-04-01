@@ -11,7 +11,7 @@
 //   handleClick() {
 //     event.preventDefault();
 //     let pm = this.props.pm;
-//     let newPm = Object.assign({}, pm, { request_status: true })
+//     let newPm = Object.assign({}, pm, { accepted: true })
 //     this.props.updatePM(newPm)
 //   }
 

@@ -167,7 +167,7 @@ export const sortByDueDate = (tasks) => {
 }
 
 export const selectAcceptedProjects = (state) => {
-  let pmProjectIds = Object.values(state.entities.pms).filter(pm => !pm.request_status).map(pm => pm.project_id);
+  let pmProjectIds = Object.values(state.entities.pms).filter(pm => !pm.accepted).map(pm => pm.project_id);
   let projects = Object.values(state.entities.projects).filter(project => !pmProjectIds.includes(project.id))
   return projects;
 }

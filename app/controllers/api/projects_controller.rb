@@ -7,8 +7,8 @@ class Api::ProjectsController < ApplicationController
     @project.title = titleize(project_params[:title])
 
     if @project.save
-      # ProjectMembership.create!(user_id: @project.owner_id, project_id: @project.id, role: "admin", request_status:true, inviter_id: @project.owner_id)
-      @project.create_project_membership
+      # ProjectMembership.create!(user_id: @project.owner_id, project_id: @project.id, admin: "admin", accepted:true, inviter_id: @project.owner_id)
+      @project.create_pm
       render "api/projects/show"
     else
       render json: @project.errors.full_messages
@@ -54,6 +54,6 @@ class Api::ProjectsController < ApplicationController
   end
 
   def pm_params
-    params.require(:pm).permit(:email, :role)
+    params.require(:pm).permit(:email, :admin)
   end
 end
