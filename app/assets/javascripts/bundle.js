@@ -2240,19 +2240,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // import TaskFilter from './task_filter';
 
 
 
 var msp = function msp(state, ownProps) {
-  var acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectAcceptedTasks"])(state); // let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
-
+  var acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectAcceptedTasks"])(state);
   var recentTasks = [];
   var currentUser = state.entities.users[state.session.id];
   var projectIds = currentUser.projects.map(function (project) {
     return project.id;
-  }); // let projectIds = Object.keys(state.entities.projects);
-
+  });
   return {
     currentUser: currentUser,
     users: Object.values(state.entities.users),
@@ -2394,7 +2391,8 @@ function (_React$Component) {
         transform: "scale(0.5)"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Recent Projects")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_index_cont__WEBPACK_IMPORTED_MODULE_3__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_6__["default"], {
         tasks: sortedTasks,
-        filter: "Upcoming"
+        filter: "Upcoming",
+        header: "Tasks Due Soon"
       }));
     }
   }]);
@@ -5513,7 +5511,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var TaskSection = function TaskSection(_ref) {
   var tasks = _ref.tasks,
-      filter = _ref.filter;
+      filter = _ref.filter,
+      header = _ref.header;
   // debugger
   var taskItems = tasks.map(function (task, i) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_show_item_cont__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -5530,7 +5529,7 @@ var TaskSection = function TaskSection(_ref) {
     rotate: "rotate(90)",
     fill: "gray",
     transform: "scale(0.5)"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "".concat(filter, " Tasks"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, taskItems));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, header)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, taskItems));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (TaskSection);

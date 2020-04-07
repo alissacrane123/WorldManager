@@ -41,7 +41,8 @@ class Home extends React.Component {
 
         </section>
    
-        <TaskSection tasks={sortedTasks} filter="Upcoming"/>
+        <TaskSection tasks={sortedTasks} filter="Upcoming" header="Tasks Due Soon"/>
+        
 
         
       </div>

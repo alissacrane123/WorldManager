@@ -10,16 +10,13 @@ import { fetchProjects, fetchProject } from '../../actions/project_actions';
 import { fetchTasks, updateTask } from '../../actions/task_actions';
 import { openModal } from '../../actions/modal_actions';
  
-// import TaskFilter from './task_filter';
 import TaskFilter from './task_filter'
 
 const msp = (state, ownProps) => {
   let acceptedTasks = selectAcceptedTasks(state);
-  // let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'Finished');
   let recentTasks = [];
   let currentUser = state.entities.users[state.session.id];
   let projectIds = currentUser.projects.map(project => project.id);
-  // let projectIds = Object.keys(state.entities.projects);
   
   return {
     currentUser: currentUser,
