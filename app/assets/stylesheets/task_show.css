@@ -17,6 +17,7 @@
 #task-show {
       flex-direction: column;
     padding: 0px;
+    background: #f6f8f9;
 }
 
 .show section {
@@ -37,6 +38,8 @@
       /* margin-left: 16vw; */
   flex-grow: 1;
   padding: 3vw 5vw;
+      background: white;
+    margin: 2vw 10vw;
 
 }
 
