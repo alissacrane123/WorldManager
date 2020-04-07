@@ -18,9 +18,9 @@ class Splash extends React.Component {
 
     return (
       <div id="splash">
-        {/* <nav>
+        <nav>
           <h1>World Manager</h1>
-        </nav> */}
+        </nav>
         
         {form}
       </div>

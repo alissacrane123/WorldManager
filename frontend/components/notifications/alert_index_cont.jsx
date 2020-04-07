@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PmIndex from './pm_index';
+import AlertIndex from './alert_index';
 import { fetchPMs, updatePM } from '../../actions/pm_actions';
 import { sortByUpdatedAt } from '../../helpers/helper';
 
@@ -28,4 +28,4 @@ const mdp = dispatch => {
   }
 }
 
-export default connect(msp, mdp)(PmIndex)
+export default connect(msp, mdp)(AlertIndex)

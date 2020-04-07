@@ -1,31 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { dateInOneWeek } from '../../helpers/helper';
+import { dateInOneWeek, getNextSunday } from '../../helpers/date_helper';
 
 import ProjectIndexCont from '../project/project_index_cont';
 import TaskShowItem from '../task/task_show_item';
-import PmIndexContainer from '../notifications/pm_index_cont';
+import PmIndexContainer from '../notifications/alert_index_cont';
 import TaskSection from '../task/task_section';
 
 import SVG from '../svg'
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { taskFilter: 'week'}
+  }
 
   componentDidMount() {
     let date = dateInOneWeek();
-    this.props.fetchTasks(this.props.defaultFilter);
-    // this.props.fetchPMs()
+    let nextSunday = getNextSunday();
+
+    // this.props.fetchSearchTasks('week', nextSunday);
   }
 
   render() {
-    let { currentUser, tasks, pms, ownedTasks, updateTask, openModal,fetchPMs, upcomingTasks } = this.props;
-  
+    let { upcomingTasks, sortedTasks } = this.props;
+    
     return(
       <div id="home">
-        
-        {/* <h1>Welcome, { currentUser.fname }</h1> */}
-        
-        {/* { pms.length > 0 ? <PmIndexContainer /> : null } */}
 
         <section className="list">
           <div>
@@ -37,7 +38,7 @@ class Home extends React.Component {
 
         </section>
    
-        <TaskSection tasks={upcomingTasks} filter="Upcoming"/>
+        <TaskSection tasks={sortedTasks} filter="Upcoming"/>
 
         
       </div>

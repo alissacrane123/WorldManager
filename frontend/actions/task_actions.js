@@ -37,6 +37,14 @@ export const fetchTasks = (filter) => dispatch => {
         err => dispatch(receiveErrors(err.responseJSON)))
   )
 }
+export const fetchSearchTasks = (search, searchVal) => dispatch => {
+  // debugger
+  return (
+    TaskAPI.fetchSearchTasks(search, searchVal)
+      .then(tasks => dispatch(receiveTasks(tasks)),
+        err => dispatch(receiveErrors(err.responseJSON)))
+  )
+}
 
 // export const fetchTasks = (filter, date) => dispatch => {
 //   // debugger

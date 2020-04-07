@@ -6,8 +6,8 @@ import SVG from '../svg';
 class TaskIndex extends React.Component {
   constructor(props) {
     super(props);
-    let { notStarted, inProgress, finished } = this.props;
-    let tasks = notStarted.concat(inProgress).concat(finished);
+    let { notStarted, inProgress, done } = this.props;
+    let tasks = notStarted.concat(inProgress).concat(done);
 
     this.state = { tasks: tasks };
   }
@@ -18,9 +18,9 @@ class TaskIndex extends React.Component {
   }
 
   renderTasks(i) {
-    let { notStarted, inProgress, finished, userFilter, adminAccess, deleteTask, openModal } = this.props;
-    let tasks = [ notStarted, inProgress, finished ];
-    let taskStatus = ["Not Started", "In Progress", "Finished"];
+    let { notStarted, inProgress, done, userFilter, adminAccess, deleteTask, openModal } = this.props;
+    let tasks = [ notStarted, inProgress, done ];
+    let taskStatus = ["todo", "doing", "done"];
 
     if (userFilter) {
       tasks = tasks[i].filter(task => task.user_id === userFilter);

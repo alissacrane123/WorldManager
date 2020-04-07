@@ -7,14 +7,14 @@ export const fetchTasks = (filter) => {
     data: filter
   })
 }
-// export const fetchTasks = (filter, date) => {
+export const fetchSearchTasks = (search, searchVal) => {
   
-//   return $.ajax({
-//     method: 'GET',
-//     url: '/api/tasks',
-//     data: { filter, date }
-//   })
-// }
+  return $.ajax({
+    method: 'GET',
+    url: '/api/tasks/search',
+    data: { search: search, search_value: searchVal }
+  })
+}
 
 export const fetchTask = (taskId) => {
   return $.ajax({

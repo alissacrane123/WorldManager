@@ -8,21 +8,22 @@ const msp = (state, ownProps) => {
   let { day, month, year } = ownProps;
   let lastDay = new Date(year, month+1, 0).getDate()  ;
   let monthStr = month + 1 < 10 ? `0${month+ 1}` : month+ 1;
+  let tasks = Object.values(state.entities.tasks).filter(task => task.status !== 'done');
   return {
     emptyTask: { title: '', status: '', due_date: '', description: '', priority: '' },
     month: ownProps.month,
     year: ownProps.year,
     hideWeekend: ownProps.hideWeekend,
     currentUser: state.entities.users[state.session.id],
-    tasks: Object.values(state.entities.tasks).filter(task => task.status !== 'Finished'),
+    tasks: Object.values(state.entities.tasks).filter(task => task.status !== 'done'),
     defaultFilter: {
       start_date: `${monthStr}/01/${year}`,
       end_date: `${monthStr}/${lastDay}/${year}`,
       created_at: null,
       user_id: [state.session.id],
-      project_id: [],
-      status: ["Not Started", "In Progress"],
-      priority: []
+      project_id: 'all',
+      status: ["todo", "doing"],
+      priority: ["low", "med", "high"],
     }
   }
 };

@@ -15,6 +15,7 @@
     height:100vh;
         position: absolute;
     top: 0;
+    width:16vw;
 }
 
 #task-filter h4 {

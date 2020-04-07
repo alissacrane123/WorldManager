@@ -1,9 +1,10 @@
 import React from 'react';
 import SVG from '../svg';
-import { titleize, timeSince } from "../../helpers/helper";
+import { titleize } from "../../helpers/helper";
+import { timeSince } from "../../helpers/date_helper";
 import PmIndexItem from './pm_index_item';
 
-class PmIndex extends React.Component {
+class AlertIndex extends React.Component {
   componentDidMount() {
     // this.props.fetchPMs();
   }
@@ -36,7 +37,7 @@ class PmIndex extends React.Component {
       }
 
       return (
-        <li className="notify">
+        <li className="notify" key={i}>
           {text}
           { el }
         </li>
@@ -49,4 +50,4 @@ class PmIndex extends React.Component {
     );
   }
 }
-export default PmIndex;
+export default AlertIndex;

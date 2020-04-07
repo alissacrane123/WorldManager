@@ -1,4 +1,5 @@
 import { RECEIVE_ALERTS } from '../actions/alert_actions';
+import { LOGOUT_CURRENT_USER } from '../actions/session_actions';
 
 
 const alertsReducer = (state = {}, action) => {
@@ -7,8 +8,9 @@ const alertsReducer = (state = {}, action) => {
 
   switch (action.type) {
     case RECEIVE_ALERTS:
-      // debugger
       return action.payload.alerts;
+    case LOGOUT_CURRENT_USER:
+      return {};
     default:
       return state;
   }

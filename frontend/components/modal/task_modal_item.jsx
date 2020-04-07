@@ -1,9 +1,9 @@
 import React from 'react';
 import SVG from '../svg';
-import { dateToWords, titleize } from '../../helpers/helper';
+import { titleize } from '../../helpers/helper';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { formatJavascriptDate } from '../../helpers/helper';
+import { formatJavascriptDate, dateToWords } from '../../helpers/date_helper';
 
 class TaskModalItem extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class TaskModalItem extends React.Component {
 
   handleChange(field) {
     event.preventDefault();
-    let otherStatus = this.state.status === 'Finished' ? 'In Progress' : 'Finished';
+    let otherStatus = this.state.status === 'done' ? 'doing' : 'done';
     let newValue = field === 'status' ? otherStatus : event.target.value;
     
     this.setState({ [field]: newValue });
@@ -51,7 +51,7 @@ class TaskModalItem extends React.Component {
     let task = tasks[taskId];
 
     let statusSvg, statusColor, statusTxt, color;
-    if (this.state.status === 'Finished') {
+    if (this.state.status === 'done') {
       statusSvg = 'x';
       statusTxt = 'Completed'
       statusColor = 'status green';

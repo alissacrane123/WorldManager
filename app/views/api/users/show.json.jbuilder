@@ -9,13 +9,13 @@ json.partial! "api/users/user", user: @user
 
 # if @user.id == current_user.id 
 
-#   json.projects do
-#     @user.projects.each do |project|
-#       json.set! project.id do 
-#         json.partial! "api/projects/project", project: project
-#       end
-#     end
-#   end
+  # json.projects do
+  #   @user.projects.each do |project|
+  #     json.set! project.id do 
+  #       json.extract! project, :id, :title, :owner_id, :category, :created_at
+  #     end
+  #   end
+  # end
 
 
 # end

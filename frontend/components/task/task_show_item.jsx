@@ -2,7 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import SVG from '../svg';
-import { titleize, formatJavascriptDate } from '../../helpers/helper';
+import { titleize } from '../../helpers/helper';
+import { formatJavascriptDate } from '../../helpers/date_helper';
 
 class TaskShowItem extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class TaskShowItem extends React.Component {
 
   completeTask() {
     event.preventDefault();
-    let task = Object.assign({}, this.props.task, { status: 'Finished' });
+    let task = Object.assign({}, this.props.task, { status: 'done' });
     
     this.props.updateTask(task);
     

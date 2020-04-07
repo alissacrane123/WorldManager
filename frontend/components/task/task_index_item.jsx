@@ -1,5 +1,6 @@
 import React from 'react';
-import { titleize, daysAgo, timeSince} from '../../helpers/helper';
+import { titleize } from '../../helpers/helper';
+import { daysAgo, timeSince} from '../../helpers/date_helper';
 import SVG from '../svg';
 
 const TaskIndexItem = ({ task, adminAccess, deleteTask, openModal }) => {

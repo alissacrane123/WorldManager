@@ -1,7 +1,7 @@
 
 import merge from 'lodash/merge';
 import { RECEIVE_PROJECT, RECEIVE_PROJECTS, RECEIVE_NEW_PROJECT, RECEIVE_DELETED_PROJECT } from '../actions/project_actions';
-import { LOGOUT_CURRENT_USER } from "../actions/session_actions";
+import { LOGOUT_CURRENT_USER, RECEIVE_CURRENT_USER } from "../actions/session_actions";
 
 const projectsReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -24,7 +24,6 @@ const projectsReducer = (state = {}, action) => {
       delete nextState[projectId];
       // debugger
       return nextState;
-
     case LOGOUT_CURRENT_USER:
       return {}
     default:

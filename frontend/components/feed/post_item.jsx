@@ -1,6 +1,7 @@
 import React from 'react';
 import SVG from '../svg';
-import { titleize, timeSince } from '../../helpers/helper'
+import { titleize } from '../../helpers/helper'
+import { timeSince } from '../../helpers/date_helper'
 
 const PostItem = ({ post, project, task, initials }) => {
 

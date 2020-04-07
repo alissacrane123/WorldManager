@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { formatJavascriptDate } from '../../helpers/helper';
+import { formatJavascriptDate } from '../../helpers/date_helper';
 import SVG from '../svg';
 
 class TaskForm extends React.Component {

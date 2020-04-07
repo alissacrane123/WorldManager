@@ -1,6 +1,6 @@
 class Api::SessionsController < ApplicationController
   def create
-    @user = User.includes(:teammates, :projects).find_by_credentials(
+    @user = User.includes( :projects, :teammates).find_by_credentials(
       params[:user][:email],
       params[:user][:password]
     )

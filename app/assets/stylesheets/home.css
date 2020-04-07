@@ -23,6 +23,8 @@
   /* margin: 0px 10%; */
     margin: 0 auto 30px auto;
     width: 730px;
+    max-height: 35vh;
+    overflow: scroll;
 }
 
  

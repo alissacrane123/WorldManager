@@ -6,7 +6,7 @@ import { openModal } from '../../actions/modal_actions';
 
 const msp = (state, ownProps) => ({
   currentUser: state.entities.users[state.session.id],
-  tasks: Object.values(state.entities.tasks).filter(task => task.status !== 'Finished')
+  tasks: Object.values(state.entities.tasks).filter(task => task.status !== 'done')
 });
 
 const mdp = dispatch => ({

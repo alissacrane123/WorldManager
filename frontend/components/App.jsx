@@ -19,18 +19,27 @@ const App = (props) => {
   let { pathname } = props.history.location;
 
   let cn = (pathname === '/signup' || pathname === '/login') ? '' : 'content';
+  
+  let component = null;
+
+  if (!['/signup', '/login'].includes(pathname)) {
+    component = <Route path="/" component={TopbarContainer} />;
+  }
 
   return (
     <div className="app-container">
       <ModalContainer />
-      <Route path="/" component={TopbarContainer} />
-
+     
+    
       <Switch>
         <AuthRoute path="/signup" component={SplashContainer} />
         <AuthRoute path="/login" component={SplashContainer} />
         <Route path="/" component={NavbarContainer} />
       </Switch>
 
+      { component }
+
+      
       <div id="content" className={cn}>
         <Switch>
           <ProtectedRoute path="/projects/:projectId" component={ProjectShowContainer} />

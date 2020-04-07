@@ -17,20 +17,16 @@ class TaskShow extends React.Component {
     let sections = Object.keys(projectTasks).map((el, i) => {
       let label = el === '0' ? 'Unassigned' : el
       return (
-        <TaskSection tasks={projectTasks[el]} filter={label} />
+        <TaskSection tasks={projectTasks[el]} filter={label} key={i}/>
       )
     })
-    // debugger
+
     return (
       <div id="task-show" className="show">
         <TaskFilterContainer />
 
         <div>
-          {/* <TaskSection tasks={allTasks} filter="All" /> */}
           { sections }
-          {/* <TaskSection tasks={upcomingTasks} filter="Upcoming" />
-          <TaskSection tasks={recentTasks} filter="Resent" />
-          <TaskSection tasks={overdueTasks} filter="Overdue" /> */}
         </div>
 
       </div>

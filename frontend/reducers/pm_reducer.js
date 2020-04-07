@@ -1,5 +1,7 @@
 import { RECEIVE_PMS, RECEIVE_PM } from '../actions/pm_actions';
 import { RECEIVE_ALERTS } from '../actions/alert_actions';
+import { LOGOUT_CURRENT_USER } from '../actions/session_actions';
+
 
 const pmsReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -11,7 +13,6 @@ const pmsReducer = (state = {}, action) => {
       delete nextState[pmId];
       return nextState;
     case RECEIVE_PMS:
-      // debugger
       return action.pms
     
     // case RECEIVE_DELETED_PROJECT:
@@ -20,6 +21,8 @@ const pmsReducer = (state = {}, action) => {
     //   return nextState;
     case RECEIVE_ALERTS:
       return action.payload.pms;
+    case LOGOUT_CURRENT_USER:
+      return {};
     default:
       return state;
   }

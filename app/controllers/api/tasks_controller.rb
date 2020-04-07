@@ -17,23 +17,61 @@ class Api::TasksController < ApplicationController
     @task = current_user.tasks.find(params[:id]).includes(:project, :user)
   end
 
+  def search
+    search, search_value = params[:search], params[:search_value]
+
+    user_id = current_user.id
+    project_id = current_user.projects.map { |proj| proj.id }
+
+    if search == 'upcoming'
+      tasks = Task.fetch_upcoming_tasks(user_id, project_id )
+    elsif search == 'overdue'
+      tasks = Task.fetch_overdue_tasks(user_id, project_id )
+    elsif search == 'week'
+      tasks = Task.includes(:user, :project).fetch_week_tasks(search_value, user_id, project_id)
+    end
+
+    @tasks = tasks
+    render "api/tasks/index"
+  end
+
   def index
     start_date, end_date, created_at = params[:start_date], params[:end_date], params[:created_at]
     user_id, project_id = params[:user_id], params[:project_id]
     status, priority = params[:status], params[:priority]
-    # debugger/
+    
     start_date = DateTime.strptime(start_date, '%m/%d/%Y').beginning_of_day
     end_date = DateTime.strptime(end_date, '%m/%d/%Y').end_of_day
 
+    if project_id == 'all'
+      project_id = current_user.projects.map { |proj| proj.id }
+    end
+
+    # label_values = ['upcoming', 'curr_week', 'curr_month', 'overdue']
+
 
     tasks = Task.where('user_id IN (?)', user_id)
-                      .where('project_id IN (?) OR project_id IS NULL', project_id)
-                      .where('due_date <= ? AND due_date >= ?', end_date, start_date)
-                      .where('status != ?', 'Finished')
+      .where('project_id IN (?) OR project_id IS NULL', project_id)
+      .where('due_date <= ? AND due_date >= ?', end_date, start_date)
+      .where('status IN (?)', status)
+      .where('priority IN (?)', priority)
+      # .where('status != ?', 'done')
+  
+
+    # if tasks.length < 10 && params[:label] == 'upcoming'
+    #   tasks = Task.where('user_id IN (?)', user_id)
+    #   .where('project_id IN (?) OR project_id IS NULL', project_id)
+    #   .where('due_date >= ?', start_date)
+    #   .where('status IN (?)', status)
+    #   .where('priority IN (?)', priority)
+    #   .order('due_date ASC')
+    #   .limit(10)    
+    # end
 
     # debugger
+
     @tasks = tasks
-    # debugger
+
   end
 
   # def index

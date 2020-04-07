@@ -7,16 +7,19 @@ import { updateTask, deleteTask } from '../../actions/task_actions';
 import { openModal } from '../../actions/modal_actions';
 
 const msp = (state, ownProps) => {
-  let tasks = Object.values(state.entities.tasks)
+  let tasks = Object.values(state.entities.tasks);
+  let projectId = Object.keys(state.entities.projects)[0];
+  let notStarted = tasks.filter(task => task.status === 'todo' && task.project_id == projectId);
+  let inProgress = tasks.filter(task => task.status === 'doing' && task.project_id == projectId);
+  let done = tasks.filter(task => task.status === 'done' && task.project_id == projectId);
   return {
-    notStarted: tasks.filter(task => task.status === 'Not Started'),
-    inProgress: tasks.filter(task => task.status === 'In Progress'),
-    finished: tasks.filter(task => task.status === 'Finished'),
+    notStarted: notStarted,
+    inProgress: inProgress,
+    done: done,
     currentUserId: state.session.id,
     userFilter: state.ui.filters.tasks.user,
     users: Object.values(state.entities.users),
-    adminAccess: Object.values(state.entities.projects)[0].adminAccess
-    // users: projectMemberSelector(state)
+    adminAccess: true
   }
 }
 

@@ -7,7 +7,6 @@ class Api::ProjectsController < ApplicationController
     @project.title = titleize(project_params[:title])
 
     if @project.save
-      # ProjectMembership.create!(user_id: @project.owner_id, project_id: @project.id, admin: "admin", accepted:true, inviter_id: @project.owner_id)
       @project.create_pm
       render "api/projects/show"
     else
@@ -21,11 +20,8 @@ class Api::ProjectsController < ApplicationController
 
   def index
     current_user_id = current_user.id
-    # @projects = Project.includes(:tasks, :members).where(owner_id: current_user_id); 
-    owned_projects = Project.includes(:tasks, :members).where(owner_id: current_user_id);
-    
-    member_projects = current_user.projects
-    @projects = owned_projects + member_projects
+    @projects = current_user.projects
+
   end
 
   def update
@@ -38,13 +34,9 @@ class Api::ProjectsController < ApplicationController
   end
 
   def destroy
-    # current_user.projects.find(params[:id]).destroy
     @project = Project.find(params[:id])
     @project.destroy!
-      render "api/projects/show"
-    # else 
-      # render json: @project.errors.full_messages
-    # end
+    render "api/projects/show"
   end
 
   private

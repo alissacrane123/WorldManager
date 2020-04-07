@@ -8,7 +8,7 @@ class CalendarDay extends React.Component {
     super(props);
     let date = this.formatDateString();
     // let emptyTask = { title: '', user_id: this.props.user.id, status: 'Not Started', due_date: '', description: '', priority: 'low' }
-    let emptyTask = { title: '', user_id: this.props.user.id, status: 'Not Started', description: '', priority: 'low' }
+    let emptyTask = { title: '', user_id: this.props.user.id, status: 'todo', description: '', priority: 'low' }
     // emptyTask = Object.assign(emptyTask, {due_date: date})
    
     this.state = {
@@ -21,7 +21,7 @@ class CalendarDay extends React.Component {
 
   completeTask(task) {
     event.preventDefault();
-    let newTask = Object.assign({}, task, { status: 'Finished' }, {due_date: this.formatDateString()});
+    let newTask = Object.assign({}, task, { status: 'done' }, {due_date: this.formatDateString()});
 
     this.props.updateTask(newTask);
 

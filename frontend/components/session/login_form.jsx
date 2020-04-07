@@ -21,6 +21,7 @@ class LoginForm extends React.Component {
   demoLogin() {
     event.preventDefault();
     this.props.login({email: 'alissa@gmail.com', password: 'password'})
+      // .then(this.props.history.push('/'))
   }
 
   render() {

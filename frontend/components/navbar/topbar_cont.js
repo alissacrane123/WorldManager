@@ -6,11 +6,12 @@ import { openModal, closeModal } from "../../actions/modal_actions";
 import { fetchAlerts } from '../../actions/alert_actions';
 
 const msp = (state, ownProps) => {
-  
+  // debugger
   return {
     currentUser: state.entities.users[state.session.id],
     newPms: Object.values(state.entities.pms).filter(pm => !pm.accepted),
-    completedPms: Object.values(state.entities.pms).filter(pm => pm.accepted)
+    completedPms: Object.values(state.entities.pms).filter(pm => pm.accepted),
+    pathname: ownProps.history.location.pathname
   };
 };
 
