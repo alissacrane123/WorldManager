@@ -3,9 +3,14 @@ import * as PMAPI from '../util/pm_api_util';
 export const RECEIVE_PM = 'RECEIVE_PM';
 export const RECEIVE_PMS = 'RECEIVE_PMS';
 export const RECEIVE_PM_ERRORS = 'RECEIVE_PM_ERRORS';
+export const  RECEIVE_UPDATED_PM = 'RECEIVE_UPDATED_PM';
 
 export const receivePM = payload => ({
   type: RECEIVE_PM,
+  payload
+})
+export const receiveUpdatedPM = payload => ({
+  type: RECEIVE_UPDATED_PM,
   payload
 })
 
@@ -40,7 +45,7 @@ export const createPM = pm => dispatch => {
 export const updatePM = pm => dispatch => {
   return (
     PMAPI.updatePM(pm)
-      .then(payload => dispatch(receivePM(payload)),
+      .then(payload => dispatch(receiveUpdatedPM(payload)),
         err => dispatch(receiveErrors(err.responseJSON)))
   )
 }

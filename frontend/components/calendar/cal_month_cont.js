@@ -21,7 +21,7 @@ const msp = (state, ownProps) => {
       end_date: `${monthStr}/${lastDay}/${year}`,
       created_at: null,
       user_id: [state.session.id],
-      project_id: 'all',
+      project_id: ['all'],
       status: ["todo", "doing"],
       priority: ["low", "med", "high"],
     }

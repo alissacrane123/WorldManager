@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import TaskShow from './task_show';
-import { selectRecentTasks, selectUpcomingTasks, projectTasks, selectOverdueTasks, selectProjectTasks } from '../../helpers/helper';
+import { selectRecentTasks, selectTasksBetweenDates,selectUpcomingTasks, projectTasks, selectOverdueTasks, selectProjectTasks } from '../../helpers/helper';
 import { updateFilter } from '../../actions/filter_actions';
-
+import { formatJavascriptDate, dateInOneWeek } from '../../helpers/date_helper';
 import { fetchProjects, fetchProject } from '../../actions/project_actions';
 
 import { fetchTasks, updateTask } from '../../actions/task_actions';
@@ -11,6 +11,20 @@ import { openModal } from '../../actions/modal_actions';
 const msp = (state, ownProps) => {
   let acceptedTasks = Object.values(state.entities.tasks)
   let recentTasks = [];
+  // let startDate, endDate;
+  if (state.ui.filters.tasks) {
+
+    let { startDate, endDate} = state.ui.filters.tasks;
+  
+  let filterTasks;
+  if (startDate && endDate) {
+    acceptedTasks = selectTasksBetweenDates(startDate, endDate, acceptedTasks)
+  } else {
+    // filterTasks = acceptedTasks;
+    startDate = formatJavascriptDate(new Date());
+    endDate = dateInOneWeek();
+  }
+  }
   let projectTasks = selectProjectTasks(acceptedTasks)
   return {
     currentUserId: state.session.id,

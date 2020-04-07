@@ -39,36 +39,39 @@ class Api::TasksController < ApplicationController
     start_date, end_date, created_at = params[:start_date], params[:end_date], params[:created_at]
     user_id, project_id = params[:user_id], params[:project_id]
     status, priority = params[:status], params[:priority]
+    unassigned = params[:unassigned]
     
     start_date = DateTime.strptime(start_date, '%m/%d/%Y').beginning_of_day
     end_date = DateTime.strptime(end_date, '%m/%d/%Y').end_of_day
 
-    if project_id == 'all'
-      project_id = current_user.projects.map { |proj| proj.id }
+    if project_id.include?('all')
+      prev = project_id
+      projects = Project.joins(:project_memberships)
+        .where(project_memberships: {accepted: true, user_id: current_user.id})
+      # debugger
+      # project_id = current_user.projects.map { |proj| proj.id }
+      project_id = projects.map { |proj| proj.id }
+      project_id = project_id.reject { |id| prev.include?(id.to_s)}
+      # debugger
     end
 
-    # label_values = ['upcoming', 'curr_week', 'curr_month', 'overdue']
-
-
-    tasks = Task.where('user_id IN (?)', user_id)
-      .where('project_id IN (?) OR project_id IS NULL', project_id)
-      .where('due_date <= ? AND due_date >= ?', end_date, start_date)
-      .where('status IN (?)', status)
-      .where('priority IN (?)', priority)
-      # .where('status != ?', 'done')
+    if unassigned == 'true'
+      tasks = Task.where('user_id IN (?)', user_id)
+        .where('project_id IN (?) OR project_id IS NULL', project_id)
+        .where('due_date <= ? AND due_date >= ?', end_date, start_date)
+        .where('status IN (?)', status)
+        .where('priority IN (?)', priority)
+        # .where('status != ?', 'done')
+    else 
+      tasks = Task.where('user_id IN (?)', user_id)
+        .where('project_id IN (?)', project_id)
+        .where('due_date <= ? AND due_date >= ?', end_date, start_date)
+        .where('status IN (?)', status)
+        .where('priority IN (?)', priority)
+    end
   
 
-    # if tasks.length < 10 && params[:label] == 'upcoming'
-    #   tasks = Task.where('user_id IN (?)', user_id)
-    #   .where('project_id IN (?) OR project_id IS NULL', project_id)
-    #   .where('due_date >= ?', start_date)
-    #   .where('status IN (?)', status)
-    #   .where('priority IN (?)', priority)
-    #   .order('due_date ASC')
-    #   .limit(10)    
-    # end
 
-    # debugger
 
     @tasks = tasks
 

@@ -1,5 +1,6 @@
 import { RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER } from '../actions/session_actions';
 import { RECEIVE_PROJECT, RECEIVE_NEW_PM, RECEIVE_PROJECTS } from '../actions/project_actions';
+import  { RECEIVE_UPDATED_PM}from '../actions/pm_actions';
 
 const usersReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -20,6 +21,8 @@ const usersReducer = (state = {}, action) => {
       return state;
     case LOGOUT_CURRENT_USER:
       return {};
+    case RECEIVE_UPDATED_PM:
+      return Object.assign(nextState, { [action.payload.user.id]: action.payload.user});
     default: 
       return state;
   }

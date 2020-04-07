@@ -36,6 +36,11 @@ class User < ApplicationRecord
     self.session_token
   end
 
+  def get_accepted_projects 
+    Project.joins(:project_memberships)
+        .where(project_memberships: {accepted: true, user_id: self.id})
+  end
+
 
   private
 

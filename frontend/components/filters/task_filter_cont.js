@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { selectRecentTasks, selectUpcomingTasks, selectAcceptedTasks, selectOverdueTasks } from '../../helpers/helper';
+import { selectRecentTasks, selectTasksBetweenDates, selectUpcomingTasks, selectAcceptedTasks, selectOverdueTasks } from '../../helpers/helper';
 import { dateInOneWeek, formatJavascriptDate } from '../../helpers/date_helper';
 
 
@@ -18,20 +18,35 @@ const msp = (state, ownProps) => {
   let currentUser = state.entities.users[state.session.id];
   let projectIds = currentUser.projects.map(project => project.id);
   
+  let { startDate, endDate } = state.ui.filters.tasks;
+  let filterTasks;
+  if (startDate && endDate) {
+    filterTasks = selectTasksBetweenDates(startDate, endDate, acceptedTasks)
+  } else {
+    filterTasks = acceptedTasks;
+    startDate = formatJavascriptDate(new Date());
+    endDate = dateInOneWeek();
+  }
+  // debugger
   return {
     currentUser: currentUser,
+    currentUserProjects: currentUser.projects,
     users: Object.values(state.entities.users),
     allTasks: acceptedTasks,
+    filterStart: startDate,
+    filterEnd: endDate,
     recentTasks: selectRecentTasks(acceptedTasks),
     upcomingTasks: selectUpcomingTasks(acceptedTasks),
     overdueTasks: selectOverdueTasks(acceptedTasks),
     defaultFilter: {
-      start_date: formatJavascriptDate(new Date()),
-      end_date: dateInOneWeek(),
+      start_date: startDate,
+      end_date: endDate,
+      // start_date: formatJavascriptDate(new Date()),
+      // end_date: dateInOneWeek(),
       created_at: null,
       user_id: [state.session.id],
-      project_id: 'all',
-      unnassigned: true,
+      project_id: ['all'],
+      unassigned: true,
       status: ["todo", "doing"],
       priority: ["low", "med", "high"]
     }

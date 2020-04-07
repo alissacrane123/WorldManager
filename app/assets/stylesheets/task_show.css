@@ -34,8 +34,10 @@
 }
 
 .show > div:last-of-type {
-      margin-left: 16vw;
+      /* margin-left: 16vw; */
   flex-grow: 1;
+  padding: 3vw 5vw;
+
 }
 
 #task-section {

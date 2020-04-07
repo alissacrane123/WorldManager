@@ -34,7 +34,7 @@ const msp = (state, ownProps) => {
       end_date: dateInOneWeek(),
       created_at: null,
       user_id: [state.session.id],
-      project_id: 'all',
+      project_id: ['all'],
       status: ["todo", "doing"],
       priority: ["low", "med", "high"],
       label: 'upcoming'

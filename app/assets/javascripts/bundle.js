@@ -173,7 +173,7 @@ var closeModal = function closeModal() {
 /*!****************************************!*\
   !*** ./frontend/actions/pm_actions.js ***!
   \****************************************/
-/*! exports provided: RECEIVE_PM, RECEIVE_PMS, RECEIVE_PM_ERRORS, receivePM, receivePMs, receiveErrors, fetchPMs, createPM, updatePM */
+/*! exports provided: RECEIVE_PM, RECEIVE_PMS, RECEIVE_PM_ERRORS, RECEIVE_UPDATED_PM, receivePM, receiveUpdatedPM, receivePMs, receiveErrors, fetchPMs, createPM, updatePM */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -181,7 +181,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PM", function() { return RECEIVE_PM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PMS", function() { return RECEIVE_PMS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PM_ERRORS", function() { return RECEIVE_PM_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_UPDATED_PM", function() { return RECEIVE_UPDATED_PM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receivePM", function() { return receivePM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveUpdatedPM", function() { return receiveUpdatedPM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receivePMs", function() { return receivePMs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchPMs", function() { return fetchPMs; });
@@ -192,9 +194,16 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_PM = 'RECEIVE_PM';
 var RECEIVE_PMS = 'RECEIVE_PMS';
 var RECEIVE_PM_ERRORS = 'RECEIVE_PM_ERRORS';
+var RECEIVE_UPDATED_PM = 'RECEIVE_UPDATED_PM';
 var receivePM = function receivePM(payload) {
   return {
     type: RECEIVE_PM,
+    payload: payload
+  };
+};
+var receiveUpdatedPM = function receiveUpdatedPM(payload) {
+  return {
+    type: RECEIVE_UPDATED_PM,
     payload: payload
   };
 };
@@ -231,7 +240,7 @@ var createPM = function createPM(pm) {
 var updatePM = function updatePM(pm) {
   return function (dispatch) {
     return _util_pm_api_util__WEBPACK_IMPORTED_MODULE_0__["updatePM"](pm).then(function (payload) {
-      return dispatch(receivePM(payload));
+      return dispatch(receiveUpdatedPM(payload));
     }, function (err) {
       return dispatch(receiveErrors(err.responseJSON));
     });
@@ -737,7 +746,7 @@ var msp = function msp(state, ownProps) {
       end_date: "".concat(monthStr, "/").concat(lastDay, "/").concat(year),
       created_at: null,
       user_id: [state.session.id],
-      project_id: 'all',
+      project_id: ['all'],
       status: ["todo", "doing"],
       priority: ["low", "med", "high"]
     }
@@ -2021,25 +2030,38 @@ function (_React$Component) {
       expanded: {
         Owner: false,
         Project: false,
-        Status: false
+        Status: false,
+        date: false
       }
     };
     _this.handleDateChange = _this.handleDateChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.expandFilter = _this.expandFilter.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(TaskFilter, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var filter = Object.assign({}, this.state.filter); // debugger
-
-      this.props.fetchTasks(filter); // .then(this.props.updateFilter('tasks', filter))
+      var filter = Object.assign({}, this.state.filter);
+      var today = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_4__["formatJavascriptDate"])(new Date());
+      var date = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_4__["dateInOneWeek"])();
+      this.props.fetchTasks(filter).then(this.props.updateFilter('tasks', {
+        startDate: today,
+        endDate: date
+      })); // .then(this.props.updateFilter('tasks', filter))
     }
   }, {
     key: "handleChange",
     value: function handleChange(field, value, filter) {
-      if (!this.state.filter[field].includes(value)) {
+      // debugger
+      if (field == 'unassigned') {
+        this.setState({
+          filter: _objectSpread({}, this.state.filter, {
+            unassigned: !this.state.filter.unassigned
+          })
+        }, this.handleSubmit);
+      } else if (!this.state.filter[field].includes(value)) {
         this.setState({
           filter: _objectSpread({}, this.state.filter, _defineProperty({}, field, [].concat(_toConsumableArray(this.state.filter[field]), [value])))
         }, this.handleSubmit);
@@ -2067,20 +2089,46 @@ function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit() {
+      var _this2 = this;
+
+      // debugger
+      var _this$props = this.props,
+          filterStart = _this$props.filterStart,
+          filterEnd = _this$props.filterEnd;
+      var _this$state$filter = this.state.filter,
+          start_date = _this$state$filter.start_date,
+          end_date = _this$state$filter.end_date;
       var filters = Object.assign({}, this.state.filter);
-      this.props.fetchTasks(filters);
+      this.props.fetchTasks(filters).then(function () {
+        if (start_date != filterStart || end_date != filterEnd) {
+          _this2.props.updateFilter('tasks', {
+            startDate: start_date,
+            endDate: end_date
+          });
+        }
+      });
     }
   }, {
     key: "expandFilter",
     value: function expandFilter(filter) {
+      var filters = Object.keys(this.state.expanded);
+      var others = filters.filter(function (el) {
+        return el != filter;
+      });
+      var obj = {};
+      others.forEach(function (el) {
+        return obj[el] = false;
+      }); // debugger
+      // this.setState({ expanded: { ...this.state.expanded, [filter]: !this.state.expanded[filter] } })
+
       this.setState({
-        expanded: _objectSpread({}, this.state.expanded, _defineProperty({}, filter, !this.state.expanded[filter]))
+        expanded: _objectSpread({}, obj, _defineProperty({}, filter, !this.state.expanded[filter]))
       });
     }
   }, {
     key: "renderFilter",
     value: function renderFilter(filter, inputs) {
-      var _this2 = this;
+      var _this3 = this;
 
       var cn = this.state.expanded[filter] ? 'dd' : 'hide';
       var selected = this.getSelected(filter).map(function (el, i) {
@@ -2097,27 +2145,33 @@ function (_React$Component) {
         })));
       });
       var cnSel = selected.length > 0 ? 'no-b' : 'header';
+      var rotate = cn === 'hide' ? '' : 'rotate(180)';
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "filter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.expandFilter(filter);
+          return _this3.expandFilter(filter);
         },
         className: cnSel
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, filter)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, filter), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        name: "skinny-down",
+        h: 12,
+        w: 12,
+        rotate: rotate,
+        fill: "gray",
+        transform: "scale(0.5)"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: cn
-      }, inputs), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: cnSel
-      }, selected));
+      }, inputs));
     }
   }, {
     key: "getSelected",
     value: function getSelected(filter) {
-      var _this$state$filter = this.state.filter,
-          user_id = _this$state$filter.user_id,
-          project_id = _this$state$filter.project_id,
-          status = _this$state$filter.status,
-          unnassigned = _this$state$filter.unnassigned;
+      var _this$state$filter2 = this.state.filter,
+          user_id = _this$state$filter2.user_id,
+          project_id = _this$state$filter2.project_id,
+          status = _this$state$filter2.status,
+          unassigned = _this$state$filter2.unassigned;
       var _this$props$currentUs = this.props.currentUser,
           teammates = _this$props$currentUs.teammates,
           projects = _this$props$currentUs.projects;
@@ -2131,8 +2185,8 @@ function (_React$Component) {
         selected = projects.filter(function (el) {
           return project_id.includes(el.id);
         });
-        unnassigned ? selected.push({
-          title: 'Unnassigned'
+        unassigned ? selected.push({
+          title: 'Unassigned'
         }) : null;
       } else {
         selected = status.map(function (stat) {
@@ -2147,21 +2201,34 @@ function (_React$Component) {
   }, {
     key: "renderInputs",
     value: function renderInputs(array, key, filter) {
-      var _this3 = this;
+      var _this4 = this;
 
-      var unnassigned = this.state.filter.unnassigned;
+      var unassigned = this.state.filter.unassigned;
+      var ids = this.state.filter[key];
+      var notSelected = [];
+      var selected = [];
+      array.forEach(function (el) {
+        var id = key === 'status' ? el : el.id;
+
+        if (ids.includes(id)) {
+          selected.push(el);
+        } else {
+          notSelected.push(el);
+        }
+      });
+      var ordered = selected.concat(notSelected);
       var inputs = array.map(function (el, i) {
-        var ids = _this3.state.filter[key];
         var id = key === 'status' ? el : el.id;
         var label = key === 'user_id' ? el.name : el;
         label = key === 'project_id' ? el.title : label;
+        var checked = ids.includes(id) && !ids.includes('all') || !ids.includes(id) && ids.includes('all');
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "checkbox",
-          checked: ids.includes(id),
+          checked: checked,
           onChange: function onChange() {
-            return _this3.handleChange(key, id, filter);
+            return _this4.handleChange(key, id, filter);
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(label)));
       });
@@ -2171,11 +2238,11 @@ function (_React$Component) {
           key: 900
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "checkbox",
-          checked: unnassigned,
+          checked: unassigned,
           onChange: function onChange() {
-            return _this3.handleChange('unnassigned', !unnassigned, filter);
+            return _this4.handleChange('unassigned', !unassigned, filter);
           }
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Unnassigned")));
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "unassigned")));
       }
 
       return inputs;
@@ -2183,7 +2250,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var currentUser = this.props.currentUser;
       var teammates = this.renderInputs(currentUser.teammates, "user_id", "Owner");
@@ -2192,21 +2259,36 @@ function (_React$Component) {
       var userFilter = this.renderFilter('Owner', teammates);
       var projectFilter = this.renderFilter('Project', projects);
       var statusFilter = this.renderFilter('Status', statuses);
+      var rotate = this.state.expanded.date ? 'rotate(180)' : '';
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-filter"
       }, userFilter, projectFilter, statusFilter, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dates"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        className: "filter"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this5.expandFilter('date');
+        },
+        className: "no-b"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Dates"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        name: "skinny-down",
+        h: 12,
+        w: 12,
+        rotate: rotate,
+        fill: "gray",
+        transform: "scale(0.5)"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: this.state.expanded.date ? 'dd dates' : 'hide'
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
-          return _this4.handleDateChange('start_date', event);
+          return _this5.handleDateChange('start_date', event);
         },
         selected: new Date(this.state.filter.start_date)
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
-          return _this4.handleDateChange('end_date', event);
+          return _this5.handleDateChange('end_date', event);
         },
         selected: new Date(this.state.filter.end_date)
-      })));
+      })))));
     }
   }]);
 
@@ -2250,20 +2332,39 @@ var msp = function msp(state, ownProps) {
   var projectIds = currentUser.projects.map(function (project) {
     return project.id;
   });
+  var _state$ui$filters$tas = state.ui.filters.tasks,
+      startDate = _state$ui$filters$tas.startDate,
+      endDate = _state$ui$filters$tas.endDate;
+  var filterTasks;
+
+  if (startDate && endDate) {
+    filterTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectTasksBetweenDates"])(startDate, endDate, acceptedTasks);
+  } else {
+    filterTasks = acceptedTasks;
+    startDate = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(new Date());
+    endDate = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["dateInOneWeek"])();
+  } // debugger
+
+
   return {
     currentUser: currentUser,
+    currentUserProjects: currentUser.projects,
     users: Object.values(state.entities.users),
     allTasks: acceptedTasks,
+    filterStart: startDate,
+    filterEnd: endDate,
     recentTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectRecentTasks"])(acceptedTasks),
     upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectUpcomingTasks"])(acceptedTasks),
     overdueTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectOverdueTasks"])(acceptedTasks),
     defaultFilter: {
-      start_date: Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(new Date()),
-      end_date: Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["dateInOneWeek"])(),
+      start_date: startDate,
+      end_date: endDate,
+      // start_date: formatJavascriptDate(new Date()),
+      // end_date: dateInOneWeek(),
       created_at: null,
       user_id: [state.session.id],
-      project_id: 'all',
-      unnassigned: true,
+      project_id: ['all'],
+      unassigned: true,
       status: ["todo", "doing"],
       priority: ["low", "med", "high"]
     }
@@ -2462,7 +2563,7 @@ var msp = function msp(state, ownProps) {
       end_date: Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_4__["dateInOneWeek"])(),
       created_at: null,
       user_id: [state.session.id],
-      project_id: 'all',
+      project_id: ['all'],
       status: ["todo", "doing"],
       priority: ["low", "med", "high"],
       label: 'upcoming'
@@ -4648,6 +4749,11 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var getPath = function getPath(iconName, props) {
   switch (iconName) {
+    case 'skinny-down':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
+        d: "M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z"
+      }));
+
     case 'fun':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
         d: "M13.5 20c1.104 0 2 .896 2 2s-.896 2-2 2-2-.896-2-2 .896-2 2-2zm-10.502 4c-.598 0-2.429-1.754-2.747-4.304-.424-3.414 2.124-5.593 4.413-5.87.587-1.895 2.475-4.684 6.434-4.77.758-1.982 3.409-4.507 6.84-3.186 1.647.634 3.101 2.101 3.705 3.737.231.624-.71.965-.937.347-.51-1.378-1.737-2.615-3.127-3.151-2.577-.99-4.695.731-5.422 2.298 1.107.12 2.092.455 2.755.889.909.594 1.473 1.558 1.508 2.577.031.889-.33 1.687-.991 2.187-.654.496-1.492.643-2.298.404-.966-.286-1.748-1.076-2.143-2.169-.287-.793-.384-1.847-.178-2.921-3.064.185-4.537 2.306-5.075 3.742 1.18.102 2.211.574 2.831 1.012.959.676 1.497 1.6 1.513 2.599.015.859-.363 1.664-1.011 2.155-.608.46-1.535.599-2.363.348-.961-.289-1.7-1.041-2.079-2.118-.255-.723-.375-1.776-.204-2.919-1.631.361-3.512 1.995-3.178 4.685.18 1.448 1.008 2.888 2.015 3.502.43.261.242.926-.261.926zm17.308-10.026l1.205 2.225 2.489.459-1.744 1.833.333 2.509-2.283-1.092-2.283 1.092.333-2.509-1.744-1.833 2.489-.459 1.205-2.225zm-14.85.822c-.202 1.024-.128 1.993.113 2.678.347.984.966 1.355 1.424 1.492.604.183 1.175.036 1.472-.187.388-.294.624-.808.614-1.34-.011-.673-.398-1.313-1.09-1.801-.545-.385-1.479-.803-2.533-.842zm6.373-4.716c-.226 1.018-.11 1.99.099 2.569.287.79.828 1.356 1.486 1.55.501.148 1.014.06 1.411-.242.398-.301.615-.795.596-1.355-.025-.705-.409-1.353-1.056-1.775-.511-.334-1.448-.657-2.536-.747zm-7.329-10.08l1.468 2.711 3.032.558-2.124 2.234.405 3.057-2.781-1.331-2.781 1.331.405-3.057-2.124-2.234 3.032-.558 1.468-2.711zm17 0c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5z"
@@ -5520,6 +5626,11 @@ var TaskSection = function TaskSection(_ref) {
       task: task
     });
   });
+
+  if (!header) {
+    header = "".concat(filter, " Tasks");
+  }
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
     className: "task list"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -5634,9 +5745,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _task_show__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task_show */ "./frontend/components/task/task_show.jsx");
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
 /* harmony import */ var _actions_filter_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/filter_actions */ "./frontend/actions/filter_actions.js");
-/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/project_actions */ "./frontend/actions/project_actions.js");
-/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
-/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
+/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+
 
 
 
@@ -5647,7 +5760,23 @@ __webpack_require__.r(__webpack_exports__);
 
 var msp = function msp(state, ownProps) {
   var acceptedTasks = Object.values(state.entities.tasks);
-  var recentTasks = [];
+  var recentTasks = []; // let startDate, endDate;
+
+  if (state.ui.filters.tasks) {
+    var _state$ui$filters$tas = state.ui.filters.tasks,
+        startDate = _state$ui$filters$tas.startDate,
+        endDate = _state$ui$filters$tas.endDate;
+    var filterTasks;
+
+    if (startDate && endDate) {
+      acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectTasksBetweenDates"])(startDate, endDate, acceptedTasks);
+    } else {
+      // filterTasks = acceptedTasks;
+      startDate = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_4__["formatJavascriptDate"])(new Date());
+      endDate = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_4__["dateInOneWeek"])();
+    }
+  }
+
   var projectTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectProjectTasks"])(acceptedTasks);
   return {
     currentUserId: state.session.id,
@@ -5666,19 +5795,19 @@ var msp = function msp(state, ownProps) {
 var mdp = function mdp(dispatch) {
   return {
     fetchProjects: function fetchProjects() {
-      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_4__["fetchProjects"])());
+      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_5__["fetchProjects"])());
     },
     fetchProject: function fetchProject(projectId) {
-      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_4__["fetchProject"])(projectId));
+      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_5__["fetchProject"])(projectId));
     },
     fetchTasks: function fetchTasks(filter) {
-      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_5__["fetchTasks"])(filter));
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_6__["fetchTasks"])(filter));
     },
     updateTask: function updateTask(task) {
-      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_5__["updateTask"])(task));
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_6__["updateTask"])(task));
     },
     openModal: function openModal(modal) {
-      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_6__["openModal"])(modal));
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_7__["openModal"])(modal));
     },
     updateFilter: function updateFilter(entity, value) {
       return dispatch(Object(_actions_filter_actions__WEBPACK_IMPORTED_MODULE_3__["updateFilter"])(entity, value));
@@ -6542,6 +6671,13 @@ var pmsReducer = function pmsReducer() {
       var pmId = Object.keys(action.payload.pm)[0];
       delete nextState[pmId];
       return nextState;
+    // might be same as above
+
+    case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_UPDATED_PM"]:
+      // let pmIdd = Object.keys(action.payload.pm)[0];
+      // delete nextState[pmIdd];
+      // return nextState;
+      return Object.assign(nextState, action.payload.pm);
 
     case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PMS"]:
       return action.pms;
@@ -6885,7 +7021,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -6917,6 +7055,9 @@ var usersReducer = function usersReducer() {
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
       return {};
+
+    case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_UPDATED_PM"]:
+      return Object.assign(nextState, _defineProperty({}, action.payload.user.id, action.payload.user));
 
     default:
       return state;

@@ -6,7 +6,11 @@ const TaskSection = ({ tasks, filter, header }) => {
   // debugger
   let taskItems = tasks.map((task, i) => (
     <TaskShowItemContainer key={i} task={task}/>
-  ))
+  ));
+
+  if (!header) {
+    header = `${filter} Tasks`;
+  }
   
   return (
     <section className="task list">
