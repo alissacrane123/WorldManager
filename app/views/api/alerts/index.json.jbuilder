@@ -1,7 +1,7 @@
 @alerts.each do |alert|
 
   json.alerts do 
-    json.set! alert.alertable_id do 
+    json.set! alert.id do 
       json.extract! alert, :id, :user_id, :checked, :alertable_id, :alertable_type
     end
   end 

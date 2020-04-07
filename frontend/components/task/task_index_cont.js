@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import TaskIndex from './task_index';
-import { updateUserFilter } from '../../actions/filter_actions';
+import { updateFilter } from '../../actions/filter_actions';
 
 import { fetchProjects, fetchProject } from '../../actions/project_actions';
 import { updateTask, deleteTask } from '../../actions/task_actions';
@@ -29,7 +29,7 @@ const mdp = dispatch => ({
   updateTask: (task) => dispatch(updateTask(task)),
   openModal: (modal) => dispatch(openModal(modal)),
   deleteTask: (taskId) => dispatch(deleteTask(taskId)),
-  updateFilter: (entity, value) => dispatch(updateUserFilter(entity, value))
+  updateFilter: (entity, value) => dispatch(updateFilter(entity, value))
 })
 
 export default connect(msp, mdp)(TaskIndex);

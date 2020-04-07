@@ -2,7 +2,7 @@ class Api::AlertsController < ApplicationController
 
   def index
    
-    # if current_user
+    if current_user
       # @alerts = Alert.includes(alertable: [:project, :user]).where('user_id = ?', current_user.id)
       task_alerts = Alert.includes(alertable: [:project, :user]).where('user_id = ? AND alertable_type = ?', current_user.id, 'Task')
 
@@ -11,7 +11,7 @@ class Api::AlertsController < ApplicationController
       @alerts = task_alerts + pm_alerts
     # else 
       # @alerts = []
-    # end
+    end
   end
 
   def create

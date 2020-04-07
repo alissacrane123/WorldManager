@@ -10,7 +10,7 @@ class Task < ApplicationRecord
     through: :project,
     source: :owner
 
-  has_many :alerts, :as => :alertable
+  has_many :alerts, :as => :alertable, dependent: :destroy
 
   def self.create_alerts 
     Task.all.each do |task|
@@ -88,3 +88,11 @@ class Task < ApplicationRecord
     end
   end
 end
+# (byebug) user_id
+# 9
+# (byebug) project_id
+# [11, 12, 13]
+# (byebug) search
+# "week"
+# (byebug) search_
+# "04/12/2020"

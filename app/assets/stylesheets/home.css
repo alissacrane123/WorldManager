@@ -8,6 +8,8 @@
   /* height: 100vh; */
   padding: 20px;
   margin: 0 auto;
+  display:flex;
+  flex-direction: column;
 }
 
 #home h1 {
@@ -23,14 +25,15 @@
   /* margin: 0px 10%; */
     margin: 0 auto 30px auto;
     width: 730px;
-    max-height: 35vh;
+    /* max-height: 35vh; */
     overflow: scroll;
 }
 
  
 
-#home section:first-of-type {
-  margin: 70px auto 30px auto;
+#home section.list.home {
+  /* margin: 70px auto 30px auto; */
+  /* height:50%; */
 }
 
 
@@ -54,13 +57,13 @@ ul#project-index {
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 ul#project-index li {
   padding: 10px;
   min-height: 50px;
-  width: 30%;
+  width: 33.333%;
   border-radius: 4px;
 }
 

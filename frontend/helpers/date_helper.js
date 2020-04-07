@@ -1,3 +1,5 @@
+
+// accepts JS date : new Date()
 export const formatJavascriptDate = (date) => {
   let year = date.getFullYear();
   let month = 1 + date.getMonth();
@@ -95,3 +97,4 @@ export const dateInOneWeek = () => {
   let nextweekStr = `${month}/${day}/${year}`;
   return nextweekStr;
 }
+

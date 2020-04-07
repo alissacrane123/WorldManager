@@ -7,7 +7,7 @@ class ProjectMembership < ApplicationRecord
   belongs_to :user
   belongs_to :inviter, foreign_key: :inviter_id, class_name: :User, optional: true
 
-  has_many :alerts, :as => :alertable
+  has_many :alerts, :as => :alertable, dependent: :destroy
 
 
   def create_alerts(user)

@@ -1,11 +1,11 @@
-export const UPDATE_USER_FILTER = 'UPDATE_USER_FILTER';
+export const UPDATE_FILTER = 'UPDATE_FILTER';
 
 //  entity = 'tasks', value = {user: userId }
 
-export const updateUserFilter = (entity, value)  => {
+export const updateFilter = (entity, value)  => {
 
   return {
-    type: UPDATE_USER_FILTER,
+    type: UPDATE_FILTER,
     entity, value
   }
 }

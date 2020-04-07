@@ -15,18 +15,18 @@ class Topbar extends React.Component {
 
 
   render() {
-    let { currentUser, history, newPms, completedPms } = this.props;
+    let { currentUser, history, newPms, completedPms, allPms } = this.props;
     
     if (!currentUser) return null;
 
     let cn = this.state.ddOpen ? 'dd' : 'dd hide'
-
+    // debugger
     return (
       <nav id="topbar" className="topbar si">
         <h1>Welcome, {currentUser.fname}</h1>
         <div className="notify" onClick={() => this.setState({ ddOpen: !this.state.ddOpen})}>
           <SVG className="sb" h={24} w={24} name="notify" fill="black" />
-          {newPms.length > 0 ? <div id="notify-num">{newPms.length}</div> : null }
+          {allPms.length > 0 ? <div id="notify-num">{allPms.length}</div> : null }
   
           <div className={cn}>
             <h3>Notifications</h3>

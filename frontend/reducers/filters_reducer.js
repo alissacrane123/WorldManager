@@ -1,4 +1,4 @@
-import { UPDATE_USER_FILTER } from "../actions/filter_actions";
+import { UPDATE_FILTER } from "../actions/filter_actions";
 
 const defaultFilters = Object.freeze({
   tasks: { user: null },
@@ -7,7 +7,8 @@ const defaultFilters = Object.freeze({
 
 const filtersReducer = (state = defaultFilters, action) => {
   Object.freeze(state);
-  if (action.type === UPDATE_USER_FILTER) {
+  if (action.type === UPDATE_FILTER) {
+    // 'tasks', {user: userId}
     let newFilter = {
       [action.entity]: action.value
     };

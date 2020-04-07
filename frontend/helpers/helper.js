@@ -35,6 +35,17 @@ export const selectRecentTasks = (tasks) => {
   return tasks.slice(0, 5);
 }
 
+// startDate and endDate are strings
+export const selectTasksBetweenDates = (startDate, endDate, tasks) => {
+  startDate = Date.parse(startDate);
+  endDate = Date.parse(endDate);
+  let selected = tasks.filter(task => {
+  
+    let dueDate = Date.parse(task.dueDate);
+    return dueDate >= startDate && dueDate <= endDate
+  });
+  return selected;
+}
 
 export const selectUpcomingTasks = (tasks) => {
   let date = Date.now() + 12096e5;
@@ -75,8 +86,9 @@ export const sortByUpdatedAt = (items) => {
 
 export const sortByDueDate = (tasks) => {
   // filter finished and overdue tasks 
-  tasks = tasks.filter(task => task.status !== 'done' && Date.now() < Date.parse(task.due_date));
-  tasks = tasks.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+  // debugger
+  let filterTasks = tasks.filter(task => task.status !== 'done' && Date.now() <= Date.parse(task.due_date));
+  tasks = filterTasks.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
   return tasks;
 }
 

@@ -20,10 +20,7 @@ class ProjectIndex extends React.Component {
 
     // debugger
     return (
-      // <ul id="project-index" className="index">
       <ul id="project-index">
-        {acceptedProjects}
-
         <li>
           <ul className="project-item new">
             <div onClick={ () => openModal('newProject') }>
@@ -33,6 +30,8 @@ class ProjectIndex extends React.Component {
           </ul>
 
         </li>
+        {acceptedProjects}
+
 
         
       </ul>

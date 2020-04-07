@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import TaskShow from './task_show';
 import { selectRecentTasks, selectUpcomingTasks, projectTasks, selectOverdueTasks, selectProjectTasks } from '../../helpers/helper';
-import { updateUserFilter } from '../../actions/filter_actions';
+import { updateFilter } from '../../actions/filter_actions';
 
 import { fetchProjects, fetchProject } from '../../actions/project_actions';
 
@@ -32,7 +32,7 @@ const mdp = dispatch => ({
   fetchTasks: (filter) => dispatch(fetchTasks(filter)),
   updateTask: (task) => dispatch(updateTask(task)),
   openModal: (modal) => dispatch(openModal(modal)),
-  updateFilter: (entity, value) => dispatch(updateUserFilter(entity, value))
+  updateFilter: (entity, value) => dispatch(updateFilter(entity, value))
 })
 
 export default connect(msp, mdp)(TaskShow);

@@ -3,7 +3,7 @@ class Api::TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params);
-    @task.due_date = DateTime.strptime(task_params[:due_date], '%m/%d/%Y')
+    @task.due_date = DateTime.strptime(task_params[:due_date], '%m/%d/%Y').end_of_day
     @task.title = titleize(task_params[:title])
     
     if @task.save
@@ -22,7 +22,7 @@ class Api::TasksController < ApplicationController
 
     user_id = current_user.id
     project_id = current_user.projects.map { |proj| proj.id }
-
+    # debugger
     if search == 'upcoming'
       tasks = Task.fetch_upcoming_tasks(user_id, project_id )
     elsif search == 'overdue'

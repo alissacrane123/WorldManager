@@ -4,7 +4,7 @@ import { selectRecentTasks, selectUpcomingTasks, selectAcceptedTasks, selectOver
 import { dateInOneWeek, formatJavascriptDate } from '../../helpers/date_helper';
 
 
-import { updateUserFilter } from '../../actions/filter_actions';
+import { updateFilter } from '../../actions/filter_actions';
 
 import { fetchProjects, fetchProject } from '../../actions/project_actions';
 import { fetchTasks, updateTask } from '../../actions/task_actions';
@@ -47,7 +47,7 @@ const mdp = dispatch => ({
   fetchTasks: (filter) => dispatch(fetchTasks(filter)),
   updateTask: (task) => dispatch(updateTask(task)),
   openModal: (modal) => dispatch(openModal(modal)),
-  updateFilter: (entity, value) => dispatch(updateUserFilter(entity, value))
+  updateFilter: (entity, value) => dispatch(updateFilter(entity, value))
 })
 
 export default connect(msp, mdp)(TaskFilter);
