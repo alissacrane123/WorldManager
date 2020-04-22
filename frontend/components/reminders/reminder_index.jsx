@@ -1,6 +1,7 @@
 import React from 'react';
 import { dateToWords } from '../../helpers/date_helper';
 import ReminderItem from './reminder_item';
+import SVG from '../svg';
 
 class ReminderIndex extends React.Component {
 
@@ -15,8 +16,24 @@ class ReminderIndex extends React.Component {
       <ReminderItem reminder={item} key={i} />
     ));
 
+    let form = this.renderReminderForm();
+
     return (
-      <ul>{items}</ul>
+      <ul>
+        { form }
+        {items}
+      </ul>
+    )
+  }
+
+  renderReminderForm() {
+    return (
+      <li className="reminder">
+        <div className="plus">
+          <SVG name="skinny-plus" h="20px" w="20px" transform="scale(0.83)"fill="#676767" />
+        </div>
+        <input type="text" className="reminder__text" placeholder="New reminder..."/>
+      </li>
     )
   }
 
@@ -30,7 +47,7 @@ class ReminderIndex extends React.Component {
       <div className="reminders">
         <header>
           <h1>Reminders</h1>
-          <h1>{dateToWords(new Date(), true)}</h1>
+          <h2>{dateToWords(new Date(), true)}</h2>
         </header>
 
 

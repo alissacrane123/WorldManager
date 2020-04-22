@@ -13,8 +13,10 @@ class ReminderItem extends React.Component {
 
     return (
       <li className="reminder">
-        <input type="checkbox"/>
-        <h3>{reminder.title}</h3>
+        <div className="circle">
+          <div></div>
+        </div>
+        <h3 className="reminder__text">{reminder.title}</h3>
 
       </li>
     )
