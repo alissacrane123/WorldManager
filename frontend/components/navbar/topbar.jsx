@@ -23,7 +23,6 @@ class Topbar extends React.Component {
     // debugger
     return (
       <nav id="topbar" className="topbar si">
-        <h1>Welcome, {currentUser.fname}</h1>
         <div className="notify" onClick={() => this.setState({ ddOpen: !this.state.ddOpen})}>
           <SVG className="sb" h={24} w={24} name="notify" fill="black" />
           {allPms.length > 0 ? <div id="notify-num">{allPms.length}</div> : null }
@@ -34,6 +33,7 @@ class Topbar extends React.Component {
             <h4>See All</h4>
           </div>
         </div>
+        <h1>Welcome, {currentUser.fname}</h1>
 
       </nav>
     );

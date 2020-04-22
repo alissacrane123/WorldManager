@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import SVG from '../svg';
 import { titleize } from '../../helpers/helper';
-import { formatJavascriptDate } from '../../helpers/date_helper';
+import { formatJavascriptDate, timeSince } from '../../helpers/date_helper';
 
 class TaskShowItem extends React.Component {
   constructor(props) {
@@ -41,7 +41,9 @@ class TaskShowItem extends React.Component {
   }
 
   render() {
-    let { task, openModal } = this.props;
+    let { task, openModal, overdue } = this.props;
+
+    let dueDate = overdue ? timeSince(task.due_date) : this.getDayOfWeek();
     
     return (
       <li id={`tsi${task.id}`} className="list-item">
@@ -57,7 +59,8 @@ class TaskShowItem extends React.Component {
           {task.project_name ? titleize(task.project_name): null}
         </div>
 
-        <label>{ this.getDayOfWeek() }</label>
+        {/* <label>{ this.getDayOfWeek() }</label> */}
+        <label>{ dueDate }</label>
       </li>
     )
   }

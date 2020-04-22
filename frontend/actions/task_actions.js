@@ -3,7 +3,15 @@ import * as TaskAPI from '../util/task_api_util';
 export const RECEIVE_TASK = 'RECEIVE_TASK';
 export const RECEIVE_TASKS = 'RECEIVE_TASKS';
 export const RECEIVE_TASK_ERRORS = 'RECEIVE_TASK_ERRORS';
-export const RECEIVE_DELETED_TASK = 'RECEIVE_DELETED_TASK'
+export const RECEIVE_DELETED_TASK = 'RECEIVE_DELETED_TASK';
+export const RECEIVE_REMINDERS = 'RECEIVE_REMINDERS';
+
+export const receiveReminders = reminders => {
+  return {
+    type: RECEIVE_REMINDERS,
+    reminders
+  }
+}
 
 export const receiveTask = task => ({
   type: RECEIVE_TASK,
@@ -45,15 +53,16 @@ export const fetchSearchTasks = (search, searchVal) => dispatch => {
         err => dispatch(receiveErrors(err.responseJSON)))
   )
 }
+export const fetchReminders = (search, searchVal) => dispatch => {
+  // debugger
+  return (
+    TaskAPI.fetchSearchTasks(search, searchVal)
+      .then(tasks => dispatch(receiveReminders(tasks)),
+        err => dispatch(receiveErrors(err.responseJSON)))
+  )
+}
 
-// export const fetchTasks = (filter, date) => dispatch => {
-//   // debugger
-//   return (
-//     TaskAPI.fetchTasks(filter, date)
-//       .then(tasks => dispatch(receiveTasks(tasks)),
-//         err => dispatch(receiveErrors(err.responseJSON)))
-//   )
-// }
+
 
 export const fetchTask = (taskId) => dispatch => {
   return (

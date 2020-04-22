@@ -3,8 +3,15 @@ class Api::TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params);
-    @task.due_date = DateTime.strptime(task_params[:due_date], '%m/%d/%Y').end_of_day
+
+    if task_params[:due_date]
+      @task.due_date = DateTime.strptime(task_params[:due_date], '%m/%d/%Y').end_of_day
+    end
     @task.title = titleize(task_params[:title])
+
+    if !@task.user_id 
+      @task.user_id = current_user.id 
+    end
     
     if @task.save
       render "api/tasks/show"
@@ -29,6 +36,12 @@ class Api::TasksController < ApplicationController
       tasks = Task.fetch_overdue_tasks(user_id, project_id )
     elsif search == 'week'
       tasks = Task.includes(:user, :project).fetch_week_tasks(search_value, user_id, project_id)
+    elsif search == 'overdue-upcoming'
+      upcoming = Task.fetch_upcoming_tasks(user_id, project_id )
+      overdue = Task.fetch_overdue_tasks(user_id, project_id )
+      tasks = upcoming + overdue
+    elsif search == 'reminder'
+      tasks = Task.fetch_reminders(user_id)
     end
 
     @tasks = tasks
@@ -61,6 +74,7 @@ class Api::TasksController < ApplicationController
         .where('due_date <= ? AND due_date >= ?', end_date, start_date)
         .where('status IN (?)', status)
         .where('priority IN (?)', priority)
+        .where('reminder = ?', false)
         # .where('status != ?', 'done')
     else 
       tasks = Task.where('user_id IN (?)', user_id)
@@ -68,6 +82,7 @@ class Api::TasksController < ApplicationController
         .where('due_date <= ? AND due_date >= ?', end_date, start_date)
         .where('status IN (?)', status)
         .where('priority IN (?)', priority)
+        .where('reminder = ?', false)
     end
   
 
@@ -164,7 +179,7 @@ class Api::TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :due_date, :user_id, :priority, :description, :status, :project_id, :email)
+    params.require(:task).permit(:title, :reminder, :due_date, :user_id, :priority, :description, :status, :project_id, :email)
   end
 
   def new_date_params

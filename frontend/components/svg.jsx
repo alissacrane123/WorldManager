@@ -2,6 +2,8 @@ import React from 'react';
 
 const getPath = (iconName, props) => {
   switch (iconName) {
+    case 'skinny-plus':
+      return <path {...props} d="M11 11v-11h1v11h11v1h-11v11h-1v-11h-11v-1h11z" />;
     case 'skinny-down':
       return <path {...props} d="M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z" />;
     case 'fun':

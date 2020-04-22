@@ -62,7 +62,10 @@ export const timeSince = (date, weeks = false) => {
 }
 
 
-export const dateToWords = (string) => {
+export const dateToWords = (string, jsDate=false) => {
+  if (jsDate) {
+    string = formatJavascriptDate(string);
+  }
   let months = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
 

@@ -491,7 +491,7 @@ var logout = function logout() {
 /*!******************************************!*\
   !*** ./frontend/actions/task_actions.js ***!
   \******************************************/
-/*! exports provided: RECEIVE_TASK, RECEIVE_TASKS, RECEIVE_TASK_ERRORS, RECEIVE_DELETED_TASK, receiveTask, receiveTasks, receiveErrors, receiveDeletedTask, fetchTasks, fetchSearchTasks, fetchTask, createTask, updateTask, deleteTask */
+/*! exports provided: RECEIVE_TASK, RECEIVE_TASKS, RECEIVE_TASK_ERRORS, RECEIVE_DELETED_TASK, RECEIVE_REMINDERS, receiveReminders, receiveTask, receiveTasks, receiveErrors, receiveDeletedTask, fetchTasks, fetchSearchTasks, fetchReminders, fetchTask, createTask, updateTask, deleteTask */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -500,12 +500,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TASKS", function() { return RECEIVE_TASKS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TASK_ERRORS", function() { return RECEIVE_TASK_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_DELETED_TASK", function() { return RECEIVE_DELETED_TASK; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_REMINDERS", function() { return RECEIVE_REMINDERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveReminders", function() { return receiveReminders; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveTask", function() { return receiveTask; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveTasks", function() { return receiveTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveDeletedTask", function() { return receiveDeletedTask; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTasks", function() { return fetchTasks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchSearchTasks", function() { return fetchSearchTasks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchReminders", function() { return fetchReminders; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTask", function() { return fetchTask; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTask", function() { return createTask; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateTask", function() { return updateTask; });
@@ -516,6 +519,13 @@ var RECEIVE_TASK = 'RECEIVE_TASK';
 var RECEIVE_TASKS = 'RECEIVE_TASKS';
 var RECEIVE_TASK_ERRORS = 'RECEIVE_TASK_ERRORS';
 var RECEIVE_DELETED_TASK = 'RECEIVE_DELETED_TASK';
+var RECEIVE_REMINDERS = 'RECEIVE_REMINDERS';
+var receiveReminders = function receiveReminders(reminders) {
+  return {
+    type: RECEIVE_REMINDERS,
+    reminders: reminders
+  };
+};
 var receiveTask = function receiveTask(task) {
   return {
     type: RECEIVE_TASK,
@@ -561,15 +571,17 @@ var fetchSearchTasks = function fetchSearchTasks(search, searchVal) {
       return dispatch(receiveErrors(err.responseJSON));
     });
   };
-}; // export const fetchTasks = (filter, date) => dispatch => {
-//   // debugger
-//   return (
-//     TaskAPI.fetchTasks(filter, date)
-//       .then(tasks => dispatch(receiveTasks(tasks)),
-//         err => dispatch(receiveErrors(err.responseJSON)))
-//   )
-// }
-
+};
+var fetchReminders = function fetchReminders(search, searchVal) {
+  return function (dispatch) {
+    // debugger
+    return _util_task_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchSearchTasks"](search, searchVal).then(function (tasks) {
+      return dispatch(receiveReminders(tasks));
+    }, function (err) {
+      return dispatch(receiveErrors(err.responseJSON));
+    });
+  };
+};
 var fetchTask = function fetchTask(taskId) {
   return function (dispatch) {
     return _util_task_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchTask"](taskId).then(function (task) {
@@ -2415,8 +2427,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _task_task_show_item__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../task/task_show_item */ "./frontend/components/task/task_show_item.jsx");
 /* harmony import */ var _notifications_alert_index_cont__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../notifications/alert_index_cont */ "./frontend/components/notifications/alert_index_cont.jsx");
 /* harmony import */ var _task_task_section__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../task/task_section */ "./frontend/components/task/task_section.jsx");
-/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
-/* harmony import */ var _actions_filter_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/filter_actions */ "./frontend/actions/filter_actions.js");
+/* harmony import */ var _reminders_reminder_index_cont__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../reminders/reminder_index_cont */ "./frontend/components/reminders/reminder_index_cont.js");
+/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
+/* harmony import */ var _actions_filter_actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../actions/filter_actions */ "./frontend/actions/filter_actions.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2434,6 +2447,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2467,8 +2481,9 @@ function (_React$Component) {
     value: function componentDidMount() {
       var date = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["dateInOneWeek"])();
       var nextSunday = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["getNextSunday"])();
-      var today = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(new Date());
-      this.props.fetchSearchTasks('week', nextSunday).then(this.props.updateFilter('tasks', {
+      var today = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(new Date()); // this.props.fetchSearchTasks('week', nextSunday)
+
+      this.props.fetchSearchTasks('overdue-upcoming', nextSunday).then(this.props.updateFilter('tasks', {
         startDate: today,
         endDate: nextSunday
       }));
@@ -2478,12 +2493,16 @@ function (_React$Component) {
     value: function render() {
       var _this$props = this.props,
           upcomingTasks = _this$props.upcomingTasks,
-          sortedTasks = _this$props.sortedTasks;
+          sortedTasks = _this$props.sortedTasks,
+          overdueTasks = _this$props.overdueTasks;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "home"
+        id: "home",
+        className: "home"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "home__left"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "list home"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_8__["default"], {
         name: "carrot",
         h: 12,
         w: 12,
@@ -2493,8 +2512,14 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Recent Projects")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_index_cont__WEBPACK_IMPORTED_MODULE_3__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_6__["default"], {
         tasks: sortedTasks,
         filter: "Upcoming",
-        header: "Tasks Due Soon"
-      }));
+        header: "Upcoming Tasks"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        tasks: overdueTasks,
+        filter: "Overdue",
+        header: "Overdue Tasks"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "home__right"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_reminders_reminder_index_cont__WEBPACK_IMPORTED_MODULE_7__["default"], null)));
     }
   }]);
 
@@ -2555,6 +2580,7 @@ var msp = function msp(state, ownProps) {
     currentUser: state.entities.users[state.session.id],
     tasks: tasks,
     sortedTasks: filterTasks,
+    overdueTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["selectOverdueTasks"])(ownedTasks),
     ownedTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["sortByDueDate"])(ownedTasks),
     pms: Object.values(state.entities.pms),
     upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["selectUpcomingTasks"])(acceptedTasks),
@@ -3309,7 +3335,7 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
         id: "topbar",
         className: "topbar si"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome, ", currentUser.fname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "notify",
         onClick: function onClick() {
           return _this2.setState({
@@ -3326,7 +3352,7 @@ function (_React$Component) {
         id: "notify-num"
       }, allPms.length) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: cn
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Notifications"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_notifications_alert_index_cont__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "See All"))));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Notifications"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_notifications_alert_index_cont__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "See All"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome, ", currentUser.fname));
     }
   }]);
 
@@ -4346,6 +4372,254 @@ var mdp = function mdp(dispatch) {
 
 /***/ }),
 
+/***/ "./frontend/components/reminders/reminder_index.jsx":
+/*!**********************************************************!*\
+  !*** ./frontend/components/reminders/reminder_index.jsx ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
+/* harmony import */ var _reminder_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reminder_item */ "./frontend/components/reminders/reminder_item.jsx");
+/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+
+var ReminderIndex =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ReminderIndex, _React$Component);
+
+  function ReminderIndex(props) {
+    var _this;
+
+    _classCallCheck(this, ReminderIndex);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ReminderIndex).call(this, props));
+    _this.state = {
+      title: '',
+      reminder: true
+    };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(ReminderIndex, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchReminders('reminder');
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange() {
+      this.setState({
+        title: event.target.value
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit() {
+      var _this2 = this;
+
+      if (event.type === 'keypress' && event.key == 'Enter' || event.type === 'submit') {
+        this.props.createTask(this.state).then(function () {
+          return _this2.setState({
+            title: ''
+          });
+        });
+      }
+    }
+  }, {
+    key: "renderReminders",
+    value: function renderReminders() {
+      var reminders = this.props.reminders;
+      var items = reminders.map(function (item, i) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_reminder_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          reminder: item,
+          key: i
+        });
+      });
+      var form = this.renderReminderForm();
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, form, items);
+    }
+  }, {
+    key: "renderReminderForm",
+    value: function renderReminderForm() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "reminder"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "plus",
+        onClick: this.handleSubmit
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        name: "skinny-plus",
+        h: "20px",
+        w: "20px",
+        transform: "scale(0.83)",
+        fill: "#676767"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        onKeyPress: this.handleSubmit,
+        className: "reminder__text",
+        onChange: this.handleChange,
+        value: this.state.title,
+        placeholder: "New reminder..."
+      }));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var reminders = this.props.reminders;
+      var reminderIndex = this.renderReminders();
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "reminders"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Reminders"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_1__["dateToWords"])(new Date(), true))), reminderIndex);
+    }
+  }]);
+
+  return ReminderIndex;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ReminderIndex);
+
+/***/ }),
+
+/***/ "./frontend/components/reminders/reminder_index_cont.js":
+/*!**************************************************************!*\
+  !*** ./frontend/components/reminders/reminder_index_cont.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _reminder_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reminder_index */ "./frontend/components/reminders/reminder_index.jsx");
+/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
+/* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+
+
+
+
+
+
+var msp = function msp(state, ownProps) {
+  return {
+    reminders: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_4__["selectReminders"])(state.entities.tasks),
+    projects: Object.values(state.entities.projects),
+    users: Object.values(state.entities.users),
+    pms: Object.values(state.entities.pms)
+  };
+};
+
+var mdp = function mdp(dispatch) {
+  return {
+    fetchReminders: function fetchReminders(search, val) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_3__["fetchReminders"])(search, val));
+    },
+    createTask: function createTask(task) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_3__["createTask"])(task));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(msp, mdp)(_reminder_index__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/reminders/reminder_item.jsx":
+/*!*********************************************************!*\
+  !*** ./frontend/components/reminders/reminder_item.jsx ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var ReminderItem =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ReminderItem, _React$Component);
+
+  function ReminderItem(props) {
+    var _this;
+
+    _classCallCheck(this, ReminderItem);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ReminderItem).call(this, props));
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(ReminderItem, [{
+    key: "render",
+    value: function render() {
+      var reminder = this.props.reminder;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "reminder"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "circle"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "reminder__text"
+      }, reminder.title));
+    }
+  }]);
+
+  return ReminderItem;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ReminderItem);
+
+/***/ }),
+
 /***/ "./frontend/components/root.jsx":
 /*!**************************************!*\
   !*** ./frontend/components/root.jsx ***!
@@ -4749,6 +5023,11 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var getPath = function getPath(iconName, props) {
   switch (iconName) {
+    case 'skinny-plus':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
+        d: "M11 11v-11h1v11h11v1h-11v11h-1v-11h-11v-1h11z"
+      }));
+
     case 'skinny-down':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
         d: "M23.245 4l-11.245 14.374-11.219-14.374-.781.619 12 15.381 12-15.391-.755-.609z"
@@ -5611,37 +5890,97 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 /* harmony import */ var _task_show_item_cont__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./task_show_item_cont */ "./frontend/components/task/task_show_item_cont.js");
+/* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
 
 
-var TaskSection = function TaskSection(_ref) {
-  var tasks = _ref.tasks,
-      filter = _ref.filter,
-      header = _ref.header;
-  // debugger
-  var taskItems = tasks.map(function (task, i) {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_show_item_cont__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      key: i,
-      task: task
-    });
-  });
 
-  if (!header) {
-    header = "".concat(filter, " Tasks");
+
+var TaskSection =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(TaskSection, _React$Component);
+
+  function TaskSection(props) {
+    var _this;
+
+    _classCallCheck(this, TaskSection);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TaskSection).call(this, props));
+    _this.state = {
+      open: true
+    };
+    _this.toggle = _this.toggle.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-    className: "task list"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    name: "carrot",
-    h: 12,
-    w: 12,
-    rotate: "rotate(90)",
-    fill: "gray",
-    transform: "scale(0.5)"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, header)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, taskItems));
-};
+  _createClass(TaskSection, [{
+    key: "toggle",
+    value: function toggle() {
+      this.setState({
+        open: !this.state.open
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          tasks = _this$props.tasks,
+          filter = _this$props.filter,
+          header = _this$props.header;
+      var overdue = filter == 'Overdue' ? true : false;
+      tasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["sortByDueDate"])(tasks);
+      var taskItems = tasks.map(function (task, i) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_show_item_cont__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          key: i,
+          task: task,
+          overdue: overdue
+        });
+      });
+
+      if (!header) {
+        header = "".concat(filter, " Tasks");
+      }
+
+      var cn = this.state.open ? '' : 'hide';
+      var rotate = this.state.open ? 'rotate(90)' : '';
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "task list"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.toggle
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        name: "carrot",
+        h: 12,
+        w: 12,
+        rotate: rotate,
+        fill: "gray",
+        transform: "scale(0.5)"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, header)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: cn
+      }, taskItems));
+    }
+  }]);
+
+  return TaskSection;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (TaskSection);
 
@@ -5913,7 +6252,9 @@ function (_React$Component) {
 
       var _this$props = this.props,
           task = _this$props.task,
-          openModal = _this$props.openModal;
+          openModal = _this$props.openModal,
+          overdue = _this$props.overdue;
+      var dueDate = overdue ? Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_4__["timeSince"])(task.due_date) : this.getDayOfWeek();
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         id: "tsi".concat(task.id),
         className: "list-item"
@@ -5934,7 +6275,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this2.props.history.push("/projects/".concat(task.project_id));
         }
-      }, task.project_name ? Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(task.project_name) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, this.getDayOfWeek()));
+      }, task.project_name ? Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(task.project_name) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, dueDate));
     }
   }]);
 
@@ -6245,6 +6586,12 @@ var timeSince = function timeSince(date) {
   return Math.floor(seconds) + " seconds ago";
 };
 var dateToWords = function dateToWords(string) {
+  var jsDate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+  if (jsDate) {
+    string = formatJavascriptDate(string);
+  }
+
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var arr = string.split('/');
   var month = months[Number(arr[0]) - 1];
@@ -6282,7 +6629,7 @@ var dateInOneWeek = function dateInOneWeek() {
 /*!************************************!*\
   !*** ./frontend/helpers/helper.js ***!
   \************************************/
-/*! exports provided: titleize, selectNewProjectId, projectMemberSelector, selectRecentTasks, selectTasksBetweenDates, selectUpcomingTasks, selectOverdueTasks, selectProjectTasks, sortByUpdatedAt, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks */
+/*! exports provided: titleize, selectNewProjectId, projectMemberSelector, selectRecentTasks, selectTasksBetweenDates, selectUpcomingTasks, selectOverdueTasks, selectProjectTasks, sortByUpdatedAt, sortByDueDate, selectAcceptedProjects, selectAcceptedTasks, selectReminders */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6299,6 +6646,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortByDueDate", function() { return sortByDueDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectAcceptedProjects", function() { return selectAcceptedProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectAcceptedTasks", function() { return selectAcceptedTasks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectReminders", function() { return selectReminders; });
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -6387,10 +6735,9 @@ var sortByUpdatedAt = function sortByUpdatedAt(items) {
 var sortByDueDate = function sortByDueDate(tasks) {
   // filter finished and overdue tasks 
   // debugger
-  var filterTasks = tasks.filter(function (task) {
-    return task.status !== 'done' && Date.now() <= Date.parse(task.due_date);
-  });
-  tasks = filterTasks.sort(function (a, b) {
+  // let filterTasks = tasks.filter(task => task.status !== 'done' && Date.now() <= Date.parse(task.due_date));
+  // tasks = filterTasks.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+  tasks = tasks.sort(function (a, b) {
     return new Date(a.due_date) - new Date(b.due_date);
   });
   return tasks;
@@ -6405,7 +6752,8 @@ var selectAcceptedProjects = function selectAcceptedProjects(state) {
     return !pmProjectIds.includes(project.id);
   });
   return projects;
-};
+}; // problem here
+
 var selectAcceptedTasks = function selectAcceptedTasks(state) {
   var pmProjectIds = Object.values(state.entities.pms).map(function (pm) {
     return pm.project_id;
@@ -6414,6 +6762,12 @@ var selectAcceptedTasks = function selectAcceptedTasks(state) {
     return !pmProjectIds.includes(task.project_id);
   });
   return tasks;
+};
+var selectReminders = function selectReminders(tasks) {
+  var reminders = Object.values(tasks).filter(function (task) {
+    return task.reminder;
+  });
+  return reminders;
 };
 
 /***/ }),
@@ -6957,11 +7311,15 @@ var tasksReducer = function tasksReducer() {
   var nextState = Object.assign({}, state);
 
   switch (action.type) {
+    case _actions_task_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_REMINDERS"]:
+      return Object.assign(nextState, action.reminders);
+
     case _actions_task_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TASK"]:
       return Object.assign(nextState, action.task);
 
     case _actions_task_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TASKS"]:
-      return action.tasks;
+      // return action.tasks;
+      return Object.assign(nextState, action.tasks);
 
     case _actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_PROJECT"]:
       if (!action.payload.tasks) return {};

@@ -76,3 +76,7 @@ h2 {
   display: inline-block;
   width: 50%;
 }
+
+.hide {
+  display:none  !important;
+}

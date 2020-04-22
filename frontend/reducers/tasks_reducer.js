@@ -1,6 +1,6 @@
 
 import merge from 'lodash/merge';
-import { RECEIVE_TASK, RECEIVE_TASKS, RECEIVE_DELETED_TASK } from '../actions/task_actions';
+import { RECEIVE_TASK, RECEIVE_REMINDERS, RECEIVE_TASKS, RECEIVE_DELETED_TASK } from '../actions/task_actions';
 import { RECEIVE_PROJECT, RECEIVE_DELETED_PROJECT } from '../actions/project_actions';
 import { LOGOUT_CURRENT_USER } from '../actions/session_actions';
 import { RECEIVE_ALERTS } from '../actions/alert_actions';
@@ -10,10 +10,13 @@ const tasksReducer = (state = {}, action) => {
   let nextState = Object.assign({}, state);
 
   switch (action.type) {
+    case RECEIVE_REMINDERS:
+      return Object.assign(nextState, action.reminders)
     case RECEIVE_TASK:
       return Object.assign(nextState, action.task);
     case RECEIVE_TASKS:
-      return action.tasks;
+      // return action.tasks;
+      return Object.assign(nextState, action.tasks)
     case RECEIVE_PROJECT:
       if (!action.payload.tasks) return {};
       return Object.assign({}, nextState, action.payload.tasks)

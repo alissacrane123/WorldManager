@@ -87,8 +87,9 @@ export const sortByUpdatedAt = (items) => {
 export const sortByDueDate = (tasks) => {
   // filter finished and overdue tasks 
   // debugger
-  let filterTasks = tasks.filter(task => task.status !== 'done' && Date.now() <= Date.parse(task.due_date));
-  tasks = filterTasks.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+  // let filterTasks = tasks.filter(task => task.status !== 'done' && Date.now() <= Date.parse(task.due_date));
+  // tasks = filterTasks.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+  tasks = tasks.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
   return tasks;
 }
 
@@ -98,8 +99,15 @@ export const selectAcceptedProjects = (state) => {
   return projects;
 }
 
+
+// problem here
 export const selectAcceptedTasks = (state) => {
   let pmProjectIds = Object.values(state.entities.pms).map(pm => pm.project_id);
   let tasks = Object.values(state.entities.tasks).filter(task => !pmProjectIds.includes(task.project_id))
   return tasks;
+}
+
+export const selectReminders = (tasks) => {
+  let reminders = Object.values(tasks).filter(task => task.reminder)
+  return reminders;
 }

@@ -27,7 +27,9 @@ class Task < ApplicationRecord
     end
   end
 
-
+  def self.fetch_reminders(user_id) 
+    Task.where('user_id = ? and status != ? and reminder = ?', user_id, 'done', true)
+  end
 
   def self.fetch_user_tasks(user_ids) 
     tasks = []
@@ -41,6 +43,7 @@ class Task < ApplicationRecord
       .where('project_id IN (?) OR project_id IS NULL', project_id)
       .where('due_date < ?', end_date)
       .where('status IN (?)', ["todo", "doing"])
+      .where('reminder = ?', false)
       .order('due_date ASC')
       .limit(10)   
   end
@@ -52,6 +55,7 @@ class Task < ApplicationRecord
       .where('project_id IN (?) OR project_id IS NULL', project_id)
       .where('due_date >= ?', start_date)
       .where('status IN (?)', ["todo", "doing"])
+      .where('reminder = ?', false)
       .order('due_date ASC')
       .limit(10)   
   end
@@ -65,6 +69,7 @@ class Task < ApplicationRecord
     month_end = DateTime.strptime("#{month}/#{ending_day}/#{year}", '%m/%d/%Y')
     
     Task.where('due_date >= ? AND due_date <= ? AND user_id = ?', month_start, month_end, current_user.id)
+        .where('reminder = ?', false)
   end
 
   def self.fetch_day_tasks(day)
@@ -82,9 +87,11 @@ class Task < ApplicationRecord
       .where('project_id IN (?) OR project_id IS NULL', project_id)
       .where('status IN (?)', ["todo", "doing"])
       .where('due_date >= ? AND due_date <= ?', start_day, ending_day.end_of_day)
+      .where('reminder = ?', false)
       # .order('due_date ASC')
     else
       Task.where('due_date >= ? AND due_date <= ?', start_day, ending_day.end_of_day)
+        .where('reminder = ?', false)
     end
   end
 end

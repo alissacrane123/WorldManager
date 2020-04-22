@@ -87,6 +87,7 @@ position: absolute;
 
 .notify {
   position:relative;
+      margin: 0px 10px 5px 10px;
 }
 
 #notify-num {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReminderIndex from './reminder_index';
-import { fetchReminders } from '../../actions/task_actions';
+import { fetchReminders, createTask } from '../../actions/task_actions';
 import { selectReminders } from '../../helpers/helper';
 
 const msp = (state, ownProps) => {
@@ -17,6 +17,7 @@ const msp = (state, ownProps) => {
 const mdp = dispatch => {
   return {
     fetchReminders: (search, val) => dispatch(fetchReminders(search, val)),
+    createTask: task => dispatch(createTask(task))
   }
 }
 

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Home from './home';
 
 import { fetchTasks, updateTask, fetchSearchTasks } from '../../actions/task_actions';
-import { selectUpcomingTasks, selectAcceptedTasks, sortByDueDate, selectTasksBetweenDates } from '../../helpers/helper';
+import { selectUpcomingTasks, selectAcceptedTasks, sortByDueDate, selectTasksBetweenDates, selectOverdueTasks } from '../../helpers/helper';
 import { formatJavascriptDate, dateInOneWeek} from '../../helpers/date_helper';
 import { openModal } from '../../actions/modal_actions';
 import { fetchPMs } from '../../actions/pm_actions';
@@ -26,6 +26,7 @@ const msp = (state, ownProps) => {
     currentUser: state.entities.users[state.session.id],
     tasks: tasks,
     sortedTasks: filterTasks,
+    overdueTasks: selectOverdueTasks(ownedTasks),
     ownedTasks: sortByDueDate(ownedTasks),
     pms: Object.values(state.entities.pms),
     upcomingTasks: selectUpcomingTasks(acceptedTasks),
