@@ -20,6 +20,14 @@
     background: #f6f8f9;
 }
 
+#task-show h1 {
+      font-size: 1.8vw;
+    font-weight: 500;
+    font-style: italic;
+    color: grey;
+    text-align: center;
+}
+
 .show section {
 /* padding: 30px 30px 0px 30px; */
     /* background: white; */

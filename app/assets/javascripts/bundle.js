@@ -2101,19 +2101,19 @@ function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit() {
-      var _this2 = this;
-
       // debugger
       var _this$props = this.props,
           filterStart = _this$props.filterStart,
-          filterEnd = _this$props.filterEnd;
+          filterEnd = _this$props.filterEnd,
+          fetchTasks = _this$props.fetchTasks,
+          updateFilter = _this$props.updateFilter;
       var _this$state$filter = this.state.filter,
           start_date = _this$state$filter.start_date,
           end_date = _this$state$filter.end_date;
       var filters = Object.assign({}, this.state.filter);
-      this.props.fetchTasks(filters).then(function () {
+      fetchTasks(filters).then(function () {
         if (start_date != filterStart || end_date != filterEnd) {
-          _this2.props.updateFilter('tasks', {
+          updateFilter('tasks', {
             startDate: start_date,
             endDate: end_date
           });
@@ -2140,7 +2140,7 @@ function (_React$Component) {
   }, {
     key: "renderFilter",
     value: function renderFilter(filter, inputs) {
-      var _this3 = this;
+      var _this2 = this;
 
       var cn = this.state.expanded[filter] ? 'dd' : 'hide';
       var selected = this.getSelected(filter).map(function (el, i) {
@@ -2162,7 +2162,7 @@ function (_React$Component) {
         className: "filter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this3.expandFilter(filter);
+          return _this2.expandFilter(filter);
         },
         className: cnSel
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, filter), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -2213,7 +2213,7 @@ function (_React$Component) {
   }, {
     key: "renderInputs",
     value: function renderInputs(array, key, filter) {
-      var _this4 = this;
+      var _this3 = this;
 
       var unassigned = this.state.filter.unassigned;
       var ids = this.state.filter[key];
@@ -2240,7 +2240,7 @@ function (_React$Component) {
           type: "checkbox",
           checked: checked,
           onChange: function onChange() {
-            return _this4.handleChange(key, id, filter);
+            return _this3.handleChange(key, id, filter);
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(label)));
       });
@@ -2252,7 +2252,7 @@ function (_React$Component) {
           type: "checkbox",
           checked: unassigned,
           onChange: function onChange() {
-            return _this4.handleChange('unassigned', !unassigned, filter);
+            return _this3.handleChange('unassigned', !unassigned, filter);
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "unassigned")));
       }
@@ -2262,7 +2262,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this4 = this;
 
       var currentUser = this.props.currentUser;
       var teammates = this.renderInputs(currentUser.teammates, "user_id", "Owner");
@@ -2278,7 +2278,7 @@ function (_React$Component) {
         className: "filter"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this5.expandFilter('date');
+          return _this4.expandFilter('date');
         },
         className: "no-b"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Due Dates"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -2292,12 +2292,12 @@ function (_React$Component) {
         className: this.state.expanded.date ? 'dd dates' : 'hide'
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
-          return _this5.handleDateChange('start_date', event);
+          return _this4.handleDateChange('start_date', event);
         },
         selected: new Date(this.state.filter.start_date)
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "-"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_1___default.a, {
         onChange: function onChange(event) {
-          return _this5.handleDateChange('end_date', event);
+          return _this4.handleDateChange('end_date', event);
         },
         selected: new Date(this.state.filter.end_date)
       })))));
@@ -2361,13 +2361,13 @@ var msp = function msp(state, ownProps) {
   return {
     currentUser: currentUser,
     currentUserProjects: currentUser.projects,
-    users: Object.values(state.entities.users),
-    allTasks: acceptedTasks,
-    filterStart: startDate,
-    filterEnd: endDate,
-    recentTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectRecentTasks"])(acceptedTasks),
-    upcomingTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectUpcomingTasks"])(acceptedTasks),
-    overdueTasks: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectOverdueTasks"])(acceptedTasks),
+    // users: Object.values(state.entities.users),
+    // allTasks: acceptedTasks,
+    // filterStart: startDate,
+    // filterEnd: endDate,
+    // recentTasks: selectRecentTasks(acceptedTasks),
+    // upcomingTasks: selectUpcomingTasks(acceptedTasks),
+    // overdueTasks: selectOverdueTasks(acceptedTasks),
     defaultFilter: {
       start_date: startDate,
       end_date: endDate,
@@ -6038,17 +6038,8 @@ function (_React$Component) {
 
   _createClass(TaskShow, [{
     key: "render",
-    // componentDidMount() {
-    //   this.props.fetchTasks();
-    // }
     value: function render() {
-      var _this$props = this.props,
-          allTasks = _this$props.allTasks,
-          projectTasks = _this$props.projectTasks,
-          upcomingTasks = _this$props.upcomingTasks,
-          updateTask = _this$props.updateTask,
-          openModal = _this$props.openModal,
-          overdueTasks = _this$props.overdueTasks;
+      var projectTasks = this.props.projectTasks;
       var sections = Object.keys(projectTasks).map(function (el, i) {
         var label = el === '0' ? 'Unassigned' : el;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_section__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -6057,6 +6048,11 @@ function (_React$Component) {
           key: i
         });
       });
+
+      if (sections.length < 1) {
+        sections = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "No Upcoming Tasks");
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-show",
         className: "show"

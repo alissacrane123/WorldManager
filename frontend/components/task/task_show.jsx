@@ -7,12 +7,10 @@ import TaskFilterContainer from '../filters/task_filter_cont';
 
 class TaskShow extends React.Component {
 
-  // componentDidMount() {
-  //   this.props.fetchTasks();
-  // }
+
 
   render() {
-    let { allTasks, projectTasks, upcomingTasks, updateTask, openModal, overdueTasks } = this.props;
+    let {  projectTasks } = this.props;
 
     let sections = Object.keys(projectTasks).map((el, i) => {
       let label = el === '0' ? 'Unassigned' : el
@@ -20,6 +18,10 @@ class TaskShow extends React.Component {
         <TaskSection tasks={projectTasks[el]} filter={label} key={i}/>
       )
     })
+
+    if (sections.length < 1) {
+      sections = <h1>No Upcoming Tasks</h1>
+    }
 
     return (
       <div id="task-show" className="show">

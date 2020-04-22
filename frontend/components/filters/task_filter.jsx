@@ -50,13 +50,13 @@ class TaskFilter extends React.Component {
 
   handleSubmit() {
     // debugger
-    let { filterStart, filterEnd } = this.props;
+    let { filterStart, filterEnd, fetchTasks, updateFilter } = this.props;
     let { start_date, end_date} = this.state.filter;
     let filters = Object.assign({}, this.state.filter);
-    this.props.fetchTasks(filters)
+    fetchTasks(filters)
       .then(() => {
         if (start_date != filterStart || end_date != filterEnd) {
-          this.props.updateFilter('tasks', {startDate: start_date, endDate: end_date})
+          updateFilter('tasks', {startDate: start_date, endDate: end_date})
         }
       })
   }
