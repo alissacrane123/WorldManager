@@ -17,7 +17,6 @@ class TaskForm extends React.Component {
   }
 
   handleChange(field) {
-    // debugger
     let newValue = event.target.value 
     if (field === 'user_id') {
       newValue = Number(newValue);
@@ -127,9 +126,7 @@ class TaskForm extends React.Component {
           </ul>
 
           <button onClick={() => this.createTask()}>Assign Task</button>
-          {/* <div onClick={() => this.createTask()}>
-            <SVG name="plus" h={20} w={20} fill="white" transform="scale(0.84)" className="task-show"/>
-          </div> */}
+
         </div>
 
         <button onClick={ this.handleSubmit }>Done</button>

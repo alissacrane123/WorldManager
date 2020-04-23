@@ -4211,8 +4211,7 @@ function (_React$Component) {
       var _this2 = this;
 
       event.preventDefault();
-      var pm = Object.assign({}, this.state); // debugger
-
+      var pm = Object.assign({}, this.state);
       this.props.createPM(pm).then(function () {
         return _this2.setState({
           email: ''
@@ -4222,7 +4221,6 @@ function (_React$Component) {
   }, {
     key: "handleChange",
     value: function handleChange(field) {
-      // debugger
       this.setState(_defineProperty({}, field, event.target.value));
     }
   }, {
@@ -4232,15 +4230,13 @@ function (_React$Component) {
 
       var _this$props = this.props,
           users = _this$props.users,
-          currentUserId = _this$props.currentUserId; // users = users.filter(user => user.id !== currentUserId)
-
+          currentUserId = _this$props.currentUserId;
       var members = users.map(function (user, i) {
         var username = "".concat(user.fname, " ").concat(user.lname);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i
         }, username);
-      }); // debugger
-
+      });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "task",
         id: "pm-form"
@@ -5410,7 +5406,6 @@ function (_React$Component) {
   _createClass(TaskForm, [{
     key: "handleChange",
     value: function handleChange(field) {
-      // debugger
       var newValue = event.target.value;
 
       if (field === 'user_id') {
@@ -5762,10 +5757,16 @@ function (_React$Component) {
     value: function onDrop(e, status) {
       var _this3 = this;
 
-      var id = e.dataTransfer.getData("id");
-      this.state.tasks.forEach(function (task) {
-        if (task.id === Number(id)) {
-          // debugger
+      // debugger
+      var _this$props3 = this.props,
+          notStarted = _this$props3.notStarted,
+          inProgress = _this$props3.inProgress,
+          done = _this$props3.done;
+      var tasks = notStarted.concat(inProgress).concat(done);
+      var id = e.dataTransfer.getData("id"); // this.state.tasks.forEach(task => {
+
+      tasks.forEach(function (task) {
+        if (task.id == id) {
           task = Object.assign(task, {
             status: status
           });
@@ -5790,11 +5791,11 @@ function (_React$Component) {
     value: function render() {
       var _this4 = this;
 
-      var _this$props3 = this.props,
-          users = _this$props3.users,
-          currentUserId = _this$props3.currentUserId,
-          updateFilter = _this$props3.updateFilter,
-          userFilter = _this$props3.userFilter;
+      var _this$props4 = this.props,
+          users = _this$props4.users,
+          currentUserId = _this$props4.currentUserId,
+          updateFilter = _this$props4.updateFilter,
+          userFilter = _this$props4.userFilter;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "task-index",
         className: "container-drag index"
@@ -7399,13 +7400,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
-/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/task_actions */ "./frontend/actions/task_actions.js");
-/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
-/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
-
+/* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/task_actions */ "./frontend/actions/task_actions.js");
+/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
 
 
 
@@ -7418,33 +7416,32 @@ var tasksReducer = function tasksReducer() {
   var nextState = Object.assign({}, state);
 
   switch (action.type) {
-    case _actions_task_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_REMINDERS"]:
+    case _actions_task_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_REMINDERS"]:
       return Object.assign(nextState, action.reminders);
 
-    case _actions_task_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TASK"]:
+    case _actions_task_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_TASK"]:
       return Object.assign(nextState, action.task);
 
-    case _actions_task_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TASKS"]:
-      // return action.tasks;
+    case _actions_task_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_TASKS"]:
       return Object.assign(nextState, action.tasks);
 
-    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_PROJECT"]:
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PROJECT"]:
       if (!action.payload.tasks) return {};
       return Object.assign({}, nextState, action.payload.tasks);
 
-    case _actions_task_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_DELETED_TASK"]:
+    case _actions_task_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_DELETED_TASK"]:
       var taskId = Object.keys(action.task)[0];
       delete nextState[taskId];
       return nextState;
 
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["LOGOUT_CURRENT_USER"]:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT_CURRENT_USER"]:
       return {};
 
-    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_4__["RECEIVE_ALERTS"]:
+    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_ALERTS"]:
       return Object.assign({}, nextState, action.payload.tasks);
     // case RECEIVE_DELETED_PROJECT:
 
-    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_DELETED_PROJECT"]:
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_DELETED_PROJECT"]:
       var tasks = Object.values(state);
       var projectId = Object.keys(action.payload.project)[0];
       var ids = tasks.filter(function (task) {

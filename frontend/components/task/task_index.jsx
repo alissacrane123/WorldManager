@@ -66,11 +66,14 @@ class TaskIndex extends React.Component {
   }
 
   onDrop(e, status) {
-   
+    // debugger
+    let { notStarted, inProgress, done } = this.props;
+    let tasks = notStarted.concat(inProgress).concat(done);
+
     let id = e.dataTransfer.getData("id");
-    this.state.tasks.forEach(task => {
-      if (task.id === Number(id)) {
-        // debugger
+    // this.state.tasks.forEach(task => {
+    tasks.forEach(task => {
+      if (task.id == id) {
         task = Object.assign(task, { status: status });
         this.props.updateTask(task)
       }
