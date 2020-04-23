@@ -5,9 +5,10 @@ import { fetchProjects, fetchProject, deleteProject } from '../../actions/projec
 import { openModal } from '../../actions/modal_actions';
 import { selectAcceptedProjects } from '../../helpers/helper';
 
-const msp = state => ({
+const msp = (state, ownProps) => ({
   projects: Object.values(state.entities.projects),
-  acceptedProjects: selectAcceptedProjects(state)
+  acceptedProjects: selectAcceptedProjects(state),
+  search: ownProps.search
 })
 
 const mdp = dispatch => ({

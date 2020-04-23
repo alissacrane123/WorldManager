@@ -55,7 +55,7 @@ class TaskShowItem extends React.Component {
           {titleize(task.title)}
         </h4>
 
-        <div onClick={() => this.props.history.push(`/projects/${task.project_id}`)}>
+        <div className="list-item__project" onClick={() => this.props.history.push(`/projects/${task.project_id}`)}>
           {task.project_name ? titleize(task.project_name): null}
         </div>
 

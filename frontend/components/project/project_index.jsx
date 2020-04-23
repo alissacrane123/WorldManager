@@ -9,18 +9,24 @@ class ProjectIndex extends React.Component {
   }
 
   render() {
-    let { projects, openModal, acceptedProjects } = this.props;
+    let { projects, cn, search, openModal, acceptedProjects } = this.props;
+
+    if (search) {
+      acceptedProjects = acceptedProjects.filter(proj => (
+        proj.title.toLowerCase().startsWith(search.toLowerCase())
+      ))
+    }
     
-    acceptedProjects = acceptedProjects.map(project => (
+    let items = acceptedProjects.map(project => (
       <li key={project.id}>
         <ProjectIndexItem project={project} />
 
       </li>
-    ))
+    ));
 
     // debugger
     return (
-      <ul id="project-index">
+      <ul id="project-index" className={cn}>
         <li>
           <ul className="project-item new">
             <div onClick={ () => openModal('newProject') }>
@@ -30,7 +36,7 @@ class ProjectIndex extends React.Component {
           </ul>
 
         </li>
-        {acceptedProjects}
+        {items}
 
 
         

@@ -35,8 +35,8 @@
   color: #45A29E;
 }
 
-.list-item > div:last-of-type {
-    background: #6f7782;
+.list-item__project {
+    /* background: #6f7782;
     color: white;
     line-height: 18px;
     border-radius: 30px;
@@ -47,7 +47,23 @@
     overflow: hidden;
     text-align: center;
     margin-left:auto;
-    cursor:pointer;
+    cursor:pointer; */
+        color: #6f7782;
+    line-height: 18px;
+    border-radius: 30px;
+    padding: 0 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-style: italic;
+    overflow: hidden;
+    text-align: center;
+    /* margin-left: 10px; */
+    margin-right: auto;
+    cursor: pointer;
+}
+
+.list-item__project:hover {
+  color:#45A29E;
 }
 
 .list-item > label {

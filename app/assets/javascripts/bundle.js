@@ -2424,13 +2424,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
 /* harmony import */ var _project_project_index_cont__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../project/project_index_cont */ "./frontend/components/project/project_index_cont.js");
-/* harmony import */ var _task_task_show_item__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../task/task_show_item */ "./frontend/components/task/task_show_item.jsx");
-/* harmony import */ var _notifications_alert_index_cont__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../notifications/alert_index_cont */ "./frontend/components/notifications/alert_index_cont.jsx");
-/* harmony import */ var _task_task_section__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../task/task_section */ "./frontend/components/task/task_section.jsx");
-/* harmony import */ var _reminders_reminder_index_cont__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../reminders/reminder_index_cont */ "./frontend/components/reminders/reminder_index_cont.js");
-/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
-/* harmony import */ var _actions_filter_actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../actions/filter_actions */ "./frontend/actions/filter_actions.js");
+/* harmony import */ var _task_task_section__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../task/task_section */ "./frontend/components/task/task_section.jsx");
+/* harmony import */ var _reminders_reminder_index_cont__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../reminders/reminder_index_cont */ "./frontend/components/reminders/reminder_index_cont.js");
+/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
+/* harmony import */ var _actions_filter_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/filter_actions */ "./frontend/actions/filter_actions.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2457,8 +2457,6 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-
-
 var Home =
 /*#__PURE__*/
 function (_React$Component) {
@@ -2471,7 +2469,9 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Home).call(this, props));
     _this.state = {
-      taskFilter: 'week'
+      taskFilter: 'week',
+      search: '',
+      open: true
     };
     return _this;
   }
@@ -2489,12 +2489,28 @@ function (_React$Component) {
       }));
     }
   }, {
+    key: "toggle",
+    value: function toggle() {
+      this.setState({
+        open: !this.state.open
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(field) {
+      this.setState(_defineProperty({}, field, event.target.value));
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var _this$props = this.props,
           upcomingTasks = _this$props.upcomingTasks,
           sortedTasks = _this$props.sortedTasks,
           overdueTasks = _this$props.overdueTasks;
+      var cn = this.state.open ? '' : 'hide';
+      var rotate = this.state.open ? 'rotate(90)' : '';
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "home",
         className: "home"
@@ -2502,24 +2518,52 @@ function (_React$Component) {
         className: "home__left"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "list home"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toggle",
+        onClick: function onClick() {
+          return _this2.toggle();
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_6__["default"], {
         name: "carrot",
         h: 12,
         w: 12,
-        rotate: "rotate(90)",
+        rotate: rotate,
         fill: "gray",
         transform: "scale(0.5)"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Recent Projects")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_index_cont__WEBPACK_IMPORTED_MODULE_3__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Projects")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "search",
+        onBlur: function onBlur() {
+          return _this2.setState({
+            search: ''
+          });
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        value: this.state.search,
+        onChange: function onChange() {
+          return _this2.handleChange('search');
+        },
+        placeholder: "Search..."
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        name: "search",
+        h: "12",
+        w: "12",
+        transform: "scale(0.5)",
+        fill: "#c3c6c7"
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_index_cont__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        search: this.state.search,
+        cn: cn
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_4__["default"], {
         tasks: sortedTasks,
         filter: "Upcoming",
         header: "Upcoming Tasks"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_4__["default"], {
         tasks: overdueTasks,
         filter: "Overdue",
         header: "Overdue Tasks"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home__right"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_reminders_reminder_index_cont__WEBPACK_IMPORTED_MODULE_7__["default"], null)));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_reminders_reminder_index_cont__WEBPACK_IMPORTED_MODULE_5__["default"], null)));
     }
   }]);
 
@@ -3950,9 +3994,18 @@ function (_React$Component) {
     value: function render() {
       var _this$props = this.props,
           projects = _this$props.projects,
+          cn = _this$props.cn,
+          search = _this$props.search,
           openModal = _this$props.openModal,
           acceptedProjects = _this$props.acceptedProjects;
-      acceptedProjects = acceptedProjects.map(function (project) {
+
+      if (search) {
+        acceptedProjects = acceptedProjects.filter(function (proj) {
+          return proj.title.toLowerCase().startsWith(search.toLowerCase());
+        });
+      }
+
+      var items = acceptedProjects.map(function (project) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: project.id
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -3961,7 +4014,8 @@ function (_React$Component) {
       }); // debugger
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        id: "project-index"
+        id: "project-index",
+        className: cn
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "project-item new"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3975,7 +4029,7 @@ function (_React$Component) {
         transform: "scale(2.5)",
         name: "plus",
         className: "add-svg"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Project"))), acceptedProjects);
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Project"))), items);
     }
   }]);
 
@@ -4006,10 +4060,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var msp = function msp(state) {
+var msp = function msp(state, ownProps) {
   return {
     projects: Object.values(state.entities.projects),
-    acceptedProjects: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_4__["selectAcceptedProjects"])(state)
+    acceptedProjects: Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_4__["selectAcceptedProjects"])(state),
+    search: ownProps.search
   };
 };
 
@@ -6268,6 +6323,7 @@ function (_React$Component) {
           return openModal("task".concat(task.id));
         }
       }, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["titleize"])(task.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "list-item__project",
         onClick: function onClick() {
           return _this2.props.history.push("/projects/".concat(task.project_id));
         }

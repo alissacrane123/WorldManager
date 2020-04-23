@@ -143,7 +143,10 @@ class TaskFilter extends React.Component {
 
       return (
         <li key={i}>
-          <input type="checkbox" checked={checked} onChange={() => this.handleChange(key, id, filter)} />
+          <input 
+            type="checkbox" 
+            checked={checked} 
+            onChange={() => this.handleChange(key, id, filter)} />
           <label>{titleize(label)}</label>
         </li>
       )
@@ -152,7 +155,10 @@ class TaskFilter extends React.Component {
     if (key === 'project_id') {
       inputs.push(
         <li key={900}>
-          <input type="checkbox" checked={unassigned} onChange={() => this.handleChange('unassigned', !unassigned, filter)} />
+          <input 
+            type="checkbox" 
+            checked={unassigned} 
+            onChange={() => this.handleChange('unassigned', !unassigned, filter)} />
           <label>unassigned</label>
         </li>
       )
@@ -178,11 +184,6 @@ class TaskFilter extends React.Component {
           {projectFilter}
           {statusFilter}
 
-          {/* <div className="dates">
-            <h4>Due Date</h4>
-            <DatePicker onChange={(event) => this.handleDateChange('start_date', event)} selected={new Date(this.state.filter.start_date)} />
-            <DatePicker onChange={(event) => this.handleDateChange('end_date', event)} selected={new Date(this.state.filter.end_date)} />
-          </div> */}
 
         <div className="filter">
           <div onClick={() => this.expandFilter('date')} className="no-b">
@@ -193,18 +194,17 @@ class TaskFilter extends React.Component {
 
           <ul className={this.state.expanded.date ? 'dd dates' : 'hide'}>
             <li>
-              <DatePicker onChange={(event) => this.handleDateChange('start_date', event)} selected={new Date(this.state.filter.start_date)} />
+              <DatePicker 
+                onChange={(event) => this.handleDateChange('start_date', event)} 
+                selected={new Date(this.state.filter.start_date)} />
               <p>-</p>
-              <DatePicker onChange={(event) => this.handleDateChange('end_date', event)} selected={new Date(this.state.filter.end_date)} />
+              <DatePicker 
+                onChange={(event) => this.handleDateChange('end_date', event)} 
+                selected={new Date(this.state.filter.end_date)} />
             </li>
           </ul>
 
-          {/* <ul className={cnSel}>
-          {selected}
-        </ul> */}
-
         </div>
-
 
       </div>  
     )
