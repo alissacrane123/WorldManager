@@ -34,7 +34,7 @@ class Home extends React.Component {
   }
 
   render() {
-    let { upcomingTasks, sortedTasks, overdueTasks } = this.props;
+    let { upcomingTasks, sortedTasks, overdueTasks, openModal } = this.props;
 
     let cn = this.state.open ? '' : 'hide';
     let rotate = this.state.open ? 'rotate(90)' : '';
@@ -60,6 +60,11 @@ class Home extends React.Component {
                   placeholder="Search..."/>
                 <SVG name="search" h="12" w="12" transform="scale(0.5)"fill="#c3c6c7"/>
               </div>
+
+              <button className="blue-btn" onClick={() => openModal('newProject')}>
+                <SVG name="plus" h="12" w="12" transform="scale(0.5)" fill="white" />
+                <label>New Project</label>
+              </button>
             </div>
             <ProjectIndexCont search={this.state.search} cn={cn}/>
           </section>

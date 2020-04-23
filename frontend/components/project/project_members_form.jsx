@@ -43,7 +43,7 @@ class ProjectMembersForm extends React.Component {
             onChange={() => this.handleChange("email")} 
           />
 
-          <button onClick={() => this.handleSubmit()}>Submit</button>
+          <button onClick={() => this.handleSubmit()}>Add Team Member</button>
         </div>
 
         <button onClick={() => this.props.openModal('newTasks')}>Next</button>

@@ -30,7 +30,7 @@ class ProjectIndex extends React.Component {
     // debugger
     return (
       <ul id="project-index" className={cn}>
-        <li>
+        <li className="new-project-li">
           <ul className="project-item new">
             <div onClick={ () => openModal('newProject') }>
               <SVG h={60} w={60} fill="white" transform="scale(2.5)" name="plus" className="add-svg"/>

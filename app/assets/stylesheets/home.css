@@ -3,7 +3,9 @@
 #C5C6C7 - gray
 #66FCF1 - brightteal
 #45A29E - teal */
-
+button, button *{
+  cursor: pointer !important;
+}
 #home {
   /* height: 100vh; */
   /* padding: 20px; */
@@ -111,7 +113,7 @@ ul#project-index {
       max-height: 200px;
     overflow: auto;
 
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 ul#project-index li {
@@ -120,9 +122,9 @@ ul#project-index li {
       margin: 20px 40px 20px 0; */
     padding: 10px;
     min-height: 50px;
-      margin: 0px auto 0px 0;
+    margin: 0px 0 0px 0;
     border-radius: 4px;
-    width: 31%;
+    width: 32%;
 }
 
 ul.project-item {
@@ -290,4 +292,34 @@ height: 15px;
 .no-items h3 {
   font-size:18px;
   margin-right: 10px;;
+}
+
+.blue-btn {
+  display: flex;
+    background: #45a29e;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 14px;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    margin-left: auto;
+    font-weight: 400;
+    box-shadow: 0 0px 5px 0 rgba(21, 27, 38, 0.47);
+        align-items: center;
+        transition: all 400ms;
+}
+
+.blue-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0px 8px 0 rgba(21, 27, 38, 0.47);
+}
+
+.blue-btn > svg {
+  margin-right:10px;
+}
+
+.new-project-li {
+  display:none;
 }

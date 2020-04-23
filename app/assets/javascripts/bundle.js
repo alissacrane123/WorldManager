@@ -2517,7 +2517,8 @@ function (_React$Component) {
       var _this$props = this.props,
           upcomingTasks = _this$props.upcomingTasks,
           sortedTasks = _this$props.sortedTasks,
-          overdueTasks = _this$props.overdueTasks;
+          overdueTasks = _this$props.overdueTasks,
+          openModal = _this$props.openModal;
       var cn = this.state.open ? '' : 'hide';
       var rotate = this.state.open ? 'rotate(90)' : '';
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2559,7 +2560,18 @@ function (_React$Component) {
         w: "12",
         transform: "scale(0.5)",
         fill: "#c3c6c7"
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_index_cont__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "blue-btn",
+        onClick: function onClick() {
+          return openModal('newProject');
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        name: "plus",
+        h: "12",
+        w: "12",
+        transform: "scale(0.5)",
+        fill: "white"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Project"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_index_cont__WEBPACK_IMPORTED_MODULE_3__["default"], {
         search: this.state.search,
         cn: cn
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -4050,7 +4062,9 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         id: "project-index",
         className: cn
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "new-project-li"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "project-item new"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
@@ -4259,7 +4273,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this3.handleSubmit();
         }
-      }, "Submit")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, "Add Team Member")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
           return _this3.props.openModal('newTasks');
         }
@@ -5833,10 +5847,17 @@ function (_React$Component) {
         updateFilter: updateFilter,
         userFilter: userFilter
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "blue-btn",
         onClick: function onClick() {
           return _this4.props.openModal('newTasks');
         }
-      }, "New Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderTasks(0), this.renderTasks(1), this.renderTasks(2)));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        name: "plus",
+        h: "12",
+        w: "12",
+        transform: "scale(0.5)",
+        fill: "white"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Task"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderTasks(0), this.renderTasks(1), this.renderTasks(2)));
     }
   }]);
 
