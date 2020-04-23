@@ -71,12 +71,16 @@ div.search input:focus {
 #home section.list {
   /* margin: 0px 10%; */
     margin: 0 auto 30px auto;
-    width: 730px;
+    /* width: 730px; */
+    width: 100%;
     /* max-height: 35vh; */
     /* overflow: scroll; */
 }
 
- 
+.home__left {
+      width: 40vw;
+      min-width: 600px;
+}
 
 #home section.list.home {
   /* margin: 70px auto 30px auto; */
@@ -194,7 +198,7 @@ outline: none;
 
 .reminders > ul {
   display:flex;
-    padding: 0 25px 40px 25px;
+  padding: 12px 25px 30px 25px;
   flex-direction: column;
   flex:1;
   background:white;
@@ -202,9 +206,12 @@ outline: none;
 }
 
 .reminders > header {
-  padding:25px;
+      padding: 20px 20px;
+    align-items: center;
   background: #efefef;
   border-radius: 10px 10px 0 0;
+      display: flex;
+    justify-content: space-between;
 }
 
 .reminder {
@@ -215,12 +222,13 @@ outline: none;
 }
 
 .reminder__text {
-    border-bottom: 1px solid #b3b3b3;
+    border-bottom: 1px solid #dee1e2;
+    padding: 13px 0px;
     margin: 0 15px 0 15px;
     flex: 1;
-    padding: 20px 0px;
-    color: #676767;
-    line-height: 16px;
+    color: black;
+    line-height: 12px;
+    font-size: 12px;
 }
 
 .reminder input {
@@ -228,12 +236,12 @@ outline: none;
     border-top: none;
     border-left: none;
     border-right: none;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .circle {
-  height:20px;
-  width:20px;
+height: 15px;
+    width: 15px;
   border-radius:50%;
   border: 2px solid #676767;
   cursor: pointer;
@@ -244,16 +252,16 @@ outline: none;
 }
 
 .reminders h1 {
-  font-size:22px;
   color:black;
-  font-weight:500;
-  margin-bottom:10px;
+  font-size: 18px;
+    font-weight: 500;
+  margin-bottom:0px;
   text-align: left;
 }
 
 .plus {
-    height:20px;
-  width:20px;
+height: 15px;
+    width: 15px;
 }
 
 .home__left div.toggle {

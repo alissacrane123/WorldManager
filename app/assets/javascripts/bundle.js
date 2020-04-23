@@ -4538,11 +4538,14 @@ function (_React$Component) {
   }, {
     key: "renderReminders",
     value: function renderReminders() {
-      var reminders = this.props.reminders;
+      var _this$props = this.props,
+          reminders = _this$props.reminders,
+          updateTask = _this$props.updateTask;
       var items = reminders.map(function (item, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_reminder_item__WEBPACK_IMPORTED_MODULE_2__["default"], {
           reminder: item,
-          key: i
+          key: i,
+          updateTask: updateTask
         });
       });
       var form = this.renderReminderForm();
@@ -4558,9 +4561,9 @@ function (_React$Component) {
         onClick: this.handleSubmit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
         name: "skinny-plus",
-        h: "20px",
-        w: "20px",
-        transform: "scale(0.83)",
+        h: "15",
+        w: "15",
+        transform: "scale(0.625)",
         fill: "#676767"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
@@ -4626,6 +4629,9 @@ var mdp = function mdp(dispatch) {
     },
     createTask: function createTask(task) {
       return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_3__["createTask"])(task));
+    },
+    updateTask: function updateTask(task) {
+      return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_3__["updateTask"])(task));
     }
   };
 };
@@ -4655,9 +4661,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -4677,17 +4683,30 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ReminderItem).call(this, props));
     _this.state = {};
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ReminderItem, [{
+    key: "handleClick",
+    value: function handleClick() {
+      var _this$props = this.props,
+          reminder = _this$props.reminder,
+          updateTask = _this$props.updateTask;
+      var task = Object.assign(reminder, {
+        status: 'done'
+      });
+      updateTask(task);
+    }
+  }, {
     key: "render",
     value: function render() {
       var reminder = this.props.reminder;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "reminder"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "circle"
+        className: "circle",
+        onClick: this.handleClick
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "reminder__text"
       }, reminder.title));
@@ -6867,7 +6886,7 @@ var selectAcceptedTasks = function selectAcceptedTasks(state) {
 };
 var selectReminders = function selectReminders(tasks) {
   var reminders = Object.values(tasks).filter(function (task) {
-    return task.reminder;
+    return task.reminder && task.status != 'done';
   });
   return reminders;
 };

@@ -28,10 +28,10 @@ class ReminderIndex extends React.Component {
   }
 
   renderReminders() {
-    let { reminders } = this.props;
+    let { reminders, updateTask } = this.props;
 
     let items = reminders.map((item, i) => (
-      <ReminderItem reminder={item} key={i} />
+      <ReminderItem reminder={item} key={i} updateTask={updateTask}/>
     ));
 
     let form = this.renderReminderForm();
@@ -48,7 +48,7 @@ class ReminderIndex extends React.Component {
     return (
       <li className="reminder">
         <div className="plus" onClick={this.handleSubmit}>
-          <SVG name="skinny-plus" h="20px" w="20px" transform="scale(0.83)"fill="#676767" />
+          <SVG name="skinny-plus" h="15" w="15" transform="scale(0.625)"fill="#676767" />
         </div>
         <input 
           type="text" 
