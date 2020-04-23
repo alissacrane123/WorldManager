@@ -22,6 +22,7 @@ const msp = (state, ownProps) => {
       created_at: null,
       user_id: [state.session.id],
       project_id: ['all'],
+      unassigned: true,
       status: ["todo", "doing"],
       priority: ["low", "med", "high"],
     }

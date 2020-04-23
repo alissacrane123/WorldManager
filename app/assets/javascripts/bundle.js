@@ -759,6 +759,7 @@ var msp = function msp(state, ownProps) {
       created_at: null,
       user_id: [state.session.id],
       project_id: ['all'],
+      unassigned: true,
       status: ["todo", "doing"],
       priority: ["low", "med", "high"]
     }
@@ -1123,7 +1124,10 @@ function (_React$Component) {
       var filteredTasks = tasks.filter(function (task) {
         return task.dueDate === date;
       });
-      tasks = filteredTasks.map(function (task, i) {
+      var sorted = filteredTasks.sort(function (a, b) {
+        return b.id - a.id;
+      });
+      tasks = sorted.map(function (task, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "cal-day-item",
           key: i,
@@ -1177,15 +1181,12 @@ function (_React$Component) {
   }, {
     key: "addTask",
     value: function addTask() {
-      // let input = document.getElementById('cal-input');
-      // let cb = input ? () => input.focus() : () => {};
       this.setState({
         showForm: !this.state.showForm
       }, function () {
         var input = document.getElementById('cal-input');
         input ? input.focus() : null;
-      }); // this.setState({ showForm: !this.state.showForm }, () => document.getElementById('cal-input').focus())
-      // document.getElementById('cal-input').focus();
+      });
     }
   }, {
     key: "render",

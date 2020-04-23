@@ -44,8 +44,9 @@ class CalendarDay extends React.Component {
 
     let date = this.formatDateString();
     let filteredTasks = tasks.filter(task => task.dueDate === date)
+    let sorted = filteredTasks.sort((a, b) => b.id - a.id);
 
-    tasks = filteredTasks.map((task, i) => (
+    tasks = sorted.map((task, i) => (
       <li className="cal-day-item" key={i} onClick={ () => openModal(`task${task.id}`)}>
         <h4>{titleize(task.title)}</h4>
         <div onClick={() => this.completeTask(task)}>
@@ -72,14 +73,10 @@ class CalendarDay extends React.Component {
   }
 
   addTask() {
-    // let input = document.getElementById('cal-input');
-    // let cb = input ? () => input.focus() : () => {};
     this.setState({ showForm: !this.state.showForm }, () => {
       let input = document.getElementById('cal-input');
       input ? input.focus() : null
     })
-    // this.setState({ showForm: !this.state.showForm }, () => document.getElementById('cal-input').focus())
-    // document.getElementById('cal-input').focus();
   }
 
   render() {
