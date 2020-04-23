@@ -111,15 +111,18 @@ ul#project-index {
       max-height: 200px;
     overflow: auto;
 
-  /* justify-content: center; */
+  justify-content: space-between;
 }
 
 ul#project-index li {
-  padding: 10px;
+  /* padding: 10px;
   min-height: 50px;
-      margin: 20px 40px 20px 0;
-  /* width: 33.333%; */
-  border-radius: 4px;
+      margin: 20px 40px 20px 0; */
+    padding: 10px;
+    min-height: 50px;
+      margin: 0px auto 0px 0;
+    border-radius: 4px;
+    width: 31%;
 }
 
 ul.project-item {
@@ -130,11 +133,13 @@ ul.project-item {
   border-radius: 20px;
   cursor: pointer;
   transition: all 400ms;
+  padding: 15px;
 }
 
 ul.project-item:hover {
   background: #f3f3f3;
   transform: scale(1.1);
+
 }
 
 ul.project-item div:first-child {
@@ -147,6 +152,11 @@ ul.project-item div:first-child {
 ul.project-item label {
   font-weight: 500;
   color: gray;
+      text-align: center;
+    font-size: 13px;
+    text-align: center;
+    line-height: 20px;
+
 }
 
 ul.project-item.new div:first-child{
