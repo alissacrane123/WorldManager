@@ -4208,10 +4208,16 @@ function (_React$Component) {
   _createClass(ProjectMembersForm, [{
     key: "handleSubmit",
     value: function handleSubmit() {
+      var _this2 = this;
+
       event.preventDefault();
       var pm = Object.assign({}, this.state); // debugger
 
-      this.props.createPM(pm); // .then(() => this.setState({ email: '', role: 'default' }))
+      this.props.createPM(pm).then(function () {
+        return _this2.setState({
+          email: ''
+        });
+      });
     }
   }, {
     key: "handleChange",
@@ -4222,7 +4228,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$props = this.props,
           users = _this$props.users,
@@ -4242,15 +4248,15 @@ function (_React$Component) {
         type: "text",
         value: this.state.email,
         onChange: function onChange() {
-          return _this2.handleChange("email");
+          return _this3.handleChange("email");
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this2.handleSubmit();
+          return _this3.handleSubmit();
         }
       }, "Submit")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this2.props.openModal('newTasks');
+          return _this3.props.openModal('newTasks');
         }
       }, "Next"));
     }
@@ -5491,7 +5497,7 @@ function (_React$Component) {
           h: 12,
           w: 12,
           transform: "scale(0.5)",
-          fill: "1F2833"
+          fill: "#6b6b6b"
         })));
       });
       var displayClass = tasks.length === 0 ? 'none' : '';
@@ -7437,6 +7443,19 @@ var tasksReducer = function tasksReducer() {
     case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_4__["RECEIVE_ALERTS"]:
       return Object.assign({}, nextState, action.payload.tasks);
     // case RECEIVE_DELETED_PROJECT:
+
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_DELETED_PROJECT"]:
+      var tasks = Object.values(state);
+      var projectId = Object.keys(action.payload.project)[0];
+      var ids = tasks.filter(function (task) {
+        return task.project_id == projectId;
+      }).map(function (task) {
+        return task.id;
+      });
+      ids.forEach(function (id) {
+        delete nextState[id];
+      });
+      return nextState;
 
     default:
       return state;

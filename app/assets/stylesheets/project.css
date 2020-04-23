@@ -175,6 +175,9 @@ button.tb.selected {
 margin-right: 10px;
     color: #636262;
     font-weight: 500;
+        overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 87%;
 }
 
 #task-item > * {

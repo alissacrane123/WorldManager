@@ -29,7 +29,14 @@ const tasksReducer = (state = {}, action) => {
     case RECEIVE_ALERTS:
       return Object.assign({}, nextState, action.payload.tasks)
     // case RECEIVE_DELETED_PROJECT:
-
+    case RECEIVE_DELETED_PROJECT:
+      let tasks = Object.values(state);
+      let projectId = Object.keys(action.payload.project)[0]
+      let ids = tasks.filter(task => task.project_id == projectId).map(task => task.id);
+      ids.forEach(id => {
+        delete nextState[id]
+      });
+      return nextState;
     default:
       return state;
   }

@@ -11,7 +11,7 @@ class ProjectMembersForm extends React.Component {
     let pm = Object.assign({}, this.state)
     // debugger
     this.props.createPM(pm)
-      // .then(() => this.setState({ email: '', role: 'default' }))
+      .then(() => this.setState({ email: ''}))
   }
 
   handleChange(field) {

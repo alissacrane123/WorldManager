@@ -75,7 +75,7 @@ class TaskForm extends React.Component {
       <li key={i}>
         <label>{task.title}</label>
         <div>
-          <SVG name="x" h={12} w={12} transform="scale(0.5)" fill="1F2833" />
+          <SVG name="x" h={12} w={12} transform="scale(0.5)" fill="#6b6b6b" />
         </div>
       </li>
     ));

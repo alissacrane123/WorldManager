@@ -64,7 +64,8 @@ form.task > div {
 form.task > div > input, form.task > div > textarea, form.task > div > select, form.project input, form.project select {
     margin-bottom: 15px;
     padding: 6px;
-    border: 1px solid #a5afbd;
+    /* border: 1px solid #a5afbd; */
+        border: 1px solid #d6d6d6;
     border-radius: 4px;
     outline: none;
     color:rgb(21, 27, 38);
@@ -95,7 +96,8 @@ form.task select, form.project select {
     width: 100%;
     outline: none;
     /* border: none; */
-        border: 1px solid #a5afbd;
+        border: 1px solid #d6d6d6;
+        /* border: 1px solid #a5afbd; */
     border-radius: 4px;
 }
 
@@ -136,7 +138,7 @@ input[type="radio"]:focus {
 
 form.task > ul {
   padding-bottom: 10px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -144,19 +146,33 @@ form.task > ul {
 }
 
 form.task li {
+      margin-right: 6px;
+    margin-bottom: 6px;
   display: flex;
     flex-direction: row;
     align-items: center;
         padding: 6px 15px;
     border-radius: 30px;
-    background: #45A29E;
+    /* background: #45A29E; */
+    border: 1px solid #dadada;
     justify-content: space-between;
 }
 
 form.task ul label {
-      margin-right: 20px;
-    color: white;
-    font-weight: 500;
+      /* margin-right: 20px; */
+    /* color: white;
+    font-weight: 500; */
+    /* color:black; */
+    /* color: #6b6b6b;
+    font-size:12px; */
+        margin-right: 10px;
+    /* color: black; */
+    color: #6b6b6b;
+    font-size: 12px;
+    width: 65PX;
+    /* width: 58px; */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 form.task li div {
@@ -217,6 +233,9 @@ form.task > div > ul input {
   margin-right: 10px;
 
   font-weight: bold;
+      overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 87%;
 }
 
 #modal-task section:first-of-type div {
