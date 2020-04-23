@@ -16,8 +16,11 @@ class ProjectIndex extends React.Component {
         proj.title.toLowerCase().startsWith(search.toLowerCase())
       ))
     }
+    let sorted = acceptedProjects.sort((a, b) => (
+      parseInt(b.id) - parseInt(a.id)
+    ))
     
-    let items = acceptedProjects.map(project => (
+    let items = sorted.map(project => (
       <li key={project.id}>
         <ProjectIndexItem project={project} />
 

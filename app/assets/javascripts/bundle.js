@@ -4027,7 +4027,10 @@ function (_React$Component) {
         });
       }
 
-      var items = acceptedProjects.map(function (project) {
+      var sorted = acceptedProjects.sort(function (a, b) {
+        return parseInt(b.id) - parseInt(a.id);
+      });
+      var items = sorted.map(function (project) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: project.id
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
