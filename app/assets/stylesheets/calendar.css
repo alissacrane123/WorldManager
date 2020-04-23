@@ -66,10 +66,11 @@
   width: 100%;
   /* flex-grow: 1; */
   flex: 1 1 0px;
+  max-height: 15vh;
   
 }
 
-#cal-header {
+#cal-month #cal-header {
   max-height: 40px;
   background: #1F2833;
   color:white;
@@ -113,7 +114,8 @@ ul.hide > li:first-child, ul.hide > li:last-child{
 }
 
 #flag {
-  flex:1;
+  /* flex:1; */
+  cursor: text;
 }
 
 #cal-day > ul {

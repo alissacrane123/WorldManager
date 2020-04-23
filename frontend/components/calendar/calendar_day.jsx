@@ -72,7 +72,14 @@ class CalendarDay extends React.Component {
   }
 
   addTask() {
-    this.setState({ showForm: true })
+    // let input = document.getElementById('cal-input');
+    // let cb = input ? () => input.focus() : () => {};
+    this.setState({ showForm: !this.state.showForm }, () => {
+      let input = document.getElementById('cal-input');
+      input ? input.focus() : null
+    })
+    // this.setState({ showForm: !this.state.showForm }, () => document.getElementById('cal-input').focus())
+    // document.getElementById('cal-input').focus();
   }
 
   render() {
@@ -84,6 +91,7 @@ class CalendarDay extends React.Component {
       <li>
         <input 
           type="text" 
+          id="cal-input"
           value={this.state.task.title} 
           onKeyPress={(e) => this.handleKeyPress(e)}
           onChange={() => this.handleChange()} />
@@ -92,16 +100,17 @@ class CalendarDay extends React.Component {
 
     let form = this.state.showForm ? li : null;
 
+    let taskItems = this.filterTasks();
+
     return (
       <div id="cal-day" className={disabledClass} >
-        { day }
+        {/* { day } */}
+        <div id="flag" onClick={() => this.addTask()}>{day}</div>
         <ul id={`cdl${day}`}>
-          { disabled ? null : this.filterTasks() }
-
           { form }
+          { disabled ? null : taskItems }
         </ul>
 
-        <div id="flag" onClick={() => this.addTask()}></div>
       </div>
     )
   }

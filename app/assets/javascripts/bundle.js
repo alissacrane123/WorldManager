@@ -1177,9 +1177,15 @@ function (_React$Component) {
   }, {
     key: "addTask",
     value: function addTask() {
+      // let input = document.getElementById('cal-input');
+      // let cb = input ? () => input.focus() : () => {};
       this.setState({
-        showForm: true
-      });
+        showForm: !this.state.showForm
+      }, function () {
+        var input = document.getElementById('cal-input');
+        input ? input.focus() : null;
+      }); // this.setState({ showForm: !this.state.showForm }, () => document.getElementById('cal-input').focus())
+      // document.getElementById('cal-input').focus();
     }
   }, {
     key: "render",
@@ -1195,6 +1201,7 @@ function (_React$Component) {
       var disabledClass = disabled ? 'disabled' : '';
       var li = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        id: "cal-input",
         value: this.state.task.title,
         onKeyPress: function onKeyPress(e) {
           return _this4.handleKeyPress(e);
@@ -1204,17 +1211,18 @@ function (_React$Component) {
         }
       }));
       var form = this.state.showForm ? li : null;
+      var taskItems = this.filterTasks();
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "cal-day",
         className: disabledClass
-      }, day, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        id: "cdl".concat(day)
-      }, disabled ? null : this.filterTasks(), form), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "flag",
         onClick: function onClick() {
           return _this4.addTask();
         }
-      }));
+      }, day), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        id: "cdl".concat(day)
+      }, form, disabled ? null : taskItems));
     }
   }]);
 
