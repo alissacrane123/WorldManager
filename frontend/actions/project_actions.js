@@ -68,7 +68,7 @@ export const fetchProject = (projectId) => dispatch => {
 export const createProject = (project, pm) => dispatch => {
   return (
     ProjectAPI.createProject(project, pm)
-      .then(payload => dispatch(receiveProject(payload)), // changed to receiveProject
+      .then(payload => dispatch(receiveNewProject(payload)), // changed to receiveProject
             err => dispatch(receiveErrors(err.responseJSON)))
   )
 }

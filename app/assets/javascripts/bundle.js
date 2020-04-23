@@ -390,7 +390,7 @@ var fetchProject = function fetchProject(projectId) {
 var createProject = function createProject(project, pm) {
   return function (dispatch) {
     return _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__["createProject"](project, pm).then(function (payload) {
-      return dispatch(receiveProject(payload));
+      return dispatch(receiveNewProject(payload));
     }, // changed to receiveProject
     function (err) {
       return dispatch(receiveErrors(err.responseJSON));
@@ -2727,6 +2727,7 @@ function (_React$Component) {
           modal = _this$props.modal,
           closeModal = _this$props.closeModal,
           users = _this$props.users,
+          pms = _this$props.pms,
           currentUserId = _this$props.currentUserId,
           tasks = _this$props.tasks,
           updateTask = _this$props.updateTask,
@@ -2747,6 +2748,7 @@ function (_React$Component) {
         case 'newPM':
           component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_members_form__WEBPACK_IMPORTED_MODULE_4__["default"], {
             projectId: projectId,
+            pms: pms,
             openModal: openModal,
             createPM: createPM,
             users: users,
@@ -2828,12 +2830,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
+  var projects = Object.keys(state.entities.projects).sort(function (a, b) {
+    return parseInt(b) - parseInt(a);
+  });
+  var projectId = projects[0];
+  var pms = Object.values(state.entities.pms).filter(function (pm) {
+    return pm.project_id == projectId;
+  });
+  var pmUserIds = pms.map(function (pm) {
+    return pm.user_id;
+  });
+  var users = Object.values(state.entities.users);
+  users = users.filter(function (user) {
+    return user.id != state.session.id;
+  });
+  users = users.filter(function (user) {
+    return pmUserIds.includes(user.id);
+  }); // debugger
+
   return {
     modal: state.ui.modal,
-    users: Object.values(state.entities.users),
+    users: users,
+    // users: Object.values(state.entities.users),
+    pms: Object.values(state.entities.pms),
     currentUserId: state.session.id,
     tasks: state.entities.tasks,
-    projectId: Object.keys(state.entities.projects)[0] // projectId: selectNewProjectId(state.entities.projects)
+    projectId: projects[0] // projectId: selectNewProjectId(state.entities.projects)
 
   };
 };
@@ -4201,16 +4223,15 @@ function (_React$Component) {
 
       var _this$props = this.props,
           users = _this$props.users,
-          currentUserId = _this$props.currentUserId;
-      users = users.filter(function (user) {
-        return user.id !== currentUserId;
-      });
+          currentUserId = _this$props.currentUserId; // users = users.filter(user => user.id !== currentUserId)
+
       var members = users.map(function (user, i) {
         var username = "".concat(user.fname, " ").concat(user.lname);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i
         }, username);
-      });
+      }); // debugger
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "task",
         id: "pm-form"
@@ -5078,6 +5099,11 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var getPath = function getPath(iconName, props) {
   switch (iconName) {
+    case 'smile':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
+        d: "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.508 13.941c-1.513 1.195-3.174 1.931-5.507 1.931-2.335 0-3.996-.736-5.509-1.931l-.492.493c1.127 1.72 3.2 3.566 6.001 3.566 2.8 0 4.872-1.846 5.999-3.566l-.492-.493zm.492-3.939l-.755.506s-.503-.948-1.746-.948c-1.207 0-1.745.948-1.745.948l-.754-.506c.281-.748 1.205-2.002 2.499-2.002 1.295 0 2.218 1.254 2.501 2.002zm-7 0l-.755.506s-.503-.948-1.746-.948c-1.207 0-1.745.948-1.745.948l-.754-.506c.281-.748 1.205-2.002 2.499-2.002 1.295 0 2.218 1.254 2.501 2.002z"
+      }));
+
     case 'skinny-plus':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
         d: "M11 11v-11h1v11h11v1h-11v11h-1v-11h-11v-1h11z"
@@ -5546,7 +5572,9 @@ var msp = function msp(state, ownProps) {
   //   let arr = ownProps.location.pathname.split('/');
   //   projectId = Number(arr[arr.length - 1])
   // }
-  var project = Object.values(state.entities.projects)[0];
+  var project = Object.values(state.entities.projects).sort(function (a, b) {
+    return parseInt(b.id) - parseInt(a.id);
+  })[0];
   return {
     tasks: Object.values(state.entities.tasks),
     users: Object.values(state.entities.users),
@@ -6017,6 +6045,18 @@ function (_React$Component) {
 
       var cn = this.state.open ? '' : 'hide';
       var rotate = this.state.open ? 'rotate(90)' : '';
+
+      if (taskItems.length < 1) {
+        taskItems = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "no-items"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "None"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          name: "smile",
+          h: "24",
+          w: "24",
+          fill: "#828991"
+        }));
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "task list"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7060,8 +7100,10 @@ var ModalReducer = function ModalReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
-/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -7079,6 +7121,10 @@ var pmsReducer = function pmsReducer() {
       return nextState;
     // might be same as above
 
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NEW_PM"]:
+      // debugger
+      return Object.assign(nextState, action.payload.pm);
+
     case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_UPDATED_PM"]:
       // let pmIdd = Object.keys(action.payload.pm)[0];
       // delete nextState[pmIdd];
@@ -7092,10 +7138,10 @@ var pmsReducer = function pmsReducer() {
     //   delete nextState[projectId];
     //   return nextState;
 
-    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_ALERTS"]:
+    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_ALERTS"]:
       return action.payload.pms;
 
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT_CURRENT_USER"]:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["LOGOUT_CURRENT_USER"]:
       return {};
 
     default:

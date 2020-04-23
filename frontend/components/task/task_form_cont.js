@@ -15,7 +15,7 @@ const msp = (state, ownProps) => {
   //   let arr = ownProps.location.pathname.split('/');
   //   projectId = Number(arr[arr.length - 1])
   // }
-  let project = Object.values(state.entities.projects)[0];
+  let project = Object.values(state.entities.projects).sort((a, b) => parseInt(b.id) - parseInt(a.id))[0];
  
   
   return {

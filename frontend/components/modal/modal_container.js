@@ -8,12 +8,25 @@ import { createPM } from '../../actions/project_actions';
 import { selectNewProjectId } from '../../helpers/helper';
 
 const mapStateToProps = (state, ownProps) => {
+
+  let projects = Object.keys(state.entities.projects).sort((a, b) => (
+    parseInt(b) - parseInt(a)
+  ))
+  let projectId = projects[0];
+  let pms = Object.values(state.entities.pms).filter(pm => pm.project_id == projectId)
+  let pmUserIds = pms.map(pm => pm.user_id )
+  let users = Object.values(state.entities.users);
+  users = users.filter(user => user.id != state.session.id);
+  users = users.filter(user => pmUserIds.includes(user.id));
+  // debugger
   return {
     modal: state.ui.modal,
-    users: Object.values(state.entities.users),
+    users: users,
+    // users: Object.values(state.entities.users),
+    pms: Object.values(state.entities.pms),
     currentUserId: state.session.id,
     tasks: state.entities.tasks,
-    projectId: Object.keys(state.entities.projects)[0]
+    projectId: projects[0]
     // projectId: selectNewProjectId(state.entities.projects)
   }
 }

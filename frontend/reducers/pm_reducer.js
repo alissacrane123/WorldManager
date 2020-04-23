@@ -1,4 +1,5 @@
 import { RECEIVE_PMS, RECEIVE_PM, RECEIVE_UPDATED_PM } from '../actions/pm_actions';
+import { RECEIVE_NEW_PM} from '../actions/project_actions';
 import { RECEIVE_ALERTS } from '../actions/alert_actions';
 import { LOGOUT_CURRENT_USER } from '../actions/session_actions';
 
@@ -13,6 +14,9 @@ const pmsReducer = (state = {}, action) => {
       delete nextState[pmId];
       return nextState;
       // might be same as above
+    case RECEIVE_NEW_PM:
+      // debugger
+      return Object.assign(nextState, action.payload.pm)
     case RECEIVE_UPDATED_PM:
       // let pmIdd = Object.keys(action.payload.pm)[0];
       // delete nextState[pmIdd];

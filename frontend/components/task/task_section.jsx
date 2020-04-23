@@ -30,6 +30,15 @@ class TaskSection extends React.Component {
 
       let cn = this.state.open ? '' : 'hide';
       let rotate = this.state.open ?  'rotate(90)' : '';
+
+      if (taskItems.length < 1) {
+        taskItems = (
+          <div className="no-items">
+            <h3>None</h3>
+            <SVG name="smile" h="24" w="24" fill="#828991" />
+          </div>
+        )
+      }
       
       return (
         <section className="task list">

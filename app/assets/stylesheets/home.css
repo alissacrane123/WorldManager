@@ -260,3 +260,16 @@ outline: none;
   display: flex;
   align-items: center;
 }
+
+.no-items {
+  display: flex;
+    align-items: center;
+    color: #828991;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.no-items h3 {
+  font-size:18px;
+  margin-right: 10px;;
+}
