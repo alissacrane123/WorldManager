@@ -2,6 +2,7 @@ import React from 'react';
 import TaskIndexItem from './task_index_item';
 import ProjectTaskFilter from '../filters/project_task';
 import SVG from '../svg';
+import svgOps from '../svg_props';
 
 class TaskIndex extends React.Component {
   constructor(props) {
@@ -100,13 +101,10 @@ class TaskIndex extends React.Component {
         <header>
           <ProjectTaskFilter users={users} currentUserId={currentUserId} updateFilter={updateFilter} userFilter={userFilter}/>       
           <button className="blue-btn" onClick={() => this.props.openModal('newTasks')}>
-            <SVG name="plus" h="12" w="12" transform="scale(0.5)" fill="white" />
+            <SVG name="plus"  {...svgOps["12"]} fill="white" />
             <label>New Task</label>
           </button>
-          {/* <div onClick={() => openModal('newTasks')}>
-            
-            <SVG name='plus' h={20} w={20} fill="white" transform="scale(0.84)" className="plus-show" />
-          </div> */}
+  
         </header>
 
         <div>

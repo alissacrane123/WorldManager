@@ -46,9 +46,12 @@ class TaskForm extends React.Component {
   }
 
   handleSubmit() {
+    let { closeModal, history, projectId} = this.props;
     event.preventDefault();
-    this.props.closeModal();
-    this.props.history.push(`/projects/${this.props.project.id}`);
+    closeModal();
+    if (projectId) {
+      history.push(`/projects/${projectId}`);
+    }
   }
 
   formatUsers() {
@@ -66,9 +69,10 @@ class TaskForm extends React.Component {
 
 
   render() {
-    let { project, tasks, closeModal, users } = this.props;
+    let { project, tasks, closeModal, users, path } = this.props;
+
+    if (!project && !path.includes('tasks')) return null;
     
-    if (!project) return null;
 
     let taskItems = this.state.tasks.map((task, i) => (
       <li key={i}>

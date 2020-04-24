@@ -1,6 +1,6 @@
 
 
-import { RECEIVE_TASK, RECEIVE_REMINDERS, RECEIVE_TASKS, RECEIVE_DELETED_TASK } from '../actions/task_actions';
+import { RECEIVE_TASK, RECEIVE_REMINDERS, RECEIVE_TASKS, RECEIVE_DELETED_TASK, RECEIVE_FILTER_TASKS } from '../actions/task_actions';
 import { RECEIVE_PROJECT, RECEIVE_DELETED_PROJECT } from '../actions/project_actions';
 import { LOGOUT_CURRENT_USER } from '../actions/session_actions';
 import { RECEIVE_ALERTS } from '../actions/alert_actions';
@@ -36,6 +36,9 @@ const tasksReducer = (state = {}, action) => {
         delete nextState[id]
       });
       return nextState;
+    case RECEIVE_FILTER_TASKS:
+      // debugger
+      return action.tasks;
     default:
       return state;
   }

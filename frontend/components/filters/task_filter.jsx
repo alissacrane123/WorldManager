@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { titleize } from '../../helpers/helper';
 import { formatJavascriptDate, dateInOneWeek } from '../../helpers/date_helper';
 import SVG from '../svg';
-
+import svgOps from '../svg_props';
 
 
 class TaskFilter extends React.Component {
@@ -50,10 +50,10 @@ class TaskFilter extends React.Component {
 
   handleSubmit() {
     // debugger
-    let { filterStart, filterEnd, fetchTasks, updateFilter } = this.props;
+    let { filterStart, filterEnd, fetchTasks,fetchFilterTasks, updateFilter } = this.props;
     let { start_date, end_date} = this.state.filter;
     let filters = Object.assign({}, this.state.filter);
-    fetchTasks(filters)
+    fetchFilterTasks(filters)
       .then(() => {
         if (start_date != filterStart || end_date != filterEnd) {
           updateFilter('tasks', {startDate: start_date, endDate: end_date})
@@ -80,7 +80,7 @@ class TaskFilter extends React.Component {
       return (
         <li className="selected" key={i}>
           <label>{el[key]}</label>
-          <div><SVG name="x" h="12" w="12" transform="scale(0.5)"fill="black"/></div>
+          <div><SVG name="x"  {...svgOps["12"]}fill="black"/></div>
         </li>
       )
     })
@@ -167,7 +167,7 @@ class TaskFilter extends React.Component {
   }
 
   render() {
-    let { currentUser } = this.props;
+    let { currentUser, openModal } = this.props;
 
     let teammates = this.renderInputs(currentUser.teammates, "user_id", "Owner");
     let projects = this.renderInputs(currentUser.projects, "project_id", "Project");
@@ -205,6 +205,11 @@ class TaskFilter extends React.Component {
           </ul>
 
         </div>
+
+        <button className="blue-btn" onClick={() => openModal('newTasks')}>
+          <SVG name="plus" {...svgOps["12"]} fill="white" />
+          <label>New Task</label>
+        </button>
 
       </div>  
     )

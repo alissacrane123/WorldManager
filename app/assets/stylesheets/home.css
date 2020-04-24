@@ -12,6 +12,7 @@ button, button *{
   margin: 0 auto auto auto;
   display:flex;
   flex-direction: row;
+  max-height: 100%;;
 }
 
 #home h2 {
@@ -45,10 +46,12 @@ div.search input:focus {
 }
 
 #home > div  {
-      padding: 20px;
+         padding: 0 20px 20px 20px;
     /* margin: 0 auto; */
-    margin: 2vw;
+    
+    margin: 1vw;
     display: flex;
+    overflow: scroll;
     flex-direction: column;
 }
 
@@ -202,7 +205,7 @@ outline: none;
   flex-direction: column;
   box-shadow: 0 5px 20px 0 rgba(21,27,38,.08);
   border-radius:10px;
-  flex:1;
+  /* flex:1; */
   border-radius: 10px;
   /* margin-bottom: 30px; */
   margin-bottom:auto;
@@ -301,14 +304,17 @@ height: 15px;
     outline: none;
     border: none;
     border-radius: 5px;
-    padding: 8px 14px;
+    padding: 8px 10px;
     font-size: 12px;
     letter-spacing: 0.4px;
     margin-left: auto;
     font-weight: 400;
     box-shadow: 0 0px 5px 0 rgba(21, 27, 38, 0.47);
-        align-items: center;
-        transition: all 400ms;
+    align-items: center;
+    transition: all 400ms;
+    width: 120px;
+    justify-content: center;
+    align-items: center;
 }
 
 .blue-btn:hover {
@@ -318,8 +324,15 @@ height: 15px;
 
 .blue-btn > svg {
   margin-right:10px;
+
 }
 
 .new-project-li {
   display:none;
+}
+
+.task__header {
+  display: flex;
+    align-items: center;
+    flex: 1;
 }

@@ -6,6 +6,7 @@ import ProjectIndexCont from '../project/project_index_cont';
 import TaskSection from '../task/task_section';
 import ReminderIndexCont from '../reminders/reminder_index_cont';
 
+import svgOps from '../svg_props';
 import SVG from '../svg'
 import { updateFilter } from '../../actions/filter_actions';
 
@@ -58,18 +59,18 @@ class Home extends React.Component {
                   value={this.state.search}
                   onChange={() => this.handleChange('search')}
                   placeholder="Search..."/>
-                <SVG name="search" h="12" w="12" transform="scale(0.5)"fill="#c3c6c7"/>
+                <SVG name="search"  {...svgOps["12"]}fill="#c3c6c7"/>
               </div>
 
               <button className="blue-btn" onClick={() => openModal('newProject')}>
-                <SVG name="plus" h="12" w="12" transform="scale(0.5)" fill="white" />
+                <SVG name="plus"  {...svgOps["12"]} fill="white" />
                 <label>New Project</label>
               </button>
             </div>
             <ProjectIndexCont search={this.state.search} cn={cn}/>
           </section>
     
-          <TaskSection tasks={sortedTasks} filter="Upcoming" header="Upcoming Tasks"/>
+          <TaskSection tasks={sortedTasks} filter="Upcoming" header="Upcoming Tasks" showBtn={true} openModal={openModal}/>
           <TaskSection tasks={overdueTasks} filter="Overdue" header="Overdue Tasks" />
         </div>
 

@@ -5,6 +5,7 @@ export const RECEIVE_TASKS = 'RECEIVE_TASKS';
 export const RECEIVE_TASK_ERRORS = 'RECEIVE_TASK_ERRORS';
 export const RECEIVE_DELETED_TASK = 'RECEIVE_DELETED_TASK';
 export const RECEIVE_REMINDERS = 'RECEIVE_REMINDERS';
+export const RECEIVE_FILTER_TASKS = 'RECEIVE_FILTER_TASKS';
 
 export const receiveReminders = reminders => {
   return {
@@ -22,6 +23,12 @@ export const receiveTasks = tasks => {
   // debugger
   return {
     type: RECEIVE_TASKS,
+    tasks
+}}
+export const receiveFilterTasks = tasks => {
+  // debugger
+  return {
+    type: RECEIVE_FILTER_TASKS,
     tasks
 }}
 
@@ -42,6 +49,14 @@ export const fetchTasks = (filter) => dispatch => {
   return (
     TaskAPI.fetchTasks(filter)
       .then(tasks => dispatch(receiveTasks(tasks)),
+        err => dispatch(receiveErrors(err.responseJSON)))
+  )
+}
+export const fetchFilterTasks = (filter) => dispatch => {
+  // debugger
+  return (
+    TaskAPI.fetchTasks(filter)
+      .then(tasks => dispatch(receiveFilterTasks(tasks)),
         err => dispatch(receiveErrors(err.responseJSON)))
   )
 }

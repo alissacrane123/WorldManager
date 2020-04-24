@@ -16,14 +16,16 @@ const msp = (state, ownProps) => {
   //   projectId = Number(arr[arr.length - 1])
   // }
   let project = Object.values(state.entities.projects).sort((a, b) => parseInt(b.id) - parseInt(a.id))[0];
- 
+  let projectId = project ? project.id : null;
   
   return {
+    path: ownProps.history.location.pathname,
     tasks: Object.values(state.entities.tasks),
     users: Object.values(state.entities.users),
     currentUser: state.entities.users[state.session.id],
     project: project,
-    emptyTaskObj: { due_date: new Date(), title: '', priority: 'low',user_id: state.session.id, description: '', status: 'todo', project_id: project.id }
+    projectId: projectId,
+    emptyTaskObj: { due_date: new Date(), title: '', priority: 'low',user_id: state.session.id, description: '', status: 'todo', project_id: projectId }
   }
 };
 

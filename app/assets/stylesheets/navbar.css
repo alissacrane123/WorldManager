@@ -132,6 +132,8 @@ position: absolute;
   padding:20px;
   height:80px;
       align-items: center;
+      position: fixed;
+      background:white;
 }
 
 .topbar.si h1 {

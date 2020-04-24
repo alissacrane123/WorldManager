@@ -2,6 +2,7 @@ import React from 'react';
 import SVG from '../svg';
 import TaskShowItemContainer from './task_show_item_cont';
 import { sortByDueDate } from '../../helpers/helper';
+import svgOps from '../svg_props';
 
 class TaskSection extends React.Component {
   constructor(props) {
@@ -15,10 +16,12 @@ class TaskSection extends React.Component {
   }
 
   render() {
-      let { tasks, filter, header } = this.props;
+      let { tasks, filter, header, showBtn, openModal } = this.props;
       let overdue = filter == 'Overdue' ? true : false;
     
       tasks = sortByDueDate(tasks);
+
+      tasks = filter == 'Upcoming' ? tasks.filter(task => task.status != 'done') : tasks;
     
       let taskItems = tasks.map((task, i) => (
         <TaskShowItemContainer key={i} task={task} overdue={overdue}/>
@@ -30,22 +33,30 @@ class TaskSection extends React.Component {
 
       let cn = this.state.open ? '' : 'hide';
       let rotate = this.state.open ?  'rotate(90)' : '';
+      let button = !showBtn ? null : (
+        <button className="blue-btn" onClick={() => openModal('newTasks')}>
+          <SVG name="plus" {...svgOps["12"]} fill="white" />
+          <label>New Task</label>
+        </button>
+      )
 
       if (taskItems.length < 1) {
         taskItems = (
           <div className="no-items">
             <h3>None</h3>
-            <SVG name="smile" h="24" w="24" fill="#828991" />
+            <SVG name="smile" {...svgOps["24nv"]} fill="#828991" />
           </div>
         )
       }
       
       return (
         <section className="task list">
-          <div onClick={this.toggle}>
-            <SVG name="carrot" h={12} w={12} rotate={rotate} fill="gray" transform="scale(0.5)" />
-            {/* <h2>{`${filter} Tasks`}</h2> */}
-            <h2>{header}</h2>
+          <div  >
+            <div className="task__header" onClick={this.toggle}>
+              <SVG name="carrot" {...svgOps["12"]} rotate={rotate} fill="gray"  />
+              <h2>{header}</h2>
+            </div>
+            { button }
           </div>
           <ul className={cn}>
             {taskItems }
