@@ -99,7 +99,7 @@
   cursor: pointer;
 }
 
-ul.hide > li:first-child, ul.hide > li:last-child{
+ul.hide-wknd > li:first-child, ul.hide-wknd > li:last-child{
   display: none;
 }
 
@@ -114,7 +114,7 @@ ul.hide > li:first-child, ul.hide > li:last-child{
 }
 
 #flag {
-  /* flex:1; */
+  flex:1;
   cursor: text;
 }
 

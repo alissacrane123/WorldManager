@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { formatJavascriptDate } from '../../helpers/date_helper';
 import SVG from '../svg';
+import { titleize } from '../../helpers/helper';
 
 class TaskForm extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class TaskForm extends React.Component {
 
   handleChange(field) {
     let newValue = event.target.value 
-    if (field === 'user_id') {
+    if (field === 'user_id' || field === 'project_id') {
       newValue = Number(newValue);
     }
     this.setState({ newTask: { ...this.state.newTask, [field]: newValue } });
@@ -67,9 +68,25 @@ class TaskForm extends React.Component {
     return users;
   }
 
+  renderProjectOptions() {
+    let { projects } = this.props;
+    let options = projects.map((item, i) => (
+      <option value={item.id}>{titleize(item.title)}</option>
+    ));
+
+    return (
+
+      <select value={this.state.project_id} onChange={() => this.handleChange('project_id')}>
+        <option value={null} default>Unassigned</option>
+        { options }
+      </select>
+
+    )
+  }
+
 
   render() {
-    let { project, tasks, closeModal, users, path } = this.props;
+    let { project, tasks, projects, projectTask, closeModal, users, path } = this.props;
 
     if (!project && !path.includes('tasks')) return null;
     
@@ -98,6 +115,9 @@ class TaskForm extends React.Component {
             value={this.state.newTask.title}
             onChange={() => this.handleChange("title")}
           />
+
+          <label className={projectTask ? 'hide' : ''}>Project</label>
+          {projectTask ? null : this.renderProjectOptions()}
 
           <label>Assignee</label>
           <select onChange={() => this.handleChange('user_id')} >

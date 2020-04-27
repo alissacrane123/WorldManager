@@ -43,7 +43,7 @@ class CalendarMonth extends React.Component {
       "Sat"
     ].map((day, i) => <li key={i}>{day}</li>);
 
-    let hideClass = this.props.hideWeekend ? "hide" : "";
+    let hideClass = this.props.hideWeekend ? "hide-wknd" : "";
     return (
       <ul id="cal-header" className={hideClass}>
         {header}
@@ -70,7 +70,7 @@ class CalendarMonth extends React.Component {
       prevDate = prevRow[6];
     }
 
-    let hideClass = this.props.hideWeekend ? "hide" : "";
+    let hideClass = this.props.hideWeekend ? "hide-wknd" : "";
     
     rows = rows.map((row, i) => {
       return (

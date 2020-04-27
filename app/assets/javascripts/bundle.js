@@ -1341,7 +1341,7 @@ function (_React$Component) {
           key: i
         }, day);
       });
-      var hideClass = this.props.hideWeekend ? "hide" : "";
+      var hideClass = this.props.hideWeekend ? "hide-wknd" : "";
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         id: "cal-header",
         className: hideClass
@@ -1372,7 +1372,7 @@ function (_React$Component) {
         prevDate = prevRow[6];
       }
 
-      var hideClass = this.props.hideWeekend ? "hide" : "";
+      var hideClass = this.props.hideWeekend ? "hide-wknd" : "";
       rows = rows.map(function (row, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           key: i,
@@ -5464,6 +5464,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_datepicker_dist_react_datepicker_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
+/* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -5502,6 +5503,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var TaskForm =
 /*#__PURE__*/
 function (_React$Component) {
@@ -5527,7 +5529,7 @@ function (_React$Component) {
     value: function handleChange(field) {
       var newValue = event.target.value;
 
-      if (field === 'user_id') {
+      if (field === 'user_id' || field === 'project_id') {
         newValue = Number(newValue);
       }
 
@@ -5600,13 +5602,36 @@ function (_React$Component) {
       return users;
     }
   }, {
+    key: "renderProjectOptions",
+    value: function renderProjectOptions() {
+      var _this3 = this;
+
+      var projects = this.props.projects;
+      var options = projects.map(function (item, i) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: item.id
+        }, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_7__["titleize"])(item.title));
+      });
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        value: this.state.project_id,
+        onChange: function onChange() {
+          return _this3.handleChange('project_id');
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: null,
+        "default": true
+      }, "Unassigned"), options);
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _this$props3 = this.props,
           project = _this$props3.project,
           tasks = _this$props3.tasks,
+          projects = _this$props3.projects,
+          projectTask = _this$props3.projectTask,
           closeModal = _this$props3.closeModal,
           users = _this$props3.users,
           path = _this$props3.path;
@@ -5632,11 +5657,13 @@ function (_React$Component) {
         type: "text",
         value: this.state.newTask.title,
         onChange: function onChange() {
-          return _this3.handleChange("title");
+          return _this4.handleChange("title");
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assignee"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: projectTask ? 'hide' : ''
+      }, "Project"), projectTask ? null : this.renderProjectOptions(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assignee"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         onChange: function onChange() {
-          return _this3.handleChange('user_id');
+          return _this4.handleChange('user_id');
         }
       }, this.formatUsers()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Due Date"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_datepicker__WEBPACK_IMPORTED_MODULE_3___default.a, {
         onChange: this.handleDateChange,
@@ -5645,7 +5672,7 @@ function (_React$Component) {
         type: "text",
         value: this.state.newTask.description,
         onChange: function onChange() {
-          return _this3.handleChange("description");
+          return _this4.handleChange("description");
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Priority"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "radio",
@@ -5659,7 +5686,7 @@ function (_React$Component) {
         name: "rad"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "High")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this3.createTask();
+          return _this4.createTask();
         }
       }, "Assign Task")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleSubmit
@@ -5701,12 +5728,15 @@ var msp = function msp(state, ownProps) {
     return parseInt(b.id) - parseInt(a.id);
   })[0];
   var projectId = ownProps.projectTask ? project.id : null;
+  var currentUser = state.entities.users[state.session.id]; // let userProjects = state.entities.users[state.session.id ]
+
   return {
     path: ownProps.history.location.pathname,
     tasks: Object.values(state.entities.tasks),
     users: Object.values(state.entities.users),
-    currentUser: state.entities.users[state.session.id],
+    currentUser: currentUser,
     project: project,
+    projects: currentUser.projects,
     projectId: projectId,
     emptyTaskObj: {
       due_date: new Date(),
