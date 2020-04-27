@@ -2785,6 +2785,7 @@ function (_React$Component) {
       var _this$props = this.props,
           modal = _this$props.modal,
           closeModal = _this$props.closeModal,
+          errors = _this$props.errors,
           users = _this$props.users,
           pms = _this$props.pms,
           currentUserId = _this$props.currentUserId,
@@ -2806,6 +2807,7 @@ function (_React$Component) {
       switch (modal) {
         case 'newPM':
           component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_members_form__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            errors: errors,
             projectId: projectId,
             pms: pms,
             openModal: openModal,
@@ -2920,7 +2922,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     pms: Object.values(state.entities.pms),
     currentUserId: state.session.id,
     tasks: state.entities.tasks,
-    projectId: projects[0] // projectId: selectNewProjectId(state.entities.projects)
+    projectId: projects[0],
+    errors: state.errors.entities // projectId: selectNewProjectId(state.entities.projects)
 
   };
 };
@@ -4300,17 +4303,23 @@ function (_React$Component) {
 
       var _this$props = this.props,
           users = _this$props.users,
-          currentUserId = _this$props.currentUserId;
+          currentUserId = _this$props.currentUserId,
+          errors = _this$props.errors;
       var members = users.map(function (user, i) {
         var username = "".concat(user.fname, " ").concat(user.lname);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i
         }, username);
       });
+      var errorEls = errors.map(function (err) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+          className: "error"
+        }, err);
+      });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "task",
         id: "pm-form"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Add Team Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, members), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Team Member Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Add Team Members"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, members), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, errorEls.length ? errorEls : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Team Member Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.email,
         onChange: function onChange() {
@@ -7123,6 +7132,9 @@ __webpack_require__.r(__webpack_exports__);
     case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_PM_ERRORS"]:
       return action.errors;
 
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NEW_PM"]:
+      return [];
+
     case _actions_task_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_TASK"]:
       return [];
 
@@ -7585,6 +7597,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
+/* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
+
 
 
 
@@ -7597,6 +7611,9 @@ var tasksReducer = function tasksReducer() {
   var nextState = Object.assign({}, state);
 
   switch (action.type) {
+    case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_4__["RECEIVE_UPDATED_PM"]:
+      return Object.assign(nextState, action.payload.tasks);
+
     case _actions_task_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_REMINDERS"]:
       return Object.assign(nextState, action.reminders);
 

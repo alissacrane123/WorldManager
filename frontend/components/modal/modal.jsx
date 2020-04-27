@@ -12,7 +12,7 @@ class Modal extends React.Component {
   }
 
   render() {
-    let { modal, closeModal, users, pms, currentUserId, tasks, updateTask, openModal, projectId, createPM } =  this.props;
+    let { modal, closeModal, errors,users, pms, currentUserId, tasks, updateTask, openModal, projectId, createPM } =  this.props;
 
     if (!modal) return null;
     let taskId;
@@ -25,7 +25,7 @@ class Modal extends React.Component {
     let component;
     switch (modal) {
       case 'newPM':
-        component = <ProjectMembersForm projectId={projectId} pms={pms} openModal={openModal} createPM={createPM} users={users} currentUserId={currentUserId}/>;
+        component = <ProjectMembersForm errors={errors} projectId={projectId} pms={pms} openModal={openModal} createPM={createPM} users={users} currentUserId={currentUserId}/>;
         break;
       case 'newProject':
         component = <ProjectFormContainer />;

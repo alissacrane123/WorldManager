@@ -35,7 +35,7 @@ class Api::TasksController < ApplicationController
     elsif search == 'overdue'
       tasks = Task.fetch_overdue_tasks(user_id, project_id )
     elsif search == 'week'
-      tasks = Task.includes(:user, :project).fetch_week_tasks(search_value, user_id, project_id)
+      tasks = Task.fetch_week_tasks(search_value, user_id, project_id)
     elsif search == 'overdue-upcoming'
       upcoming = Task.fetch_upcoming_tasks(user_id, project_id )
       overdue = Task.fetch_overdue_tasks(user_id, project_id )

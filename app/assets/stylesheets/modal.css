@@ -426,3 +426,11 @@ color: #6f7782;
 .react-datepicker-popper[data-placement^="bottom"] {
   top: -10px !important;
 }
+
+.error {
+  margin-bottom: 20px;
+    color: red;
+    font-style: italic;
+    font-size: 14px;
+    text-align: center;
+}

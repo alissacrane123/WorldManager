@@ -10,6 +10,11 @@ class Task < ApplicationRecord
     through: :project,
     source: :owner
 
+
+  has_many :pms,
+    through: :project,
+    source: :project_memberships
+
   has_many :alerts, :as => :alertable, dependent: :destroy
 
   def self.create_alerts 
@@ -39,24 +44,28 @@ class Task < ApplicationRecord
   def self.fetch_overdue_tasks(user_id, project_id)
     end_date = DateTime.now.beginning_of_day
 
-    Task.where('user_id = ?', user_id)
-      .where('project_id IN (?) OR project_id IS NULL', project_id)
-      .where('due_date < ?', end_date)
-      .where('status IN (?)', ["todo", "doing"])
-      .where('reminder = ?', false)
-      .order('due_date ASC')
+    Task.joins(:pms)
+      .where('project_memberships.accepted = ?', true)
+      .where('tasks.user_id = ?', user_id)
+      .where('tasks.project_id IN (?) OR tasks.project_id IS NULL', project_id)
+      .where('tasks.due_date < ?', end_date)
+      .where('tasks.status IN (?)', ["todo", "doing"])
+      .where('tasks.reminder = ?', false)
+      .order('tasks.due_date ASC')
       .limit(10)   
   end
 
   def self.fetch_upcoming_tasks(user_id, project_id)
     start_date = DateTime.now.beginning_of_day
 
-    Task.where('user_id = ?', user_id)
-      .where('project_id IN (?) OR project_id IS NULL', project_id)
-      .where('due_date >= ?', start_date)
-      .where('status IN (?)', ["todo", "doing"])
-      .where('reminder = ?', false)
-      .order('due_date ASC')
+    Task.joins(:pms)
+      .where('project_memberships.accepted = ? and project_memberships.user_id = ?', true, user_id)
+      .where('tasks.user_id = ?', user_id)
+      .where('tasks.project_id IN (?) OR tasks.project_id IS NULL', project_id)
+      .where('tasks.due_date >= ?', start_date)
+      .where('tasks.status IN (?)', ["todo", "doing"])
+      .where('tasks.reminder = ?', false)
+      .order('tasks.due_date ASC')
       .limit(10)   
   end
 
@@ -83,7 +92,8 @@ class Task < ApplicationRecord
     ending_day = DateTime.strptime(week, '%m/%d/%Y')
 
     if user_id && project_id 
-      Task.where('user_id = ?', user_id)
+      Task.includes(:user, :project)
+      .where('user_id = ?', user_id)
       .where('project_id IN (?) OR project_id IS NULL', project_id)
       .where('status IN (?)', ["todo", "doing"])
       .where('due_date >= ? AND due_date <= ?', start_day, ending_day.end_of_day)

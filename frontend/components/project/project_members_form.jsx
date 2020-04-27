@@ -20,7 +20,7 @@ class ProjectMembersForm extends React.Component {
   }
 
   render() {
-    let { users, currentUserId } = this.props;
+    let { users, currentUserId, errors } = this.props;
 
     let members = users.map((user, i) => {
       let username = `${user.fname} ${user.lname}`
@@ -28,6 +28,8 @@ class ProjectMembersForm extends React.Component {
         <li key={i}>{username}</li>
       )
     })
+
+    let errorEls = errors.map(err => <h3 className="error">{err}</h3>)
 
 
     return (
@@ -37,6 +39,7 @@ class ProjectMembersForm extends React.Component {
         <ul>{members}</ul>
 
         <div>
+          { errorEls.length ? errorEls : null }
           <label>Team Member Email</label>
           <input type="text"
             value={this.state.email}

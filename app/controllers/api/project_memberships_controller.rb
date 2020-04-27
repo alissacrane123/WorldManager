@@ -2,17 +2,22 @@ class Api::ProjectMembershipsController < ApplicationController
 
   def create
     @pm = ProjectMembership.new
-    @pm.user_id = User.find_by(email: pm_params[:email]).id
-    @pm.project_id = pm_params[:project_id]
-    @pm.inviter_id = current_user.id
-    @pm.admin = pm_params[:admin]
-    
-    # debugger
-    if @pm.save
-      @pm.create_alerts('invitee') if @pm.inviter_id != @pm.user_id
-      render "api/project_memberships/show"
+    user = User.find_by(email: pm_params[:email])
+    if !user 
+      render json: ["Sorry, we couldn't find a user with that email."], status: 401
     else
-      render json: @pm.errors.full_messages, status: 422
+      @pm.user_id = user.id
+      @pm.project_id = pm_params[:project_id]
+      @pm.inviter_id = current_user.id
+      @pm.admin = pm_params[:admin]
+      
+      # debugger
+      if @pm.save
+        @pm.create_alerts('invitee') if @pm.inviter_id != @pm.user_id
+        render "api/project_memberships/show"
+      else
+        render json: @pm.errors.full_messages, status: 422
+      end
     end
   end
 
@@ -37,7 +42,7 @@ class Api::ProjectMembershipsController < ApplicationController
 
     if @pm.update_attributes(pm_params)
       @pm.create_alerts('inviter') if @pm.accepted
-      render "api/project_memberships/show"
+      render "api/project_memberships/update"
     else
       render json: @pm.errors.full_messages, status: 422
     end

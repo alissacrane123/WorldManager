@@ -4,12 +4,15 @@ import { RECEIVE_TASK, RECEIVE_REMINDERS, RECEIVE_TASKS, RECEIVE_DELETED_TASK, R
 import { RECEIVE_PROJECT, RECEIVE_DELETED_PROJECT } from '../actions/project_actions';
 import { LOGOUT_CURRENT_USER } from '../actions/session_actions';
 import { RECEIVE_ALERTS } from '../actions/alert_actions';
+import { RECEIVE_UPDATED_PM } from '../actions/pm_actions';
 
 const tasksReducer = (state = {}, action) => {
   Object.freeze(state);
   let nextState = Object.assign({}, state);
 
   switch (action.type) {
+    case RECEIVE_UPDATED_PM:
+      return Object.assign(nextState, action.payload.tasks)
     case RECEIVE_REMINDERS:
       return Object.assign(nextState, action.reminders)
     case RECEIVE_TASK:

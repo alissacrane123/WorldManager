@@ -26,7 +26,8 @@ const mapStateToProps = (state, ownProps) => {
     pms: Object.values(state.entities.pms),
     currentUserId: state.session.id,
     tasks: state.entities.tasks,
-    projectId: projects[0]
+    projectId: projects[0],
+    errors: state.errors.entities
     // projectId: selectNewProjectId(state.entities.projects)
   }
 }
