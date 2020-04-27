@@ -6,6 +6,7 @@ import { sortByUpdatedAt } from '../../helpers/helper';
 
 const msp = (state, ownProps) => {
   let pms = Object.values(state.entities.pms);
+  pms = pms.filter(pms => pms.accepted || pms.user_id == state.session.id)
   pms = sortByUpdatedAt(pms)
   // debugger
   return {

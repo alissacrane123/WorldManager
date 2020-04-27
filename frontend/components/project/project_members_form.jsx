@@ -46,7 +46,7 @@ class ProjectMembersForm extends React.Component {
           <button onClick={() => this.handleSubmit()}>Add Team Member</button>
         </div>
 
-        <button onClick={() => this.props.openModal('newTasks')}>Next</button>
+        <button onClick={() => this.props.openModal('newProjectTasks')}>Next</button>
 
       </form>
     )

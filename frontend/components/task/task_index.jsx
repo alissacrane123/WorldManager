@@ -100,7 +100,7 @@ class TaskIndex extends React.Component {
 
         <header>
           <ProjectTaskFilter users={users} currentUserId={currentUserId} updateFilter={updateFilter} userFilter={userFilter}/>       
-          <button className="blue-btn" onClick={() => this.props.openModal('newTasks')}>
+          <button className="blue-btn" onClick={() => this.props.openModal('newProjectTasks')}>
             <SVG name="plus"  {...svgOps["12"]} fill="white" />
             <label>New Task</label>
           </button>

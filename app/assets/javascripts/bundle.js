@@ -2819,6 +2819,12 @@ function (_React$Component) {
           component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_form_cont__WEBPACK_IMPORTED_MODULE_1__["default"], null);
           break;
 
+        case 'newProjectTasks':
+          component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_form_cont__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            projectTask: true
+          });
+          break;
+
         case 'newTasks':
           component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_form_cont__WEBPACK_IMPORTED_MODULE_2__["default"], null);
           break;
@@ -3686,6 +3692,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var msp = function msp(state, ownProps) {
   var pms = Object.values(state.entities.pms);
+  pms = pms.filter(function (pms) {
+    return pms.accepted || pms.user_id == state.session.id;
+  });
   pms = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_4__["sortByUpdatedAt"])(pms); // debugger
 
   return {
@@ -4313,7 +4322,7 @@ function (_React$Component) {
         }
       }, "Add Team Member")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this3.props.openModal('newTasks');
+          return _this3.props.openModal('newProjectTasks');
         }
       }, "Next"));
     }
@@ -5679,6 +5688,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
+
 
 
 
@@ -5686,18 +5697,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state, ownProps) {
-  // let projectIds = Object.keys(state.entities.projects)
-  // let projectId;
-  // if (ownProps.location.pathname === '/') {
-  //   projectId = projectIds[projectIds.length - 1]
-  // } else {
-  //   let arr = ownProps.location.pathname.split('/');
-  //   projectId = Number(arr[arr.length - 1])
-  // }
   var project = Object.values(state.entities.projects).sort(function (a, b) {
     return parseInt(b.id) - parseInt(a.id);
   })[0];
-  var projectId = project ? project.id : null;
+  var projectId = ownProps.projectTask ? project.id : null;
   return {
     path: ownProps.history.location.pathname,
     tasks: Object.values(state.entities.tasks),
@@ -5932,7 +5935,7 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "blue-btn",
         onClick: function onClick() {
-          return _this4.props.openModal('newTasks');
+          return _this4.props.openModal('newProjectTasks');
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({
         name: "plus"
@@ -6992,16 +6995,17 @@ var sortByDueDate = function sortByDueDate(tasks) {
   return tasks;
 };
 var selectAcceptedProjects = function selectAcceptedProjects(state) {
-  var pmProjectIds = Object.values(state.entities.pms).filter(function (pm) {
-    return !pm.accepted;
-  }).map(function (pm) {
+  var pms = Object.values(state.entities.pms).filter(function (pm) {
+    return !pm.accepted && pm.user_id == state.session.id;
+  });
+  var pmProjectIds = pms.map(function (pm) {
     return pm.project_id;
   });
   var projects = Object.values(state.entities.projects).filter(function (project) {
     return !pmProjectIds.includes(project.id);
   });
   return projects;
-}; // problem here
+}; // fi
 
 var selectAcceptedTasks = function selectAcceptedTasks(state) {
   var pmProjectIds = Object.values(state.entities.pms).map(function (pm) {

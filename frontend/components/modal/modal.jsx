@@ -30,6 +30,9 @@ class Modal extends React.Component {
       case 'newProject':
         component = <ProjectFormContainer />;
         break;
+      case 'newProjectTasks':
+        component = <TaskFormContainer projectTask={true}/>
+        break;
       case 'newTasks':
         component = <TaskFormContainer />
         break;

@@ -3,20 +3,14 @@ import TaskForm from './task_form';
 import { createTask } from '../../actions/task_actions';
 import { closeModal } from '../../actions/modal_actions';
 import { withRouter } from 'react-router-dom';
+import { timeSince } from '../../helpers/date_helper';
 
 const msp = (state, ownProps) => {
   
-  // let projectIds = Object.keys(state.entities.projects)
-  // let projectId;
-  
-  // if (ownProps.location.pathname === '/') {
-  //   projectId = projectIds[projectIds.length - 1]
-  // } else {
-  //   let arr = ownProps.location.pathname.split('/');
-  //   projectId = Number(arr[arr.length - 1])
-  // }
   let project = Object.values(state.entities.projects).sort((a, b) => parseInt(b.id) - parseInt(a.id))[0];
-  let projectId = project ? project.id : null;
+
+  let projectId = ownProps.projectTask ? project.id : null;
+
   
   return {
     path: ownProps.history.location.pathname,
