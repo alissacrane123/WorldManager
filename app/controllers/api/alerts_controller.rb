@@ -3,14 +3,17 @@ class Api::AlertsController < ApplicationController
   def index
    
     if current_user
-      # @alerts = Alert.includes(alertable: [:project, :user]).where('user_id = ?', current_user.id)
-      task_alerts = Alert.includes(alertable: [:project, :user]).where('user_id = ? AND alertable_type = ?', current_user.id, 'Task')
+      # task_alerts = Alert.includes(alertable: [:project, :user]).where('user_id = ? AND alertable_type = ?', current_user.id, 'Task')
+      user_id = current_user.id
 
-      pm_alerts = Alert.includes(alertable: [:project, :user, :inviter]).where('user_id = ? AND alertable_type = ?', current_user.id, 'ProjectMembership')
+      task_alerts = Alert.fetch_task_alerts(user_id)
+
+      # pm_alerts = Alert.includes(alertable: [:project, :user, :inviter]).where('user_id = ? AND alertable_type = ?', current_user.id, 'ProjectMembership')
       
+      pm_alerts = Alert.fetch_pm_alerts(user_id)
+
       @alerts = task_alerts + pm_alerts
-    # else 
-      # @alerts = []
+
     end
   end
 
@@ -23,6 +26,7 @@ class Api::AlertsController < ApplicationController
     @alerts.each do |alert|
       alert.update(checked: true )
     end
+
 
     render "api/alerts/index"
   end

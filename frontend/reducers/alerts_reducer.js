@@ -8,7 +8,8 @@ const alertsReducer = (state = {}, action) => {
 
   switch (action.type) {
     case RECEIVE_ALERTS:
-      return action.payload.alerts;
+      return Object.assign(nextState, action.payload.alerts);
+      // return action.payload.alerts;
     case LOGOUT_CURRENT_USER:
       return {};
     default:

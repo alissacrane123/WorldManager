@@ -30,7 +30,10 @@ const pmsReducer = (state = {}, action) => {
     //   delete nextState[projectId];
     //   return nextState;
     case RECEIVE_ALERTS:
-      return action.payload.pms;
+      if (action.payload.pms) {
+        return action.payload.pms;
+      }
+      return state;
     case LOGOUT_CURRENT_USER:
       return {};
     default:

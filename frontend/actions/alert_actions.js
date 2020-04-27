@@ -15,3 +15,12 @@ export const fetchAlerts = () => dispatch => {
       .then(payload => dispatch(receiveAlerts(payload)))
   )
 }
+
+
+export const updateAlerts = (ids) => dispatch => {
+  return (
+    alertAPI.updateAlerts(ids)
+      .then(payload => dispatch(receiveAlerts(payload)))
+  )
+}
+
