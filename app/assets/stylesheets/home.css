@@ -16,7 +16,7 @@ button, button *{
 }
 
 #home h2 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
 }
 
@@ -213,7 +213,7 @@ outline: none;
 
 .reminders > ul {
   display:flex;
-  padding: 12px 25px 30px 25px;
+  padding: 4px 25px 30px 25px;
   flex-direction: column;
   flex:1;
   background:white;
@@ -268,7 +268,7 @@ height: 15px;
 
 .reminders h1 {
   color:black;
-  font-size: 18px;
+  font-size: 16px;
     font-weight: 500;
   margin-bottom:0px;
   text-align: left;
@@ -335,4 +335,8 @@ height: 15px;
   display: flex;
     align-items: center;
     flex: 1;
+}
+
+.reminders > ul li:first-child > .reminder__input{
+  padding: 10px 0px;
 }

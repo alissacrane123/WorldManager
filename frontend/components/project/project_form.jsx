@@ -31,20 +31,22 @@ class ProjectForm extends React.Component {
   render() {
 
     let cats = ["School", "Work", "Travel", "Fun", "Family", "Other"].map((el, i) => (
-      <option selected={this.state.project.category === el} key={i} value={el}>{el}</option>
+      <option  key={i} value={el}>{el}</option>
     ))
 
     return (
       <form className="project" id="project-form" >
+        {/* selected={user_id == user.id} */}
 
+ {/* selected={ this.state.project.category === 'default'}  */}
         <h4>New Project Form</h4>
 
         <label>Title</label>
         <input type="text" value={this.state.title} onChange={() => this.handleProjectChange('title')}/>
 
         <label>Category</label>
-        <select value={ this.state.category } onChange={ () => this.handleProjectChange('category') }>
-          <option value="default" selected={ this.state.project.category === 'default'} disabled={true}>Choose a category</option>
+        <select value={ this.state.category } defaultValue={'default'}onChange={ () => this.handleProjectChange('category') }>
+          <option value="default" disabled={true}>Choose a category</option>
           { cats }
         </select>
         

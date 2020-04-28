@@ -3988,7 +3988,6 @@ function (_React$Component) {
 
       var cats = ["School", "Work", "Travel", "Fun", "Family", "Other"].map(function (el, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-          selected: _this3.state.project.category === el,
           key: i,
           value: el
         }, el);
@@ -4004,12 +4003,12 @@ function (_React$Component) {
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Category"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         value: this.state.category,
+        defaultValue: 'default',
         onChange: function onChange() {
           return _this3.handleProjectChange('category');
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "default",
-        selected: this.state.project.category === 'default',
         disabled: true
       }, "Choose a category"), cats), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleSubmit
@@ -5633,6 +5632,7 @@ function (_React$Component) {
       var _this$props2 = this.props,
           users = _this$props2.users,
           currentUser = _this$props2.currentUser;
+      var user_id = this.state.newTask.user_id;
       users = users.map(function (user, i) {
         var username = user.id === currentUser.id ? 'Me' : "".concat(user.fname, " ").concat(user.lname);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -5703,6 +5703,7 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: projectTask ? 'hide' : ''
       }, "Project"), projectTask ? null : this.renderProjectOptions(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assignee"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        defaultValue: this.state.newTask.user_id,
         onChange: function onChange() {
           return _this4.handleChange('user_id');
         }
@@ -6563,6 +6564,7 @@ function (_React$Component) {
         var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         return days[day];
       } else {
+        debugger;
         if (dueDate[0] === "0") return dueDate.slice(1, 5);
         return dueDate.slice(0, 5);
       }

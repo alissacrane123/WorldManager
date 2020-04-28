@@ -9,6 +9,13 @@
   }
 }
 @media only screen and (max-width: 1100px) {
+  .reminders > header {
+      padding: 14px;
+  }
+
+  .reminder > ul {
+        padding: 0 25px 25px 25px;
+  }
   #home {
     flex-direction: column-reverse;
         justify-content: center;
@@ -22,6 +29,8 @@
 
   #home > .home__right {
         width:700px;
+    flex-shrink: 0;
+    max-height: 40vh;
   }
 
   #home section.list {

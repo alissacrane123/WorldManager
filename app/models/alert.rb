@@ -28,10 +28,11 @@ class Alert < ApplicationRecord
       .limit(30)
 
     if new_alerts.length < 1
-      Alert.includes(alertable: [:project, :user, :inviter])
+      new_alerts = Alert.includes(alertable: [:project, :user, :inviter])
       .where('user_id = ? AND alertable_type = ?', user_id, 'ProjectMembership')
       .order('updated_at asc')
       .limit(5)
     end
+    new_alerts
   end
 end

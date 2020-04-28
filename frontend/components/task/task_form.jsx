@@ -34,7 +34,7 @@ class TaskForm extends React.Component {
     let task = Object.assign({}, this.state.newTask);
     let newDate = formatJavascriptDate(task.due_date);
     let newTask = Object.assign(task, { due_date: newDate })
-    
+ 
     this.props.createTask(task)
       .then((promise) => this.resetState(promise))
   }
@@ -57,8 +57,10 @@ class TaskForm extends React.Component {
 
   formatUsers() {
     let { users, currentUser } = this.props;
-   
+    let { user_id } = this.state.newTask
+    
     users = users.map((user, i) => {
+
       let username = user.id === currentUser.id ? 'Me' : `${user.fname} ${user.lname}`;
       return (
         <option key={i} value={user.id}>{username}</option>
@@ -120,7 +122,8 @@ class TaskForm extends React.Component {
           {projectTask ? null : this.renderProjectOptions()}
 
           <label>Assignee</label>
-          <select onChange={() => this.handleChange('user_id')} >
+          <select defaultValue={this.state.newTask.user_id} onChange={() => this.handleChange('user_id')} >
+
             { this.formatUsers() }
           </select>
 

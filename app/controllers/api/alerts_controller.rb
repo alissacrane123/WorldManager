@@ -3,12 +3,9 @@ class Api::AlertsController < ApplicationController
   def index
    
     if current_user
-      # task_alerts = Alert.includes(alertable: [:project, :user]).where('user_id = ? AND alertable_type = ?', current_user.id, 'Task')
       user_id = current_user.id
 
       task_alerts = Alert.fetch_task_alerts(user_id)
-
-      # pm_alerts = Alert.includes(alertable: [:project, :user, :inviter]).where('user_id = ? AND alertable_type = ?', current_user.id, 'ProjectMembership')
       
       pm_alerts = Alert.fetch_pm_alerts(user_id)
 
@@ -24,7 +21,9 @@ class Api::AlertsController < ApplicationController
   def update_all
     @alerts = Alert.includes(:alertable).find(params[:alert_ids])
     @alerts.each do |alert|
-      alert.update(checked: true )
+      if alert.alertable_type == 'ProjectMembership' && alert.alertable.accepted
+        alert.update(checked: true )
+      end
     end
 
 
