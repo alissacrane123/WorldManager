@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-
+import { formatJavascriptDate, dateInOneWeek} from '../../helpers/date_helper';
 import SVG from '../svg';
 
 class Navbar extends React.Component {
@@ -9,6 +9,7 @@ class Navbar extends React.Component {
     this.state = { open: false }
     this.openMenu = this.openMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
+    this.handleTaskClick = this.handleTaskClick.bind(this);
   }
 
   openMenu() {
@@ -23,6 +24,13 @@ class Navbar extends React.Component {
     this.setState({ open: false }, () => {
       document.removeEventListener('click', this.closeMenu)
     })
+  }
+
+  handleTaskClick() {
+    let today = formatJavascriptDate(new Date())
+    let date = dateInOneWeek();
+    this.props.updateFilter('tasks', { startDate: today, endDate: date })
+    this.props.history.push('/tasks')
   }
 
   toggleSidebar() {
@@ -52,7 +60,8 @@ class Navbar extends React.Component {
           <label className="close">Home</label>
         </div>
   
-        <div onClick={() => this.props.history.push('/tasks')}>
+        {/* <div onClick={() => this.props.history.push('/tasks')}> */}
+        <div onClick={this.handleTaskClick}>
           <SVG className="sb" h={24} w={24} name="task" fill="white" />
           <label className="close">Tasks</label>
         </div>

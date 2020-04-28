@@ -16,12 +16,14 @@ if @alerts
     json.pms do
       if alert.alertable_type == 'ProjectMembership'
         pm = alertable
-        # user = pm.user 
+        inviter = pm.inviter
+        user = pm.user 
+        
         json.set! pm.id do
           json.extract! pm, :id, :user_id, :inviter_id, :project_id, :accepted, :admin,:updated_at, :created_at
           json.projectName pm.project.title
-          json.inviterName (pm.inviter.fname + ' ' + pm.inviter.lname)
-          json.inviteeName (pm.user.fname + ' ' + pm.user.lname)
+          json.inviterName (inviter.fname + ' ' + inviter.lname)
+          json.inviteeName (user.fname + ' ' + user.lname)
         end
       end
     end

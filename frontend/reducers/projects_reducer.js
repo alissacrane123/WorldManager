@@ -2,6 +2,7 @@
 import merge from 'lodash/merge';
 import { RECEIVE_PROJECT, RECEIVE_PROJECTS, RECEIVE_NEW_PROJECT, RECEIVE_DELETED_PROJECT } from '../actions/project_actions';
 import { LOGOUT_CURRENT_USER, RECEIVE_CURRENT_USER } from "../actions/session_actions";
+import { RECEIVE_PMS, RECEIVE_PM, RECEIVE_UPDATED_PM } from '../actions/pm_actions';
 
 const projectsReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -24,6 +25,8 @@ const projectsReducer = (state = {}, action) => {
       delete nextState[projectId];
       // debugger
       return nextState;
+    case RECEIVE_UPDATED_PM:
+      return Object.assign(nextState, action.payload.project)
     case LOGOUT_CURRENT_USER:
       return {}
     default:

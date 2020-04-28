@@ -22,14 +22,14 @@ export const createProject = (project, pm={} ) => {
   })
 }
 
-export const createPM = (pm) => {
+// export const createPM = (pm) => {
 
-  return $.ajax({
-    method: 'POST',
-    url: '/api/project_memberships',
-    data: { pm }
-  })
-}
+//   return $.ajax({
+//     method: 'POST',
+//     url: '/api/project_memberships',
+//     data: { pm }
+//   })
+// }
 
 export const deleteProject = (projectId) => {
   // debugger

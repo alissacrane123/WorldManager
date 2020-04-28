@@ -60,10 +60,13 @@ export const selectOverdueTasks = (tasks) => {
   return past;
 }
 
-export const selectProjectTasks = (tasks) => {
+export const selectProjectTasks = (tasks, state) => {
   let projectTasks = {};
+  let projects = Object.values(state.entities.projects);
+
 
   tasks.forEach(task => {
+  
     if (!task.project_id && !projectTasks[0]) {
       projectTasks[0] = [task]
     } else if (!task.project_id) {

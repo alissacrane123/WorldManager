@@ -4,8 +4,14 @@
 user = @pm.user 
 project = @pm.project
 
-json.set! "user" do
-  json.partial! "api/users/user", user: user
+# json.set! "user" do
+#   json.partial! "api/users/user", user: user
+# end
+
+json.set! "project" do 
+  json.set! project.id do
+    json.extract! project, :id, :title, :owner_id, :category, :created_at
+  end
 end
 
 json.set! "pm" do

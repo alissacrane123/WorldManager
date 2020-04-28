@@ -14,9 +14,7 @@ import TaskFilter from './task_filter'
 
 const msp = (state, ownProps) => {
   let acceptedTasks = selectAcceptedTasks(state);
-  // let recentTasks = [];
   let currentUser = state.entities.users[state.session.id];
-  // let projectIds = currentUser.projects.map(project => project.id);
   
   let { startDate, endDate } = state.ui.filters.tasks;
   let filterTasks;
@@ -31,18 +29,9 @@ const msp = (state, ownProps) => {
   return {
     currentUser: currentUser,
     currentUserProjects: currentUser.projects,
-    // users: Object.values(state.entities.users),
-    // allTasks: acceptedTasks,
-    // filterStart: startDate,
-    // filterEnd: endDate,
-    // recentTasks: selectRecentTasks(acceptedTasks),
-    // upcomingTasks: selectUpcomingTasks(acceptedTasks),
-    // overdueTasks: selectOverdueTasks(acceptedTasks),
     defaultFilter: {
       start_date: startDate,
       end_date: endDate,
-      // start_date: formatJavascriptDate(new Date()),
-      // end_date: dateInOneWeek(),
       created_at: null,
       user_id: [state.session.id],
       project_id: ['all'],

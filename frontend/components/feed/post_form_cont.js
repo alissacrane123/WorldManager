@@ -5,7 +5,7 @@ import PostForm from './post_form';
 import { login, signup, logout } from '../../actions/session_actions';
 import { openModal, closeModal } from '../../actions/modal_actions';
 import { createPost } from '../../actions/post_actions';
-import { createPM } from '../../util/project_api_util';
+// import { createPM } from '../../util/project_api_util';
 
 const msp = (state, ownProps) => {
   let projectId = Object.keys(state.entities.projects)[0]

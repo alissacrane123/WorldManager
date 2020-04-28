@@ -181,7 +181,7 @@ var closeModal = function closeModal() {
 /*!****************************************!*\
   !*** ./frontend/actions/pm_actions.js ***!
   \****************************************/
-/*! exports provided: RECEIVE_PM, RECEIVE_PMS, RECEIVE_PM_ERRORS, RECEIVE_UPDATED_PM, receivePM, receiveUpdatedPM, receivePMs, receiveErrors, fetchPMs, createPM, updatePM */
+/*! exports provided: RECEIVE_PM, RECEIVE_PMS, RECEIVE_PM_ERRORS, RECEIVE_UPDATED_PM, RECEIVE_NEW_PM, receivePM, receiveUpdatedPM, receivePMs, receiveErrors, receiveNewPM, fetchPMs, createPM, updatePM */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -190,10 +190,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PMS", function() { return RECEIVE_PMS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PM_ERRORS", function() { return RECEIVE_PM_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_UPDATED_PM", function() { return RECEIVE_UPDATED_PM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_PM", function() { return RECEIVE_NEW_PM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receivePM", function() { return receivePM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveUpdatedPM", function() { return receiveUpdatedPM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receivePMs", function() { return receivePMs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewPM", function() { return receiveNewPM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchPMs", function() { return fetchPMs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPM", function() { return createPM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updatePM", function() { return updatePM; });
@@ -203,6 +205,7 @@ var RECEIVE_PM = 'RECEIVE_PM';
 var RECEIVE_PMS = 'RECEIVE_PMS';
 var RECEIVE_PM_ERRORS = 'RECEIVE_PM_ERRORS';
 var RECEIVE_UPDATED_PM = 'RECEIVE_UPDATED_PM';
+var RECEIVE_NEW_PM = 'RECEIVE_NEW_PM';
 var receivePM = function receivePM(payload) {
   return {
     type: RECEIVE_PM,
@@ -227,6 +230,12 @@ var receiveErrors = function receiveErrors(errors) {
     errors: errors
   };
 };
+var receiveNewPM = function receiveNewPM(payload) {
+  return {
+    type: RECEIVE_NEW_PM,
+    payload: payload
+  };
+};
 var fetchPMs = function fetchPMs() {
   return function (dispatch) {
     return _util_pm_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchPMs"]().then(function (pms) {
@@ -239,12 +248,19 @@ var fetchPMs = function fetchPMs() {
 var createPM = function createPM(pm) {
   return function (dispatch) {
     return _util_pm_api_util__WEBPACK_IMPORTED_MODULE_0__["createPM"](pm).then(function (payload) {
-      return dispatch(receivePM(payload));
+      return dispatch(receiveNewPM(payload));
     }, function (err) {
       return dispatch(receiveErrors(err.responseJSON));
     });
   };
-};
+}; // export const createPM = pm => dispatch => {
+//   return (
+//     ProjectAPI.createPM(pm)
+//       .then(user => dispatch(receiveNewPM(user)),
+//         err => dispatch(receiveErrors(err.responseJSON)))
+//   )
+// }
+
 var updatePM = function updatePM(pm) {
   return function (dispatch) {
     return _util_pm_api_util__WEBPACK_IMPORTED_MODULE_0__["updatePM"](pm).then(function (payload) {
@@ -309,7 +325,7 @@ var fetchPosts = function fetchPosts(params) {
 /*!*********************************************!*\
   !*** ./frontend/actions/project_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_PROJECT, RECEIVE_PROJECTS, RECEIVE_NEW_PROJECT, RECEIVE_NEW_PM, RECEIVE_PROJECT_ERRORS, RECEIVE_DELETED_PROJECT, receiveNewProject, receiveProject, receiveProjects, receiveDeletedProject, receiveNewPM, receiveErrors, fetchProjects, fetchProject, createProject, createPM, deleteProject */
+/*! exports provided: RECEIVE_PROJECT, RECEIVE_PROJECTS, RECEIVE_NEW_PROJECT, RECEIVE_PROJECT_ERRORS, RECEIVE_DELETED_PROJECT, receiveNewProject, receiveProject, receiveProjects, receiveDeletedProject, receiveErrors, fetchProjects, fetchProject, createProject, deleteProject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -317,26 +333,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECT", function() { return RECEIVE_PROJECT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECTS", function() { return RECEIVE_PROJECTS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_PROJECT", function() { return RECEIVE_NEW_PROJECT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_PM", function() { return RECEIVE_NEW_PM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PROJECT_ERRORS", function() { return RECEIVE_PROJECT_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_DELETED_PROJECT", function() { return RECEIVE_DELETED_PROJECT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewProject", function() { return receiveNewProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveProject", function() { return receiveProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveProjects", function() { return receiveProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveDeletedProject", function() { return receiveDeletedProject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewPM", function() { return receiveNewPM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchProjects", function() { return fetchProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchProject", function() { return fetchProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProject", function() { return createProject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPM", function() { return createPM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
 /* harmony import */ var _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/project_api_util */ "./frontend/util/project_api_util.js");
 
 var RECEIVE_PROJECT = 'RECEIVE_PROJECT';
 var RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
-var RECEIVE_NEW_PROJECT = 'RECEIVE_NEW_PROJECT';
-var RECEIVE_NEW_PM = 'RECEIVE_NEW_PM';
+var RECEIVE_NEW_PROJECT = 'RECEIVE_NEW_PROJECT'; // export const RECEIVE_NEW_PM = 'RECEIVE_NEW_PM';
+
 var RECEIVE_PROJECT_ERRORS = 'RECEIVE_PROJECT_ERRORS';
 var RECEIVE_DELETED_PROJECT = 'RECEIVE_DELETED_PROJECT';
 var receiveNewProject = function receiveNewProject(payload) {
@@ -364,13 +377,13 @@ var receiveDeletedProject = function receiveDeletedProject(payload) {
     type: RECEIVE_DELETED_PROJECT,
     payload: payload
   };
-};
-var receiveNewPM = function receiveNewPM(payload) {
-  return {
-    type: RECEIVE_NEW_PM,
-    payload: payload
-  };
-};
+}; // export const receiveNewPM = payload => {
+//   return {
+//     type: RECEIVE_NEW_PM,
+//     payload
+//   }
+// }
+
 var receiveErrors = function receiveErrors(errors) {
   return {
     type: RECEIVE_PROJECT_ERRORS,
@@ -404,16 +417,14 @@ var createProject = function createProject(project, pm) {
       return dispatch(receiveErrors(err.responseJSON));
     });
   };
-};
-var createPM = function createPM(pm) {
-  return function (dispatch) {
-    return _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__["createPM"](pm).then(function (user) {
-      return dispatch(receiveNewPM(user));
-    }, function (err) {
-      return dispatch(receiveErrors(err.responseJSON));
-    });
-  };
-};
+}; // export const createPM = pm => dispatch => {
+//   return (
+//     ProjectAPI.createPM(pm)
+//       .then(user => dispatch(receiveNewPM(user)),
+//             err => dispatch(receiveErrors(err.responseJSON)))
+//   )
+// }
+
 var deleteProject = function deleteProject(projectId) {
   return function (dispatch) {
     return _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteProject"](projectId).then(function (payload) {
@@ -1595,14 +1606,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 /* harmony import */ var _actions_post_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/post_actions */ "./frontend/actions/post_actions.js");
-/* harmony import */ var _util_project_api_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/project_api_util */ "./frontend/util/project_api_util.js");
 
 
 
 
 
-
-
+ // import { createPM } from '../../util/project_api_util';
 
 var msp = function msp(state, ownProps) {
   var projectId = Object.keys(state.entities.projects)[0];
@@ -2097,13 +2106,11 @@ function (_React$Component) {
   _createClass(TaskFilter, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var filter = Object.assign({}, this.state.filter);
-      var today = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_4__["formatJavascriptDate"])(new Date());
-      var date = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_4__["dateInOneWeek"])();
-      this.props.fetchTasks(filter).then(this.props.updateFilter('tasks', {
-        startDate: today,
-        endDate: date
-      })); // .then(this.props.updateFilter('tasks', filter))
+      var filter = Object.assign({}, this.state.filter); // let today = formatJavascriptDate(new Date())
+      // let date = dateInOneWeek();
+
+      this.props.fetchTasks(filter); // .then(this.props.updateFilter('tasks', { startDate: today, endDate: date }))
+      // .then(this.props.updateFilter('tasks', filter))
     }
   }, {
     key: "handleChange",
@@ -2390,10 +2397,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state, ownProps) {
-  var acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectAcceptedTasks"])(state); // let recentTasks = [];
-
-  var currentUser = state.entities.users[state.session.id]; // let projectIds = currentUser.projects.map(project => project.id);
-
+  var acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["selectAcceptedTasks"])(state);
+  var currentUser = state.entities.users[state.session.id];
   var _state$ui$filters$tas = state.ui.filters.tasks,
       startDate = _state$ui$filters$tas.startDate,
       endDate = _state$ui$filters$tas.endDate;
@@ -2411,18 +2416,9 @@ var msp = function msp(state, ownProps) {
   return {
     currentUser: currentUser,
     currentUserProjects: currentUser.projects,
-    // users: Object.values(state.entities.users),
-    // allTasks: acceptedTasks,
-    // filterStart: startDate,
-    // filterEnd: endDate,
-    // recentTasks: selectRecentTasks(acceptedTasks),
-    // upcomingTasks: selectUpcomingTasks(acceptedTasks),
-    // overdueTasks: selectOverdueTasks(acceptedTasks),
     defaultFilter: {
       start_date: startDate,
       end_date: endDate,
-      // start_date: formatJavascriptDate(new Date()),
-      // end_date: dateInOneWeek(),
       created_at: null,
       user_id: [state.session.id],
       project_id: ['all'],
@@ -2538,8 +2534,7 @@ function (_React$Component) {
     value: function componentDidMount() {
       var date = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["dateInOneWeek"])();
       var nextSunday = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["getNextSunday"])();
-      var today = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(new Date()); // this.props.fetchSearchTasks('week', nextSunday)
-
+      var today = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(new Date());
       this.props.fetchSearchTasks('overdue-upcoming', nextSunday).then(this.props.updateFilter('tasks', {
         startDate: today,
         endDate: nextSunday
@@ -2670,7 +2665,7 @@ __webpack_require__.r(__webpack_exports__);
 var msp = function msp(state, ownProps) {
   var tasks = Object.values(state.entities.tasks);
   var ownedTasks = tasks.filter(function (task) {
-    return task.owner === "You" && task.status !== "done";
+    return task.user_id == state.session.id && task.status !== "done";
   });
   var sortedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["sortByDueDate"])(tasks);
   var acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_3__["selectAcceptedTasks"])(state).filter(function (task) {
@@ -2893,7 +2888,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_task_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/task_actions */ "./frontend/actions/task_actions.js");
-/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/pm_actions */ "./frontend/actions/pm_actions.js");
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
 
 
@@ -2951,7 +2946,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       return dispatch(Object(_actions_task_actions__WEBPACK_IMPORTED_MODULE_5__["updateTask"])(task));
     },
     createPM: function createPM(pm) {
-      return dispatch(Object(_actions_project_actions__WEBPACK_IMPORTED_MODULE_6__["createPM"])(pm));
+      return dispatch(Object(_actions_pm_actions__WEBPACK_IMPORTED_MODULE_6__["createPM"])(pm));
     }
   };
 };
@@ -3167,7 +3162,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
+/* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
+/* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -3192,6 +3188,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var Navbar =
 /*#__PURE__*/
 function (_React$Component) {
@@ -3208,6 +3205,7 @@ function (_React$Component) {
     };
     _this.openMenu = _this.openMenu.bind(_assertThisInitialized(_this));
     _this.closeMenu = _this.closeMenu.bind(_assertThisInitialized(_this));
+    _this.handleTaskClick = _this.handleTaskClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3236,6 +3234,17 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "handleTaskClick",
+    value: function handleTaskClick() {
+      var today = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["formatJavascriptDate"])(new Date());
+      var date = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["dateInOneWeek"])();
+      this.props.updateFilter('tasks', {
+        startDate: today,
+        endDate: date
+      });
+      this.props.history.push('/tasks');
+    }
+  }, {
     key: "toggleSidebar",
     value: function toggleSidebar() {
       var labels = document.querySelectorAll('#navbar label').forEach(function (label) {
@@ -3261,7 +3270,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this4.toggleSidebar();
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
         id: "sb-menu",
         className: "sb",
         h: 24,
@@ -3269,7 +3278,7 @@ function (_React$Component) {
         transform: "scale(0.63)",
         name: "menue",
         fill: "white"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], _defineProperty({
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], _defineProperty({
         id: "sb-arrow",
         className: "sb2 close",
         name: "big-arrow",
@@ -3281,7 +3290,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this4.props.history.push('/');
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
         className: "sb",
         h: 24,
         w: 24,
@@ -3290,10 +3299,8 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "close"
       }, "Home")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: function onClick() {
-          return _this4.props.history.push('/tasks');
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        onClick: this.handleTaskClick
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
         className: "sb",
         h: 24,
         w: 24,
@@ -3305,7 +3312,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this4.props.history.push('/cal');
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
         className: "sb",
         h: 24,
         w: 24,
@@ -3317,7 +3324,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this4.props.history.push('/team');
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
         className: "sb",
         h: 24,
         w: 24,
@@ -3329,7 +3336,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this4.openMenu();
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_3__["default"], {
         id: "settings",
         className: "sb",
         name: "settings",
@@ -3366,6 +3373,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _navbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./navbar */ "./frontend/components/navbar/navbar.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var _actions_filter_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/filter_actions */ "./frontend/actions/filter_actions.js");
+
 
 
 
@@ -3374,7 +3383,17 @@ __webpack_require__.r(__webpack_exports__);
 var msp = function msp(state, ownProps) {
   return {
     currentUser: state.entities.users[state.session.id],
-    pms: Object.values(state.entities.pms)
+    pms: Object.values(state.entities.pms) // defaultFilter: {
+    //   start_date: startDate,
+    //   end_date: endDate,
+    //   created_at: null,
+    //   user_id: [state.session.id],
+    //   project_id: ['all'],
+    //   unassigned: true,
+    //   status: ["todo", "doing"],
+    //   priority: ["low", "med", "high"]
+    // }
+
   };
 };
 
@@ -3391,6 +3410,9 @@ var mdp = function mdp(dispatch) {
     },
     openModal: function openModal(modalType) {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])(modalType));
+    },
+    updateFilter: function updateFilter(entity, value) {
+      return dispatch(Object(_actions_filter_actions__WEBPACK_IMPORTED_MODULE_4__["updateFilter"])(entity, value));
     },
     closeModal: function closeModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["closeModal"])());
@@ -4622,8 +4644,7 @@ function (_React$Component) {
 
   _createClass(ReminderIndex, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.fetchReminders('reminder');
+    value: function componentDidMount() {// this.props.fetchReminders('reminder')
     }
   }, {
     key: "handleChange",
@@ -6422,13 +6443,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var msp = function msp(state, ownProps) {
   var acceptedTasks = Object.values(state.entities.tasks);
-  var recentTasks = []; // let startDate, endDate;
 
   if (state.ui.filters.tasks) {
     var _state$ui$filters$tas = state.ui.filters.tasks,
         startDate = _state$ui$filters$tas.startDate,
         endDate = _state$ui$filters$tas.endDate;
-    var filterTasks;
 
     if (startDate && endDate) {
       acceptedTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectTasksBetweenDates"])(startDate, endDate, acceptedTasks);
@@ -6439,7 +6458,7 @@ var msp = function msp(state, ownProps) {
     }
   }
 
-  var projectTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectProjectTasks"])(acceptedTasks);
+  var projectTasks = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["selectProjectTasks"])(acceptedTasks, state);
   return {
     currentUserId: state.session.id,
     userFilter: state.ui.filters.tasks,
@@ -6563,8 +6582,8 @@ function (_React$Component) {
         var day = new Date(dueDate).getDay();
         var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         return days[day];
-      } else {
-        debugger;
+      } else if (dueDate) {
+        // debugger
         if (dueDate[0] === "0") return dueDate.slice(1, 5);
         return dueDate.slice(0, 5);
       }
@@ -7054,8 +7073,9 @@ var selectOverdueTasks = function selectOverdueTasks(tasks) {
   });
   return past;
 };
-var selectProjectTasks = function selectProjectTasks(tasks) {
+var selectProjectTasks = function selectProjectTasks(tasks, state) {
   var projectTasks = {};
+  var projects = Object.values(state.entities.projects);
   tasks.forEach(function (task) {
     if (!task.project_id && !projectTasks[0]) {
       projectTasks[0] = [task];
@@ -7185,7 +7205,7 @@ __webpack_require__.r(__webpack_exports__);
     case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_PM_ERRORS"]:
       return action.errors;
 
-    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NEW_PM"]:
+    case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_NEW_PM"]:
       return [];
 
     case _actions_task_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_TASK"]:
@@ -7356,10 +7376,9 @@ var ModalReducer = function ModalReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
-/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
-/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
-
+/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+ // import { RECEIVE_NEW_PM} from '../actions/project_actions';
 
 
 
@@ -7377,7 +7396,7 @@ var pmsReducer = function pmsReducer() {
       return nextState;
     // might be same as above
 
-    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NEW_PM"]:
+    case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_NEW_PM"]:
       // debugger
       return Object.assign(nextState, action.payload.pm);
 
@@ -7394,14 +7413,14 @@ var pmsReducer = function pmsReducer() {
     //   delete nextState[projectId];
     //   return nextState;
 
-    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_ALERTS"]:
+    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_ALERTS"]:
       if (action.payload.pms) {
         return action.payload.pms;
       }
 
       return state;
 
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["LOGOUT_CURRENT_USER"]:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT_CURRENT_USER"]:
       return {};
 
     default:
@@ -7465,6 +7484,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
+
 
 
 
@@ -7496,6 +7517,9 @@ var projectsReducer = function projectsReducer() {
       delete nextState[projectId]; // debugger
 
       return nextState;
+
+    case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_UPDATED_PM"]:
+      return Object.assign(nextState, action.payload.project);
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT_CURRENT_USER"]:
       return {};
@@ -7678,7 +7702,8 @@ var tasksReducer = function tasksReducer() {
       return Object.assign(nextState, action.task);
 
     case _actions_task_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_TASKS"]:
-      return Object.assign(nextState, action.tasks);
+      // return Object.assign(nextState, action.tasks)
+      return action.tasks;
 
     case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PROJECT"]:
       if (!action.payload.tasks) return {};
@@ -7771,27 +7796,23 @@ var usersReducer = function usersReducer() {
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       return Object.assign(nextState, _defineProperty({}, action.user.id, action.user));
-    // return action.user.user;
 
     case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PROJECT"]:
       // take away because now creating PM - maybe not
-      return Object.assign({}, action.payload.users);
+      return Object.assign(nextState, action.payload.users);
 
-    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NEW_PM"]:
+    case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_NEW_PM"]:
       return Object.assign(nextState, _defineProperty({}, action.payload.user.id, action.payload.user));
 
     case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PROJECTS"]:
       if (action.payload.users) {
-        return action.payload.users;
+        return Object.assign(nextState, action.payload.users);
       }
 
       return state;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
       return {};
-
-    case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_UPDATED_PM"]:
-      return Object.assign(nextState, _defineProperty({}, action.payload.user.id, action.payload.user));
 
     default:
       return state;
@@ -7933,7 +7954,7 @@ var fetchPosts = function fetchPosts(params) {
 /*!*******************************************!*\
   !*** ./frontend/util/project_api_util.js ***!
   \*******************************************/
-/*! exports provided: fetchProjects, fetchProject, createProject, createPM, deleteProject */
+/*! exports provided: fetchProjects, fetchProject, createProject, deleteProject */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7941,7 +7962,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchProjects", function() { return fetchProjects; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchProject", function() { return fetchProject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProject", function() { return createProject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPM", function() { return createPM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteProject", function() { return deleteProject; });
 var fetchProjects = function fetchProjects() {
   return $.ajax({
@@ -7965,16 +7985,14 @@ var createProject = function createProject(project) {
       pm: pm
     }
   });
-};
-var createPM = function createPM(pm) {
-  return $.ajax({
-    method: 'POST',
-    url: '/api/project_memberships',
-    data: {
-      pm: pm
-    }
-  });
-};
+}; // export const createPM = (pm) => {
+//   return $.ajax({
+//     method: 'POST',
+//     url: '/api/project_memberships',
+//     data: { pm }
+//   })
+// }
+
 var deleteProject = function deleteProject(projectId) {
   // debugger
   return $.ajax({

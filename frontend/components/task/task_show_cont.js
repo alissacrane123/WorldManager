@@ -10,22 +10,21 @@ import { openModal } from '../../actions/modal_actions';
 
 const msp = (state, ownProps) => {
   let acceptedTasks = Object.values(state.entities.tasks)
-  let recentTasks = [];
-  // let startDate, endDate;
+
   if (state.ui.filters.tasks) {
 
     let { startDate, endDate} = state.ui.filters.tasks;
-  
-  let filterTasks;
-  if (startDate && endDate) {
-    acceptedTasks = selectTasksBetweenDates(startDate, endDate, acceptedTasks)
-  } else {
-    // filterTasks = acceptedTasks;
-    startDate = formatJavascriptDate(new Date());
-    endDate = dateInOneWeek();
+    
+
+    if (startDate && endDate) {
+      acceptedTasks = selectTasksBetweenDates(startDate, endDate, acceptedTasks)
+    } else {
+      // filterTasks = acceptedTasks;
+      startDate = formatJavascriptDate(new Date());
+      endDate = dateInOneWeek();
+    }
   }
-  }
-  let projectTasks = selectProjectTasks(acceptedTasks)
+  let projectTasks = selectProjectTasks(acceptedTasks, state)
   return {
     currentUserId: state.session.id,
     userFilter: state.ui.filters.tasks,

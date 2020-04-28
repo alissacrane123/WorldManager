@@ -44,7 +44,7 @@ class Task < ApplicationRecord
   def self.fetch_overdue_tasks(user_id, project_id)
     end_date = DateTime.now.beginning_of_day
 
-    Task.joins(:pms)
+    Task.joins(:pms).includes(:project)
       .where('project_memberships.accepted = ?', true)
       .where('tasks.user_id = ?', user_id)
       .where('tasks.project_id IN (?) OR tasks.project_id IS NULL', project_id)
@@ -58,7 +58,7 @@ class Task < ApplicationRecord
   def self.fetch_upcoming_tasks(user_id, project_id)
     start_date = DateTime.now.beginning_of_day
 
-    Task.joins(:pms)
+    Task.joins(:pms).includes(:project)
       .where('project_memberships.accepted = ? and project_memberships.user_id = ?', true, user_id)
       .where('tasks.user_id = ?', user_id)
       .where('tasks.project_id IN (?) OR tasks.project_id IS NULL', project_id)

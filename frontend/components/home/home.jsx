@@ -21,7 +21,7 @@ class Home extends React.Component {
     let nextSunday = getNextSunday();
     let today = formatJavascriptDate(new Date())
 
-    // this.props.fetchSearchTasks('week', nextSunday)
+
     this.props.fetchSearchTasks('overdue-upcoming', nextSunday)
       .then(this.props.updateFilter('tasks', {startDate: today, endDate: nextSunday}))
   }

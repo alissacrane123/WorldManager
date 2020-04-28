@@ -13,7 +13,7 @@ class ReminderIndex extends React.Component {
 
 
   componentDidMount() {
-    this.props.fetchReminders('reminder')
+    // this.props.fetchReminders('reminder')
   }
 
   handleChange() {

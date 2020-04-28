@@ -11,7 +11,7 @@ import { updateFilter} from '../../actions/filter_actions';
 
 const msp = (state, ownProps) => {
   let tasks = Object.values(state.entities.tasks);
-  let ownedTasks = tasks.filter(task => task.owner === "You" && task.status !== "done");
+  let ownedTasks = tasks.filter(task => task.user_id == state.session.id && task.status !== "done");
   let sortedTasks = sortByDueDate(tasks);
   let acceptedTasks = selectAcceptedTasks(state).filter(task => task.status !== 'done' && task.owner === "You" );
   

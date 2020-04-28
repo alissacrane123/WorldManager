@@ -20,8 +20,10 @@ class Api::ProjectsController < ApplicationController
 
   def index
     current_user_id = current_user.id
-    @projects = current_user.projects
-
+    # @projects = current_user.projects
+    @projects = Project.includes(:members)
+                  .joins(:project_memberships)
+                  .where('project_memberships.user_id = ? and project_memberships.accepted = ?', current_user_id, true)
   end
 
   def update

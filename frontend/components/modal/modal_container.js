@@ -4,7 +4,7 @@ import Modal from './modal';
 import { closeModal, openModal } from '../../actions/modal_actions';
 import { login } from '../../actions/session_actions';
 import { updateTask } from '../../actions/task_actions';
-import { createPM } from '../../actions/project_actions';
+import { createPM } from '../../actions/pm_actions';
 import { selectNewProjectId } from '../../helpers/helper';
 
 const mapStateToProps = (state, ownProps) => {

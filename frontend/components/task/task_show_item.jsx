@@ -34,8 +34,8 @@ class TaskShowItem extends React.Component {
       let day = new Date(dueDate).getDay();
       let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       return days[day];
-    } else {
-      debugger
+    } else if (dueDate){
+      // debugger
       if (dueDate[0] === "0") return dueDate.slice(1, 5);
       return dueDate.slice(0, 5);
     }

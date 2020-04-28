@@ -22,10 +22,10 @@ class TaskFilter extends React.Component {
 
   componentDidMount() {
     let filter = Object.assign({}, this.state.filter);
-    let today = formatJavascriptDate(new Date())
-    let date = dateInOneWeek();
+    // let today = formatJavascriptDate(new Date())
+    // let date = dateInOneWeek();
     this.props.fetchTasks(filter)
-      .then(this.props.updateFilter('tasks', { startDate: today, endDate: date }))
+      // .then(this.props.updateFilter('tasks', { startDate: today, endDate: date }))
       // .then(this.props.updateFilter('tasks', filter))
   }
 

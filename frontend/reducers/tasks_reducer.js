@@ -18,7 +18,8 @@ const tasksReducer = (state = {}, action) => {
     case RECEIVE_TASK:
       return Object.assign(nextState, action.task);
     case RECEIVE_TASKS:
-      return Object.assign(nextState, action.tasks)
+      // return Object.assign(nextState, action.tasks)
+      return action.tasks;
     case RECEIVE_PROJECT:
       if (!action.payload.tasks) return {};
       return Object.assign({}, nextState, action.payload.tasks)

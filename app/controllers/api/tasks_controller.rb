@@ -39,12 +39,15 @@ class Api::TasksController < ApplicationController
     elsif search == 'overdue-upcoming'
       upcoming = Task.fetch_upcoming_tasks(user_id, project_id )
       overdue = Task.fetch_overdue_tasks(user_id, project_id )
+      # debugger
       tasks = upcoming + overdue
-    elsif search == 'reminder'
-      tasks = Task.fetch_reminders(user_id)
+    # elsif search == 'reminder'
+    #   tasks = Task.fetch_reminders(user_id)
     end
+    reminders = Task.fetch_reminders(user_id)
+    @tasks = tasks + reminders;
 
-    @tasks = tasks
+    # @tasks = tasks
     render "api/tasks/index"
   end
 
@@ -61,15 +64,15 @@ class Api::TasksController < ApplicationController
       prev = project_id
       projects = Project.joins(:project_memberships)
         .where(project_memberships: {accepted: true, user_id: current_user.id})
-      # debugger
-      # project_id = current_user.projects.map { |proj| proj.id }
+
       project_id = projects.map { |proj| proj.id }
       project_id = project_id.reject { |id| prev.include?(id.to_s)}
-      # debugger
+
     end
 
     if unassigned == 'true'
-      tasks = Task.where('user_id IN (?)', user_id)
+      tasks = Task.includes(:project)
+        .where('user_id IN (?)', user_id)
         .where('project_id IN (?) OR project_id IS NULL', project_id)
         .where('due_date <= ? AND due_date >= ?', end_date, start_date)
         .where('status IN (?)', status)
@@ -77,7 +80,8 @@ class Api::TasksController < ApplicationController
         .where('reminder = ?', false)
         # .where('status != ?', 'done')
     else 
-      tasks = Task.where('user_id IN (?)', user_id)
+      tasks = Task.includes(:project)
+        .where('user_id IN (?)', user_id)
         .where('project_id IN (?)', project_id)
         .where('due_date <= ? AND due_date >= ?', end_date, start_date)
         .where('status IN (?)', status)
@@ -92,67 +96,6 @@ class Api::TasksController < ApplicationController
 
   end
 
-  # def index
-  #   start_date, end_date, created_at = params[:start_date], params[:end_date], params[:created_at]
-  #   user_id, project_id = params[:user_id], params[:project_id]
-  #   status, priority = params[:status], params[:priority]
-
-  #   all_filters = [["start_date", start_date], ["end_date",end_date], ["created_at",created_at], ["user_id",user_id], ["project_id",project_id], ["status",status], ["priority",priority]]
-
-
-  #   filters = []
-  #   filter_value = []
-  #   id_filters = []
-  #   id_filter_value = []
-  #   user_id_filters = []
-  #   user_id_filter_value = []
-  #   word_filters = []
-  #   word_filter_values = []
-
-
-  #   all_filters.each_with_index do |filter, i|
-  #     filter_name = filter[0]
-
-  #     if i == 0 && filter[1].length > 0
-  #       filters << "due_date >= ?"
-  #       filter_value << format_date(filter[1])
-  #     elsif filter[1] && i == 1
-  #       filters << "due_date <= ?"
-  #       filter_value << format_date(filter[1])
-  #     elsif i == 2 && filter[1].length > 0
-  #       filters << "created_at >= ?"
-  #       filter_value << format_date(filter[1])
-  #     elsif [3,4].include?(i) && filter[1]
-  #       value = filter[1].map(&:to_i)
-
-  #       value.each do |val|
-  #         if filter_name == 'project_id'
-  #           id_filters << "#{filter_name} = ?" 
-  #           id_filter_value << val
-  #         else
-  #           user_id_filters << "#{filter_name} = ?" 
-  #           user_id_filter_value << val
-  #         end
-  #       end
-  #     elsif filter[1] && ![0,1,2].include?(i)
-  #       value =  filter[1]
-
-  #       value.each do |val|
-  #         word_filters << "#{filter_name} = ?"
-  #         word_filter_values << val
-  #       end
-
-  #     end
-  #   end
-
-  #   query = filters.join(' AND ')
-  #   query2 = id_filters.join(' OR ')
-  #   query3 = word_filters.join(' OR ')
-  #   query4 = user_id_filters.join(' OR ')
-  #   # debuggc/er
-  #   @tasks = Task.where(query, *filter_value).where(query2, *id_filter_value).where(query3, *word_filter_values).where(query4, *user_id_filter_value)
-    
-  # end
 
 
   def update

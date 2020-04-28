@@ -1,5 +1,5 @@
-import { RECEIVE_PMS, RECEIVE_PM, RECEIVE_UPDATED_PM } from '../actions/pm_actions';
-import { RECEIVE_NEW_PM} from '../actions/project_actions';
+import { RECEIVE_PMS, RECEIVE_PM, RECEIVE_UPDATED_PM, RECEIVE_NEW_PM } from '../actions/pm_actions';
+// import { RECEIVE_NEW_PM} from '../actions/project_actions';
 import { RECEIVE_ALERTS } from '../actions/alert_actions';
 import { LOGOUT_CURRENT_USER } from '../actions/session_actions';
 
