@@ -3475,7 +3475,7 @@ function (_React$Component) {
           newAlerts = _this$props.newAlerts,
           updateAlerts = _this$props.updateAlerts; // debugger
 
-      if (!this.state.ddOpen && newAlerts.length > 0) {
+      if (this.state.ddOpen && newAlerts.length > 0) {
         var ids = newAlerts.map(function (alert) {
           return alert.id;
         });
@@ -3491,13 +3491,16 @@ function (_React$Component) {
     value: function render() {
       var _this$props2 = this.props,
           currentUser = _this$props2.currentUser,
-          newAlerts = _this$props2.newAlerts;
+          newAlerts = _this$props2.newAlerts; // debugger
+
       if (!currentUser) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
         id: "topbar",
         className: "topbar si"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "notify",
+        className: "notify"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "wrap",
         onClick: this.handleClick
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], {
         className: "sb",
@@ -3507,7 +3510,7 @@ function (_React$Component) {
         fill: "black"
       }), newAlerts.length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "notify-num"
-      }, newAlerts.length) : null, this.state.ddOpen ? this.renderDropdown() : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome, ", currentUser.fname));
+      }, newAlerts.length) : null), this.state.ddOpen ? this.renderDropdown() : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome, ", currentUser.fname));
     }
   }]);
 
@@ -3647,6 +3650,7 @@ function (_React$Component) {
     key: "handleClick",
     value: function handleClick(pmId) {
       event.preventDefault();
+      event.stopPropagation();
       var pms = this.props.pms;
       var pm = pms.filter(function (pm) {
         return pm.id === pmId;
@@ -3679,7 +3683,7 @@ function (_React$Component) {
           pms = _this$props2.pms,
           updatePM = _this$props2.updatePM,
           currentUserId = _this$props2.currentUserId;
-      pms = pms.map(function (pm, i) {
+      var items = pms.map(function (pm, i) {
         var el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Accepted");
         var text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, pm.inviterName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "invited you to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(pm.projectName)); // let text = `${pm.inviterName} invited you to ${titleize(pm.projectName)}`
 
@@ -3704,7 +3708,7 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         id: "notify-index",
         className: "notify"
-      }, pms, taskItems);
+      }, items, taskItems);
     }
   }]);
 
@@ -7163,6 +7167,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
+/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
+
 
 
 
@@ -7180,6 +7186,16 @@ var alertsReducer = function alertsReducer() {
 
     case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_UPDATED_PM"]:
       return Object.assign(nextState, action.payload.alerts);
+
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_DELETED_PROJECT"]:
+      var alerts = Object.values(state).filter(function (alert) {
+        return alert.alertable_type == 'ProjectMembership' && action.payload.project.pm_ids.includes(alert.alertable_id);
+      }); // debugger
+
+      alerts.forEach(function (alert) {
+        delete nextState[alert.id];
+      });
+      return nextState;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT_CURRENT_USER"]:
       return {};
@@ -7396,9 +7412,10 @@ var ModalReducer = function ModalReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
-/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
- // import { RECEIVE_NEW_PM} from '../actions/project_actions';
+/* harmony import */ var _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/project_actions */ "./frontend/actions/project_actions.js");
+/* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -7433,14 +7450,20 @@ var pmsReducer = function pmsReducer() {
     //   delete nextState[projectId];
     //   return nextState;
 
-    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_ALERTS"]:
+    case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_ALERTS"]:
       if (action.payload.pms) {
         return action.payload.pms;
       }
 
       return state;
 
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT_CURRENT_USER"]:
+    case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_DELETED_PROJECT"]:
+      action.payload.project.pm_ids.forEach(function (id) {
+        delete nextState[id];
+      });
+      return nextState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["LOGOUT_CURRENT_USER"]:
       return {};
 
     default:

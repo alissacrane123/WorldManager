@@ -11,6 +11,7 @@ class AlertIndex extends React.Component {
 
   handleClick(pmId) {
     event.preventDefault();
+    event.stopPropagation();
     let pms = this.props.pms;
     let pm = pms.filter(pm => pm.id === pmId)[0]
     let newPm = Object.assign({}, pm, { accepted: true });
@@ -34,7 +35,7 @@ class AlertIndex extends React.Component {
   render() {
     let { pms, updatePM, currentUserId } = this.props;
 
-    pms = pms.map((pm, i) => {
+    let items = pms.map((pm, i) => {
       let el = <label>Accepted</label>
       let text = <div>{pm.inviterName} <span>invited you to</span> {titleize(pm.projectName)}</div>
       // let text = `${pm.inviterName} invited you to ${titleize(pm.projectName)}`
@@ -61,7 +62,7 @@ class AlertIndex extends React.Component {
 
     return (
       <ul id="notify-index" className="notify">
-        {pms}
+        {items}
         {taskItems}
       </ul>
     );

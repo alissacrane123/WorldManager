@@ -90,6 +90,10 @@ position: absolute;
       margin: 0px 10px 5px 10px;
 }
 
+.notify > div.wrap {
+  position:relative;
+}
+
 #notify-num {
 position: absolute;
     height: 25px;
@@ -201,7 +205,7 @@ li.notify {
   /* border-top: solid 1px #dddfe2; */
 }
 
-li.notify >  div {
+li.notify >  div > div {
   font-weight:600;
   color: #1d2129;
 }

@@ -37,8 +37,10 @@ class Api::ProjectsController < ApplicationController
 
   def destroy
     @project = Project.find(params[:id])
+    pm_ids = @project.project_memberships.map { |pm| pm.id }
     @project.destroy!
-    render "api/projects/show"
+    @project.pm_ids = pm_ids
+    render "api/projects/destroy"
   end
 
   private

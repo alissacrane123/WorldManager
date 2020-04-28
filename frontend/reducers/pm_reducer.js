@@ -1,5 +1,5 @@
 import { RECEIVE_PMS, RECEIVE_PM, RECEIVE_UPDATED_PM, RECEIVE_NEW_PM } from '../actions/pm_actions';
-// import { RECEIVE_NEW_PM} from '../actions/project_actions';
+import { RECEIVE_DELETED_PROJECT} from '../actions/project_actions';
 import { RECEIVE_ALERTS } from '../actions/alert_actions';
 import { LOGOUT_CURRENT_USER } from '../actions/session_actions';
 
@@ -34,6 +34,11 @@ const pmsReducer = (state = {}, action) => {
         return action.payload.pms;
       }
       return state;
+    case RECEIVE_DELETED_PROJECT:
+      action.payload.project.pm_ids.forEach(id => {
+        delete nextState[id]
+      });
+      return nextState;
     case LOGOUT_CURRENT_USER:
       return {};
     default:

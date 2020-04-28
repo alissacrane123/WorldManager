@@ -26,7 +26,7 @@ class Topbar extends React.Component {
   handleClick() {
     let { newAlerts, updateAlerts } = this.props;
     // debugger
-    if (!this.state.ddOpen && newAlerts.length > 0) {
+    if (this.state.ddOpen && newAlerts.length > 0) {
       let ids = newAlerts.map(alert => alert.id )
       updateAlerts(ids);
     }
@@ -36,14 +36,17 @@ class Topbar extends React.Component {
 
   render() {
     let { currentUser, newAlerts } = this.props;
-    
+    // debugger
     if (!currentUser) return null;
 
     return (
       <nav id="topbar" className="topbar si">
-        <div className="notify" onClick={this.handleClick}>
-          <SVG className="sb" h={24} w={24} name="notify" fill="black" />
-          {newAlerts.length > 0 ? <div id="notify-num">{newAlerts.length}</div> : null }
+        <div className="notify">
+          <div className="wrap" onClick={this.handleClick}>
+            <SVG className="sb" h={24} w={24} name="notify" fill="black" />
+            {newAlerts.length > 0 ? <div id="notify-num">{newAlerts.length}</div> : null }
+
+          </div>
   
           { this.state.ddOpen ? this.renderDropdown() : null}
  
