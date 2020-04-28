@@ -42,6 +42,7 @@ class Api::ProjectMembershipsController < ApplicationController
 
     if @pm.update_attributes(pm_params)
       @pm.create_alerts('inviter') if @pm.accepted
+      
       render "api/project_memberships/update"
     else
       render json: @pm.errors.full_messages, status: 422

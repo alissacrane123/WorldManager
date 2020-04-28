@@ -32,6 +32,21 @@ tasks = project.tasks.select { |task| task.user_id == current_user.id }
 json.set! "tasks" do 
   tasks.each do |task|
     json.partial! "api/tasks/task", task: task
+    #  json.projectName project.title 
   end
 
+end
+
+
+
+json.set! "alerts" do 
+
+
+
+  @pm.fetch_task_alerts.each do |alert|
+    json.set! alert.id do 
+      json.extract! alert, :id, :user_id, :checked, :alertable_id, :alertable_type
+     
+    end
+  end
 end

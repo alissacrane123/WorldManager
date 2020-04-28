@@ -73,7 +73,7 @@ class TaskForm extends React.Component {
   renderProjectOptions() {
     let { projects } = this.props;
     let options = projects.map((item, i) => (
-      <option value={item.id}>{titleize(item.title)}</option>
+      <option value={item.id} key={i}>{titleize(item.title)}</option>
     ));
 
     return (

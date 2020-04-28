@@ -17,6 +17,20 @@ class AlertIndex extends React.Component {
     this.props.updatePM(newPm);
   }
 
+  renderTasks() {
+    let { tasks, projects } = this.props;
+
+    let items = tasks.map(task => {
+
+      let el = <div><span>New </span>{task.project_name} <span>task: </span> {task.title}</div>
+      return (
+        <li className="notify">
+          {el}
+        </li>)
+    })
+    return items;
+  }
+
   render() {
     let { pms, updatePM, currentUserId } = this.props;
 
@@ -43,9 +57,12 @@ class AlertIndex extends React.Component {
         </li>
     )});
 
+    let taskItems = this.renderTasks();
+
     return (
       <ul id="notify-index" className="notify">
         {pms}
+        {taskItems}
       </ul>
     );
   }

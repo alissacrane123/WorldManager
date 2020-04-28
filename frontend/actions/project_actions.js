@@ -3,7 +3,7 @@ import * as ProjectAPI from '../util/project_api_util';
 export const RECEIVE_PROJECT = 'RECEIVE_PROJECT';
 export const RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
 export const RECEIVE_NEW_PROJECT = 'RECEIVE_NEW_PROJECT';
-// export const RECEIVE_NEW_PM = 'RECEIVE_NEW_PM';
+
 export const RECEIVE_PROJECT_ERRORS = 'RECEIVE_PROJECT_ERRORS';
 export const RECEIVE_DELETED_PROJECT = 'RECEIVE_DELETED_PROJECT'
 
@@ -34,13 +34,6 @@ export const receiveDeletedProject = payload => {
 }
 
 
-// export const receiveNewPM = payload => {
-  
-//   return {
-//     type: RECEIVE_NEW_PM,
-//     payload
-//   }
-// }
 
 export const receiveErrors = errors => {
   return {
@@ -73,13 +66,6 @@ export const createProject = (project, pm) => dispatch => {
   )
 }
 
-// export const createPM = pm => dispatch => {
-//   return (
-//     ProjectAPI.createPM(pm)
-//       .then(user => dispatch(receiveNewPM(user)),
-//             err => dispatch(receiveErrors(err.responseJSON)))
-//   )
-// }
 
 
 export const deleteProject = (projectId) => dispatch => {

@@ -51,13 +51,7 @@ export const createPM = pm => dispatch => {
   )
 }
 
-// export const createPM = pm => dispatch => {
-//   return (
-//     ProjectAPI.createPM(pm)
-//       .then(user => dispatch(receiveNewPM(user)),
-//         err => dispatch(receiveErrors(err.responseJSON)))
-//   )
-// }
+
 
 export const updatePM = pm => dispatch => {
   return (

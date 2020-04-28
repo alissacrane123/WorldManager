@@ -4,12 +4,27 @@ class Alert < ApplicationRecord
 
   belongs_to :alertable, :polymorphic => true 
 
+  # belongs_to :task,
+  #   -> { where alertable_type: 'Task' }, 
+  #   foreign_key: :alertable_id,
+  #   optional:true
+
+
   def self.create_alerts
     ProjectMembership.all.each do |pm|
       if (pm.user_id != pm.inviter_id) && pm.inviter_id
         pm.alerts.create!(user_id: pm.user_id)
       end
     end
+
+    
+  end
+
+  def self.fetch_recent_alerts(user_id)
+    Alert.includes(:alertable)
+          .where('user_id = ? AND checked = ?', user_id, true)
+          .order('updated_at asc')
+          .limit(10)
   end
 
   def self.fetch_task_alerts(user_id)

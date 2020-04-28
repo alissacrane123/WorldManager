@@ -25,6 +25,7 @@ class Topbar extends React.Component {
 
   handleClick() {
     let { newAlerts, updateAlerts } = this.props;
+    // debugger
     if (!this.state.ddOpen && newAlerts.length > 0) {
       let ids = newAlerts.map(alert => alert.id )
       updateAlerts(ids);

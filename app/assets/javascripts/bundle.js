@@ -253,14 +253,7 @@ var createPM = function createPM(pm) {
       return dispatch(receiveErrors(err.responseJSON));
     });
   };
-}; // export const createPM = pm => dispatch => {
-//   return (
-//     ProjectAPI.createPM(pm)
-//       .then(user => dispatch(receiveNewPM(user)),
-//         err => dispatch(receiveErrors(err.responseJSON)))
-//   )
-// }
-
+};
 var updatePM = function updatePM(pm) {
   return function (dispatch) {
     return _util_pm_api_util__WEBPACK_IMPORTED_MODULE_0__["updatePM"](pm).then(function (payload) {
@@ -348,8 +341,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var RECEIVE_PROJECT = 'RECEIVE_PROJECT';
 var RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
-var RECEIVE_NEW_PROJECT = 'RECEIVE_NEW_PROJECT'; // export const RECEIVE_NEW_PM = 'RECEIVE_NEW_PM';
-
+var RECEIVE_NEW_PROJECT = 'RECEIVE_NEW_PROJECT';
 var RECEIVE_PROJECT_ERRORS = 'RECEIVE_PROJECT_ERRORS';
 var RECEIVE_DELETED_PROJECT = 'RECEIVE_DELETED_PROJECT';
 var receiveNewProject = function receiveNewProject(payload) {
@@ -377,13 +369,7 @@ var receiveDeletedProject = function receiveDeletedProject(payload) {
     type: RECEIVE_DELETED_PROJECT,
     payload: payload
   };
-}; // export const receiveNewPM = payload => {
-//   return {
-//     type: RECEIVE_NEW_PM,
-//     payload
-//   }
-// }
-
+};
 var receiveErrors = function receiveErrors(errors) {
   return {
     type: RECEIVE_PROJECT_ERRORS,
@@ -417,14 +403,7 @@ var createProject = function createProject(project, pm) {
       return dispatch(receiveErrors(err.responseJSON));
     });
   };
-}; // export const createPM = pm => dispatch => {
-//   return (
-//     ProjectAPI.createPM(pm)
-//       .then(user => dispatch(receiveNewPM(user)),
-//             err => dispatch(receiveErrors(err.responseJSON)))
-//   )
-// }
-
+};
 var deleteProject = function deleteProject(projectId) {
   return function (dispatch) {
     return _util_project_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteProject"](projectId).then(function (payload) {
@@ -3494,7 +3473,7 @@ function (_React$Component) {
     value: function handleClick() {
       var _this$props = this.props,
           newAlerts = _this$props.newAlerts,
-          updateAlerts = _this$props.updateAlerts;
+          updateAlerts = _this$props.updateAlerts; // debugger
 
       if (!this.state.ddOpen && newAlerts.length > 0) {
         var ids = newAlerts.map(function (alert) {
@@ -3678,14 +3657,28 @@ function (_React$Component) {
       this.props.updatePM(newPm);
     }
   }, {
+    key: "renderTasks",
+    value: function renderTasks() {
+      var _this$props = this.props,
+          tasks = _this$props.tasks,
+          projects = _this$props.projects;
+      var items = tasks.map(function (task) {
+        var el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "New "), task.project_name, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "task: "), " ", task.title);
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "notify"
+        }, el);
+      });
+      return items;
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this = this;
 
-      var _this$props = this.props,
-          pms = _this$props.pms,
-          updatePM = _this$props.updatePM,
-          currentUserId = _this$props.currentUserId;
+      var _this$props2 = this.props,
+          pms = _this$props2.pms,
+          updatePM = _this$props2.updatePM,
+          currentUserId = _this$props2.currentUserId;
       pms = pms.map(function (pm, i) {
         var el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Accepted");
         var text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, pm.inviterName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "invited you to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(pm.projectName)); // let text = `${pm.inviterName} invited you to ${titleize(pm.projectName)}`
@@ -3707,10 +3700,11 @@ function (_React$Component) {
           key: i
         }, text, el);
       });
+      var taskItems = this.renderTasks();
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         id: "notify-index",
         className: "notify"
-      }, pms);
+      }, pms, taskItems);
     }
   }]);
 
@@ -3736,6 +3730,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _alert_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./alert_index */ "./frontend/components/notifications/alert_index.jsx");
 /* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/pm_actions */ "./frontend/actions/pm_actions.js");
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+/* harmony import */ var _helpers_alert_helper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../helpers/alert_helper */ "./frontend/helpers/alert_helper.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -3743,6 +3741,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state, ownProps) {
+  var _ref;
+
   var alerts = Object.values(state.entities.alerts);
   var pms = Object.values(state.entities.pms);
   pms = pms.filter(function (pms) {
@@ -3755,18 +3755,17 @@ var msp = function msp(state, ownProps) {
   var oldAlerts = alerts.filter(function (alert) {
     return alert.checked;
   });
-  return {
+  var alertTasks = Object(_helpers_alert_helper__WEBPACK_IMPORTED_MODULE_5__["selectAlertTasks"])(state);
+  return _ref = {
     currentUserId: state.session.id,
     projects: Object.values(state.entities.projects),
     users: Object.values(state.entities.users),
-    pms: pms,
-    newPms: Object.values(state.entities.pms).filter(function (pm) {
-      return !pm.accepted;
-    }),
-    completedPms: Object.values(state.entities.pms).filter(function (pm) {
-      return pm.accepted;
-    })
-  };
+    tasks: alertTasks
+  }, _defineProperty(_ref, "projects", state.entities.projects), _defineProperty(_ref, "pms", pms), _defineProperty(_ref, "newPms", Object.values(state.entities.pms).filter(function (pm) {
+    return !pm.accepted;
+  })), _defineProperty(_ref, "completedPms", Object.values(state.entities.pms).filter(function (pm) {
+    return pm.accepted;
+  })), _ref;
 };
 
 var mdp = function mdp(dispatch) {
@@ -5671,7 +5670,8 @@ function (_React$Component) {
       var projects = this.props.projects;
       var options = projects.map(function (item, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-          value: item.id
+          value: item.id,
+          key: i
         }, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_7__["titleize"])(item.title));
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
@@ -6851,16 +6851,31 @@ document.addEventListener('DOMContentLoaded', function () {
 /*!******************************************!*\
   !*** ./frontend/helpers/alert_helper.js ***!
   \******************************************/
-/*! exports provided: selectNewAlerts */
+/*! exports provided: selectNewAlerts, selectAlertTasks */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectNewAlerts", function() { return selectNewAlerts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectAlertTasks", function() { return selectAlertTasks; });
 var selectNewAlerts = function selectNewAlerts(alerts) {
   return alerts.filter(function (alert) {
     return !alert.checked;
   });
+};
+var selectAlertTasks = function selectAlertTasks(state) {
+  var tasks = Object.values(state.entities.tasks);
+  var alerts = Object.values(state.entities.alerts).filter(function (alert) {
+    return alert.alertable_type == 'Task';
+  });
+  var taskIds = alerts.map(function (a) {
+    return a.alertable_id;
+  }); // let taskIds = 
+
+  var alertTasks = tasks.filter(function (task) {
+    return taskIds.includes(task.id);
+  });
+  return alertTasks;
 };
 
 /***/ }),
@@ -7147,6 +7162,8 @@ var selectReminders = function selectReminders(tasks) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_alert_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/alert_actions */ "./frontend/actions/alert_actions.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/pm_actions */ "./frontend/actions/pm_actions.js");
+
 
 
 
@@ -7160,6 +7177,9 @@ var alertsReducer = function alertsReducer() {
     case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_ALERTS"]:
       return Object.assign(nextState, action.payload.alerts);
     // return action.payload.alerts;
+
+    case _actions_pm_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_UPDATED_PM"]:
+      return Object.assign(nextState, action.payload.alerts);
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT_CURRENT_USER"]:
       return {};
