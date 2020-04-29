@@ -7,6 +7,7 @@ class Topbar extends React.Component {
     super(props);
     this.state = { ddOpen: false };
     this.handleClick = this.handleClick.bind(this);
+    this.closeDropdown = this.closeDropdown.bind(this);
   }
 
   componentDidMount() {
@@ -17,16 +18,20 @@ class Topbar extends React.Component {
     return (
       <div className='dd'>
         <h3>Notifications</h3>
-        <AlertIndexCont />
+        <AlertIndexCont closeDD={this.closeDropdown}/>
         <h4>See All</h4>
       </div>
     )
   }
 
+  closeDropdown() {
+    this.setState({ ddOpen: false })
+  }
+
   handleClick() {
     let { newAlerts, updateAlerts } = this.props;
     // debugger
-    if (this.state.ddOpen && newAlerts.length > 0) {
+    if (!this.state.ddOpen && newAlerts.length > 0) {
       let ids = newAlerts.map(alert => alert.id )
       updateAlerts(ids);
     }

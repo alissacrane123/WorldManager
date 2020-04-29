@@ -3453,6 +3453,7 @@ function (_React$Component) {
       ddOpen: false
     };
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.closeDropdown = _this.closeDropdown.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3466,7 +3467,16 @@ function (_React$Component) {
     value: function renderDropdown() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dd"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Notifications"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_notifications_alert_index_cont__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "See All"));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Notifications"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_notifications_alert_index_cont__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        closeDD: this.closeDropdown
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "See All"));
+    }
+  }, {
+    key: "closeDropdown",
+    value: function closeDropdown() {
+      this.setState({
+        ddOpen: false
+      });
     }
   }, {
     key: "handleClick",
@@ -3475,7 +3485,7 @@ function (_React$Component) {
           newAlerts = _this$props.newAlerts,
           updateAlerts = _this$props.updateAlerts; // debugger
 
-      if (this.state.ddOpen && newAlerts.length > 0) {
+      if (!this.state.ddOpen && newAlerts.length > 0) {
         var ids = newAlerts.map(function (alert) {
           return alert.id;
         });
@@ -3659,6 +3669,7 @@ function (_React$Component) {
         accepted: true
       });
       this.props.updatePM(newPm);
+      this.props.closeDD();
     }
   }, {
     key: "renderTasks",
@@ -7190,10 +7201,12 @@ var alertsReducer = function alertsReducer() {
     case _actions_project_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_DELETED_PROJECT"]:
       var alerts = Object.values(state).filter(function (alert) {
         return alert.alertable_type == 'ProjectMembership' && action.payload.project.pm_ids.includes(alert.alertable_id);
-      }); // debugger
-
+      });
       alerts.forEach(function (alert) {
         delete nextState[alert.id];
+      });
+      action.payload.project.alert_ids.forEach(function (id) {
+        delete nextState[id];
       });
       return nextState;
 
@@ -7452,7 +7465,8 @@ var pmsReducer = function pmsReducer() {
 
     case _actions_alert_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_ALERTS"]:
       if (action.payload.pms) {
-        return action.payload.pms;
+        // return action.payload.pms;
+        return Object.assign(nextState, action.payload.pms);
       }
 
       return state;

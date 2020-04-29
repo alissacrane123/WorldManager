@@ -17,10 +17,14 @@ const alertsReducer = (state = {}, action) => {
       let alerts = Object.values(state).filter(alert => (
         alert.alertable_type == 'ProjectMembership' && action.payload.project.pm_ids.includes(alert.alertable_id)
       ))
-      // debugger
+   
       alerts.forEach(alert => {
         delete nextState[alert.id]
       });
+
+      action.payload.project.alert_ids.forEach(id => {
+        delete nextState[id]
+      })
       return nextState;
     case LOGOUT_CURRENT_USER:
       return {};

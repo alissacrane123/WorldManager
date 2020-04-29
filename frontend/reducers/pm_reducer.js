@@ -31,7 +31,8 @@ const pmsReducer = (state = {}, action) => {
     //   return nextState;
     case RECEIVE_ALERTS:
       if (action.payload.pms) {
-        return action.payload.pms;
+        // return action.payload.pms;
+        return Object.assign(nextState, action.payload.pms)
       }
       return state;
     case RECEIVE_DELETED_PROJECT:

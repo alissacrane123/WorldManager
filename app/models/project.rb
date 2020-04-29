@@ -4,8 +4,11 @@ class Project < ApplicationRecord
   has_many :members, through: :project_memberships, source: :user
   belongs_to :owner, foreign_key: :owner_id, class_name: :User
 
+  has_many :task_alerts,
+    through: :tasks,
+    source: :alerts
 
-  attr_accessor :pm_ids
+  attr_accessor :pm_ids, :alert_ids, :task_ids
   
   validates :title, :owner_id, :category, presence: true
 

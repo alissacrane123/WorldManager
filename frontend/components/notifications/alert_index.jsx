@@ -16,6 +16,7 @@ class AlertIndex extends React.Component {
     let pm = pms.filter(pm => pm.id === pmId)[0]
     let newPm = Object.assign({}, pm, { accepted: true });
     this.props.updatePM(newPm);
+    this.props.closeDD();
   }
 
   renderTasks() {
