@@ -156,6 +156,8 @@ div.dd.hide {
 }
 
 div.dd {
+      max-height: 45vh;
+    overflow: scroll;
     position: absolute;
     right: 0;
     background-color: #fff;

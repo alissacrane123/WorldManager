@@ -90,7 +90,7 @@ class TaskForm extends React.Component {
   render() {
     let { project, tasks, projects, projectTask, closeModal, users, path } = this.props;
 
-    if (!project && !path.includes('tasks')) return null;
+    if (!project && !path.includes('tasks') && path != '/') return null;
     
 
     let taskItems = this.state.tasks.map((task, i) => (

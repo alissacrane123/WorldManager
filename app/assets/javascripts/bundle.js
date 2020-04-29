@@ -5712,7 +5712,7 @@ function (_React$Component) {
           closeModal = _this$props3.closeModal,
           users = _this$props3.users,
           path = _this$props3.path;
-      if (!project && !path.includes('tasks')) return null;
+      if (!project && !path.includes('tasks') && path != '/') return null;
       var taskItems = this.state.tasks.map(function (task, i) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           key: i
