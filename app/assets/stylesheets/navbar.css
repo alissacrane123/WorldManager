@@ -248,3 +248,12 @@ li.notify button.notify {
 .no-items.alert h3 {
   border-bottom:0px;
 }
+
+.notify__item span {
+    font-weight: 600;
+    color: black;
+}
+
+li.notify__item.new {
+  background:#45a29e1f;
+}

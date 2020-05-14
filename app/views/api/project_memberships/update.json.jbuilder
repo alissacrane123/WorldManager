@@ -10,13 +10,13 @@ project = @pm.project
 
 json.set! "project" do 
   json.set! project.id do
-    json.extract! project, :id, :title, :owner_id, :category, :created_at
+    json.extract! project, :id, :title, :owner_id, :category, :created_at, :updated_at
   end
 end
 
 json.set! "pm" do
   json.set! @pm.id do
-    json.extract! @pm, :id, :user_id, :project_id, :inviter_id, :accepted, :admin, :created_at
+    json.extract! @pm, :id, :user_id, :project_id, :inviter_id, :accepted, :admin, :created_at, :updated_at
 
     inviter = @pm.inviter
     
@@ -45,7 +45,7 @@ json.set! "alerts" do
 
   @pm.fetch_task_alerts.each do |alert|
     json.set! alert.id do 
-      json.extract! alert, :id, :user_id, :checked, :alertable_id, :alertable_type
+      json.extract! alert, :id, :user_id, :checked, :alertable_id, :alertable_type, :updated_at
      
     end
   end

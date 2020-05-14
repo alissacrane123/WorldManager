@@ -3613,12 +3613,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
-/* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
-/* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
-/* harmony import */ var _pm_index_item__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pm_index_item */ "./frontend/components/notifications/pm_index_item.jsx");
-/* harmony import */ var _pm_index_item__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_pm_index_item__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _svg_props__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../svg_props */ "./frontend/components/svg_props.js");
-/* harmony import */ var _alert_item__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./alert_item */ "./frontend/components/notifications/alert_item.jsx");
+/* harmony import */ var _svg_props__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../svg_props */ "./frontend/components/svg_props.js");
+/* harmony import */ var _alert_item__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./alert_item */ "./frontend/components/notifications/alert_item.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -3640,9 +3636,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
-
-
-
+ // import { titleize } from "../../helpers/helper";
+// import { timeSince } from "../../helpers/date_helper";
+// import PmIndexItem from './pm_index_item';
 
 
 
@@ -3659,24 +3655,17 @@ function (_React$Component) {
   }
 
   _createClass(AlertIndex, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {// this.props.fetchPMs();
-    }
-  }, {
-    key: "handleClick",
-    value: function handleClick(pmId) {
-      event.preventDefault();
-      event.stopPropagation();
-      var pms = this.props.pms;
-      var pm = pms.filter(function (pm) {
-        return pm.id === pmId;
-      })[0];
-      var newPm = Object.assign({}, pm, {
-        accepted: true
-      });
-      this.props.updatePM(newPm);
-      this.props.closeDD();
-    } // renderTasks() {
+    key: "render",
+    // handleClick(pmId) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    //   let pms = this.props.pms;
+    //   let pm = pms.filter(pm => pm.id === pmId)[0]
+    //   let newPm = Object.assign({}, pm, { accepted: true });
+    //   this.props.updatePM(newPm);
+    //   this.props.closeDD();
+    // }
+    // renderTasks() {
     //   let { tasks, projects } = this.props;
     //   let items = tasks.map(task => {
     //     let el = <div><span>New </span>{task.project_name} <span>task: </span> {task.title}</div>
@@ -3687,14 +3676,12 @@ function (_React$Component) {
     //   })
     //   return items;
     // }
-
-  }, {
-    key: "render",
     value: function render() {
       var _this$props = this.props,
           pms = _this$props.pms,
           alerts = _this$props.alerts,
           updatePM = _this$props.updatePM,
+          closeDD = _this$props.closeDD,
           currentUserId = _this$props.currentUserId; // let items = pms.map((pm, i) => {
       //   let el = <label>Accepted</label>
       //   let text = <div>{pm.inviterName} <span>invited you to</span> {titleize(pm.projectName)}</div>
@@ -3718,9 +3705,12 @@ function (_React$Component) {
       // let taskItems = this.renderTasks();
 
       var alertItems = alerts.map(function (alert, i) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_alert_item__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_alert_item__WEBPACK_IMPORTED_MODULE_3__["default"], {
           key: i,
           item: alert,
+          pms: pms,
+          updatePM: updatePM,
+          closeDD: closeDD,
           currentUserId: currentUserId
         });
       });
@@ -3730,7 +3720,7 @@ function (_React$Component) {
           className: "no-items alert"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "None"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({
           name: "smile"
-        }, _svg_props__WEBPACK_IMPORTED_MODULE_5__["default"]["24nv"], {
+        }, _svg_props__WEBPACK_IMPORTED_MODULE_2__["default"]["24nv"], {
           fill: "#828991"
         })));
       }
@@ -3773,9 +3763,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state, ownProps) {
-  var alerts = Object.values(state.entities.alerts); // let pms = Object.values(state.entities.pms);
-  // pms = pms.filter(pms => pms.accepted || pms.user_id == state.session.id)
-  // // pms = sortByUpdatedAt(pms)
+  var alerts = Object.values(state.entities.alerts);
+  var pms = Object.values(state.entities.pms);
+  pms = pms.filter(function (pms) {
+    return pms.accepted || pms.user_id == state.session.id;
+  }); // // pms = sortByUpdatedAt(pms)
   // let newAlerts = alerts.filter(alert => !alert.checked)
   // let oldAlerts = alerts.filter(alert => alert.checked)
   // let alertTasks = selectAlertTasks(state)
@@ -3788,9 +3780,9 @@ var msp = function msp(state, ownProps) {
     // projects: Object.values(state.entities.projects),
     // users: Object.values(state.entities.users),
     // tasks: alertTasks,
-    alerts: alertItems // projects: state.entities.projects,
-    // pms: pms,
-    // newPms: Object.values(state.entities.pms).filter(pm => !pm.accepted),
+    alerts: alertItems,
+    // projects: state.entities.projects,
+    pms: pms // newPms: Object.values(state.entities.pms).filter(pm => !pm.accepted),
     // completedPms: Object.values(state.entities.pms).filter(
     //   pm => pm.accepted
     // )
@@ -3826,42 +3818,71 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
 /* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
-var _this = undefined;
-
 
 
 
 
 var AlertItem = function AlertItem(_ref) {
   var item = _ref.item,
-      i = _ref.i,
+      pms = _ref.pms,
+      updatePM = _ref.updatePM,
+      closeDD = _ref.closeDD,
       currentUserId = _ref.currentUserId;
 
+  function handleClick(pmId) {
+    event.preventDefault();
+    event.stopPropagation();
+    var pm = pms.filter(function (pm) {
+      return pm.id === pmId;
+    })[0];
+    var newPm = Object.assign({}, pm, {
+      accepted: true
+    });
+    updatePM(newPm);
+    closeDD();
+  }
+
+  var cn;
+  var timeAgo = Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["timeSince"])(item.updatedAt);
+  var time = parseInt(timeAgo.split(' ')[0]);
+
+  if (timeAgo.includes("sec") && time < 5) {
+    cn = 'notify__item new';
+  } else {
+    cn = 'notify__item';
+  }
+
   if (item.inviterName) {
-    var el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Accepted");
-    var text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, item.inviterName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "invited you to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(item.projectName));
+    var el, text;
 
     if (!item.accepted && item.user_id === currentUserId) {
+      text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, item.inviterName, " "), "invited you to", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(item.projectName)));
       el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "accept-btn",
         onClick: function onClick() {
-          return _this.handleClick(item.id);
+          return handleClick(item.id);
         }
       }, "Accept");
     } else if (item.inviter_id === currentUserId) {
       el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["timeSince"])(item.updated_at, true));
-      text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, item.inviteeName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "accepted your invite to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(item.projectName));
+      text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, item.inviteeName, " "), "accepted your invite to", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(item.projectName)));
+    } else {
+      text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "You accepted", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", "".concat(item.inviterName, "'s ")), "invite to", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(item.projectName)));
+      el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["timeSince"])(item.updated_at, true));
     }
 
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      className: "notify__item"
+      className: cn
     }, text, el);
   } else {
-    var _el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "New "), item.project_name, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "item: "), " ", item.title);
+    // let el = <div>New <span>{item.project_name}</span> Task:<span> {item.title}</span></div>
+    var label = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["timeSince"])(item.updatedAt, true));
+
+    var _el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "New ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, item.project_name), " Task:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, " ", item.title));
 
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-      className: "notify__item"
-    }, _el);
+      className: cn
+    }, _el, label);
   }
 };
 
@@ -3964,40 +3985,6 @@ var mdp = function mdp(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(msp, mdp)(_notify__WEBPACK_IMPORTED_MODULE_2__["default"]));
-
-/***/ }),
-
-/***/ "./frontend/components/notifications/pm_index_item.jsx":
-/*!*************************************************************!*\
-  !*** ./frontend/components/notifications/pm_index_item.jsx ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// import React from 'react';
-// import { titleize } from '../../helpers/helper';
-// class PmIndexItem extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     // this.state = Object.assign({}. this.props.pm);
-//   }
-//   handleClick() {
-//     event.preventDefault();
-//     let pm = this.props.pm;
-//     let newPm = Object.assign({}, pm, { accepted: true })
-//     this.props.updatePM(newPm)
-//   }
-//   render() {
-//     let { pm, updatePM } = this.props;
-//     return (
-//       <li className="list-item task" >
-//         {titleize(pm.projectName)}
-//         <button className="accept" onClick={() => this.handleClick()}>Accept</button>
-//       </li>
-//     )
-//   }
-// }
-// export default PmIndexItem;
 
 /***/ }),
 
@@ -6977,8 +6964,7 @@ var selectAlertTasks = function selectAlertTasks(state) {
   });
   var taskIds = alerts.map(function (a) {
     return a.alertable_id;
-  }); // let taskIds = 
-
+  });
   var alertTasks = tasks.filter(function (task) {
     return taskIds.includes(task.id);
   });
@@ -6987,9 +6973,15 @@ var selectAlertTasks = function selectAlertTasks(state) {
 var replaceAlertsWithAlertItems = function replaceAlertsWithAlertItems(alerts, state) {
   var items = alerts.map(function (alert) {
     if (alert.alertable_type == "Task") {
-      return state.entities.tasks[alert.alertable_id];
+      var task = state.entities.tasks[alert.alertable_id];
+      task["updatedAt"] = alert.updated_at;
+      task["new"] = !alert.checked;
+      return task;
     } else {
-      return state.entities.pms[alert.alertable_id];
+      var pm = state.entities.pms[alert.alertable_id];
+      pm["new"] = !alert.checked;
+      pm["updatedAt"] = alert.updated_at;
+      return pm;
     }
   });
   return items;
@@ -7673,7 +7665,8 @@ var projectsReducer = function projectsReducer() {
     // return action.payload.project;
 
     case _actions_project_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_DELETED_PROJECT"]:
-      var projectId = Object.keys(action.payload.project)[0];
+      // let projectId = Object.keys(action.payload.project)[0];
+      var projectId = action.payload.project.id;
       delete nextState[projectId]; // debugger
 
       return nextState;

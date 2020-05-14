@@ -1,25 +1,23 @@
 import React from 'react';
 import SVG from '../svg';
-import { titleize } from "../../helpers/helper";
-import { timeSince } from "../../helpers/date_helper";
-import PmIndexItem from './pm_index_item';
+// import { titleize } from "../../helpers/helper";
+// import { timeSince } from "../../helpers/date_helper";
+// import PmIndexItem from './pm_index_item';
 import svgOps from '../svg_props';
 import AlertItem from './alert_item';
 
 class AlertIndex extends React.Component {
-  componentDidMount() {
-    // this.props.fetchPMs();
-  }
 
-  handleClick(pmId) {
-    event.preventDefault();
-    event.stopPropagation();
-    let pms = this.props.pms;
-    let pm = pms.filter(pm => pm.id === pmId)[0]
-    let newPm = Object.assign({}, pm, { accepted: true });
-    this.props.updatePM(newPm);
-    this.props.closeDD();
-  }
+
+  // handleClick(pmId) {
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //   let pms = this.props.pms;
+  //   let pm = pms.filter(pm => pm.id === pmId)[0]
+  //   let newPm = Object.assign({}, pm, { accepted: true });
+  //   this.props.updatePM(newPm);
+  //   this.props.closeDD();
+  // }
 
   // renderTasks() {
   //   let { tasks, projects } = this.props;
@@ -36,7 +34,7 @@ class AlertIndex extends React.Component {
   // }
 
   render() {
-    let { pms, alerts,updatePM, currentUserId } = this.props;
+    let { pms, alerts,updatePM, closeDD, currentUserId } = this.props;
 
     // let items = pms.map((pm, i) => {
     //   let el = <label>Accepted</label>
@@ -65,7 +63,13 @@ class AlertIndex extends React.Component {
 
 
     let alertItems = alerts.map((alert, i) => (
-      <AlertItem key={i} item={alert} currentUserId={currentUserId} />
+      <AlertItem 
+        key={i} 
+        item={alert} 
+        pms={pms} 
+        updatePM={updatePM}
+        closeDD={closeDD}
+        currentUserId={currentUserId} />
     ));
 
     if (!alertItems.length) {
@@ -79,9 +83,7 @@ class AlertIndex extends React.Component {
 
     return (
       <ul id="notify-index" className="notify">
-        {/* {items}
-        {taskItems} */}
-        {alertItems}
+        { alertItems }
       </ul>
     );
   }

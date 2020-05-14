@@ -21,7 +21,8 @@ const projectsReducer = (state = {}, action) => {
       return Object.assign(nextState, action.payload.project)
       // return action.payload.project;
     case RECEIVE_DELETED_PROJECT:
-      let projectId = Object.keys(action.payload.project)[0]
+      // let projectId = Object.keys(action.payload.project)[0];
+      let projectId = action.payload.project.id;
       delete nextState[projectId];
       // debugger
       return nextState;
