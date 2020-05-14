@@ -84,6 +84,8 @@ export const selectProjectTasks = (tasks, state) => {
 
 export const sortByUpdatedAt = (items) => {
   let sorted = items.sort((b, a) => new Date(a.updated_at) - new Date(b.updated_at));
+  
+  // debugger
   return sorted;
 }
 

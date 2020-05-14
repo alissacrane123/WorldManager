@@ -26,7 +26,7 @@ current_user_id = current_user.id
 
 
 json.set! task.id do
-  json.extract! task, :id, :title, :reminder, :description, :status, :project_id, :due_date,:user_id, :created_at, :priority
+  json.extract! task, :id, :title, :reminder, :description, :status, :project_id, :due_date,:user_id, :updated_at, :created_at, :priority
   if task.project_id
     json.project_name taskProjectName
   end

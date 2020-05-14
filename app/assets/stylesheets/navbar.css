@@ -88,6 +88,11 @@ position: absolute;
 .notify {
   position:relative;
       margin: 0px 10px 5px 10px;
+      
+}
+
+#notify-index {
+  margin: 0px 0px 0px 0px;
 }
 
 .notify > div.wrap {
@@ -164,6 +169,7 @@ div.dd {
     width: 420px;
     z-index: 10;
     /* padding: 20px; */
+    border: 1px solid #e8e9eb;
     border-radius: 0 0 2px 2px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
 }
@@ -173,7 +179,8 @@ div.dd h3, div.dd h4  {
     font-size: 13px;
     border-bottom: solid 1px #dddfe2;
           font-weight: 600;
-    padding: 10px;
+    padding: 12px;
+    background: #eeeeee;
 }
 
 div.dd > h4 {
@@ -181,7 +188,7 @@ div.dd > h4 {
   text-align: center;
   font-size:12px;
       font-weight: 600;
-    padding: 10px;
+    padding: 12px;
 }
 
 ul.notify {
@@ -189,11 +196,11 @@ ul.notify {
   flex-direction: column;
 }
 
-li.notify {
+li.notify__item {
   display: flex;
   flex-direction: row;
   width:100%;
-  padding:10px;
+  padding:10px 12px;
   justify-content: space-between;
   line-height: 20px;
   /* border: 2px solid #e8ecee; */
@@ -230,4 +237,14 @@ li.notify button.notify {
         padding: 4px 10px;
     font-weight: 500;
     box-shadow: 0 0 4px grey;
+}
+
+.no-items.alert {
+      padding: 5px 0px;
+    margin: 0px;
+    border-bottom: solid 1px #dddfe2;
+}
+
+.no-items.alert h3 {
+  border-bottom:0px;
 }

@@ -82,3 +82,15 @@ h2 {
 .hide {
   display:none  !important;
 }
+
+.accept-btn {
+  margin: 0px;
+    background: #45a29e;
+    outline: none;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 10px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 0 3px grey;
+}

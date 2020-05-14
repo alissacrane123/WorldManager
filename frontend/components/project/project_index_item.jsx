@@ -5,7 +5,7 @@ import { useHistory, withRouter } from 'react-router-dom'
 import { titleize } from '../../helpers/helper';
 
 const ProjectIndexItem = ({ project, history }) => {
-  let svgName = project.category ? project.category.toLowerCase() : 'profile';
+  let svgName = project.category.toLowerCase();
   
   return (
     <ul className="project-item" onClick={ () => history.push(`/projects/${project.id}`) } >

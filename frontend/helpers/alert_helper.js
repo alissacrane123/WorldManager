@@ -12,3 +12,14 @@ export const selectAlertTasks = (state) => {
 
   return alertTasks;
 }
+
+export const replaceAlertsWithAlertItems = (alerts, state) => {
+  let items = alerts.map(alert => {
+    if (alert.alertable_type == "Task") {
+      return state.entities.tasks[alert.alertable_id];
+    } else {
+      return state.entities.pms[alert.alertable_id];
+    }
+  })
+  return items;
+}

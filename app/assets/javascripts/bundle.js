@@ -3617,7 +3617,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
 /* harmony import */ var _pm_index_item__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pm_index_item */ "./frontend/components/notifications/pm_index_item.jsx");
 /* harmony import */ var _pm_index_item__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_pm_index_item__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _svg_props__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../svg_props */ "./frontend/components/svg_props.js");
+/* harmony import */ var _alert_item__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./alert_item */ "./frontend/components/notifications/alert_item.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3634,6 +3638,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 
 
@@ -3670,56 +3676,69 @@ function (_React$Component) {
       });
       this.props.updatePM(newPm);
       this.props.closeDD();
-    }
-  }, {
-    key: "renderTasks",
-    value: function renderTasks() {
-      var _this$props = this.props,
-          tasks = _this$props.tasks,
-          projects = _this$props.projects;
-      var items = tasks.map(function (task) {
-        var el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "New "), task.project_name, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "task: "), " ", task.title);
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "notify"
-        }, el);
-      });
-      return items;
-    }
+    } // renderTasks() {
+    //   let { tasks, projects } = this.props;
+    //   let items = tasks.map(task => {
+    //     let el = <div><span>New </span>{task.project_name} <span>task: </span> {task.title}</div>
+    //     return (
+    //       <li className="notify__item">
+    //         {el}
+    //       </li>)
+    //   })
+    //   return items;
+    // }
+
   }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this$props = this.props,
+          pms = _this$props.pms,
+          alerts = _this$props.alerts,
+          updatePM = _this$props.updatePM,
+          currentUserId = _this$props.currentUserId; // let items = pms.map((pm, i) => {
+      //   let el = <label>Accepted</label>
+      //   let text = <div>{pm.inviterName} <span>invited you to</span> {titleize(pm.projectName)}</div>
+      //   // let text = `${pm.inviterName} invited you to ${titleize(pm.projectName)}`
+      //   if (!pm.accepted && pm.user_id  === currentUserId) {
+      //     el = (
+      //       <button className="accept-btn" onClick={() => this.handleClick(pm.id)}>
+      //         Accept
+      //       </button>
+      //     );
+      //   } else if (pm.inviter_id === currentUserId) {
+      //     el = <label>{ timeSince(pm.updated_at, true) }</label>;
+      //     text = <div>{pm.inviteeName} <span>accepted your invite to</span> {titleize(pm.projectName)}</div>
+      //   }
+      //   return (
+      //     <li className="notify__item" key={i}>
+      //       {text}
+      //       { el }
+      //     </li>
+      // )});
+      // let taskItems = this.renderTasks();
 
-      var _this$props2 = this.props,
-          pms = _this$props2.pms,
-          updatePM = _this$props2.updatePM,
-          currentUserId = _this$props2.currentUserId;
-      var items = pms.map(function (pm, i) {
-        var el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Accepted");
-        var text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, pm.inviterName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "invited you to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(pm.projectName)); // let text = `${pm.inviterName} invited you to ${titleize(pm.projectName)}`
-
-        if (!pm.accepted && pm.user_id === currentUserId) {
-          el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-            className: "notify",
-            onClick: function onClick() {
-              return _this.handleClick(pm.id);
-            }
-          }, "Accept");
-        } else if (pm.inviter_id === currentUserId) {
-          el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_3__["timeSince"])(pm.updated_at, true));
-          text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, pm.inviteeName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "accepted your invite to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_2__["titleize"])(pm.projectName));
-        }
-
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "notify",
-          key: i
-        }, text, el);
+      var alertItems = alerts.map(function (alert, i) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_alert_item__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          key: i,
+          item: alert,
+          currentUserId: currentUserId
+        });
       });
-      var taskItems = this.renderTasks();
+
+      if (!alertItems.length) {
+        alertItems = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "no-items alert"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "None"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({
+          name: "smile"
+        }, _svg_props__WEBPACK_IMPORTED_MODULE_5__["default"]["24nv"], {
+          fill: "#828991"
+        })));
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         id: "notify-index",
         className: "notify"
-      }, items, taskItems);
+      }, alertItems);
     }
   }]);
 
@@ -3746,8 +3765,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_pm_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/pm_actions */ "./frontend/actions/pm_actions.js");
 /* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
 /* harmony import */ var _helpers_alert_helper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../helpers/alert_helper */ "./frontend/helpers/alert_helper.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -3756,31 +3773,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var msp = function msp(state, ownProps) {
-  var _ref;
+  var alerts = Object.values(state.entities.alerts); // let pms = Object.values(state.entities.pms);
+  // pms = pms.filter(pms => pms.accepted || pms.user_id == state.session.id)
+  // // pms = sortByUpdatedAt(pms)
+  // let newAlerts = alerts.filter(alert => !alert.checked)
+  // let oldAlerts = alerts.filter(alert => alert.checked)
+  // let alertTasks = selectAlertTasks(state)
+  // let alertItems = sortByUpdatedAt(pms.concat(alertTasks));
 
-  var alerts = Object.values(state.entities.alerts);
-  var pms = Object.values(state.entities.pms);
-  pms = pms.filter(function (pms) {
-    return pms.accepted || pms.user_id == state.session.id;
-  });
-  pms = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_4__["sortByUpdatedAt"])(pms);
-  var newAlerts = alerts.filter(function (alert) {
-    return !alert.checked;
-  });
-  var oldAlerts = alerts.filter(function (alert) {
-    return alert.checked;
-  });
-  var alertTasks = Object(_helpers_alert_helper__WEBPACK_IMPORTED_MODULE_5__["selectAlertTasks"])(state);
-  return _ref = {
+  var sortedAlerts = Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_4__["sortByUpdatedAt"])(alerts);
+  var alertItems = Object(_helpers_alert_helper__WEBPACK_IMPORTED_MODULE_5__["replaceAlertsWithAlertItems"])(sortedAlerts, state);
+  return {
     currentUserId: state.session.id,
-    projects: Object.values(state.entities.projects),
-    users: Object.values(state.entities.users),
-    tasks: alertTasks
-  }, _defineProperty(_ref, "projects", state.entities.projects), _defineProperty(_ref, "pms", pms), _defineProperty(_ref, "newPms", Object.values(state.entities.pms).filter(function (pm) {
-    return !pm.accepted;
-  })), _defineProperty(_ref, "completedPms", Object.values(state.entities.pms).filter(function (pm) {
-    return pm.accepted;
-  })), _ref;
+    // projects: Object.values(state.entities.projects),
+    // users: Object.values(state.entities.users),
+    // tasks: alertTasks,
+    alerts: alertItems // projects: state.entities.projects,
+    // pms: pms,
+    // newPms: Object.values(state.entities.pms).filter(pm => !pm.accepted),
+    // completedPms: Object.values(state.entities.pms).filter(
+    //   pm => pm.accepted
+    // )
+
+  };
 };
 
 var mdp = function mdp(dispatch) {
@@ -3795,6 +3810,62 @@ var mdp = function mdp(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(msp, mdp)(_alert_index__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/notifications/alert_item.jsx":
+/*!**********************************************************!*\
+  !*** ./frontend/components/notifications/alert_item.jsx ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _helpers_helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/helper */ "./frontend/helpers/helper.js");
+/* harmony import */ var _helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/date_helper */ "./frontend/helpers/date_helper.js");
+var _this = undefined;
+
+
+
+
+
+var AlertItem = function AlertItem(_ref) {
+  var item = _ref.item,
+      i = _ref.i,
+      currentUserId = _ref.currentUserId;
+
+  if (item.inviterName) {
+    var el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Accepted");
+    var text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, item.inviterName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "invited you to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(item.projectName));
+
+    if (!item.accepted && item.user_id === currentUserId) {
+      el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "accept-btn",
+        onClick: function onClick() {
+          return _this.handleClick(item.id);
+        }
+      }, "Accept");
+    } else if (item.inviter_id === currentUserId) {
+      el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_2__["timeSince"])(item.updated_at, true));
+      text = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, item.inviteeName, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "accepted your invite to"), " ", Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(item.projectName));
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      className: "notify__item"
+    }, text, el);
+  } else {
+    var _el = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "New "), item.project_name, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "item: "), " ", item.title);
+
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      className: "notify__item"
+    }, _el);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (AlertItem);
 
 /***/ }),
 
@@ -4111,7 +4182,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _project_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./project_index_item */ "./frontend/components/project/project_index_item.jsx");
 /* harmony import */ var _svg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../svg */ "./frontend/components/svg.jsx");
+/* harmony import */ var _svg_props__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../svg_props */ "./frontend/components/svg_props.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4128,6 +4202,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -4174,7 +4249,18 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           project: project
         }));
-      }); // debugger
+      });
+
+      if (items.length < 1) {
+        items = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "no-items project"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "None"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
+          name: "smile"
+        }, _svg_props__WEBPACK_IMPORTED_MODULE_3__["default"]["24nv"], {
+          fill: "#828991"
+        })));
+      } // debugger
+
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         id: "project-index",
@@ -4274,7 +4360,7 @@ __webpack_require__.r(__webpack_exports__);
 var ProjectIndexItem = function ProjectIndexItem(_ref) {
   var project = _ref.project,
       history = _ref.history;
-  var svgName = project.category ? project.category.toLowerCase() : 'profile';
+  var svgName = project.category.toLowerCase();
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "project-item",
     onClick: function onClick() {
@@ -5268,6 +5354,11 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var getPath = function getPath(iconName, props) {
   switch (iconName) {
+    case 'default':
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
+        d: "M13.144 8.171c-.035-.066.342-.102.409-.102.074.009-.196.452-.409.102zm-2.152-3.072l.108-.031c.064.055-.072.095-.051.136.086.155.021.248.008.332-.014.085-.104.048-.149.093-.053.066.258.075.262.085.011.033-.375.089-.304.171.096.136.824-.195.708-.176.225-.113.029-.125-.097-.19-.043-.215-.079-.547-.213-.68l.088-.102c-.206-.299-.36.362-.36.362zm13.008 6.901c0 6.627-5.373 12-12 12-6.628 0-12-5.373-12-12s5.372-12 12-12c6.627 0 12 5.373 12 12zm-8.31-5.371c-.006-.146-.19-.284-.382-.031-.135.174-.111.439-.184.557-.104.175.567.339.567.174.025-.277.732-.063.87-.025.248.069.643-.226.211-.381-.355-.13-.542-.269-.574-.523 0 0 .188-.176.106-.166-.218.027-.614.786-.614.395zm6.296 5.371c0-1.035-.177-2.08-.357-2.632-.058-.174-.189-.312-.359-.378-.256-.1-1.337.597-1.5.254-.107-.229-.324.146-.572.008-.12-.066-.454-.515-.605-.46-.309.111.474.964.688 1.076.201-.152.852-.465.992-.038.268.804-.737 1.685-1.251 2.149-.768.694-.624-.449-1.147-.852-.275-.211-.272-.66-.55-.815-.124-.07-.693-.725-.688-.813l-.017.166c-.094.071-.294-.268-.315-.321 0 .295.48.765.639 1.001.271.405.416.995.748 1.326.178.178.858.914 1.035.898.193-.017.803-.458.911-.433.644.152-1.516 3.205-1.721 3.583-.169.317.138 1.101.113 1.476-.029.433-.37.573-.693.809-.346.253-.265.745-.556.925-.517.318-.889 1.353-1.623 1.348-.216-.001-1.14.36-1.261.007-.094-.256-.22-.45-.353-.703-.13-.248-.015-.505-.173-.724-.109-.152-.475-.497-.508-.677-.002-.155.117-.626.28-.708.229-.117.044-.458.016-.656-.048-.354-.267-.646-.53-.851-.389-.299-.188-.537-.097-.964 0-.204-.124-.472-.398-.392-.564.164-.393-.44-.804-.413-.296.021-.538.209-.813.292-.346.104-.7-.082-1.042-.125-1.407-.178-1.866-1.786-1.499-2.946.037-.19-.114-.542-.048-.689.158-.352.48-.747.762-1.014.158-.15.361-.112.547-.229.287-.181.291-.553.572-.781.4-.325.946-.318 1.468-.388.278-.037 1.336-.266 1.503-.06 0 .038.191.604-.019.572.433.023 1.05.749 1.461.579.211-.088.134-.736.567-.423.262.188 1.436.272 1.68.069.15-.124.234-.93.052-1.021.116.115-.611.124-.679.098-.12-.044-.232.114-.425.025.116.055-.646-.354-.218-.667-.179.131-.346-.037-.539.107-.133.108.062.18-.128.274-.302.153-.53-.525-.644-.602-.116-.076-1.014-.706-.77-.295l.789.785c-.039.025-.207-.286-.207-.059.053-.135.02.579-.104.347-.055-.089.09-.139.006-.268 0-.085-.228-.168-.272-.226-.125-.155-.457-.497-.637-.579-.05-.023-.764.087-.824.11-.07.098-.13.201-.179.311-.148.055-.287.126-.419.214l-.157.353c-.068.061-.765.291-.769.3.029-.075-.487-.171-.453-.321.038-.165.213-.68.168-.868-.048-.197 1.074.284 1.146-.235.029-.225.046-.487-.313-.525.068.008.695-.246.799-.36.146-.168.481-.442.724-.442.284 0 .223-.413.354-.615.131.053-.07.376.087.507-.01-.103.445.057.489.033.104-.054.684-.022.594-.294-.1-.277.051-.195.181-.253-.022.009.34-.619.402-.413-.043-.212-.421.074-.553.063-.305-.024-.176-.52-.061-.665.089-.115-.243-.256-.247-.036-.006.329-.312.627-.241 1.064.108.659-.735-.159-.809-.114-.28.17-.509-.214-.364-.444.148-.235.505-.224.652-.476.104-.178.225-.385.385-.52.535-.449.683-.09 1.216-.041.521.048.176.124.104.324-.069.19.286.258.409.099.07-.092.229-.323.298-.494.089-.222.901-.197.334-.536-.374-.223-2.004-.672-3.096-.672-.236 0-.401.263-.581.412-.356.295-1.268.874-1.775.698-.519-.179-1.63.66-1.808.666-.065.004.004-.634.358-.681-.153.023 1.247-.707 1.209-.859-.046-.18-2.799.822-2.676 1.023.059.092.299.092-.016.294-.18.109-.372.801-.541.801-.505.221-.537-.435-1.099.409l-.894.36c-1.328 1.411-2.247 3.198-2.58 5.183-.013.079.334.226.379.28.112.134.112.712.167.901.138.478.479.744.74 1.179.154.259.41.914.329 1.186.108-.178 1.07.815 1.246 1.022.414.487.733 1.077.061 1.559-.217.156.33 1.129.048 1.368l-.361.093c-.356.219-.195.756.021.982 1.818 1.901 4.38 3.087 7.22 3.087 5.517 0 9.989-4.472 9.989-9.989zm-11.507-6.357c.125-.055.293-.053.311-.22.015-.148.044-.046.08-.1.035-.053-.067-.138-.11-.146-.064-.014-.108.069-.149.104l-.072.019-.068.087.008.048-.087.106c-.085.084.002.139.087.102z"
+      }));
+
     case 'smile':
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", _extends({}, props, {
         d: "M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.508 13.941c-1.513 1.195-3.174 1.931-5.507 1.931-2.335 0-3.996-.736-5.509-1.931l-.492.493c1.127 1.72 3.2 3.566 6.001 3.566 2.8 0 4.872-1.846 5.999-3.566l-.492-.493zm.492-3.939l-.755.506s-.503-.948-1.746-.948c-1.207 0-1.745.948-1.745.948l-.754-.506c.281-.748 1.205-2.002 2.499-2.002 1.295 0 2.218 1.254 2.501 2.002zm-7 0l-.755.506s-.503-.948-1.746-.948c-1.207 0-1.745.948-1.745.948l-.754-.506c.281-.748 1.205-2.002 2.499-2.002 1.295 0 2.218 1.254 2.501 2.002z"
@@ -6866,13 +6957,14 @@ document.addEventListener('DOMContentLoaded', function () {
 /*!******************************************!*\
   !*** ./frontend/helpers/alert_helper.js ***!
   \******************************************/
-/*! exports provided: selectNewAlerts, selectAlertTasks */
+/*! exports provided: selectNewAlerts, selectAlertTasks, replaceAlertsWithAlertItems */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectNewAlerts", function() { return selectNewAlerts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectAlertTasks", function() { return selectAlertTasks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "replaceAlertsWithAlertItems", function() { return replaceAlertsWithAlertItems; });
 var selectNewAlerts = function selectNewAlerts(alerts) {
   return alerts.filter(function (alert) {
     return !alert.checked;
@@ -6891,6 +6983,16 @@ var selectAlertTasks = function selectAlertTasks(state) {
     return taskIds.includes(task.id);
   });
   return alertTasks;
+};
+var replaceAlertsWithAlertItems = function replaceAlertsWithAlertItems(alerts, state) {
+  var items = alerts.map(function (alert) {
+    if (alert.alertable_type == "Task") {
+      return state.entities.tasks[alert.alertable_id];
+    } else {
+      return state.entities.pms[alert.alertable_id];
+    }
+  });
+  return items;
 };
 
 /***/ }),
@@ -7122,7 +7224,8 @@ var selectProjectTasks = function selectProjectTasks(tasks, state) {
 var sortByUpdatedAt = function sortByUpdatedAt(items) {
   var sorted = items.sort(function (b, a) {
     return new Date(a.updated_at) - new Date(b.updated_at);
-  });
+  }); // debugger
+
   return sorted;
 };
 var sortByDueDate = function sortByDueDate(tasks) {

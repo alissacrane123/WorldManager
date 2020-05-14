@@ -169,6 +169,11 @@ ul.project-item.new div:first-child{
   
 }
 
+.no-items.project {
+  margin: 15px auto 0 auto;
+}
+
+
 svg.add-svg {
     padding: 12px;
     box-sizing: unset;

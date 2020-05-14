@@ -163,6 +163,8 @@ class TaskFilter extends React.Component {
         </li>
       )
     }
+
+
     return inputs;
   }
 

@@ -6,7 +6,7 @@ if @alerts
 
     json.alerts do 
       json.set! alert.id do 
-        json.extract! alert, :id, :user_id, :checked, :alertable_id, :alertable_type
+        json.extract! alert, :id, :user_id, :checked, :alertable_id, :alertable_type, :created_at, :updated_at
       end
     end 
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import ProjectIndexItem from './project_index_item';
 import SVG from '../svg';
+import svgOps from '../svg_props';
 
 class ProjectIndex extends React.Component {
   
@@ -26,6 +27,16 @@ class ProjectIndex extends React.Component {
 
       </li>
     ));
+
+    if (items.length < 1) {
+      items = (
+        <div className="no-items project">
+          <h3>None</h3>
+          <SVG name="smile" {...svgOps["24nv"]} fill="#828991" />
+        </div>
+      )
+    }
+
 
     // debugger
     return (
