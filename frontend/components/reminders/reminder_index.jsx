@@ -21,17 +21,18 @@ class ReminderIndex extends React.Component {
   }
 
   handleSubmit() {
-    if ((event.type === 'keypress' && event.key == 'Enter') || event.type === 'submit') {
+    
+    if ((event.type === 'keypress' && event.key == 'Enter') || event.type === 'click') {
       this.props.createTask(this.state)
         .then(() => this.setState({ title: '' }))
     } 
   }
 
   renderReminders() {
-    let { reminders, updateTask } = this.props;
+    let { reminders, updateTask, deleteTask } = this.props;
 
     let items = reminders.map((item, i) => (
-      <ReminderItem reminder={item} key={i} updateTask={updateTask}/>
+      <ReminderItem reminder={item} key={i} updateTask={updateTask} deleteTask={deleteTask}/>
     ));
 
     let form = this.renderReminderForm();
@@ -48,7 +49,7 @@ class ReminderIndex extends React.Component {
     return (
       <li className="reminder">
         <div className="plus" onClick={this.handleSubmit}>
-          <SVG name="skinny-plus" h="15" w="15" transform="scale(0.625)"fill="#676767" />
+          <SVG name="plus" h="15" w="15" transform="scale(0.625)" fill="#45a29e" />
         </div>
         <input 
           type="text" 

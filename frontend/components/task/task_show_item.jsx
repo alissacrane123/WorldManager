@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import SVG from '../svg';
 import { titleize } from '../../helpers/helper';
 import { formatJavascriptDate, timeSince } from '../../helpers/date_helper';
+import svgOps from '../svg_props';
 
 class TaskShowItem extends React.Component {
   constructor(props) {
@@ -44,6 +45,8 @@ class TaskShowItem extends React.Component {
   render() {
     let { task, openModal, overdue } = this.props;
 
+    overdue = overdue || new Date(task.due_date) < new Date() ? true : false;
+    // let dueDate = overdue ? timeSince(task.due_date) : this.getDayOfWeek();
     let dueDate = overdue ? timeSince(task.due_date) : this.getDayOfWeek();
     
     return (
@@ -60,6 +63,7 @@ class TaskShowItem extends React.Component {
           {task.project_name ? titleize(task.project_name): null}
         </div>
 
+        {overdue ? <SVG name="warning" {...svgOps["12"]} fill="#88000069" /> : null}
         {/* <label>{ this.getDayOfWeek() }</label> */}
         <label>{ dueDate }</label>
       </li>

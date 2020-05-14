@@ -11,14 +11,7 @@ const msp = (state, ownProps) => {
   let pms = Object.values(state.entities.pms);
 
   pms = pms.filter(pms => pms.accepted || pms.user_id == state.session.id)
-  // // pms = sortByUpdatedAt(pms)
 
-  // let newAlerts = alerts.filter(alert => !alert.checked)
-  // let oldAlerts = alerts.filter(alert => alert.checked)
-
-  // let alertTasks = selectAlertTasks(state)
-
-  // let alertItems = sortByUpdatedAt(pms.concat(alertTasks));
 
   let sortedAlerts = sortByUpdatedAt(alerts);
   let alertItems = replaceAlertsWithAlertItems(sortedAlerts, state);
@@ -26,16 +19,9 @@ const msp = (state, ownProps) => {
 
   return {
     currentUserId: state.session.id,
-    // projects: Object.values(state.entities.projects),
-    // users: Object.values(state.entities.users),
-    // tasks: alertTasks,
     alerts: alertItems,
-    // projects: state.entities.projects,
     pms: pms,
-    // newPms: Object.values(state.entities.pms).filter(pm => !pm.accepted),
-    // completedPms: Object.values(state.entities.pms).filter(
-    //   pm => pm.accepted
-    // )
+
   };
 }
 

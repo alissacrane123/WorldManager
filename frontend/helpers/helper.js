@@ -114,7 +114,7 @@ export const selectAcceptedTasks = (state) => {
 }
 
 export const selectReminders = (tasks) => {
-  let reminders = Object.values(tasks).filter(task => task.reminder && task.status != 'done')
+  let reminders = Object.values(tasks).filter(task => task.reminder )
   return reminders;
 }
 

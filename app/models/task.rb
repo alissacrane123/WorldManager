@@ -33,7 +33,7 @@ class Task < ApplicationRecord
   end
 
   def self.fetch_reminders(user_id) 
-    Task.where('user_id = ? and status != ? and reminder = ?', user_id, 'done', true)
+    Task.where('user_id = ? and reminder = ?', user_id, true)
   end
 
   def self.fetch_user_tasks(user_ids) 

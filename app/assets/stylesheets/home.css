@@ -240,6 +240,7 @@ outline: none;
   /* border-bottom: 1px solid #b3b3b3; */
   align-items: center;
   /* padding:20px 0px; */
+  cursor:pointer;
 }
 
 .reminder__text {
@@ -250,6 +251,24 @@ outline: none;
     color: black;
     line-height: 12px;
     font-size: 12px;
+    display:flex;
+}
+
+.reminder__text > h3 {
+  flex:1;
+  margin-right:5px;
+}
+
+.reminder.done .reminder__text {
+  text-decoration: line-through;
+}
+
+.reminder:hover svg {
+  visibility: visible;
+}
+
+.reminder__text svg {
+  visibility:hidden;
 }
 
 .reminder input {
@@ -268,8 +287,16 @@ height: 15px;
   cursor: pointer;
 }
 
-.circle:hover {
+.reminder .circle:hover {
   background: #676767;
+}
+
+.reminder.done .circle {
+  background: #676767;
+}
+
+.reminder.done .circle:hover {
+  background:none;
 }
 
 .reminders h1 {
