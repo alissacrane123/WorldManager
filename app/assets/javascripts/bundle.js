@@ -6438,7 +6438,9 @@ function (_React$Component) {
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "task list"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "task-section__header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "task__header",
         onClick: this.toggle
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({
@@ -6866,16 +6868,19 @@ function (_React$Component) {
       projects = projects.map(function (project, i) {
         var projectUsers = users.filter(function (user) {
           return project.memberIds.includes(user.id);
-        });
+        }); // debugger
+
         projectUsers = projectUsers.map(function (user, i) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-            key: i,
-            className: "list-item"
-          }, user.fullName);
+          return (// <li key={i} className="list-item">{user.fullName}</li>
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+              key: i,
+              className: "list-item"
+            }, "".concat(user.fname, " ").concat(user.lname))
+          );
         });
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
           key: i,
-          className: "list"
+          className: "list team"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, Object(_helpers_helper__WEBPACK_IMPORTED_MODULE_1__["titleize"])(project.title))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, projectUsers));
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

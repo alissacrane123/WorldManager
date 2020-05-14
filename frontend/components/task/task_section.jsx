@@ -51,7 +51,7 @@ class TaskSection extends React.Component {
       
       return (
         <section className="task list">
-          <div  >
+          <div className="task-section__header">
             <div className="task__header" onClick={this.toggle}>
               <SVG name="carrot" {...svgOps["12"]} rotate={rotate} fill="gray"  />
               <h2 className="task-section__h2">{header}</h2>

@@ -13,12 +13,14 @@ class Team extends React.Component {
   render() {
     let { projects, users } = this.props
     projects = projects.map((project, i) => {
-      let projectUsers = users.filter(user => project.memberIds.includes(user.id))
+      let projectUsers = users.filter(user => project.memberIds.includes(user.id));
+      // debugger
       projectUsers = projectUsers.map((user,i) => (
-        <li key={i} className="list-item">{user.fullName}</li>
+        // <li key={i} className="list-item">{user.fullName}</li>
+        <li key={i} className="list-item">{`${user.fname} ${user.lname}`}</li>
       ))
       return (
-        <section key={i} className="list">
+        <section key={i} className="list team">
           <div>
             <h2>{titleize(project.title)}</h2> 
           </div>    
