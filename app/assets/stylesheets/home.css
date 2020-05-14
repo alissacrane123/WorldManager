@@ -12,13 +12,19 @@ button, button *{
   margin: 0 auto auto auto;
   display:flex;
   flex-direction: row;
-  max-height: 100%;;
+    max-height: 100%;
+    height: 100%;
 }
 
-#home h2 {
+.home__h2{
     font-size: 16px;
     font-weight: 500;
 }
+/* 
+#home h2 {
+    font-size: 16px;
+    font-weight: 500;
+} */
 
 .home__left div.search {
     border: 1px solid #c3c6c7;
@@ -46,12 +52,13 @@ div.search input:focus {
 }
 
 #home > div  {
-         padding: 0 20px 20px 20px;
+         /* padding: 0 20px 20px 20px; */
+         padding: 20px 40px 40px 40px;
     /* margin: 0 auto; */
     
-    margin: 1vw;
+    /* margin: 1vw; */
     display: flex;
-    overflow: scroll;
+    /* overflow: scroll; */
     flex-direction: column;
 }
 
@@ -75,7 +82,8 @@ div.search input:focus {
 
 #home section.list {
   /* margin: 0px 10%; */
-    margin: 0 auto 30px auto;
+    /* margin: 0 auto 0px auto; */
+    /* padding-bottom: 30px; */
     /* width: 730px; */
     width: 100%;
     /* max-height: 35vh; */
@@ -84,6 +92,7 @@ div.search input:focus {
 
 .home__left {
       width: 40vw;
+      overflow:hidden;
       min-width: 600px;
 }
 
@@ -101,6 +110,7 @@ section.list > div {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 section.list h2 {
@@ -372,4 +382,60 @@ height: 15px;
 
 .reminders > ul li:first-child > .reminder__input{
   padding: 10px 0px;
+}
+
+.task-sections {
+  display:flex;
+  flex-direction: column;
+  padding-left: 25px;
+  border-bottom: none !important;
+      overflow: scroll;
+      flex:1
+    /* height: 90%; */
+}
+
+.task-section__h2 {
+      font-size: 14px;
+    color: #747474;
+}
+
+.home__project-list {
+  height:36%;
+  min-height: 260px;
+  /* padding-bottom:30px; */
+  margin: 0 auto 20px 0;
+}
+
+.home__project-list.grow {
+  /* flex:1; */
+  height:unset;
+      display: flex;
+    flex-direction: column;
+}
+
+.home__project-list.grow ul#project-index {
+  max-height: unset;
+    overflow: scroll;
+}
+
+.home__project-list.closed {
+  display:flex;
+  height:unset;
+  min-height:unset;
+  width:100%;
+  /* flex:0; */
+}
+
+.home__task-list {
+     min-height: 62%;
+    flex: 1;
+  padding-bottom:30px;
+      padding-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+}
+
+.home__task-list.shrink {
+  flex:0;
+  min-height: unset;
 }

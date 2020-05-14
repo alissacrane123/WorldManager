@@ -2503,7 +2503,8 @@ function (_React$Component) {
     _this.state = {
       taskFilter: 'week',
       search: '',
-      open: true
+      openProject: true,
+      openTask: true
     };
     return _this;
   }
@@ -2521,10 +2522,16 @@ function (_React$Component) {
     }
   }, {
     key: "toggle",
-    value: function toggle() {
-      this.setState({
-        open: !this.state.open
-      });
+    value: function toggle(field) {
+      if (field == 'project') {
+        this.setState({
+          openProject: !this.state.openProject
+        });
+      } else {
+        this.setState({
+          openTask: !this.state.openTask
+        });
+      }
     }
   }, {
     key: "handleChange",
@@ -2541,19 +2548,32 @@ function (_React$Component) {
           sortedTasks = _this$props.sortedTasks,
           overdueTasks = _this$props.overdueTasks,
           openModal = _this$props.openModal;
-      var cn = this.state.open ? '' : 'hide';
-      var rotate = this.state.open ? 'rotate(90)' : '';
+      var _this$state = this.state,
+          openProject = _this$state.openProject,
+          openTask = _this$state.openTask;
+      var projectCn = openProject ? 'list home home__project-list' : 'list home home__project-list closed';
+      var mainTaskCn = "list home home__task-list";
+      var cn = openProject ? '' : 'hide';
+      var taskCn = openTask ? 'task-sections' : 'task-sections hide';
+      var rotate = openProject ? 'rotate(90)' : '';
+      var taskRotate = openTask ? 'rotate(90)' : '';
+
+      if (openProject && !openTask) {
+        projectCn = 'list home home__project-list grow';
+        mainTaskCn = "list home home__task-list shrink";
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "home",
         className: "home"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home__left"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "list home"
+        className: projectCn
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toggle",
         onClick: function onClick() {
-          return _this2.toggle();
+          return _this2.toggle('project');
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_7__["default"], {
         name: "carrot",
@@ -2562,7 +2582,9 @@ function (_React$Component) {
         rotate: rotate,
         fill: "gray",
         transform: "scale(0.5)"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Projects")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "home__h2"
+      }, "Projects")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "search",
         onBlur: function onBlur() {
           return _this2.setState({
@@ -2592,17 +2614,44 @@ function (_React$Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Project"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_project_project_index_cont__WEBPACK_IMPORTED_MODULE_3__["default"], {
         search: this.state.search,
         cn: cn
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: mainTaskCn
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toggle",
+        onClick: function onClick() {
+          return _this2.toggle();
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        name: "carrot",
+        h: 12,
+        w: 12,
+        rotate: taskRotate,
+        fill: "gray",
+        transform: "scale(0.5)"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "home__h2"
+      }, "Tasks")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "blue-btn",
+        onClick: function onClick() {
+          return openModal('newTasks');
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({
+        name: "plus"
+      }, _svg_props__WEBPACK_IMPORTED_MODULE_6__["default"]["12"], {
+        fill: "white"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Task"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: taskCn
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_4__["default"], {
         tasks: sortedTasks,
         filter: "Upcoming",
-        header: "Upcoming Tasks",
+        header: "Upcoming",
         showBtn: true,
         openModal: openModal
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_task_task_section__WEBPACK_IMPORTED_MODULE_4__["default"], {
         tasks: overdueTasks,
         filter: "Overdue",
-        header: "Overdue Tasks"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        header: "Overdue"
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home__right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_reminders_reminder_index_cont__WEBPACK_IMPORTED_MODULE_5__["default"], null)));
     }
@@ -4744,7 +4793,9 @@ function (_React$Component) {
       var reminderIndex = this.renderReminders();
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "reminders"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Reminders"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_1__["dateToWords"])(new Date(), true))), reminderIndex);
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Reminders"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "home__h2"
+      }, Object(_helpers_date_helper__WEBPACK_IMPORTED_MODULE_1__["dateToWords"])(new Date(), true))), reminderIndex);
     }
   }]);
 
@@ -6368,17 +6419,12 @@ function (_React$Component) {
       }
 
       var cn = this.state.open ? '' : 'hide';
-      var rotate = this.state.open ? 'rotate(90)' : '';
-      var button = !showBtn ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "blue-btn",
-        onClick: function onClick() {
-          return openModal('newTasks');
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_svg__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({
-        name: "plus"
-      }, _svg_props__WEBPACK_IMPORTED_MODULE_4__["default"]["12"], {
-        fill: "white"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "New Task"));
+      var rotate = this.state.open ? 'rotate(90)' : ''; // let button = !showBtn ? null : (
+      //   <button className="blue-btn" onClick={() => openModal('newTasks')}>
+      //     <SVG name="plus" {...svgOps["12"]} fill="white" />
+      //     <label>New Task</label>
+      //   </button>
+      // )
 
       if (taskItems.length < 1) {
         taskItems = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6400,7 +6446,9 @@ function (_React$Component) {
       }, _svg_props__WEBPACK_IMPORTED_MODULE_4__["default"]["12"], {
         rotate: rotate,
         fill: "gray"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, header)), button), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "task-section__h2"
+      }, header))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: cn
       }, taskItems));
     }

@@ -20,6 +20,8 @@
     flex-direction: column-reverse;
         justify-content: center;
     align-items: center;
+    max-height:unset;
+    height:unset;
   }
 
   #home > div.home__left {
@@ -33,9 +35,12 @@
     max-height: 40vh;
   }
 
-  #home section.list {
+  #home .home__project-list, #home .home__task-list {
     margin: 0 auto 50px auto;
   }
+  /* #home section.list {
+    margin: 0 auto 50px auto;
+  } */
 
   #home > .home__left {
     /* margin-bottom:0px;

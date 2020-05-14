@@ -13,7 +13,7 @@ import { updateFilter } from '../../actions/filter_actions';
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { taskFilter: 'week', search: '', open:true};
+    this.state = { taskFilter: 'week', search: '', openProject: true, openTask: true};
   }
 
   componentDidMount() {
@@ -26,8 +26,12 @@ class Home extends React.Component {
       .then(this.props.updateFilter('tasks', {startDate: today, endDate: nextSunday}))
   }
 
-  toggle() {
-    this.setState({ open: !this.state.open })
+  toggle(field) {
+    if (field == 'project') {
+      this.setState({ openProject: !this.state.openProject })
+    } else {
+      this.setState({ openTask: !this.state.openTask })
+    }
   }
 
   handleChange(field) {
@@ -36,22 +40,33 @@ class Home extends React.Component {
 
   render() {
     let { upcomingTasks, sortedTasks, overdueTasks, openModal } = this.props;
+    let { openProject, openTask} = this.state;
 
-    let cn = this.state.open ? '' : 'hide';
-    let rotate = this.state.open ? 'rotate(90)' : '';
+    let projectCn = openProject ? 'list home home__project-list' : 'list home home__project-list closed';
+    let mainTaskCn = "list home home__task-list";
+    let cn = openProject ? '' : 'hide';
+    let taskCn = openTask ? 'task-sections' : 'task-sections hide';
+
+    let rotate = openProject ? 'rotate(90)' : '';
+    let taskRotate = openTask ? 'rotate(90)' : '';
+
+    if (openProject && !openTask) {
+      projectCn = 'list home home__project-list grow'
+      mainTaskCn = "list home home__task-list shrink"
+    }
     
     return(
       <div id="home" className='home'>
 
         <div className="home__left">
-          <section className="list home">
+          <section className={projectCn}>
             <div>
-              <div className="toggle" onClick={() => this.toggle()}>
+              <div className="toggle" onClick={() => this.toggle('project')}>
                 <SVG 
                   name="carrot" h={12} w={12} 
                   rotate={rotate} fill="gray" 
                   transform="scale(0.5)" />
-                <h2>Projects</h2>
+                <h2 className="home__h2">Projects</h2>
               </div>
               <div className="search" onBlur={() => this.setState({ search: '' })}>
                 <input 
@@ -69,9 +84,29 @@ class Home extends React.Component {
             </div>
             <ProjectIndexCont search={this.state.search} cn={cn}/>
           </section>
+
+          <section className={mainTaskCn}>
+            <div>
+              <div className="toggle" onClick={() => this.toggle()}>
+                <SVG
+                  name="carrot" h={12} w={12}
+                  rotate={taskRotate} fill="gray"
+                  transform="scale(0.5)" />
+                <h2 className="home__h2">Tasks</h2>
+              </div>
+
+              <button className="blue-btn" onClick={() => openModal('newTasks')}>
+                <SVG name="plus"  {...svgOps["12"]} fill="white" />
+                <label>New Task</label>
+              </button>
+            </div>
+
+            <div className={taskCn}>
+              <TaskSection tasks={sortedTasks} filter="Upcoming" header="Upcoming" showBtn={true} openModal={openModal}/>
+              <TaskSection tasks={overdueTasks} filter="Overdue" header="Overdue" />
+            </div>
+          </section>
     
-          <TaskSection tasks={sortedTasks} filter="Upcoming" header="Upcoming Tasks" showBtn={true} openModal={openModal}/>
-          <TaskSection tasks={overdueTasks} filter="Overdue" header="Overdue Tasks" />
         </div>
 
         <div className="home__right">

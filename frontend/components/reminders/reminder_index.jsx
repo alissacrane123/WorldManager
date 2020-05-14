@@ -72,7 +72,7 @@ class ReminderIndex extends React.Component {
       <div className="reminders">
         <header>
           <h1>Reminders</h1>
-          <h2>{dateToWords(new Date(), true)}</h2>
+          <h2 className="home__h2">{dateToWords(new Date(), true)}</h2>
         </header>
 
 

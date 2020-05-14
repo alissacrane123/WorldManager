@@ -33,12 +33,12 @@ class TaskSection extends React.Component {
 
       let cn = this.state.open ? '' : 'hide';
       let rotate = this.state.open ?  'rotate(90)' : '';
-      let button = !showBtn ? null : (
-        <button className="blue-btn" onClick={() => openModal('newTasks')}>
-          <SVG name="plus" {...svgOps["12"]} fill="white" />
-          <label>New Task</label>
-        </button>
-      )
+      // let button = !showBtn ? null : (
+      //   <button className="blue-btn" onClick={() => openModal('newTasks')}>
+      //     <SVG name="plus" {...svgOps["12"]} fill="white" />
+      //     <label>New Task</label>
+      //   </button>
+      // )
 
       if (taskItems.length < 1) {
         taskItems = (
@@ -54,9 +54,9 @@ class TaskSection extends React.Component {
           <div  >
             <div className="task__header" onClick={this.toggle}>
               <SVG name="carrot" {...svgOps["12"]} rotate={rotate} fill="gray"  />
-              <h2>{header}</h2>
+              <h2 className="task-section__h2">{header}</h2>
             </div>
-            { button }
+            {/* { button } */}
           </div>
           <ul className={cn}>
             {taskItems }
